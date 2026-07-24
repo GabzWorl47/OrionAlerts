@@ -1,0 +1,179 @@
+@import "tailwindcss";
+
+:root {
+  --ink: #0b1c2c;
+  --ink-soft: #163044;
+  --steel: #2a4a5e;
+  --mist: #e8eef2;
+  --paper: #f3f7f9;
+  --line: #c5d0d8;
+  --signal: #0d9488;
+  --signal-deep: #0f766e;
+  --amber: #c2410c;
+  --white: #ffffff;
+  --muted: #5a7386;
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --radius: 0.375rem;
+  --video-aspect: 16 / 9;
+  --section-y: clamp(4rem, 8vw, 7rem);
+  --container: 72rem;
+  --header-h: 4.25rem;
+}
+
+@theme inline {
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-steel: var(--steel);
+  --color-mist: var(--mist);
+  --color-paper: var(--paper);
+  --color-line: var(--line);
+  --color-signal: var(--signal);
+  --color-signal-deep: var(--signal-deep);
+  --color-amber: var(--amber);
+  --color-muted: var(--muted);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-body);
+  --font-display: var(--font-display);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100%;
+  background:
+    radial-gradient(1200px 600px at 85% -10%, rgba(13, 148, 136, 0.12), transparent 55%),
+    radial-gradient(900px 500px at -10% 20%, rgba(42, 74, 94, 0.1), transparent 50%),
+    linear-gradient(180deg, #eef3f6 0%, var(--paper) 40%, #e9f0f4 100%);
+  color: var(--foreground);
+  font-family: var(--font-body), system-ui, sans-serif;
+  line-height: 1.6;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img,
+video {
+  max-width: 100%;
+  display: block;
+}
+
+.container {
+  width: min(100% - 2rem, var(--container));
+  margin-inline: auto;
+}
+
+.section {
+  padding-block: var(--section-y);
+}
+
+.display {
+  font-family: var(--font-display), system-ui, sans-serif;
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+}
+
+.eyebrow {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--signal-deep);
+}
+
+.lede {
+  font-size: clamp(1.05rem, 1.4vw, 1.2rem);
+  color: var(--muted);
+  max-width: 38rem;
+}
+
+.video-frame {
+  aspect-ratio: var(--video-aspect);
+  width: 100%;
+  overflow: hidden;
+  background:
+    linear-gradient(135deg, rgba(11, 28, 44, 0.92), rgba(15, 118, 110, 0.55)),
+    repeating-linear-gradient(
+      -12deg,
+      transparent,
+      transparent 12px,
+      rgba(255, 255, 255, 0.03) 12px,
+      rgba(255, 255, 255, 0.03) 24px
+    );
+  position: relative;
+}
+
+.video-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 30% 40%, rgba(255, 255, 255, 0.12), transparent 45%);
+  pointer-events: none;
+}
+
+.surface {
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(197, 208, 216, 0.7);
+  backdrop-filter: blur(8px);
+}
+
+.grid-atmosphere {
+  background-image:
+    linear-gradient(rgba(11, 28, 44, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(11, 28, 44, 0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.92);
+    opacity: 0.7;
+  }
+  70% {
+    transform: scale(1.25);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.25);
+    opacity: 0;
+  }
+}
+
+.animate-rise {
+  animation: rise-in 0.7s ease both;
+}
+
+.animate-rise-delay-1 {
+  animation: rise-in 0.7s ease 0.12s both;
+}
+
+.animate-rise-delay-2 {
+  animation: rise-in 0.7s ease 0.24s both;
+}
+
+.pulse-ring {
+  animation: pulse-ring 2.4s ease-out infinite;
+}
