@@ -173,12 +173,39 @@ video {
   animation: data-pulse 2.2s ease-in-out infinite;
 }
 
+@keyframes certificate-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.certificate-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: certificate-marquee 32s linear infinite;
+}
+
+.certificate-marquee:hover .certificate-marquee-track {
+  animation-play-state: paused;
+}
+
+.certificate-marquee-track--slow {
+  animation-duration: 40s;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
 
   .pulse-dot {
+    animation: none !important;
+  }
+
+  .certificate-marquee-track {
     animation: none !important;
   }
 }
