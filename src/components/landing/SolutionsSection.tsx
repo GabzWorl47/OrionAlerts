@@ -15,7 +15,7 @@ const solutions = [
   },
   {
     index: "02",
-    name: "AI Analytics",
+    name: "AI Vision & Real-Time Alerts",
     outcome: "Turn camera streams into prioritized, actionable alerts.",
     href: "/solutions/ai-analytics",
     preview: "Detection · rules · forensics",
@@ -23,6 +23,22 @@ const solutions = [
   },
   {
     index: "03",
+    name: "Vision Copilot",
+    outcome: "Ask operations questions in plain language and get instant answers.",
+    href: "/solutions/vision-copilot",
+    preview: "Ask · reports · role answers",
+    direction: "left" as const,
+  },
+  {
+    index: "04",
+    name: "Smart Search",
+    outcome: "Retrieve relevant clips and alerts in seconds — no manual scrubbing.",
+    href: "/solutions/smart-search",
+    preview: "Query · filters · ranked clips",
+    direction: "right" as const,
+  },
+  {
+    index: "05",
     name: "Asset Tracking",
     outcome: "Locate critical assets across facilities in real time.",
     href: "/solutions/asset-tracking",
@@ -30,12 +46,20 @@ const solutions = [
     direction: "left" as const,
   },
   {
-    index: "04",
+    index: "06",
     name: "AMC Management",
     outcome: "Keep the estate healthy with contracts, SLAs, and tickets.",
     href: "/solutions/amc-management",
     preview: "Contracts · SLA · health",
     direction: "right" as const,
+  },
+  {
+    index: "07",
+    name: "Health Monitoring",
+    outcome: "Detect device, recording, and network issues before they impact operations.",
+    href: "/solutions/health-monitoring",
+    preview: "Devices · storage · alerts",
+    direction: "left" as const,
   },
 ];
 
@@ -51,7 +75,7 @@ export function SolutionsSection() {
         >
           One Platform.
           <br />
-          Four Critical Capabilities.
+          Critical Capabilities.
         </motion.h2>
 
         <div className="mt-14 space-y-6 md:space-y-8">

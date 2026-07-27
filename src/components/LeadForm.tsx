@@ -86,9 +86,12 @@ export function LeadForm({ kind, title, subtitle }: LeadFormProps) {
                 Select a focus area
               </option>
               <option value="vms">VMS</option>
-              <option value="ai-analytics">AI Analytics</option>
+              <option value="ai-analytics">AI Vision & Real-Time Alerts</option>
+              <option value="vision-copilot">Vision Copilot</option>
+              <option value="smart-search">Smart Search</option>
               <option value="asset-tracking">Asset Tracking</option>
               <option value="amc-management">AMC Management</option>
+              <option value="health-monitoring">Health Monitoring</option>
               <option value="platform">Full platform</option>
             </select>
           </label>

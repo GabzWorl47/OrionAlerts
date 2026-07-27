@@ -37,15 +37,24 @@ export default async function SolutionDetailPage({
   return (
     <PageShell>
       <>
-      <Section className="pb-8 pt-14">
-        <p className="eyebrow">Solution</p>
-        <h1 className="display mt-3 max-w-3xl text-4xl text-text md:text-6xl">{solution.name}</h1>
-        <p className="lede mt-4">{solution.summary}</p>
-        <div className="mt-8 flex flex-wrap gap-3">
-          <Button href="/book-demo">Book a Demo</Button>
-          <Button href="/contact" variant="outline">
-            Talk to sales
-          </Button>
+      <Section className="relative overflow-hidden pb-8 pt-14">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,rgba(124,58,237,0.1),transparent_55%)]" />
+        <div className="relative z-10 mx-auto max-w-4xl text-center">
+          <p className="eyebrow">Solution</p>
+          <h1 className="display mx-auto mt-5 max-w-4xl text-[clamp(2.4rem,5.5vw,4.5rem)] normal-case text-steel-gradient">
+            {solution.name}
+          </h1>
+          <div className="mx-auto mt-6 max-w-3xl space-y-4 text-lg leading-relaxed text-muted">
+            {solution.summary.split("\n\n").map((paragraph) => (
+              <p key={paragraph.slice(0, 48)}>{paragraph}</p>
+            ))}
+          </div>
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <Button href="/book-demo">Book a Demo</Button>
+            <Button href="/contact" variant="outline">
+              Talk to sales
+            </Button>
+          </div>
         </div>
       </Section>
 

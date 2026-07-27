@@ -7,7 +7,7 @@ import { solutions } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Solutions",
   description:
-    "Explore OrionAlerts VMS, AI Analytics, Asset Tracking, and AMC Management — one connected enterprise platform.",
+    "Explore OrionAlerts VMS, AI Vision, Vision Copilot, Smart Search, Asset Tracking, AMC Management, and Health Monitoring.",
 };
 
 export default function SolutionsIndexPage() {
@@ -16,9 +16,10 @@ export default function SolutionsIndexPage() {
       <>
       <Section className="pt-14">
         <SectionHeading
+          align="center"
           eyebrow="Platform"
           title="Solutions built to work as a system"
-          lede="Four product areas, one reusable narrative: video, intelligence, assets, and maintenance."
+          lede="One connected platform across video, AI vision, Vision Copilot, Smart Search, assets, maintenance, and health."
         />
         <div className="grid gap-4 md:grid-cols-2">
           {solutions.map((solution, index) => (
@@ -30,7 +31,7 @@ export default function SolutionsIndexPage() {
               <p className="font-display text-sm text-blue">
                 {String(index + 1).padStart(2, "0")}
               </p>
-              <h2 className="display mt-2 text-3xl text-text group-hover:text-blue">
+              <h2 className="display mt-2 text-3xl normal-case text-steel-gradient">
                 {solution.name}
               </h2>
               <p className="mt-3 text-muted">{solution.summary}</p>

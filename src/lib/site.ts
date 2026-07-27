@@ -24,28 +24,32 @@ export type Solution = {
 export const solutions: Solution[] = [
   {
     slug: "vms",
-    name: "Video Management System",
+    name: "Video Management System (VMS)",
     shortName: "VMS",
     summary:
-      "Centralized video command for multi-site operations — live monitoring, recording, and rapid incident response.",
+      "Simplify surveillance operations with a centralized Video Management System (VMS) that brings all your cameras, recorders, and sites onto a single platform. Monitor live video, access recorded footage, manage users, and oversee multiple locations through an intuitive, unified interface.\n\nDesigned for scalability and seamless integration, the platform enhances situational awareness, accelerates incident investigations, and provides a future-ready foundation for AI-powered video analytics.",
     overview:
-      "OrionAlerts VMS unifies camera fleets across facilities into one secure operations layer. Operators get live walls, smart search, retention policies, and role-based access without juggling disconnected NVRs.",
+      "Simplify surveillance operations with a centralized Video Management System (VMS) that brings all your cameras, recorders, and sites onto a single platform. Monitor live video, access recorded footage, manage users, and oversee multiple locations through an intuitive, unified interface. Designed for scalability and seamless integration, the platform enhances situational awareness, accelerates incident investigations, and provides a future-ready foundation for AI-powered video analytics.",
     features: [
       {
-        title: "Multi-site live walls",
-        description: "Compose camera grids by site, zone, or priority with operator-ready layouts.",
+        title: "Centralized Live Monitoring & Playback",
+        description: "View live video and recorded footage from one unified operations interface.",
       },
       {
-        title: "Evidence-grade recording",
-        description: "Configurable retention, export workflows, and chain-of-custody friendly archives.",
+        title: "Multi-Site Surveillance Management",
+        description: "Oversee cameras, recorders, and sites across locations from a single platform.",
       },
       {
-        title: "Role-based access",
-        description: "Fine-grained permissions for security teams, facility managers, and auditors.",
+        title: "Video Search & Incident Investigation",
+        description: "Find footage quickly and accelerate investigations with searchable video workflows.",
       },
       {
-        title: "Health & uptime",
-        description: "Camera and stream health monitoring so blind spots are caught early.",
+        title: "User & Role-Based Access Control",
+        description: "Manage users and permissions so the right teams see the right cameras and tools.",
+      },
+      {
+        title: "Open Integration with IP Cameras & Third-Party Systems",
+        description: "Connect IP cameras and third-party systems for a flexible, open architecture.",
       },
     ],
     architecture: [
@@ -70,28 +74,32 @@ export const solutions: Solution[] = [
   },
   {
     slug: "ai-analytics",
-    name: "AI Analytics",
-    shortName: "AI Analytics",
+    name: "AI Vision & Real-Time Alerts",
+    shortName: "AI Vision",
     summary:
-      "Turn video into actionable alerts — intrusion, crowding, PPE, anomaly detection, and more.",
+      "Transform your surveillance system from passive monitoring to proactive intelligence with AI-powered video analytics. ORION Alerts continuously analyzes live video streams to detect security, safety, and operational events in real time, instantly notifying the right teams for faster response and informed decision-making.\n\nFrom intrusion detection and PPE compliance to people counting, vehicle monitoring, and custom AI use cases, the platform delivers actionable insights that improve security, operational efficiency, and business intelligence.",
     overview:
-      "Layer AI on your existing camera estate. OrionAlerts Analytics surfaces high-signal events so teams respond to what matters instead of watching endless feeds.",
+      "Transform your surveillance system from passive monitoring to proactive intelligence with AI-powered video analytics. ORION Alerts continuously analyzes live video streams to detect security, safety, and operational events in real time, instantly notifying the right teams for faster response and informed decision-making. From intrusion detection and PPE compliance to people counting, vehicle monitoring, and custom AI use cases, the platform delivers actionable insights that improve security, operational efficiency, and business intelligence.",
     features: [
       {
-        title: "Event detection",
-        description: "Intrusion, loitering, line crossing, crowd density, and custom rule packs.",
+        title: "Real-Time AI Video Analytics",
+        description: "Continuously analyze live video streams for security, safety, and operational events.",
       },
       {
-        title: "Alert routing",
-        description: "Push prioritized alerts to operators, mobile teams, or ticketing systems.",
+        title: "Instant Event Detection & Smart Alerts",
+        description: "Detect events as they happen and notify the right teams without delay.",
       },
       {
-        title: "Search & forensics",
-        description: "Find people, vehicles, and moments with attribute and timeline filters.",
+        title: "Intrusion, PPE & Safety Monitoring",
+        description: "Monitor intrusion, PPE compliance, and safety conditions across sites.",
       },
       {
-        title: "Model governance",
-        description: "Tune thresholds, zones, and schedules per site without redeploying cameras.",
+        title: "People, Vehicle & Occupancy Analytics",
+        description: "Track people, vehicles, and occupancy for operations and security insight.",
+      },
+      {
+        title: "Custom AI Rules & Workflows",
+        description: "Configure custom AI use cases and response workflows for your environment.",
       },
     ],
     architecture: [
@@ -115,29 +123,133 @@ export const solutions: Solution[] = [
     screenshotLabels: ["Alert inbox", "Zone configuration", "Forensic search"],
   },
   {
+    slug: "vision-copilot",
+    name: "Vision Copilot",
+    shortName: "Vision Copilot",
+    summary:
+      "Ask questions naturally and get instant answers from your video intelligence — the primary interface for operators, managers, and leadership.\n\nAsk in plain language — \"Which classrooms were unattended today?\" or \"Show teacher punctuality trends\" — and Vision Copilot retrieves clips, events, and reports instantly.",
+    overview:
+      "Vision Copilot is a conversational AI interface that lets operators and managers query their entire video intelligence platform using natural language. Ask what happened on a specific shift, generate automated incident reports, or explore trends across sites — without writing queries or navigating complex dashboards. Configure daily, weekly, or monthly reports delivered via email and WhatsApp to track safety, productivity, and site-wide incident trends.",
+    features: [
+      {
+        title: "Conversational AI Interface",
+        description: "Ask questions naturally and get instant answers from your video intelligence platform.",
+      },
+      {
+        title: "Natural-Language Queries Across Sites",
+        description: "Query camera feeds and sites in plain language without writing complex searches.",
+      },
+      {
+        title: "Automated Reports via Email & WhatsApp",
+        description: "Configure daily, weekly, and monthly reports delivered to the right stakeholders.",
+      },
+      {
+        title: "Role-Specific Answers",
+        description: "Deliver answers tailored for operators, supervisors, admins, and CXOs.",
+      },
+      {
+        title: "Instant Clip, Event & Report Retrieval",
+        description: "Retrieve clips, events, and operational reports instantly from a single interface.",
+      },
+    ],
+    architecture: [
+      "Video intelligence index",
+      "Conversational query engine",
+      "Role-based answer layer",
+      "Automated report delivery",
+    ],
+    workflow: [
+      "Connect sites and camera intelligence sources",
+      "Ask natural-language questions about operations",
+      "Review retrieved clips, events, and insights",
+      "Schedule automated reports for stakeholders",
+    ],
+    benefits: [
+      "No more waiting for late operational reports",
+      "Faster answers for operators, managers, and leadership",
+      "Automated BI for safety, productivity, and utilization",
+      "One conversational interface across the platform",
+    ],
+    screenshotLabels: ["Copilot chat interface", "Natural-language query results", "Scheduled reports"],
+  },
+  {
+    slug: "smart-search",
+    name: "Smart Search",
+    shortName: "Smart Search",
+    summary:
+      "Instantly retrieve relevant clips, events, and alerts — without manually reviewing hours of footage.\n\nQuery events like \"Show all crowding incidents at Gate 1\" and get relevant clips and alerts in seconds — faster investigations with less storage dependency.",
+    overview:
+      "Finding a specific person, vehicle, or event across dozens of cameras used to require hours of manual footage review. Smart Search uses AI to index every frame and return matching clips in seconds — ranked by relevance and filterable by site, time, or camera. Operators get faster investigations without scrubbing through recordings.",
+    features: [
+      {
+        title: "Natural-Language & Filter-Based Retrieval",
+        description: "Search events with plain language or filters to find the clips that matter.",
+      },
+      {
+        title: "Cross-Site Camera Search",
+        description: "Search across cameras, zones, and time ranges simultaneously.",
+      },
+      {
+        title: "Ranked Results in Seconds",
+        description: "Return relevance-ranked clips and alerts without manual footage scrubbing.",
+      },
+      {
+        title: "Filter by Site, Time, Camera & Event",
+        description: "Narrow results by site, time range, camera, or event type for precise investigations.",
+      },
+      {
+        title: "Faster Investigations, Lower Review Cost",
+        description: "Dramatically reduce investigation time and the cost of manual video review.",
+      },
+    ],
+    architecture: [
+      "AI frame & event indexing",
+      "Natural-language search engine",
+      "Cross-site filter layer",
+      "Ranked clip & alert results",
+    ],
+    workflow: [
+      "Index cameras, events, and alert history",
+      "Query by language or filters across sites",
+      "Review ranked clips and related alerts",
+      "Export evidence and close investigations faster",
+    ],
+    benefits: [
+      "Seconds instead of hours for footage review",
+      "Search across all cameras and sites at once",
+      "Less storage dependency for investigations",
+      "Higher operator productivity on every incident",
+    ],
+    screenshotLabels: ["Smart Search results", "Cross-site filters", "Clip evidence timeline"],
+  },
+  {
     slug: "asset-tracking",
     name: "Asset Tracking",
     shortName: "Asset Tracking",
     summary:
-      "Locate critical assets across facilities with unified visibility for ops and security.",
+      "Gain complete visibility and control over your organization's assets through a centralized platform. Track asset inventory, location, ownership, warranty, lifecycle, and movement in real time to improve utilization, simplify audits, and support informed business decisions.",
     overview:
-      "Know where high-value equipment, tools, and inventory sit in real time. OrionAlerts Asset Tracking connects tags, gateways, and operational maps into one live picture.",
+      "Gain complete visibility and control over your organization's assets through a centralized platform. Track asset inventory, location, ownership, warranty, lifecycle, and movement in real time to improve utilization, simplify audits, and support informed business decisions.",
     features: [
       {
-        title: "Live asset map",
-        description: "See asset position by building, floor, and zone with status context.",
+        title: "Centralized Asset Inventory",
+        description: "Maintain a single inventory of organizational assets with clear operational context.",
       },
       {
-        title: "Movement alerts",
-        description: "Notify when assets leave geofences or move outside approved windows.",
+        title: "Lifecycle & Warranty Management",
+        description: "Track asset lifecycle stages and warranty coverage in one place.",
       },
       {
-        title: "Custody history",
-        description: "Track handoffs and location history for audits and loss prevention.",
+        title: "Asset Location & Ownership Tracking",
+        description: "Know where assets are and who owns them to improve utilization and accountability.",
       },
       {
-        title: "Ops integrations",
-        description: "Sync asset IDs with CMMS, ERP, or inventory systems.",
+        title: "Asset Transfer History",
+        description: "Follow asset movement and transfers with a clear historical record.",
+      },
+      {
+        title: "Reports & Audit Trail",
+        description: "Simplify audits with reports and a reliable trail of asset activity.",
       },
     ],
     architecture: [
@@ -165,25 +277,29 @@ export const solutions: Solution[] = [
     name: "AMC Management",
     shortName: "AMC Management",
     summary:
-      "Run maintenance contracts, SLAs, and service tickets for security infrastructure at scale.",
+      "Streamline maintenance operations with intelligent AMC and warranty management. Automate preventive maintenance, monitor service requests, track vendor performance, and manage SLA compliance to maximize asset uptime and reduce maintenance costs.",
     overview:
-      "Keep cameras, sensors, and critical systems healthy. OrionAlerts AMC Management tracks contracts, preventive schedules, partner SLAs, and field tickets in one control plane.",
+      "Streamline maintenance operations with intelligent AMC and warranty management. Automate preventive maintenance, monitor service requests, track vendor performance, and manage SLA compliance to maximize asset uptime and reduce maintenance costs.",
     features: [
       {
-        title: "Contract lifecycle",
-        description: "Store AMCs, renewals, coverage scope, and commercial terms per site.",
+        title: "AMC & Warranty Tracking",
+        description: "Manage AMC and warranty coverage alongside the assets they protect.",
       },
       {
-        title: "Preventive schedules",
-        description: "Plan inspections and maintenance windows before failures cascade.",
+        title: "Preventive Maintenance Scheduling",
+        description: "Automate preventive maintenance so assets stay available and productive.",
       },
       {
-        title: "Ticket & SLA desk",
-        description: "Route service tickets to partners with SLA clocks and escalation paths.",
+        title: "Service Request Management",
+        description: "Monitor service requests from intake through resolution.",
       },
       {
-        title: "Health dashboards",
-        description: "See uptime, open tickets, and contract risk across the estate.",
+        title: "Vendor & SLA Management",
+        description: "Track vendor performance and SLA compliance across maintenance operations.",
+      },
+      {
+        title: "Renewal Alerts & Performance Reports",
+        description: "Stay ahead of renewals and review maintenance performance with clear reports.",
       },
     ],
     architecture: [
@@ -205,6 +321,56 @@ export const solutions: Solution[] = [
       "Executive-ready estate health view",
     ],
     screenshotLabels: ["AMC portfolio", "SLA ticket board", "Estate health"],
+  },
+  {
+    slug: "health-monitoring",
+    name: "Health Monitoring",
+    shortName: "Health Monitoring",
+    summary:
+      "Ensure uninterrupted surveillance operations with a centralized health monitoring platform that continuously tracks the status and performance of your security infrastructure. Monitor cameras, NVRs, servers, storage, and network devices in real time to detect issues before they impact operations.\n\nBy proactively identifying device failures, recording interruptions, storage issues, and network outages, the platform enables faster resolution, minimizes downtime, and ensures your surveillance system remains reliable and operational.",
+    overview:
+      "Ensure uninterrupted surveillance operations with a centralized health monitoring platform that continuously tracks the status and performance of your security infrastructure. Monitor cameras, NVRs, servers, storage, and network devices in real time to detect issues before they impact operations. By proactively identifying device failures, recording interruptions, storage issues, and network outages, the platform enables faster resolution, minimizes downtime, and ensures your surveillance system remains reliable and operational.",
+    features: [
+      {
+        title: "Real-Time Device Health Monitoring",
+        description: "Continuously track the status and performance of your security infrastructure.",
+      },
+      {
+        title: "Camera, NVR & Server Status",
+        description: "See the health of cameras, NVRs, and servers from one centralized view.",
+      },
+      {
+        title: "Recording & Storage Health Monitoring",
+        description: "Detect recording interruptions and storage issues before they create blind spots.",
+      },
+      {
+        title: "Network & Connectivity Monitoring",
+        description: "Identify network outages and connectivity problems that affect surveillance uptime.",
+      },
+      {
+        title: "Instant Alerts & Notifications",
+        description: "Get notified immediately when devices or services fall out of healthy status.",
+      },
+    ],
+    architecture: [
+      "Device & infrastructure polling",
+      "Health status engine",
+      "Alert & notification layer",
+      "Centralized dashboard & reports",
+    ],
+    workflow: [
+      "Connect cameras, NVRs, servers, storage, and network devices",
+      "Monitor real-time health and performance status",
+      "Receive instant alerts on failures and outages",
+      "Resolve issues and review health reports",
+    ],
+    benefits: [
+      "Detect issues before they impact operations",
+      "Minimize surveillance downtime",
+      "Faster resolution of device and network failures",
+      "Reliable, continuously operational camera estate",
+    ],
+    screenshotLabels: ["Health dashboard", "Device status board", "Alert notifications"],
   },
 ];
 
@@ -239,7 +405,7 @@ export const industries: Industry[] = [
       "Tracked critical assets on the floor",
       "Coordinated maintenance across sites",
     ],
-    relatedSolutions: ["vms", "ai-analytics", "asset-tracking", "amc-management"],
+    relatedSolutions: ["vms", "ai-analytics", "vision-copilot", "smart-search", "asset-tracking", "amc-management", "health-monitoring"],
   },
   {
     slug: "logistics",
@@ -258,7 +424,7 @@ export const industries: Industry[] = [
       "Centralized multi-DC operations",
       "SLA-backed camera maintenance",
     ],
-    relatedSolutions: ["vms", "ai-analytics", "asset-tracking"],
+    relatedSolutions: ["vms", "ai-analytics", "smart-search", "asset-tracking", "health-monitoring"],
   },
   {
     slug: "campuses",
@@ -277,7 +443,7 @@ export const industries: Industry[] = [
       "Clear visitor and zone policies",
       "Proactive AMC-driven uptime",
     ],
-    relatedSolutions: ["vms", "ai-analytics", "amc-management"],
+    relatedSolutions: ["vms", "ai-analytics", "vision-copilot", "smart-search", "health-monitoring"],
   },
   {
     slug: "critical-infrastructure",
@@ -296,7 +462,7 @@ export const industries: Industry[] = [
       "Partner SLA visibility",
       "Estate health before incidents escalate",
     ],
-    relatedSolutions: ["vms", "ai-analytics", "amc-management"],
+    relatedSolutions: ["vms", "ai-analytics", "smart-search", "amc-management", "health-monitoring"],
   },
 ];
 
