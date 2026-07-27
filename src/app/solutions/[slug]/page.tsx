@@ -8,6 +8,7 @@ import {
   SectionHeading,
   VideoPlaceholder,
 } from "@/components/ui";
+import { PageShell } from "@/components/PageShell";
 import { getSolution, solutions } from "@/lib/site";
 
 export function generateStaticParams() {
@@ -34,14 +35,15 @@ export default async function SolutionDetailPage({
   if (!solution) notFound();
 
   return (
-    <>
+    <PageShell>
+      <>
       <Section className="pb-8 pt-14">
         <p className="eyebrow">Solution</p>
-        <h1 className="display mt-3 max-w-3xl text-4xl text-ink md:text-6xl">{solution.name}</h1>
+        <h1 className="display mt-3 max-w-3xl text-4xl text-text md:text-6xl">{solution.name}</h1>
         <p className="lede mt-4">{solution.summary}</p>
         <div className="mt-8 flex flex-wrap gap-3">
           <Button href="/book-demo">Book a Demo</Button>
-          <Button href="/contact" variant="secondary">
+          <Button href="/contact" variant="outline">
             Talk to sales
           </Button>
         </div>
@@ -56,10 +58,10 @@ export default async function SolutionDetailPage({
 
       <Section>
         <SectionHeading eyebrow="Overview" title="What this solution delivers" />
-        <p className="max-w-3xl text-lg leading-relaxed text-ink-soft">{solution.overview}</p>
+        <p className="max-w-3xl text-lg leading-relaxed text-muted">{solution.overview}</p>
       </Section>
 
-      <Section className="bg-white/40">
+      <Section className="bg-surface">
         <SectionHeading eyebrow="Capabilities" title="Feature highlights" />
         <div className="grid gap-4 md:grid-cols-2">
           {solution.features.map((feature, index) => (
@@ -76,21 +78,21 @@ export default async function SolutionDetailPage({
         />
         <ol className="grid gap-3 md:grid-cols-4">
           {solution.architecture.map((step, index) => (
-            <li key={step} className="surface rounded-[var(--radius)] p-5">
-              <p className="font-display text-sm text-signal">{String(index + 1).padStart(2, "0")}</p>
-              <p className="mt-2 font-medium text-ink">{step}</p>
+            <li key={step} className="surface rounded-[20px] p-5">
+              <p className="font-display text-sm text-blue">{String(index + 1).padStart(2, "0")}</p>
+              <p className="mt-2 font-medium text-text">{step}</p>
             </li>
           ))}
         </ol>
       </Section>
 
-      <Section className="bg-white/40">
+      <Section className="bg-surface">
         <SectionHeading eyebrow="Product visuals" title="Screenshots" />
         <div className="grid gap-4 md:grid-cols-3">
           {solution.screenshotLabels.map((label) => (
             <div
               key={label}
-              className="flex aspect-[4/3] items-end rounded-[var(--radius)] bg-gradient-to-br from-ink via-steel to-signal-deep p-5 text-white"
+              className="flex aspect-[4/3] items-end rounded-[20px] bg-gradient-to-br from-[#15233a] via-[#0d1626] to-[#1a3a55] p-5 text-white"
             >
               <p className="text-sm font-medium">{label}</p>
             </div>
@@ -104,8 +106,8 @@ export default async function SolutionDetailPage({
             <SectionHeading eyebrow="Adoption" title="Workflow" />
             <ol className="space-y-3">
               {solution.workflow.map((step, index) => (
-                <li key={step} className="flex gap-3 text-ink-soft">
-                  <span className="font-display text-signal">{String(index + 1).padStart(2, "0")}</span>
+                <li key={step} className="flex gap-3 text-muted">
+                  <span className="font-display text-blue">{String(index + 1).padStart(2, "0")}</span>
                   <span>{step}</span>
                 </li>
               ))}
@@ -115,7 +117,7 @@ export default async function SolutionDetailPage({
             <SectionHeading eyebrow="Outcomes" title="Benefits" />
             <ul className="space-y-3">
               {solution.benefits.map((benefit) => (
-                <li key={benefit} className="surface rounded-[var(--radius)] px-4 py-3 text-ink-soft">
+                <li key={benefit} className="surface rounded-[20px] px-4 py-3 text-muted">
                   {benefit}
                 </li>
               ))}
@@ -131,7 +133,7 @@ export default async function SolutionDetailPage({
             .filter((s) => s.slug !== solution.slug)
             .map((s, i, arr) => (
               <span key={s.slug}>
-                <Link href={`/solutions/${s.slug}`} className="font-medium text-signal-deep hover:underline">
+                <Link href={`/solutions/${s.slug}`} className="font-medium text-blue hover:underline">
                   {s.shortName}
                 </Link>
                 {i < arr.length - 1 ? " · " : ""}
@@ -148,5 +150,6 @@ export default async function SolutionDetailPage({
         />
       </Section>
     </>
+    </PageShell>
   );
 }

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { CtaBand, Section, SectionHeading } from "@/components/ui";
+import { PageShell } from "@/components/PageShell";
 import { industries } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -10,7 +11,8 @@ export const metadata: Metadata = {
 
 export default function IndustriesPage() {
   return (
-    <>
+    <PageShell>
+      <>
       <Section className="pt-14">
         <SectionHeading
           eyebrow="Use cases"
@@ -22,9 +24,9 @@ export default function IndustriesPage() {
             <Link
               key={industry.slug}
               href={`/industries/${industry.slug}`}
-              className="surface rounded-[var(--radius)] p-7 transition hover:border-signal/35"
+              className="surface rounded-[20px] p-7 transition hover:border-blue/35"
             >
-              <h2 className="display text-3xl text-ink">{industry.name}</h2>
+              <h2 className="display text-3xl text-text">{industry.name}</h2>
               <p className="mt-3 text-muted">{industry.summary}</p>
               <span className="mt-5 inline-block text-sm font-semibold">Open use case →</span>
             </Link>
@@ -40,5 +42,6 @@ export default function IndustriesPage() {
         />
       </Section>
     </>
+    </PageShell>
   );
 }

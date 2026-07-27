@@ -49,37 +49,37 @@ export function LeadForm({ kind, title, subtitle }: LeadFormProps) {
   }
 
   const fieldClass =
-    "mt-1.5 w-full rounded-[var(--radius)] border border-line bg-white px-3 py-2.5 text-sm text-ink outline-none transition focus:border-signal";
+    "mt-1.5 w-full rounded-[12px] border border-line bg-white px-3 py-2.5 text-sm text-text outline-none transition focus:border-blue/40 focus:ring-2 focus:ring-blue/10";
 
   return (
-    <form onSubmit={onSubmit} className="surface rounded-[var(--radius)] p-6 md:p-8">
+    <form onSubmit={onSubmit} className="rounded-[24px] border border-line bg-surface p-6 md:p-8">
       <div className="mb-6">
-        <h1 className="display text-3xl text-ink md:text-4xl">{title}</h1>
+        <h1 className="display text-3xl text-text md:text-4xl">{title}</h1>
         <p className="mt-2 text-muted">{subtitle}</p>
-        <p className="mt-3 text-xs uppercase tracking-[0.14em] text-signal-deep">
+        <p className="mt-3 text-xs uppercase tracking-[0.14em] text-cyan">
           Stored as {kind === "demo" ? "Demo lead" : "Contact lead"} · separate ERP stream
         </p>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
-        <label className="text-sm font-medium text-ink">
+        <label className="text-sm font-medium text-text">
           Full name
           <input name="name" required className={fieldClass} autoComplete="name" />
         </label>
-        <label className="text-sm font-medium text-ink">
+        <label className="text-sm font-medium text-text">
           Work email
           <input name="email" type="email" required className={fieldClass} autoComplete="email" />
         </label>
-        <label className="text-sm font-medium text-ink">
+        <label className="text-sm font-medium text-text">
           Company
           <input name="company" required className={fieldClass} autoComplete="organization" />
         </label>
-        <label className="text-sm font-medium text-ink">
+        <label className="text-sm font-medium text-text">
           Phone
           <input name="phone" className={fieldClass} autoComplete="tel" />
         </label>
         {kind === "demo" ? (
-          <label className="text-sm font-medium text-ink sm:col-span-2">
+          <label className="text-sm font-medium text-text sm:col-span-2">
             Solutions of interest
             <select name="interest" className={fieldClass} defaultValue="">
               <option value="" disabled>
@@ -93,7 +93,7 @@ export function LeadForm({ kind, title, subtitle }: LeadFormProps) {
             </select>
           </label>
         ) : (
-          <label className="text-sm font-medium text-ink sm:col-span-2">
+          <label className="text-sm font-medium text-text sm:col-span-2">
             Reason for reaching out
             <select name="topic" className={fieldClass} defaultValue="">
               <option value="" disabled>
@@ -107,7 +107,7 @@ export function LeadForm({ kind, title, subtitle }: LeadFormProps) {
             </select>
           </label>
         )}
-        <label className="text-sm font-medium text-ink sm:col-span-2">
+        <label className="text-sm font-medium text-text sm:col-span-2">
           {kind === "demo" ? "What should we cover in the demo?" : "How can we help?"}
           <textarea
             name="message"
@@ -130,14 +130,14 @@ export function LeadForm({ kind, title, subtitle }: LeadFormProps) {
       <button
         type="submit"
         disabled={status === "submitting"}
-        className="mt-5 inline-flex items-center justify-center rounded-[var(--radius)] bg-signal px-5 py-3 text-sm font-semibold text-white transition hover:bg-signal-deep disabled:cursor-not-allowed disabled:opacity-60"
+        className="mt-5 inline-flex items-center justify-center rounded-[14px] bg-blue px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#1f7aef] disabled:cursor-not-allowed disabled:opacity-60"
       >
         {status === "submitting" ? "Sending…" : kind === "demo" ? "Request demo" : "Send message"}
       </button>
 
       {message ? (
         <p
-          className={`mt-4 text-sm ${status === "success" ? "text-signal-deep" : "text-amber"}`}
+          className={`mt-4 text-sm ${status === "success" ? "text-cyan" : "text-alert"}`}
           role="status"
         >
           {message}

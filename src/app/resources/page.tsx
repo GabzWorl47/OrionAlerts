@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { CtaBand, Section, SectionHeading } from "@/components/ui";
+import { PageShell } from "@/components/PageShell";
 import { resourceCategories } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -26,7 +27,8 @@ const faqs = [
 
 export default function ResourcesPage() {
   return (
-    <>
+    <PageShell>
+      <>
       <Section className="pt-14">
         <SectionHeading
           eyebrow="Knowledge hub"
@@ -38,23 +40,23 @@ export default function ResourcesPage() {
             <a
               key={item.title}
               href={item.href}
-              className="surface block rounded-[var(--radius)] p-6 transition hover:border-signal/35"
+              className="surface block rounded-[20px] p-6 transition hover:border-blue/35"
             >
-              <h2 className="display text-2xl text-ink">{item.title}</h2>
+              <h2 className="display text-2xl text-text">{item.title}</h2>
               <p className="mt-2 text-sm text-muted">{item.description}</p>
             </a>
           ))}
         </div>
       </Section>
 
-      <Section id="insights" className="bg-white/40">
+      <Section id="insights" className="bg-surface">
         <SectionHeading eyebrow="Insights" title="Blogs & perspectives" />
         <div className="grid gap-4 md:grid-cols-3">
           {["Operational video at scale", "Alert fatigue is an ops problem", "AMC as uptime strategy"].map(
             (title) => (
-              <article key={title} className="surface rounded-[var(--radius)] p-5">
-                <p className="text-xs uppercase tracking-[0.14em] text-signal-deep">Coming soon</p>
-                <h3 className="display mt-2 text-xl text-ink">{title}</h3>
+              <article key={title} className="surface rounded-[20px] p-5">
+                <p className="text-xs uppercase tracking-[0.14em] text-blue">Coming soon</p>
+                <h3 className="display mt-2 text-xl text-text">{title}</h3>
                 <p className="mt-2 text-sm text-muted">
                   Placeholder article card for the editorial calendar.
                 </p>
@@ -72,12 +74,12 @@ export default function ResourcesPage() {
         </p>
       </Section>
 
-      <Section id="faqs" className="bg-white/40">
+      <Section id="faqs" className="bg-surface">
         <SectionHeading eyebrow="FAQs" title="Quick answers" />
         <div className="space-y-3">
           {faqs.map((item) => (
-            <details key={item.q} className="surface rounded-[var(--radius)] px-5 py-4">
-              <summary className="cursor-pointer font-semibold text-ink">{item.q}</summary>
+            <details key={item.q} className="surface rounded-[20px] px-5 py-4">
+              <summary className="cursor-pointer font-semibold text-text">{item.q}</summary>
               <p className="mt-2 text-sm text-muted">{item.a}</p>
             </details>
           ))}
@@ -92,12 +94,12 @@ export default function ResourcesPage() {
         </p>
       </Section>
 
-      <Section id="partner-resources" className="bg-white/40">
+      <Section id="partner-resources" className="bg-surface">
         <SectionHeading eyebrow="Channel" title="Partner resources" />
         <p className="max-w-2xl text-muted">
           Enablement packs, battlecards, and portal onboarding links will publish as partner rules
           finalize.{" "}
-          <Link href="/partners" className="font-semibold text-signal-deep hover:underline">
+          <Link href="/partners" className="font-semibold text-blue hover:underline">
             Become a Partner
           </Link>
         </p>
@@ -121,5 +123,6 @@ export default function ResourcesPage() {
         </div>
       </Section>
     </>
+    </PageShell>
   );
 }

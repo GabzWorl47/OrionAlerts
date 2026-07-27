@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Button, CtaBand, Section, SectionHeading } from "@/components/ui";
+import { PageShell } from "@/components/PageShell";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -16,10 +17,11 @@ const team = [
 
 export default function AboutPage() {
   return (
-    <>
+    <PageShell>
+      <>
       <Section className="pt-14">
         <p className="eyebrow">Company</p>
-        <h1 className="display mt-3 max-w-3xl text-4xl text-ink md:text-6xl">
+        <h1 className="display mt-3 max-w-3xl text-4xl text-text md:text-6xl">
           Building operational clarity for high-stakes environments
         </h1>
         <p className="lede mt-4">
@@ -28,17 +30,17 @@ export default function AboutPage() {
         </p>
       </Section>
 
-      <Section className="bg-white/40">
+      <Section className="bg-surface">
         <SectionHeading eyebrow="Story" title="Why we build" />
         <div className="grid gap-8 md:grid-cols-[1.2fr_0.8fr]">
-          <p className="text-lg leading-relaxed text-ink-soft">
+          <p className="text-lg leading-relaxed text-muted">
             Security and operations teams are drowning in disconnected systems: NVRs that don’t talk,
             alerts without context, assets that vanish between shifts, and maintenance contracts that
             only surface after downtime. We build software that makes the estate visible, actionable,
             and partner-ready.
           </p>
-          <div className="surface rounded-[var(--radius)] p-6">
-            <p className="text-xs uppercase tracking-[0.14em] text-signal-deep">Brand note</p>
+          <div className="surface rounded-[20px] p-6">
+            <p className="text-xs uppercase tracking-[0.14em] text-blue">Brand note</p>
             <p className="mt-3 text-sm text-muted">
               Final logo and brand assets will replace the current wordmark. Design tokens are already
               centralized for a clean swap.
@@ -55,10 +57,10 @@ export default function AboutPage() {
         />
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {team.map((person, index) => (
-            <article key={`${person.role}-${index}`} className="surface rounded-[var(--radius)] p-5">
-              <div className="mb-4 aspect-square rounded bg-gradient-to-br from-mist via-white to-steel/30" />
-              <h3 className="display text-xl text-ink">{person.name}</h3>
-              <p className="text-sm text-signal-deep">{person.role}</p>
+            <article key={`${person.role}-${index}`} className="surface rounded-[20px] p-5">
+              <div className="mb-4 aspect-square rounded bg-gradient-to-br from-[#15233a] to-[#0d1626]" />
+              <h3 className="display text-xl text-text">{person.name}</h3>
+              <p className="text-sm text-blue">{person.role}</p>
               <p className="mt-2 text-xs text-muted">{person.note}</p>
             </article>
           ))}
@@ -68,7 +70,7 @@ export default function AboutPage() {
         </div>
       </Section>
 
-      <Section className="bg-white/40">
+      <Section className="bg-surface">
         <SectionHeading eyebrow="Credibility" title="Investors & trust" />
         <p className="max-w-2xl text-muted">
           Investor information can publish here when appropriate. Security is part of the product
@@ -78,7 +80,7 @@ export default function AboutPage() {
         <div className="mt-6 grid gap-3 sm:grid-cols-3">
           {["Cloudflare-protected edge", "Rate-limited lead intake", "2FA-ready partner portal"].map(
             (item) => (
-              <div key={item} className="surface rounded-[var(--radius)] px-4 py-3 text-sm font-medium text-ink">
+              <div key={item} className="surface rounded-[20px] px-4 py-3 text-sm font-medium text-text">
                 {item}
               </div>
             ),
@@ -87,9 +89,9 @@ export default function AboutPage() {
       </Section>
 
       <Section>
-        <div className="surface mb-10 rounded-[var(--radius)] p-6 md:flex md:items-center md:justify-between md:gap-6">
+        <div className="surface mb-10 rounded-[20px] p-6 md:flex md:items-center md:justify-between md:gap-6">
           <div>
-            <p className="font-semibold text-ink">Need us directly?</p>
+            <p className="font-semibold text-text">Need us directly?</p>
             <p className="mt-1 text-sm text-muted">
               {site.email} · {site.phone}
             </p>
@@ -106,5 +108,6 @@ export default function AboutPage() {
         />
       </Section>
     </>
+    </PageShell>
   );
 }

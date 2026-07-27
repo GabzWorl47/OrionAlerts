@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Button, CtaBand, Section, SectionHeading } from "@/components/ui";
+import { PageShell } from "@/components/PageShell";
 import { getIndustry, getSolution, industries } from "@/lib/site";
 
 export function generateStaticParams() {
@@ -24,23 +25,24 @@ export default async function IndustryDetailPage({
   if (!industry) notFound();
 
   return (
-    <>
+    <PageShell>
+      <>
       <Section className="pt-14">
         <p className="eyebrow">Industry</p>
-        <h1 className="display mt-3 max-w-3xl text-4xl text-ink md:text-6xl">{industry.name}</h1>
+        <h1 className="display mt-3 max-w-3xl text-4xl text-text md:text-6xl">{industry.name}</h1>
         <p className="lede mt-4">{industry.summary}</p>
         <div className="mt-8">
           <Button href="/book-demo">Book a Demo</Button>
         </div>
       </Section>
 
-      <Section className="bg-white/40">
+      <Section className="bg-surface">
         <div className="grid gap-10 md:grid-cols-2">
           <div>
             <SectionHeading eyebrow="Pressure points" title="Challenges" />
             <ul className="space-y-3">
               {industry.challenges.map((item) => (
-                <li key={item} className="surface rounded-[var(--radius)] px-4 py-3 text-ink-soft">
+                <li key={item} className="surface rounded-[20px] px-4 py-3 text-muted">
                   {item}
                 </li>
               ))}
@@ -50,7 +52,7 @@ export default async function IndustryDetailPage({
             <SectionHeading eyebrow="What changes" title="Outcomes" />
             <ul className="space-y-3">
               {industry.outcomes.map((item) => (
-                <li key={item} className="surface rounded-[var(--radius)] px-4 py-3 text-ink-soft">
+                <li key={item} className="surface rounded-[20px] px-4 py-3 text-muted">
                   {item}
                 </li>
               ))}
@@ -69,9 +71,9 @@ export default async function IndustryDetailPage({
               <Link
                 key={slug}
                 href={`/solutions/${slug}`}
-                className="surface rounded-[var(--radius)] p-5 transition hover:border-signal/35"
+                className="surface rounded-[20px] p-5 transition hover:border-blue/35"
               >
-                <h3 className="display text-xl text-ink">{solution.shortName}</h3>
+                <h3 className="display text-xl text-text">{solution.shortName}</h3>
                 <p className="mt-2 text-sm text-muted">{solution.summary}</p>
               </Link>
             );
@@ -90,5 +92,6 @@ export default async function IndustryDetailPage({
         />
       </Section>
     </>
+    </PageShell>
   );
 }

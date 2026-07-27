@@ -1,139 +1,267 @@
 "use client";
 
 import Link from "next/link";
+import {
+  AnimatePresence,
+  motion,
+  useReducedMotion,
+  useScroll,
+  useMotionValueEvent,
+} from "framer-motion";
+import { ChevronDown, Menu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { navLinks, site } from "@/lib/site";
-import { Button } from "@/components/ui";
+import { solutions } from "@/lib/site";
+import { MagneticButton } from "@/components/MagneticButton";
+
+const links = [
+  {
+    label: "Solutions",
+    href: "/#solutions",
+    children: solutions.map((s) => ({ href: `/solutions/${s.slug}`, label: s.shortName })),
+  },
+  { href: "/#industries", label: "Industries" },
+  { href: "/#partners", label: "Partners" },
+  { href: "/#resources", label: "Resources" },
+  { href: "/about", label: "About Us" },
+];
+
+const menuEase = [0.22, 1, 0.36, 1] as const;
+
+const panelVariants = {
+  closed: { x: "100%" },
+  open: { x: 0 },
+};
+
+const itemVariants = {
+  closed: { opacity: 0, x: 28 },
+  open: (i: number) => ({
+    opacity: 1,
+    x: 0,
+    transition: { delay: 0.08 + i * 0.05, duration: 0.45, ease: menuEase },
+  }),
+};
 
 export function Header() {
   const pathname = usePathname();
+  const reduce = useReducedMotion();
   const [open, setOpen] = useState(false);
-  const [solutionsOpen, setSolutionsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [productsOpen, setProductsOpen] = useState(false);
+  const { scrollY } = useScroll();
+
+  useMotionValueEvent(scrollY, "change", (v) => {
+    setScrolled(v > 16);
+  });
 
   useEffect(() => {
     setOpen(false);
   }, [pathname]);
 
-  return (
-    <header className="sticky top-0 z-50 border-b border-line/70 bg-[#f3f7f9]/90 backdrop-blur-md">
-      <div className="container flex h-[var(--header-h)] items-center gap-6">
-        <Link href="/" className="shrink-0" onClick={() => setOpen(false)}>
-          <span className="display text-xl tracking-tight text-ink sm:text-2xl">
-            Orion<span className="text-signal">Alerts</span>
-          </span>
-        </Link>
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
 
-        <nav className="ml-auto hidden items-center gap-0.5 md:flex" aria-label="Primary">
-          {navLinks.map((link) =>
+  let itemIndex = 0;
+
+  return (
+    <motion.header
+      initial={{ y: -24, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.55, ease: menuEase }}
+      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
+        scrolled || open
+          ? "border-b border-line bg-white/90 shadow-sm backdrop-blur-md"
+          : "border-b border-transparent bg-transparent"
+      }`}
+    >
+      <div className="container flex h-[var(--header-h)] items-center gap-4">
+        <motion.div
+          initial={reduce ? false : { opacity: 0, x: -30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6, ease: menuEase, delay: 0.1 }}
+        >
+          <Link href="/" className="shrink-0" onClick={() => setOpen(false)}>
+            <span className="display text-lg tracking-tight text-text sm:text-xl">
+              ORION <span className="text-cyan">Alerts</span>
+            </span>
+          </Link>
+        </motion.div>
+
+        <nav className="mx-auto hidden items-center gap-1 lg:flex" aria-label="Primary">
+          {links.map((link, i) =>
             link.children ? (
-              <div
-                key={link.href}
+              <motion.div
+                key={link.label}
+                initial={reduce ? false : { opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, ease: menuEase, delay: 0.2 + i * 0.07 }}
                 className="relative"
-                onMouseEnter={() => setSolutionsOpen(true)}
-                onMouseLeave={() => setSolutionsOpen(false)}
+                onMouseEnter={() => setProductsOpen(true)}
+                onMouseLeave={() => setProductsOpen(false)}
               >
                 <Link
                   href={link.href}
-                  className={`rounded px-2.5 py-2 text-sm font-medium transition xl:px-3 ${
-                    pathname.startsWith(link.href)
-                      ? "text-signal-deep"
-                      : "text-ink-soft hover:text-ink"
+                  className="inline-flex items-center gap-1 rounded-[12px] px-3 py-2 text-sm font-medium text-muted transition hover:text-text"
+                >
+                  {link.label}
+                  <ChevronDown size={14} />
+                </Link>
+                <AnimatePresence>
+                  {productsOpen ? (
+                    <motion.div
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 8 }}
+                      transition={{ duration: 0.2 }}
+                      className="absolute left-0 top-full z-50 pt-2"
+                    >
+                      <div className="min-w-[14rem] rounded-[16px] border border-line bg-surface p-2 shadow-xl">
+                        {link.children.map((child) => (
+                          <Link
+                            key={child.href}
+                            href={child.href}
+                            className="block rounded-[12px] px-3 py-2 text-sm text-muted hover:bg-surface-2 hover:text-blue"
+                          >
+                            {child.label}
+                          </Link>
+                        ))}
+                      </div>
+                    </motion.div>
+                  ) : null}
+                </AnimatePresence>
+              </motion.div>
+            ) : (
+              <motion.div
+                key={link.href}
+                initial={reduce ? false : { opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, ease: menuEase, delay: 0.2 + i * 0.07 }}
+              >
+                <Link
+                  href={link.href}
+                  className={`rounded-[12px] px-3 py-2 text-sm font-medium transition hover:text-text ${
+                    pathname.startsWith(link.href.replace("/#", "/")) ? "text-text" : "text-muted"
                   }`}
                 >
                   {link.label}
                 </Link>
-                {solutionsOpen ? (
-                  <div className="absolute left-0 top-full z-50 pt-2">
-                    <div className="surface min-w-[14rem] rounded-[var(--radius)] p-2 shadow-lg">
-                      {link.children.map((child) => (
-                        <Link
-                          key={child.href}
-                          href={child.href}
-                          className="block rounded px-3 py-2 text-sm text-ink-soft hover:bg-mist hover:text-ink"
-                        >
-                          {child.label}
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                ) : null}
-              </div>
-            ) : (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`rounded px-2.5 py-2 text-sm font-medium transition xl:px-3 ${
-                  pathname.startsWith(link.href)
-                    ? "text-signal-deep"
-                    : "text-ink-soft hover:text-ink"
-                }`}
-              >
-                {link.label}
-              </Link>
+              </motion.div>
             ),
           )}
         </nav>
 
-        <div className="hidden shrink-0 items-center gap-2 md:flex">
-          <Button href="/contact" variant="ghost" className="px-3 py-2">
-            Connect
-          </Button>
-          <Button href="/book-demo" className="px-4 py-2.5">
+        <motion.div
+          initial={reduce ? false : { opacity: 0, x: -30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5, ease: menuEase, delay: 0.2 + links.length * 0.07 }}
+          className="ml-auto hidden items-center gap-2 lg:flex"
+        >
+          <MagneticButton href="/book-demo" variant="outline" className="px-4 py-2.5">
+            Live Demo
+          </MagneticButton>
+          <MagneticButton href="/book-demo" className="px-4 py-2.5">
             Book a Demo
-          </Button>
-        </div>
+          </MagneticButton>
+        </motion.div>
 
         <button
           type="button"
-          className="ml-auto inline-flex h-10 w-10 items-center justify-center rounded border border-line bg-white md:hidden"
+          className="relative z-[60] ml-auto inline-flex h-10 w-10 items-center justify-center rounded-[12px] border border-line bg-surface text-text lg:hidden"
           aria-expanded={open}
           aria-label="Toggle menu"
           onClick={() => setOpen((v) => !v)}
         >
-          <span className="sr-only">Menu</span>
-          <div className="flex w-4 flex-col gap-1">
-            <span className={`h-0.5 bg-ink transition ${open ? "translate-y-1.5 rotate-45" : ""}`} />
-            <span className={`h-0.5 bg-ink transition ${open ? "opacity-0" : ""}`} />
-            <span className={`h-0.5 bg-ink transition ${open ? "-translate-y-1.5 -rotate-45" : ""}`} />
-          </div>
+          {open ? <X size={18} /> : <Menu size={18} />}
         </button>
       </div>
 
-      {open ? (
-        <div className="border-t border-line bg-paper md:hidden">
-          <div className="container flex flex-col gap-1 py-4">
-            {navLinks.map((link) => (
-              <div key={link.href} className="flex flex-col">
-                <Link
-                  href={link.href}
-                  className="rounded px-2 py-2 text-base font-medium text-ink"
+      <AnimatePresence>
+        {open ? (
+          <>
+            <motion.button
+              type="button"
+              aria-label="Close menu"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.25 }}
+              className="fixed inset-0 top-[var(--header-h)] z-40 bg-black/50 backdrop-blur-sm lg:hidden"
+              onClick={() => setOpen(false)}
+            />
+
+            <motion.div
+              initial={reduce ? false : "closed"}
+              animate="open"
+              exit="closed"
+              variants={panelVariants}
+              transition={{ duration: 0.42, ease: menuEase }}
+              className="fixed right-0 top-[var(--header-h)] z-50 h-[calc(100svh-var(--header-h))] w-full max-w-sm border-l border-line bg-bg shadow-[-20px_0_60px_rgba(0,0,0,0.45)] lg:hidden"
+            >
+              <div className="container flex h-full flex-col gap-1 overflow-y-auto py-4">
+                {links.map((link) => {
+                  const parentIdx = itemIndex++;
+                  return (
+                    <div key={link.label ?? link.href}>
+                      <motion.div
+                        custom={parentIdx}
+                        variants={reduce ? undefined : itemVariants}
+                        initial={reduce ? false : "closed"}
+                        animate="open"
+                      >
+                        <Link
+                          href={link.href}
+                          className="block rounded-[12px] px-2 py-2.5 text-base font-medium text-text transition hover:text-blue"
+                          onClick={() => setOpen(false)}
+                        >
+                          {link.label}
+                        </Link>
+                      </motion.div>
+                      {link.children?.map((child) => {
+                        const childIdx = itemIndex++;
+                        return (
+                          <motion.div
+                            key={child.href}
+                            custom={childIdx}
+                            variants={reduce ? undefined : itemVariants}
+                            initial={reduce ? false : "closed"}
+                            animate="open"
+                          >
+                            <Link
+                              href={child.href}
+                              className="block rounded-[12px] px-4 py-1.5 text-sm text-muted transition hover:text-blue"
+                              onClick={() => setOpen(false)}
+                            >
+                              {child.label}
+                            </Link>
+                          </motion.div>
+                        );
+                      })}
+                    </div>
+                  );
+                })}
+
+                <motion.div
+                  custom={itemIndex++}
+                  variants={reduce ? undefined : itemVariants}
+                  initial={reduce ? false : "closed"}
+                  animate="open"
+                  className="mt-3 flex flex-col gap-2 border-t border-line pt-4"
                   onClick={() => setOpen(false)}
                 >
-                  {link.label}
-                </Link>
-                {link.children?.map((child) => (
-                  <Link
-                    key={child.href}
-                    href={child.href}
-                    className="rounded px-4 py-1.5 text-sm text-muted"
-                    onClick={() => setOpen(false)}
-                  >
-                    {child.label}
-                  </Link>
-                ))}
+                  <MagneticButton href="/book-demo" variant="outline">
+                    Live Demo
+                  </MagneticButton>
+                  <MagneticButton href="/book-demo">Book a Demo</MagneticButton>
+                </motion.div>
               </div>
-            ))}
-            <div className="mt-3 flex flex-col gap-2" onClick={() => setOpen(false)}>
-              <Button href="/book-demo">Book a Demo</Button>
-              <Button href="/contact" variant="secondary">
-                Connect With Us
-              </Button>
-            </div>
-            <p className="mt-3 px-2 text-xs text-muted">{site.email}</p>
-          </div>
-        </div>
-      ) : null}
-    </header>
+            </motion.div>
+          </>
+        ) : null}
+      </AnimatePresence>
+    </motion.header>
   );
 }

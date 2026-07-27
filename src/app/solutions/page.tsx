@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { CtaBand, Section, SectionHeading } from "@/components/ui";
+import { PageShell } from "@/components/PageShell";
 import { solutions } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -11,7 +12,8 @@ export const metadata: Metadata = {
 
 export default function SolutionsIndexPage() {
   return (
-    <>
+    <PageShell>
+      <>
       <Section className="pt-14">
         <SectionHeading
           eyebrow="Platform"
@@ -23,12 +25,12 @@ export default function SolutionsIndexPage() {
             <Link
               key={solution.slug}
               href={`/solutions/${solution.slug}`}
-              className="surface group rounded-[var(--radius)] p-7 transition hover:-translate-y-0.5 hover:border-signal/35"
+              className="surface group rounded-[20px] p-7 transition hover:-translate-y-0.5 hover:border-blue/35"
             >
-              <p className="font-display text-sm text-signal">
+              <p className="font-display text-sm text-blue">
                 {String(index + 1).padStart(2, "0")}
               </p>
-              <h2 className="display mt-2 text-3xl text-ink group-hover:text-signal-deep">
+              <h2 className="display mt-2 text-3xl text-text group-hover:text-blue">
                 {solution.name}
               </h2>
               <p className="mt-3 text-muted">{solution.summary}</p>
@@ -48,5 +50,6 @@ export default function SolutionsIndexPage() {
         />
       </Section>
     </>
+    </PageShell>
   );
 }

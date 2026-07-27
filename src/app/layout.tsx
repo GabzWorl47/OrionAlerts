@@ -1,18 +1,18 @@
 import type { Metadata } from "next";
-import { Syne, Public_Sans } from "next/font/google";
+import { Space_Grotesk, Inter } from "next/font/google";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { AiAssistant } from "@/components/AiAssistant";
 import { site } from "@/lib/site";
 import "./globals.css";
 
-const display = Syne({
+const display = Space_Grotesk({
   variable: "--font-display",
   subsets: ["latin"],
-  weight: ["500", "600", "700", "800"],
+  weight: ["400", "500", "600", "700"],
 });
 
-const body = Public_Sans({
+const body = Inter({
   variable: "--font-body",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
@@ -20,7 +20,7 @@ const body = Public_Sans({
 
 export const metadata: Metadata = {
   title: {
-    default: `${site.name} · Enterprise video & operations intelligence`,
+    default: `${site.name} · Intelligence that sees what matters`,
     template: `%s · ${site.name}`,
   },
   description: site.description,
@@ -33,7 +33,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${display.variable} ${body.variable} h-full antialiased`}>
-      <body className="flex min-h-full flex-col font-sans">
+      <body className="site-shell flex min-h-full flex-col bg-bg font-sans text-text">
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />

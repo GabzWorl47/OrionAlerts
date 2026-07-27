@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Button, CtaBand, FeatureCard, Section, SectionHeading } from "@/components/ui";
+import { PageShell } from "@/components/PageShell";
 
 export const metadata: Metadata = {
   title: "Become a Partner",
@@ -51,23 +52,24 @@ const enablement = [
 
 export default function PartnersPage() {
   return (
-    <>
+    <PageShell>
+      <>
       <Section className="pt-14">
         <p className="eyebrow">Channel & ecosystem</p>
-        <h1 className="display mt-3 max-w-3xl text-4xl text-ink md:text-6xl">Become a Partner</h1>
+        <h1 className="display mt-3 max-w-3xl text-4xl text-text md:text-6xl">Become a Partner</h1>
         <p className="lede mt-4">
           Grow with OrionAlerts as a system integrator or technology partner — with enablement,
           portal access, and clear commercial rails.
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
           <Button href="/contact">Apply to partner</Button>
-          <Button href="/book-demo" variant="secondary">
+          <Button href="/book-demo" variant="outline">
             Request partner briefing
           </Button>
         </div>
       </Section>
 
-      <Section className="bg-white/40">
+      <Section className="bg-surface">
         <SectionHeading eyebrow="Who we work with" title="Partner tracks" />
         <div className="grid gap-4 md:grid-cols-3">
           {partnerTracks.map((item, index) => (
@@ -100,5 +102,6 @@ export default function PartnersPage() {
         />
       </Section>
     </>
+    </PageShell>
   );
 }

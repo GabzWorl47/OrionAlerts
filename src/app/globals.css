@@ -1,39 +1,37 @@
 @import "tailwindcss";
 
 :root {
-  --ink: #0b1c2c;
-  --ink-soft: #163044;
-  --steel: #2a4a5e;
-  --mist: #e8eef2;
-  --paper: #f3f7f9;
-  --line: #c5d0d8;
-  --signal: #0d9488;
-  --signal-deep: #0f766e;
-  --amber: #c2410c;
-  --white: #ffffff;
-  --muted: #5a7386;
-  --background: var(--paper);
-  --foreground: var(--ink);
-  --radius: 0.375rem;
-  --video-aspect: 16 / 9;
-  --section-y: clamp(4rem, 8vw, 7rem);
-  --container: 72rem;
-  --header-h: 4.25rem;
+  /* Light corporate base */
+  --bg: #f4f7fc;
+  --surface: #ffffff;
+  --surface-2: #eef2f8;
+  --text: #0f172a;
+  --muted: #64748b;
+
+  /* Accents */
+  --blue: #2b8cff;
+  --cyan: #30e3ff;
+  --alert: #f43f5e;
+
+  --line: rgba(15, 23, 42, 0.08);
+  --line-strong: rgba(43, 140, 255, 0.25);
+  --radius-lg: 24px;
+  --radius-md: 16px;
+  --radius-sm: 12px;
+  --header-h: 4.5rem;
+  --container: 76rem;
 }
 
 @theme inline {
-  --color-ink: var(--ink);
-  --color-ink-soft: var(--ink-soft);
-  --color-steel: var(--steel);
-  --color-mist: var(--mist);
-  --color-paper: var(--paper);
-  --color-line: var(--line);
-  --color-signal: var(--signal);
-  --color-signal-deep: var(--signal-deep);
-  --color-amber: var(--amber);
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-text: var(--text);
   --color-muted: var(--muted);
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-blue: var(--blue);
+  --color-cyan: var(--cyan);
+  --color-alert: var(--alert);
+  --color-line: var(--line);
   --font-sans: var(--font-body);
   --font-display: var(--font-display);
 }
@@ -49,13 +47,11 @@ html {
 body {
   margin: 0;
   min-height: 100%;
-  background:
-    radial-gradient(1200px 600px at 85% -10%, rgba(13, 148, 136, 0.12), transparent 55%),
-    radial-gradient(900px 500px at -10% 20%, rgba(42, 74, 94, 0.1), transparent 50%),
-    linear-gradient(180deg, #eef3f6 0%, var(--paper) 40%, #e9f0f4 100%);
-  color: var(--foreground);
+  background: var(--bg);
+  color: var(--text);
   font-family: var(--font-body), system-ui, sans-serif;
   line-height: 1.6;
+  overflow-x: clip;
 }
 
 a {
@@ -69,28 +65,27 @@ video {
   display: block;
 }
 
+.site-shell {
+  overflow-x: clip;
+}
+
 .container {
   width: min(100% - 2rem, var(--container));
   margin-inline: auto;
 }
 
-.section {
-  padding-block: var(--section-y);
-}
-
 .display {
   font-family: var(--font-display), system-ui, sans-serif;
-  letter-spacing: -0.03em;
-  line-height: 1.08;
+  letter-spacing: -0.04em;
+  line-height: 0.95;
 }
 
 .eyebrow {
-  display: inline-block;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   font-weight: 600;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--signal-deep);
+  color: var(--cyan);
 }
 
 .lede {
@@ -99,81 +94,91 @@ video {
   max-width: 38rem;
 }
 
-.video-frame {
-  aspect-ratio: var(--video-aspect);
-  width: 100%;
-  overflow: hidden;
-  background:
-    linear-gradient(135deg, rgba(11, 28, 44, 0.92), rgba(15, 118, 110, 0.55)),
-    repeating-linear-gradient(
-      -12deg,
-      transparent,
-      transparent 12px,
-      rgba(255, 255, 255, 0.03) 12px,
-      rgba(255, 255, 255, 0.03) 24px
-    );
-  position: relative;
+.section-alt {
+  background: var(--surface-2);
 }
 
-.video-frame::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 30% 40%, rgba(255, 255, 255, 0.12), transparent 45%);
+.grid-texture {
+  background-image:
+    linear-gradient(rgba(124, 58, 237, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(124, 58, 237, 0.04) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+.scanlines {
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(255, 255, 255, 0.04) 2px,
+    rgba(255, 255, 255, 0.04) 4px
+  );
   pointer-events: none;
 }
 
+.text-steel-gradient {
+  background: linear-gradient(135deg, #0f172a 0%, #3730a3 45%, #7c3aed 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.text-blue-gradient {
+  background: linear-gradient(135deg, #7c3aed 0%, #06b6d4 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow:
+    0 1px 2px rgba(15, 23, 42, 0.04),
+    0 8px 32px rgba(124, 58, 237, 0.06);
+}
+
+.panel-sm {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+}
+
 .surface {
-  background: rgba(255, 255, 255, 0.72);
-  border: 1px solid rgba(197, 208, 216, 0.7);
-  backdrop-filter: blur(8px);
+  background: var(--surface);
+  border: 1px solid var(--line);
 }
 
-.grid-atmosphere {
-  background-image:
-    linear-gradient(rgba(11, 28, 44, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(11, 28, 44, 0.04) 1px, transparent 1px);
-  background-size: 48px 48px;
+.ai-glow {
+  box-shadow: 0 0 40px rgba(124, 58, 237, 0.18);
 }
 
-@keyframes rise-in {
-  from {
-    opacity: 0;
-    transform: translateY(18px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.command-panel {
+  background: linear-gradient(145deg, #101826, #1a2740, #0c1524);
 }
 
-@keyframes pulse-ring {
-  0% {
-    transform: scale(0.92);
-    opacity: 0.7;
-  }
-  70% {
-    transform: scale(1.25);
-    opacity: 0;
-  }
+@keyframes data-pulse {
+  0%,
   100% {
-    transform: scale(1.25);
-    opacity: 0;
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
   }
 }
 
-.animate-rise {
-  animation: rise-in 0.7s ease both;
+.pulse-dot {
+  animation: data-pulse 2.2s ease-in-out infinite;
 }
 
-.animate-rise-delay-1 {
-  animation: rise-in 0.7s ease 0.12s both;
-}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 
-.animate-rise-delay-2 {
-  animation: rise-in 0.7s ease 0.24s both;
-}
-
-.pulse-ring {
-  animation: pulse-ring 2.4s ease-out infinite;
+  .pulse-dot {
+    animation: none !important;
+  }
 }

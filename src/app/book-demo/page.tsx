@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { LeadForm } from "@/components/LeadForm";
 import { Section } from "@/components/ui";
+import { PageShell } from "@/components/PageShell";
 
 export const metadata: Metadata = {
   title: "Book a Demo",
@@ -9,12 +10,14 @@ export const metadata: Metadata = {
 
 export default function BookDemoPage() {
   return (
-    <Section className="max-w-3xl pt-14" narrow>
+    <PageShell>
+      <Section className="max-w-3xl pt-14" narrow>
       <LeadForm
         kind="demo"
         title="Book a Demo"
         subtitle="Tell us about your sites and priorities. We’ll schedule a guided walkthrough."
       />
     </Section>
+    </PageShell>
   );
 }

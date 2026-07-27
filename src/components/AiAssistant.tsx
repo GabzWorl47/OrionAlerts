@@ -1,33 +1,21 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import { MessageSquare, X } from "lucide-react";
 
 type Message = { role: "assistant" | "user"; text: string };
 
-const starterReplies: Record<string, string> = {
-  demo: "I can help you book a demo. Share your company and sites of interest, or go to /book-demo for the full form.",
-  partner:
-    "Partner programs cover white-label, pricing enablement, training, and portal access. Visit /partners or ask for a callback.",
-  support:
-    "I can open a support ticket draft. Describe the issue, site, and urgency — or use Connect With Us.",
-  default:
-    "I can answer briefly about VMS, AI Analytics, Asset Tracking, and AMC Management — or capture a callback request.",
-};
-
 function replyFor(input: string) {
   const q = input.toLowerCase();
-  if (q.includes("demo")) return starterReplies.demo;
-  if (q.includes("partner") || q.includes("reseller") || q.includes("white"))
-    return starterReplies.partner;
-  if (q.includes("support") || q.includes("ticket") || q.includes("down"))
-    return starterReplies.support;
-  if (q.includes("vms"))
-    return "OrionAlerts VMS centralizes multi-site live walls, recording, and role-based access. Want a demo path or industry fit?";
-  if (q.includes("analytics") || q.includes("ai"))
-    return "AI Analytics turns camera feeds into prioritized alerts — intrusion, crowding, PPE, and custom rules. Book a demo to see your scenario.";
-  if (q.includes("callback") || q.includes("call"))
-    return "Callback noted. Use Connect With Us with topic “Sales conversation” and we’ll route it. I can also capture details here.";
-  return starterReplies.default;
+  if (q.includes("demo"))
+    return "I can help you book a demo. Share your company and sites, or open Book a Demo for the full form.";
+  if (q.includes("partner"))
+    return "Partner tracks cover integrators, technology partners, white-label, and certification. Visit Become a Partner or request a callback.";
+  if (q.includes("detection") || q.includes("ai"))
+    return "AI detection evaluates streams against site policies and surfaces high-confidence events with evidence context.";
+  if (q.includes("support") || q.includes("ticket"))
+    return "Describe the issue, site, and urgency — or use Talk to Our Team to open a contact lead.";
+  return "I can answer briefly about VMS, AI Analytics, Asset Tracking, and AMC — or capture a callback request.";
 }
 
 export function AiAssistant() {
@@ -36,7 +24,7 @@ export function AiAssistant() {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "assistant",
-      text: "Hi — I’m the OrionAlerts assistant. Ask about solutions, request a callback, or start a support ticket draft.",
+      text: "Hi — I’m Ask Orion. Ask about solutions, request a callback, or start a support ticket draft.",
     },
   ]);
 
@@ -55,30 +43,28 @@ export function AiAssistant() {
   return (
     <div className="fixed bottom-5 right-5 z-[60] flex flex-col items-end gap-3">
       {open ? (
-        <div className="surface flex h-[28rem] w-[min(100vw-2rem,22rem)] flex-col overflow-hidden rounded-[var(--radius)] shadow-2xl">
-          <div className="flex items-center justify-between bg-ink px-4 py-3 text-white">
+        <div className="flex h-[28rem] w-[min(100vw-2rem,22rem)] flex-col overflow-hidden rounded-[20px] border border-line bg-surface shadow-2xl">
+          <div className="flex items-center justify-between border-b border-line bg-bg px-4 py-3">
             <div>
-              <p className="text-sm font-semibold">Orion Assistant</p>
-              <p className="text-[0.7rem] text-white/60">Answers · tickets · visitor capture</p>
+              <p className="text-sm font-semibold text-text">Ask Orion</p>
+              <p className="text-[0.7rem] text-muted">Answers · tickets · visitor capture</p>
             </div>
             <button
               type="button"
-              className="text-white/70 hover:text-white"
+              className="text-muted hover:text-text"
               onClick={() => setOpen(false)}
               aria-label="Close assistant"
             >
-              ✕
+              <X size={16} />
             </button>
           </div>
 
-          <div className="flex-1 space-y-3 overflow-y-auto bg-paper px-3 py-3">
+          <div className="flex-1 space-y-3 overflow-y-auto bg-bg/60 px-3 py-3">
             {messages.map((m, idx) => (
               <div
                 key={`${m.role}-${idx}`}
-                className={`max-w-[90%] rounded-lg px-3 py-2 text-sm ${
-                  m.role === "assistant"
-                    ? "bg-white text-ink-soft shadow-sm"
-                    : "ml-auto bg-signal text-white"
+                className={`max-w-[90%] rounded-[14px] px-3 py-2 text-sm ${
+                  m.role === "assistant" ? "bg-surface text-muted" : "ml-auto bg-blue/20 text-text"
                 }`}
               >
                 {m.text}
@@ -86,17 +72,17 @@ export function AiAssistant() {
             ))}
           </div>
 
-          <form onSubmit={onSubmit} className="border-t border-line bg-white p-3">
+          <form onSubmit={onSubmit} className="border-t border-line bg-surface p-3">
             <div className="flex gap-2">
               <input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Ask or request a callback…"
-                className="flex-1 rounded border border-line px-3 py-2 text-sm outline-none focus:border-signal"
+                className="flex-1 rounded-[12px] border border-line bg-white px-3 py-2 text-sm text-text outline-none focus:border-blue/40"
               />
               <button
                 type="submit"
-                className="rounded bg-ink px-3 py-2 text-sm font-semibold text-white hover:bg-ink-soft"
+                className="rounded-[12px] bg-blue px-3 py-2 text-sm font-semibold text-white hover:bg-[#1f7aef]"
               >
                 Send
               </button>
@@ -108,13 +94,10 @@ export function AiAssistant() {
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="inline-flex items-center gap-2 rounded-full bg-ink px-4 py-3 text-sm font-semibold text-white shadow-xl transition hover:bg-ink-soft"
+        className="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-4 py-3 text-sm font-semibold text-text shadow-xl transition hover:border-blue/40 ai-glow"
         aria-expanded={open}
       >
-        <span className="relative flex h-2.5 w-2.5">
-          <span className="pulse-ring absolute inline-flex h-full w-full rounded-full bg-signal opacity-75" />
-          <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-signal" />
-        </span>
+        <MessageSquare size={16} className="text-cyan" />
         Ask Orion
       </button>
     </div>
