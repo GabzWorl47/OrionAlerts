@@ -7,7 +7,7 @@ import { solutions } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Solutions",
   description:
-    "Explore OrionAlerts VMS, AI Vision, Vision Copilot, Smart Search, Asset Tracking, AMC Management, and Health Monitoring.",
+    "Explore OrionAlerts VMS, AI Vision, Smart Search, Asset Tracking, AMC Management, and Health Monitoring.",
 };
 
 export default function SolutionsIndexPage() {
@@ -19,7 +19,7 @@ export default function SolutionsIndexPage() {
           align="center"
           eyebrow="Platform"
           title="Solutions built to work as a system"
-          lede="One connected platform across video, AI vision, Vision Copilot, Smart Search, assets, maintenance, and health."
+          lede="One connected platform across video, AI vision, Smart Search, assets, maintenance, and health."
         />
         <div className="grid gap-4 md:grid-cols-2">
           {solutions.map((solution, index) => (

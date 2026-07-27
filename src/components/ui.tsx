@@ -93,7 +93,7 @@ export function FeatureCard({
   index?: number;
 }) {
   return (
-    <article className="rounded-[20px] border border-line bg-surface p-6 transition duration-300 hover:border-blue/35">
+    <article className="rounded-[20px] border border-line bg-surface p-6 transition duration-300 hover:-translate-y-1.5 hover:border-blue/35 hover:shadow-[0_14px_32px_rgba(26,115,232,0.12)]">
       {typeof index === "number" ? (
         <p className="mb-3 font-display text-sm text-cyan">{String(index + 1).padStart(2, "0")}</p>
       ) : null}

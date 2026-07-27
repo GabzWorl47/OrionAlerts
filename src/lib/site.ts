@@ -27,7 +27,7 @@ export const solutions: Solution[] = [
     name: "Video Management System (VMS)",
     shortName: "VMS",
     summary:
-      "Simplify surveillance operations with a centralized Video Management System (VMS) that brings all your cameras, recorders, and sites onto a single platform. Monitor live video, access recorded footage, manage users, and oversee multiple locations through an intuitive, unified interface.\n\nDesigned for scalability and seamless integration, the platform enhances situational awareness, accelerates incident investigations, and provides a future-ready foundation for AI-powered video analytics.",
+      "Unify your surveillance operations with an enterprise-grade platform designed for seamless visibility and control. Orion Alerts enables security teams to collaborate more effectively, improve operational efficiency, and manage surveillance ecosystems with greater confidence.",
     overview:
       "Simplify surveillance operations with a centralized Video Management System (VMS) that brings all your cameras, recorders, and sites onto a single platform. Monitor live video, access recorded footage, manage users, and oversee multiple locations through an intuitive, unified interface. Designed for scalability and seamless integration, the platform enhances situational awareness, accelerates incident investigations, and provides a future-ready foundation for AI-powered video analytics.",
     features: [
@@ -77,7 +77,7 @@ export const solutions: Solution[] = [
     name: "AI Vision & Real-Time Alerts",
     shortName: "AI Vision",
     summary:
-      "Transform your surveillance system from passive monitoring to proactive intelligence with AI-powered video analytics. ORION Alerts continuously analyzes live video streams to detect security, safety, and operational events in real time, instantly notifying the right teams for faster response and informed decision-making.\n\nFrom intrusion detection and PPE compliance to people counting, vehicle monitoring, and custom AI use cases, the platform delivers actionable insights that improve security, operational efficiency, and business intelligence.",
+      "Empower your organization with intelligent visual insights that enhance security, improve operational awareness, and support faster decision-making. Orion Alerts helps businesses move beyond traditional surveillance by turning video into meaningful actions and measurable outcomes.",
     overview:
       "Transform your surveillance system from passive monitoring to proactive intelligence with AI-powered video analytics. ORION Alerts continuously analyzes live video streams to detect security, safety, and operational events in real time, instantly notifying the right teams for faster response and informed decision-making. From intrusion detection and PPE compliance to people counting, vehicle monitoring, and custom AI use cases, the platform delivers actionable insights that improve security, operational efficiency, and business intelligence.",
     features: [
@@ -121,56 +121,6 @@ export const solutions: Solution[] = [
       "Consistent policy enforcement multi-site",
     ],
     screenshotLabels: ["Alert inbox", "Zone configuration", "Forensic search"],
-  },
-  {
-    slug: "vision-copilot",
-    name: "Vision Copilot",
-    shortName: "Vision Copilot",
-    summary:
-      "Ask questions naturally and get instant answers from your video intelligence — the primary interface for operators, managers, and leadership.\n\nAsk in plain language — \"Which classrooms were unattended today?\" or \"Show teacher punctuality trends\" — and Vision Copilot retrieves clips, events, and reports instantly.",
-    overview:
-      "Vision Copilot is a conversational AI interface that lets operators and managers query their entire video intelligence platform using natural language. Ask what happened on a specific shift, generate automated incident reports, or explore trends across sites — without writing queries or navigating complex dashboards. Configure daily, weekly, or monthly reports delivered via email and WhatsApp to track safety, productivity, and site-wide incident trends.",
-    features: [
-      {
-        title: "Conversational AI Interface",
-        description: "Ask questions naturally and get instant answers from your video intelligence platform.",
-      },
-      {
-        title: "Natural-Language Queries Across Sites",
-        description: "Query camera feeds and sites in plain language without writing complex searches.",
-      },
-      {
-        title: "Automated Reports via Email & WhatsApp",
-        description: "Configure daily, weekly, and monthly reports delivered to the right stakeholders.",
-      },
-      {
-        title: "Role-Specific Answers",
-        description: "Deliver answers tailored for operators, supervisors, admins, and CXOs.",
-      },
-      {
-        title: "Instant Clip, Event & Report Retrieval",
-        description: "Retrieve clips, events, and operational reports instantly from a single interface.",
-      },
-    ],
-    architecture: [
-      "Video intelligence index",
-      "Conversational query engine",
-      "Role-based answer layer",
-      "Automated report delivery",
-    ],
-    workflow: [
-      "Connect sites and camera intelligence sources",
-      "Ask natural-language questions about operations",
-      "Review retrieved clips, events, and insights",
-      "Schedule automated reports for stakeholders",
-    ],
-    benefits: [
-      "No more waiting for late operational reports",
-      "Faster answers for operators, managers, and leadership",
-      "Automated BI for safety, productivity, and utilization",
-      "One conversational interface across the platform",
-    ],
-    screenshotLabels: ["Copilot chat interface", "Natural-language query results", "Scheduled reports"],
   },
   {
     slug: "smart-search",
@@ -327,7 +277,7 @@ export const solutions: Solution[] = [
     name: "Health Monitoring",
     shortName: "Health Monitoring",
     summary:
-      "Ensure uninterrupted surveillance operations with a centralized health monitoring platform that continuously tracks the status and performance of your security infrastructure. Monitor cameras, NVRs, servers, storage, and network devices in real time to detect issues before they impact operations.\n\nBy proactively identifying device failures, recording interruptions, storage issues, and network outages, the platform enables faster resolution, minimizes downtime, and ensures your surveillance system remains reliable and operational.",
+      "Maintain complete confidence in your surveillance ecosystem with intelligent infrastructure oversight. Orion Alerts provides continuous operational visibility, helping organizations improve system reliability, streamline maintenance efforts, and ensure business-critical security systems are always performing at their best.",
     overview:
       "Ensure uninterrupted surveillance operations with a centralized health monitoring platform that continuously tracks the status and performance of your security infrastructure. Monitor cameras, NVRs, servers, storage, and network devices in real time to detect issues before they impact operations. By proactively identifying device failures, recording interruptions, storage issues, and network outages, the platform enables faster resolution, minimizes downtime, and ensures your surveillance system remains reliable and operational.",
     features: [
@@ -405,7 +355,7 @@ export const industries: Industry[] = [
       "Tracked critical assets on the floor",
       "Coordinated maintenance across sites",
     ],
-    relatedSolutions: ["vms", "ai-analytics", "vision-copilot", "smart-search", "asset-tracking", "amc-management", "health-monitoring"],
+    relatedSolutions: ["vms", "ai-analytics", "smart-search", "asset-tracking", "amc-management", "health-monitoring"],
   },
   {
     slug: "logistics",
@@ -443,7 +393,7 @@ export const industries: Industry[] = [
       "Clear visitor and zone policies",
       "Proactive AMC-driven uptime",
     ],
-    relatedSolutions: ["vms", "ai-analytics", "vision-copilot", "smart-search", "health-monitoring"],
+    relatedSolutions: ["vms", "ai-analytics", "smart-search", "health-monitoring"],
   },
   {
     slug: "critical-infrastructure",
