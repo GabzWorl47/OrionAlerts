@@ -36,8 +36,8 @@
   --color-cyan: var(--cyan);
   --color-alert: var(--alert);
   --color-line: var(--line);
-  --font-sans: var(--font-body);
-  --font-display: var(--font-display);
+  --font-sans: var(--font-outfit);
+  --font-display: var(--font-outfit);
 }
 
 * {
@@ -53,7 +53,7 @@ body {
   min-height: 100%;
   background: var(--bg);
   color: var(--text);
-  font-family: var(--font-body), system-ui, sans-serif;
+  font-family: var(--font-outfit), system-ui, sans-serif;
   line-height: 1.6;
   overflow-x: clip;
 }
@@ -79,9 +79,9 @@ video {
 }
 
 .display {
-  font-family: var(--font-display), system-ui, sans-serif;
-  letter-spacing: -0.04em;
-  line-height: 0.95;
+  font-family: var(--font-outfit), system-ui, sans-serif;
+  letter-spacing: -0.03em;
+  line-height: 1;
 }
 
 .eyebrow {

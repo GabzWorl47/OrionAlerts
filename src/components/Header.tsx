@@ -158,11 +158,8 @@ export function Header() {
           initial={reduce ? false : { opacity: 0, x: -30 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5, ease: menuEase, delay: 0.2 + links.length * 0.07 }}
-          className="ml-auto hidden items-center gap-2 lg:flex"
+          className="ml-auto hidden lg:flex"
         >
-          <MagneticButton href="/book-demo" variant="outline" className="px-4 py-2.5">
-            Live Demo
-          </MagneticButton>
           <MagneticButton href="/book-demo" className="px-4 py-2.5">
             Book a Demo
           </MagneticButton>
@@ -249,12 +246,9 @@ export function Header() {
                   variants={reduce ? undefined : itemVariants}
                   initial={reduce ? false : "closed"}
                   animate="open"
-                  className="mt-3 flex flex-col gap-2 border-t border-line pt-4"
+                  className="mt-3 border-t border-line pt-4"
                   onClick={() => setOpen(false)}
                 >
-                  <MagneticButton href="/book-demo" variant="outline">
-                    Live Demo
-                  </MagneticButton>
                   <MagneticButton href="/book-demo">Book a Demo</MagneticButton>
                 </motion.div>
               </div>
