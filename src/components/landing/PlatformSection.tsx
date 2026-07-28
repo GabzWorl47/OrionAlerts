@@ -9,8 +9,8 @@ export function PlatformSection() {
   return (
     <section className="relative overflow-hidden py-20 md:py-24">
       <div className="absolute inset-0 bg-bg" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_20%_50%,rgba(124,58,237,0.1),transparent_50%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_90%_40%,rgba(6,182,212,0.06),transparent_45%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_20%_50%,rgba(43,140,255,0.1),transparent_50%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_90%_40%,rgba(48,227,255,0.06),transparent_45%)]" />
 
       <div className="container relative grid items-center gap-12 lg:grid-cols-2">
         <Reveal direction="left">
@@ -18,7 +18,7 @@ export function PlatformSection() {
           <h2 className="display mt-3 text-[clamp(1.9rem,4vw,3.2rem)] uppercase text-steel-gradient">
             One integrated platform
           </h2>
-          <p className="mt-5 max-w-lg text-lg text-muted">
+          <p className="description mt-5 max-w-lg text-lg">
             Control your entire physical security operation from ORION Command — video, AI
             analytics, asset tracking, and AMC workflows in one cloud-ready layer.
           </p>

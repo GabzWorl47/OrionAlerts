@@ -15,7 +15,7 @@ const variants = {
   solid:
     "bg-blue text-white border border-blue hover:bg-[#1f7aef] shadow-[0_0_28px_rgba(43,140,255,0.35)]",
   outline:
-    "bg-white text-text border border-line hover:border-cyan/50 hover:text-cyan shadow-sm",
+    "bg-white text-text border border-line hover:border-blue/40 hover:text-blue shadow-sm",
   ghost: "bg-transparent text-muted hover:text-text border border-transparent",
 };
 

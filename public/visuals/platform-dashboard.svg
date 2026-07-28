@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" fill="none">
+  <defs>
+    <linearGradient id="pbg" x1="0" y1="0" x2="800" y2="600" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0c1524"/>
+      <stop offset="1" stop-color="#152033"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" rx="20" fill="url(#pbg)"/>
+  <rect x="24" y="24" width="752" height="40" rx="10" fill="#0a1018" stroke="#2B8CFF" stroke-opacity="0.2"/>
+  <text x="48" y="50" fill="#EAF4FF" font-family="system-ui,sans-serif" font-size="13" font-weight="700" letter-spacing="1.5">ORION COMMAND</text>
+  <rect x="24" y="84" width="360" height="240" rx="14" fill="#121926" stroke="#30E3FF" stroke-opacity="0.3"/>
+  <rect x="44" y="110" width="140" height="90" rx="6" fill="#0a1018" stroke="#ffffff" stroke-opacity="0.08"/>
+  <rect x="200" y="110" width="140" height="90" rx="6" fill="#0a1018" stroke="#ffffff" stroke-opacity="0.08"/>
+  <rect x="44" y="214" width="296" height="90" rx="6" fill="#0a1018" stroke="#ffffff" stroke-opacity="0.08"/>
+  <text x="44" y="104" fill="#30E3FF" font-family="system-ui,sans-serif" font-size="10" font-weight="700" letter-spacing="1">LIVE WALLS</text>
+  <rect x="408" y="84" width="368" height="240" rx="14" fill="#121926" stroke="#2B8CFF" stroke-opacity="0.25"/>
+  <rect x="432" y="120" width="320" height="36" rx="8" fill="#FF5E57" fill-opacity="0.15" stroke="#FF5E57" stroke-opacity="0.4"/>
+  <rect x="432" y="168" width="320" height="36" rx="8" fill="#0a1018" stroke="#ffffff" stroke-opacity="0.06"/>
+  <rect x="432" y="216" width="320" height="36" rx="8" fill="#0a1018" stroke="#ffffff" stroke-opacity="0.06"/>
+  <text x="408" y="104" fill="#2B8CFF" font-family="system-ui,sans-serif" font-size="10" font-weight="700" letter-spacing="1">ALERT INBOX</text>
+  <rect x="24" y="344" width="360" height="232" rx="14" fill="#121926" stroke="#ffffff" stroke-opacity="0.08"/>
+  <circle cx="120" cy="430" r="48" fill="none" stroke="#30E3FF" stroke-opacity="0.4" stroke-width="2"/>
+  <circle cx="120" cy="430" r="8" fill="#30E3FF"/>
+  <circle cx="220" cy="480" r="6" fill="#2B8CFF"/>
+  <circle cx="280" cy="410" r="6" fill="#2B8CFF"/>
+  <text x="44" y="364" fill="#91A0B2" font-family="system-ui,sans-serif" font-size="10" font-weight="700" letter-spacing="1">ASSET MAP</text>
+  <rect x="408" y="344" width="368" height="232" rx="14" fill="#121926" stroke="#ffffff" stroke-opacity="0.08"/>
+  <rect x="432" y="380" width="140" height="12" rx="6" fill="#2B8CFF" fill-opacity="0.45"/>
+  <rect x="432" y="408" width="100" height="12" rx="6" fill="#ffffff" fill-opacity="0.12"/>
+  <rect x="432" y="436" width="180" height="12" rx="6" fill="#ffffff" fill-opacity="0.08"/>
+  <rect x="432" y="464" width="120" height="12" rx="6" fill="#30E3FF" fill-opacity="0.3"/>
+  <text x="408" y="364" fill="#91A0B2" font-family="system-ui,sans-serif" font-size="10" font-weight="700" letter-spacing="1">AMC DESK</text>
+</svg>

@@ -104,7 +104,7 @@ export function CustomerTrustSection() {
             <h2 className="display mt-3 text-[clamp(1.9rem,4vw,3.2rem)] uppercase text-steel-gradient">
               Built for enterprises that cannot afford blind spots
             </h2>
-            <p className="mt-4 text-lg text-muted">
+            <p className="description mt-4 text-lg">
               Enterprise-grade compliance and security built in — with customer stories publishing
               as multi-site deployments go live.
             </p>
@@ -114,7 +114,7 @@ export function CustomerTrustSection() {
               </MagneticButton>
               <Link
                 href="/resources#docs"
-                className="inline-flex items-center gap-1 text-sm font-semibold text-cyan transition hover:gap-2 hover:text-text"
+                className="inline-flex items-center gap-1 text-sm font-semibold text-cyan transition hover:gap-2 hover:text-blue"
               >
                 Explore compliance & security
                 <ArrowRight size={14} />
@@ -156,7 +156,7 @@ export function CustomerTrustSection() {
               <div className="panel h-full p-6 text-center transition hover:border-blue/35">
                 <p className="display text-4xl text-blue md:text-5xl">{item.score}</p>
                 <p className="mt-3 text-sm font-semibold text-text">{item.label}</p>
-                <p className="mt-1 text-xs text-muted">{item.note}</p>
+                <p className="mt-1 caption">{item.note}</p>
               </div>
             </StaggerItem>
           ))}

@@ -111,7 +111,7 @@ export function WhyChooseSection() {
           >
             <div>
               <h3 className="font-display text-2xl text-text md:text-3xl">{current.title}</h3>
-              <p className="mt-4 text-muted">{current.description}</p>
+              <p className="description mt-4">{current.description}</p>
               <ul className="mt-6 space-y-3">
                 {current.bullets.map((bullet, i) => (
                   <motion.li

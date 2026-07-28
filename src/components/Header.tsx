@@ -105,7 +105,7 @@ export function Header() {
               >
                 <Link
                   href={link.href}
-                  className="inline-flex items-center gap-1 rounded-[12px] px-3 py-2 text-sm font-medium text-muted transition hover:text-text"
+                  className="nav-link inline-flex items-center gap-1 rounded-[12px] px-3 py-2 text-sm font-medium"
                 >
                   {link.label}
                   <ChevronDown size={14} />
@@ -143,8 +143,8 @@ export function Header() {
               >
                 <Link
                   href={link.href}
-                  className={`rounded-[12px] px-3 py-2 text-sm font-medium transition hover:text-text ${
-                    pathname.startsWith(link.href.replace("/#", "/")) ? "text-text" : "text-muted"
+                  className={`nav-link rounded-[12px] px-3 py-2 text-sm font-medium ${
+                    pathname.startsWith(link.href.replace("/#", "/")) ? "nav-link-active" : ""
                   }`}
                 >
                   {link.label}

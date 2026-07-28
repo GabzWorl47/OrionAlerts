@@ -54,7 +54,7 @@ export function SectionHeading({
       {eyebrow ? <p className="eyebrow mb-3">{eyebrow}</p> : null}
       <h2 className="display text-3xl uppercase text-steel-gradient md:text-4xl">{title}</h2>
       {lede ? (
-        <p className={`mt-4 text-muted ${align === "center" ? "mx-auto" : ""}`}>{lede}</p>
+        <p className={`mt-4 description ${align === "center" ? "mx-auto" : ""}`}>{lede}</p>
       ) : null}
     </div>
   );
@@ -98,7 +98,7 @@ export function FeatureCard({
         <p className="mb-3 font-display text-sm text-cyan">{String(index + 1).padStart(2, "0")}</p>
       ) : null}
       <h3 className="display text-xl text-text">{title}</h3>
-      <p className="mt-2 text-sm leading-relaxed text-muted">{description}</p>
+      <p className="mt-2 text-sm leading-relaxed text-muted-strong">{description}</p>
     </article>
   );
 }
@@ -123,7 +123,7 @@ export function CtaBand({
       <div className="grid gap-8 md:grid-cols-[1.4fr_auto] md:items-end">
         <div>
           <h2 className="display text-3xl uppercase text-steel-gradient md:text-4xl">{title}</h2>
-          <p className="mt-3 max-w-xl text-muted">{lede}</p>
+          <p className="mt-3 max-w-xl description">{lede}</p>
         </div>
         <div className="flex flex-wrap gap-3">
           <MagneticButton href={primaryHref}>{primaryLabel}</MagneticButton>
@@ -140,7 +140,7 @@ export function CtaBand({
 
 export function TextLink({ href, children }: { href: string; children: ReactNode }) {
   return (
-    <Link href={href} className="font-semibold text-cyan hover:text-text">
+    <Link href={href} className="font-semibold text-cyan transition hover:text-blue">
       {children}
     </Link>
   );

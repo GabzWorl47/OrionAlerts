@@ -29,8 +29,8 @@ export function Hero() {
     >
       <div className="absolute inset-0 bg-bg" />
       <div className="absolute inset-0 grid-texture opacity-60" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,rgba(124,58,237,0.12),transparent_55%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_80%_70%,rgba(6,182,212,0.08),transparent_45%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,rgba(43,140,255,0.12),transparent_55%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_80%_70%,rgba(48,227,255,0.08),transparent_45%)]" />
 
       <div className="container relative z-10 py-16 text-center md:py-20">
         <motion.p
@@ -53,7 +53,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.55, delay: 0.18 }}
-          className="mx-auto mt-6 max-w-2xl text-lg text-muted"
+          className="description mx-auto mt-6 max-w-2xl text-lg"
         >
           ORION Alerts turns video, AI analytics, and operational data into real-time decisions —
           one platform for security and operations teams.

@@ -7,6 +7,8 @@
   --surface-2: #eef2f8;
   --text: #0f172a;
   --muted: #64748b;
+  --muted-strong: #475569;
+  --caption: #94a3b8;
 
   /* Accents */
   --blue: #2b8cff;
@@ -28,6 +30,8 @@
   --color-surface-2: var(--surface-2);
   --color-text: var(--text);
   --color-muted: var(--muted);
+  --color-muted-strong: var(--muted-strong);
+  --color-caption: var(--caption);
   --color-blue: var(--blue);
   --color-cyan: var(--cyan);
   --color-alert: var(--alert);
@@ -81,17 +85,40 @@ video {
 }
 
 .eyebrow {
-  font-size: 0.72rem;
+  font-size: 0.8125rem;
   font-weight: 600;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--cyan);
+  color: var(--blue);
 }
 
 .lede {
   font-size: clamp(1.05rem, 1.4vw, 1.2rem);
-  color: var(--muted);
+  color: var(--muted-strong);
   max-width: 38rem;
+}
+
+.description {
+  color: var(--muted-strong);
+  line-height: 1.65;
+}
+
+.caption {
+  font-size: 0.75rem;
+  color: var(--caption);
+}
+
+.nav-link {
+  color: var(--muted);
+  transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+  color: var(--blue);
+}
+
+.nav-link-active {
+  color: var(--text);
 }
 
 .section-alt {
@@ -100,8 +127,8 @@ video {
 
 .grid-texture {
   background-image:
-    linear-gradient(rgba(124, 58, 237, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(124, 58, 237, 0.04) 1px, transparent 1px);
+    linear-gradient(rgba(43, 140, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(43, 140, 255, 0.04) 1px, transparent 1px);
   background-size: 56px 56px;
 }
 
@@ -117,14 +144,14 @@ video {
 }
 
 .text-steel-gradient {
-  background: linear-gradient(135deg, #0f172a 0%, #3730a3 45%, #7c3aed 100%);
+  background: linear-gradient(135deg, #0f172a 0%, #1e40af 45%, #2b8cff 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
 .text-blue-gradient {
-  background: linear-gradient(135deg, #7c3aed 0%, #06b6d4 100%);
+  background: linear-gradient(135deg, #2b8cff 0%, #30e3ff 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -136,7 +163,7 @@ video {
   border-radius: var(--radius-lg);
   box-shadow:
     0 1px 2px rgba(15, 23, 42, 0.04),
-    0 8px 32px rgba(124, 58, 237, 0.06);
+    0 8px 32px rgba(43, 140, 255, 0.06);
 }
 
 .panel-sm {
@@ -152,7 +179,7 @@ video {
 }
 
 .ai-glow {
-  box-shadow: 0 0 40px rgba(124, 58, 237, 0.18);
+  box-shadow: 0 0 40px rgba(43, 140, 255, 0.15);
 }
 
 .command-panel {

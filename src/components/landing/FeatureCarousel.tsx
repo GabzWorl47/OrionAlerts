@@ -67,7 +67,7 @@ export function FeatureCarousel() {
                   onClick={() => setActive(index)}
                   className={`group relative overflow-hidden rounded-[16px] px-4 py-4 text-left transition duration-300 ${
                     active === index
-                      ? "bg-white shadow-[0_0_30px_rgba(124,58,237,0.14)] ring-1 ring-blue/25"
+                      ? "bg-white shadow-[0_0_30px_rgba(43,140,255,0.14)] ring-1 ring-blue/25"
                       : "hover:bg-surface-2/80"
                   }`}
                 >
