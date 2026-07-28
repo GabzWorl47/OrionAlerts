@@ -22,6 +22,15 @@
   --radius-sm: 12px;
   --header-h: 4.5rem;
   --container: 76rem;
+
+  /* Navbar — distinct from page surface */
+  --nav-bg: #102a45;
+  --nav-bg-scrolled: #0c2238;
+  --nav-border: rgba(255, 255, 255, 0.1);
+  --nav-text: rgba(226, 236, 248, 0.78);
+  --nav-text-hover: #ffffff;
+  --nav-text-active: #ffffff;
+  --nav-hover-bg: rgba(255, 255, 255, 0.08);
 }
 
 @theme inline {
@@ -110,15 +119,29 @@ video {
 
 .nav-link {
   color: var(--muted);
-  transition: color 0.2s ease;
+  transition: color 0.2s ease, background-color 0.2s ease;
 }
 
 .nav-link:hover {
   color: var(--blue);
+  background-color: rgba(238, 242, 248, 0.9);
 }
 
 .nav-link-active {
   color: var(--text);
+}
+
+.site-header-bar .nav-link {
+  color: var(--nav-text);
+}
+
+.site-header-bar .nav-link:hover {
+  color: var(--nav-text-hover);
+  background-color: var(--nav-hover-bg);
+}
+
+.site-header-bar .nav-link-active {
+  color: var(--nav-text-active);
 }
 
 .section-alt {

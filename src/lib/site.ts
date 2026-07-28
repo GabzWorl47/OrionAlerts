@@ -14,6 +14,8 @@ export type Solution = {
   shortName: string;
   summary: string;
   overview: string;
+  introVideo?: string;
+  introVideoPoster?: string;
   features: { title: string; description: string }[];
   architecture: string[];
   workflow: string[];
@@ -26,6 +28,7 @@ export const solutions: Solution[] = [
     slug: "vms",
     name: "Video Management System (VMS)",
     shortName: "VMS",
+    introVideo: "/Videos/VMS.mp4",
     summary:
       "Unify your surveillance operations with an enterprise-grade platform designed for seamless visibility and control. Orion Alerts enables security teams to collaborate more effectively, improve operational efficiency, and manage surveillance ecosystems with greater confidence.",
     overview:
@@ -657,14 +660,14 @@ export function getIndustry(slug: string) {
 
 export const navLinks = [
   {
-    href: "/solutions",
+    href: "/#solutions",
     label: "Solutions",
     children: solutions.map((s) => ({ href: `/solutions/${s.slug}`, label: s.shortName })),
   },
-  { href: "/industries", label: "Industries" },
-  { href: "/partners", label: "Partners" },
-  { href: "/resources", label: "Resources" },
-  { href: "/about", label: "About" },
+  { href: "/#industries", label: "Industries" },
+  { href: "/#partners", label: "Partners" },
+  { href: "/#resources", label: "Resources" },
+  { href: "/about", label: "About Us" },
 ];
 
 export const resourceCategories = [

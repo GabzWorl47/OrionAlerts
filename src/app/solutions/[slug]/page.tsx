@@ -6,9 +6,9 @@ import {
   FeatureCard,
   Section,
   SectionHeading,
-  VideoPlaceholder,
 } from "@/components/ui";
 import { PageShell } from "@/components/PageShell";
+import { SolutionVideoSection } from "@/components/SolutionVideoSection";
 import { getSolution, solutions } from "@/lib/site";
 
 export function generateStaticParams() {
@@ -58,12 +58,16 @@ export default async function SolutionDetailPage({
         </div>
       </Section>
 
-      <Section className="pt-0">
-        <VideoPlaceholder
-          label={`${solution.shortName} intro video`}
-          caption="Reusable template slot for solution intro film."
-        />
-      </Section>
+      <SolutionVideoSection
+        label={`${solution.shortName} intro video`}
+        src={solution.introVideo}
+        poster={solution.introVideoPoster}
+        caption={
+          solution.introVideo
+            ? undefined
+            : "Reusable template slot for solution intro film."
+        }
+      />
 
       <Section>
         <SectionHeading eyebrow="Overview" title="What this solution delivers" />
