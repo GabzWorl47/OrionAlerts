@@ -337,6 +337,8 @@ export type Industry = {
   cardLabel?: string;
   tagline?: string;
   image: string;
+  introVideo?: string;
+  introVideoPoster?: string;
   summary: string;
   challenges: string[];
   outcomes: string[];
