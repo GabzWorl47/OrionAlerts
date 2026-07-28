@@ -20,7 +20,7 @@ const links = [
     href: "/#solutions",
     children: solutions.map((s) => ({ href: `/solutions/${s.slug}`, label: s.shortName })),
   },
-  { href: "/#industries", label: "Industries" },
+  { href: "/industries", label: "Industries" },
   { href: "/#partners", label: "Partners" },
   { href: "/#resources", label: "Resources" },
   { href: "/about", label: "About Us" },

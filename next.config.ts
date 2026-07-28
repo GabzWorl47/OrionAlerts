@@ -6,6 +6,14 @@ const nextConfig: NextConfig = {
   reactStrictMode: false,
   // Allow both localhost and 127.0.0.1 in dev so /_next assets & HMR work either way.
   allowedDevOrigins: ["127.0.0.1", "localhost"],
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+      },
+    ],
+  },
 };
 
 export default nextConfig;

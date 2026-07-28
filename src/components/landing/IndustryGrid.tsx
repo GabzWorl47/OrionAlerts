@@ -1,46 +1,61 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import { industries } from "@/lib/site";
 import { Reveal, Stagger, StaggerItem } from "@/components/Reveal";
 
 export function IndustryGrid() {
   return (
-    <section id="industries" className="relative overflow-hidden bg-surface py-20 md:py-24">
-      <div className="absolute inset-0 grid-texture opacity-30" />
+    <section className="relative overflow-hidden bg-bg py-20 md:py-28">
       <div className="container relative">
         <Reveal>
-          <p className="eyebrow">Industries</p>
-          <h2 className="display mt-3 text-[clamp(1.9rem,4vw,3.2rem)] uppercase text-steel-gradient">
-            Modern protection for any space
+          <h2 className="display max-w-xl text-[clamp(1.85rem,4vw,3rem)] normal-case tracking-[-0.03em] text-text">
+            Modern protection for any space.
           </h2>
         </Reveal>
 
-        <Stagger className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3" delay={0.07}>
-          {industries.map((industry) => (
-            <StaggerItem key={industry.slug}>
-              <Link
-                href={`/industries/${industry.slug}`}
-                className="group panel flex h-full flex-col overflow-hidden transition duration-300 hover:-translate-y-1 hover:border-blue/35 hover:shadow-[0_0_30px_rgba(124,58,237,0.08)]"
-              >
-                <div className="command-panel aspect-[16/10]">
-                  <div className="flex h-full items-end p-5">
-                    <span className="text-xs uppercase tracking-[0.14em] text-white/50">
-                      Industry visual placeholder
+        <Stagger className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3" delay={0.05}>
+          {industries.map((industry, industryIndex) => {
+            const label = industry.cardLabel ?? industry.name;
+
+            return (
+              <StaggerItem key={industry.slug}>
+                <div className="group flex h-full flex-col">
+                  <Link
+                    href={`/industries/${industry.slug}`}
+                    className="relative block aspect-[3/4] overflow-hidden rounded-[18px] bg-surface-2"
+                  >
+                    <Image
+                      src={industry.image}
+                      alt={industry.name}
+                      fill
+                      priority={industryIndex < 3}
+                      sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 30vw"
+                      className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                    />
+                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent" />
+                    <span className="absolute bottom-5 left-5 font-display text-[1.35rem] font-semibold leading-tight text-white md:text-[1.5rem]">
+                      {label}
                     </span>
-                  </div>
+                  </Link>
+
+                  <Link
+                    href={`/industries/${industry.slug}`}
+                    className="mt-4 inline-flex w-full items-center justify-between rounded-full border border-text/20 bg-white px-5 py-3.5 text-sm font-medium text-text transition duration-300 hover:border-text/40 hover:bg-surface-2 group-hover:border-text/35"
+                  >
+                    Learn more
+                    <ChevronRight
+                      size={16}
+                      strokeWidth={2.25}
+                      className="transition group-hover:translate-x-0.5"
+                    />
+                  </Link>
                 </div>
-                <div className="flex flex-1 flex-col p-5">
-                  <h3 className="font-display text-xl text-text">{industry.name}</h3>
-                  <p className="mt-2 flex-1 text-sm text-muted">{industry.summary}</p>
-                  <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-blue group-hover:gap-2 group-hover:text-cyan">
-                    Learn more <ArrowRight size={14} />
-                  </span>
-                </div>
-              </Link>
-            </StaggerItem>
-          ))}
+              </StaggerItem>
+            );
+          })}
         </Stagger>
       </div>
     </section>

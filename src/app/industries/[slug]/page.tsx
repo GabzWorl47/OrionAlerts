@@ -29,7 +29,14 @@ export default async function IndustryDetailPage({
       <>
       <Section className="pt-14">
         <p className="eyebrow">Industry</p>
-        <h1 className="display mt-3 max-w-3xl text-4xl text-text md:text-6xl">{industry.name}</h1>
+        <h1 className="display mt-3 max-w-3xl text-4xl normal-case text-text md:text-6xl">
+          {industry.name}
+        </h1>
+        {industry.tagline ? (
+          <p className="mt-2 text-sm font-medium uppercase tracking-[0.12em] text-blue/80">
+            {industry.tagline}
+          </p>
+        ) : null}
         <p className="lede mt-4">{industry.summary}</p>
         <div className="mt-8">
           <Button href="/book-demo">Book a Demo</Button>

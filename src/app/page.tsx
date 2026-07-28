@@ -3,7 +3,6 @@ import { FeatureCarousel } from "@/components/landing/FeatureCarousel";
 import { PlatformSection } from "@/components/landing/PlatformSection";
 import { WhyChooseSection } from "@/components/landing/WhyChooseSection";
 import { CustomerTrustSection } from "@/components/landing/CustomerTrustSection";
-import { IndustryGrid } from "@/components/landing/IndustryGrid";
 import { ProductExplore } from "@/components/landing/ProductExplore";
 import { TrialCta } from "@/components/landing/TrialCta";
 
@@ -15,7 +14,6 @@ export default function HomePage() {
       <PlatformSection />
       <WhyChooseSection />
       <CustomerTrustSection />
-      <IndustryGrid />
       <ProductExplore />
       <TrialCta />
     </div>
