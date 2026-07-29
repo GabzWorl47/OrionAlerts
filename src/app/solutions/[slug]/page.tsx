@@ -62,6 +62,67 @@ export default async function SolutionDetailPage({
         label={`${solution.shortName} intro video`}
         src={solution.introVideo}
         poster={solution.introVideoPoster}
+        outcomes={
+          solution.slug === "vms"
+            ? [
+                {
+                  title: "Faster incident awareness across locations",
+                  description: "Live multi-cam view so operators spot issues sooner",
+                  preview: "livewall",
+                  videoSrc: "/Videos/outcomes/incident-awareness.mp4",
+                },
+                {
+                  title: "Lower operational complexity vs fragmented NVRs",
+                  description: "AI-prioritized alert with live video context",
+                  preview: "alert",
+                  videoSrc: "/Videos/outcomes/ops-dashboard.mp4",
+                },
+                {
+                  title: "Audit-ready access and export trails",
+                  description: "Searchable evidence clips ready for review",
+                  preview: "search",
+                  videoSrc: "/Videos/outcomes/audit-trails.mp4",
+                },
+                {
+                  title: "Foundation for AI analytics overlays",
+                  description: "Multi-site live feeds in one operator workflow",
+                  preview: "multisite",
+                  videoSrc: "/Videos/outcomes/ai-analytics.mp4",
+                },
+              ]
+            : solution.benefits.slice(0, 4)
+        }
+        gap="1.5rem"
+        workflowSteps={
+          solution.slug === "vms"
+            ? [
+                {
+                  title: "Live wall",
+                  description: "Watch every site from one command view",
+                  preview: "livewall",
+                  videoSrc: "/Videos/workflow/live-wall.mp4",
+                },
+                {
+                  title: "AI alert",
+                  description: "Critical exceptions surface instantly",
+                  preview: "alert",
+                  videoSrc: "/Videos/workflow/ai-alert.mp4",
+                },
+                {
+                  title: "Smart search",
+                  description: "Pull evidence without scrubbing footage",
+                  preview: "search",
+                  videoSrc: "/Videos/workflow/smart-search.mp4",
+                },
+                {
+                  title: "Multi-site ops",
+                  description: "Keep plants and campuses in sync",
+                  preview: "multisite",
+                  videoSrc: "/Videos/workflow/multi-site.mp4",
+                },
+              ]
+            : undefined
+        }
         caption={
           solution.introVideo
             ? undefined

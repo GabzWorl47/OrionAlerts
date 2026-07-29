@@ -155,6 +155,37 @@ video {
   background-size: 56px 56px;
 }
 
+.solution-video-section {
+  --video-section-gap: 1.25rem;
+  --video-side-width: 15rem;
+}
+
+.solution-video-layout {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.25rem;
+}
+
+@media (min-width: 1024px) {
+  .solution-video-layout {
+    grid-template-columns:
+      var(--video-side-width)
+      minmax(0, 1.85fr)
+      var(--video-side-width);
+    column-gap: var(--video-section-gap);
+    align-items: center;
+  }
+
+  .solution-video-layout > .solution-video-stage {
+    min-width: 0;
+    width: 100%;
+  }
+}
+
+/* Let the VMS video breathe wider than the default container */
+.solution-video-section > .container {
+  max-width: 84rem;
+}
+
 .scanlines {
   background: repeating-linear-gradient(
     0deg,
