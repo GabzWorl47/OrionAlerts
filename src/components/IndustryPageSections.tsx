@@ -2,14 +2,37 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
-import { ChevronDown } from "lucide-react";
-import { motion, useReducedMotion } from "framer-motion";
+import { useEffect, useState } from "react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  Cpu,
+  Eye,
+  Radar,
+  Search,
+  Shield,
+  Sparkles,
+  Zap,
+} from "lucide-react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Button, CtaBand, Section } from "@/components/ui";
 import { Reveal, Stagger, StaggerItem } from "@/components/Reveal";
 import { getSolution } from "@/lib/site";
 import type { IndustryPageData } from "@/lib/industry-pages";
 import type { Industry } from "@/lib/site";
+
+const ease = [0.22, 1, 0.36, 1] as const;
+
+const solutionIcons: Record<string, typeof Shield> = {
+  "ai-analytics": Sparkles,
+  vms: Radar,
+  "health-monitoring": Cpu,
+  "smart-search": Search,
+  "asset-tracking": Shield,
+  "amc-management": Shield,
+};
+
+const useCaseIcons = [Shield, Eye, Cpu, Zap, Radar, Search] as const;
 
 type Props = {
   industry: IndustryPageData;
@@ -19,17 +42,23 @@ type Props = {
 export function IndustryPageSections({ industry, related }: Props) {
   return (
     <>
-      <StatsStrip stats={industry.stats} contextNote={industry.contextNote} />
-      <UseCasesSection useCases={industry.useCases} industryName={industry.name} />
-      <ImpactSection challenges={industry.challenges} outcomes={industry.outcomes} />
-      <HowItWorks steps={industry.howItWorks} />
+      <PressureStrip
+        challenges={industry.challenges}
+        outcomes={industry.outcomes}
+        summary={industry.summary}
+      />
+      <UseCasesSlider useCases={industry.useCases} industryName={industry.name} />
+      <ProcessSection
+        title={industry.processTitle}
+        flow={industry.processFlow}
+        narrative={industry.processNarrative}
+      />
+      <StepsSection title={industry.stepsTitle} steps={industry.steps} />
       <SolutionsSection
+        industryName={industry.name}
         relatedSolutions={industry.relatedSolutions}
         blurbs={industry.solutionBlurbs}
-        industryName={industry.name}
       />
-      <QuoteSection quote={industry.quote} />
-      <FaqSection faqs={industry.faqs} />
       <RelatedIndustries related={related} />
       <Section>
         <CtaBand
@@ -45,290 +74,430 @@ export function IndustryPageSections({ industry, related }: Props) {
   );
 }
 
-function StatsStrip({
-  stats,
-  contextNote,
+function PressureStrip({
+  challenges,
+  outcomes,
+  summary,
 }: {
-  stats: IndustryPageData["stats"];
-  contextNote?: string;
+  challenges: string[];
+  outcomes: string[];
+  summary: string;
 }) {
+  const sentences = summary.split(/(?<=[.!?])\s+/).filter(Boolean);
+  const deeper = sentences.slice(1, 3).join(" ");
+
   return (
-    <Section className="pb-10 pt-8 md:pb-14 md:pt-10">
-      <Reveal>
-        {contextNote ? (
-          <p className="mx-auto mb-10 max-w-3xl text-center text-lg leading-relaxed text-muted">
-            {contextNote}
-          </p>
-        ) : null}
-      </Reveal>
-      <Stagger className="grid gap-4 sm:grid-cols-3">
-        {stats.map((stat) => (
-          <StaggerItem key={stat.label}>
-            <div className="rounded-[20px] border border-line bg-surface px-6 py-8 text-center transition hover:border-blue/30">
-              <p className="display text-3xl normal-case text-steel-gradient md:text-4xl">
-                {stat.value}
-              </p>
-              <p className="mt-3 text-sm font-medium text-muted">{stat.label}</p>
-            </div>
-          </StaggerItem>
-        ))}
-      </Stagger>
-    </Section>
+    <section className="relative overflow-hidden border-b border-line bg-surface">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_0%_50%,rgba(43,140,255,0.08),transparent_45%)]" />
+      <div className="container relative grid gap-10 py-14 md:grid-cols-[1.1fr_0.9fr] md:gap-14 md:py-16">
+        <Reveal>
+          <p className="eyebrow mb-3">The operational gap</p>
+          <h2 className="display text-3xl normal-case text-steel-gradient md:text-4xl">
+            Built for the pressure of real sites
+          </h2>
+          {deeper ? (
+            <p className="mt-5 max-w-xl text-[15px] leading-relaxed text-muted-strong md:text-base">
+              {deeper}
+            </p>
+          ) : null}
+          <ul className="mt-8 space-y-3">
+            {challenges.slice(0, 4).map((item) => (
+              <li key={item} className="flex gap-3 text-sm leading-relaxed text-muted-strong md:text-[15px]">
+                <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-alert" />
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </Reveal>
+
+        <Reveal delay={0.1}>
+          <div className="relative overflow-hidden rounded-[28px] bg-[#0c2238] p-7 text-white md:p-8">
+            <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-blue/20 blur-3xl" />
+            <div className="pointer-events-none absolute -bottom-12 left-8 h-32 w-32 rounded-full bg-cyan/15 blur-3xl" />
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-cyan">
+              With OrionAlerts
+            </p>
+            <p className="mt-3 font-display text-2xl normal-case leading-snug md:text-[1.7rem]">
+              From fragmented cameras to one operational picture.
+            </p>
+            <ul className="mt-7 space-y-4">
+              {outcomes.slice(0, 4).map((item, index) => (
+                <li key={item} className="flex gap-3">
+                  <span className="font-display text-sm text-cyan">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <span className="text-sm leading-relaxed text-white/75">{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </Reveal>
+      </div>
+    </section>
   );
 }
 
-function UseCasesSection({
+function UseCasesSlider({
   useCases,
   industryName,
 }: {
   useCases: IndustryPageData["useCases"];
   industryName: string;
 }) {
+  const reduce = useReducedMotion();
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    if (reduce || useCases.length <= 1) return;
+    const timer = window.setInterval(() => {
+      setIndex((current) => (current + 1) % useCases.length);
+    }, 5600);
+    return () => window.clearInterval(timer);
+  }, [reduce, useCases.length]);
+
+  const current = useCases[index] ?? useCases[0];
+  const Icon = useCaseIcons[index % useCaseIcons.length];
+
   return (
-    <Section className="bg-surface">
-      <Reveal>
-        <div className="mb-10 max-w-3xl">
-          <p className="eyebrow mb-3">Use cases</p>
-          <h2 className="display text-3xl normal-case text-steel-gradient md:text-4xl">
-            Where OrionAlerts helps in {industryName}
-          </h2>
-          <p className="mt-4 description">
-            Practical scenarios your security and operations teams face — mapped to the OrionAlerts
-            capability that solves them.
-          </p>
+    <section className="relative overflow-hidden bg-bg py-16 md:py-24">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_80%_10%,rgba(43,140,255,0.12),transparent_50%)]" />
+      <div className="container relative">
+        <Reveal>
+          <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
+            <div className="max-w-2xl">
+              <p className="eyebrow mb-3">Key use cases</p>
+              <h2 className="display text-3xl normal-case text-steel-gradient md:text-4xl">
+                What teams actually run with OrionAlerts in {industryName}
+              </h2>
+            </div>
+            <div className="flex gap-2">
+              <button
+                type="button"
+                aria-label="Previous use case"
+                onClick={() =>
+                  setIndex((current) => (current - 1 + useCases.length) % useCases.length)
+                }
+                className="flex h-11 w-11 items-center justify-center rounded-full border border-line bg-white text-text transition hover:border-blue/40 hover:text-blue"
+              >
+                <ArrowLeft size={16} />
+              </button>
+              <button
+                type="button"
+                aria-label="Next use case"
+                onClick={() => setIndex((current) => (current + 1) % useCases.length)}
+                className="flex h-11 w-11 items-center justify-center rounded-full border border-line bg-white text-text transition hover:border-blue/40 hover:text-blue"
+              >
+                <ArrowRight size={16} />
+              </button>
+            </div>
+          </div>
+        </Reveal>
+
+        <div className="grid gap-5 lg:grid-cols-[1.35fr_0.65fr]">
+          <div className="relative min-h-[320px] overflow-hidden rounded-[28px] bg-[#0b1628] p-8 text-white shadow-[0_30px_80px_-40px_rgba(15,61,120,0.65)] md:min-h-[380px] md:p-11">
+            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_20%_0%,rgba(43,140,255,0.35),transparent_45%),radial-gradient(ellipse_at_100%_100%,rgba(48,227,255,0.18),transparent_40%)]" />
+            {!reduce ? (
+              <motion.div
+                className="pointer-events-none absolute inset-x-0 h-px bg-gradient-to-r from-transparent via-cyan/60 to-transparent"
+                animate={{ top: ["12%", "88%", "12%"] }}
+                transition={{ duration: 7, ease: "linear", repeat: Infinity }}
+              />
+            ) : null}
+
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={current.title}
+                initial={reduce ? false : { opacity: 0, y: 28 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -18 }}
+                transition={{ duration: 0.45, ease }}
+                className="relative"
+              >
+                <div className="flex items-center gap-3">
+                  <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/10 text-cyan backdrop-blur">
+                    <Icon size={22} />
+                  </span>
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-cyan">
+                    Use case {String(index + 1).padStart(2, "0")} /{" "}
+                    {String(useCases.length).padStart(2, "0")}
+                  </p>
+                </div>
+                <h3 className="display mt-7 max-w-2xl text-[clamp(1.7rem,3.4vw,2.6rem)] normal-case leading-[1.1] text-white">
+                  {current.title}
+                </h3>
+                <p className="mt-5 max-w-2xl text-[15px] leading-relaxed text-white/70 md:text-base">
+                  {current.description}
+                </p>
+              </motion.div>
+            </AnimatePresence>
+
+            <div className="absolute bottom-8 left-8 right-8 flex gap-2 md:left-11 md:right-11">
+              {useCases.map((item, i) => (
+                <button
+                  key={item.title}
+                  type="button"
+                  aria-label={`Show ${item.title}`}
+                  onClick={() => setIndex(i)}
+                  className={`h-1 rounded-full transition-all ${
+                    i === index ? "flex-[2] bg-cyan" : "flex-1 bg-white/20 hover:bg-white/40"
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-3">
+            {useCases.map((item, i) => {
+              const ItemIcon = useCaseIcons[i % useCaseIcons.length];
+              const active = i === index;
+              return (
+                <button
+                  key={item.title}
+                  type="button"
+                  onClick={() => setIndex(i)}
+                  className={`group flex flex-1 items-start gap-3 rounded-[20px] border px-4 py-4 text-left transition ${
+                    active
+                      ? "border-blue/35 bg-white shadow-[0_18px_40px_-28px_rgba(43,140,255,0.55)]"
+                      : "border-transparent bg-white/50 hover:border-line hover:bg-white"
+                  }`}
+                >
+                  <span
+                    className={`mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl transition ${
+                      active ? "bg-blue text-white" : "bg-surface-2 text-blue"
+                    }`}
+                  >
+                    <ItemIcon size={16} />
+                  </span>
+                  <span>
+                    <span className="block text-[11px] font-semibold uppercase tracking-[0.12em] text-caption">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span className="mt-1 block font-display text-[15px] normal-case leading-snug text-text">
+                      {item.title}
+                    </span>
+                  </span>
+                </button>
+              );
+            })}
+          </div>
         </div>
-      </Reveal>
-      <Stagger className="grid gap-4 md:grid-cols-2">
-        {useCases.map((useCase, index) => (
-          <StaggerItem key={useCase.title}>
-            <article className="group h-full rounded-[20px] border border-line bg-bg p-6 transition duration-300 hover:-translate-y-1 hover:border-blue/35 hover:shadow-[0_16px_40px_-24px_rgba(43,140,255,0.35)]">
-              <p className="font-display text-sm text-blue">
-                {String(index + 1).padStart(2, "0")}
-              </p>
-              <h3 className="display mt-3 text-xl normal-case text-text">{useCase.title}</h3>
-              <p className="mt-3 text-sm leading-relaxed text-muted">{useCase.description}</p>
-              <p className="mt-5 text-xs font-semibold uppercase tracking-[0.12em] text-blue/80">
-                {useCase.capability}
-              </p>
-            </article>
-          </StaggerItem>
-        ))}
-      </Stagger>
-    </Section>
+      </div>
+    </section>
   );
 }
 
-function ImpactSection({
-  challenges,
-  outcomes,
+function ProcessSection({
+  title,
+  flow,
+  narrative,
 }: {
-  challenges: string[];
-  outcomes: string[];
+  title: string;
+  flow: string;
+  narrative: string[];
 }) {
-  const pairs = challenges.map((challenge, index) => ({
-    challenge,
-    outcome: outcomes[index] ?? outcomes[outcomes.length - 1],
-  }));
+  const stages = flow
+    .split("→")
+    .map((part) => part.trim())
+    .filter(Boolean);
+  const reduce = useReducedMotion();
 
   return (
-    <Section>
-      <Reveal>
-        <div className="mb-10 max-w-3xl">
-          <p className="eyebrow mb-3">Impact</p>
-          <h2 className="display text-3xl normal-case text-steel-gradient md:text-4xl">
-            From pressure points to outcomes
-          </h2>
-          <p className="mt-4 description">
-            Each challenge pairs with the operational result OrionAlerts is built to deliver.
-          </p>
+    <section className="relative overflow-hidden bg-[#07111f] py-16 text-white md:py-24">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,rgba(43,140,255,0.22),transparent_50%)]" />
+      <div className="pointer-events-none absolute inset-0 grid-texture opacity-25" />
+      <div className="container relative">
+        <Reveal>
+          <div className="mb-12 max-w-3xl">
+            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-cyan">
+              Process
+            </p>
+            <h2 className="display text-3xl normal-case text-white md:text-4xl">
+              {title || "How it works"}
+            </h2>
+          </div>
+        </Reveal>
+
+        <div className="relative mb-12">
+          <div className="pointer-events-none absolute left-0 right-0 top-8 hidden h-px bg-gradient-to-r from-transparent via-cyan/40 to-transparent md:block" />
+          <div
+            className={`grid gap-4 sm:grid-cols-2 ${
+              stages.length >= 6
+                ? "lg:grid-cols-6"
+                : stages.length === 5
+                  ? "lg:grid-cols-5"
+                  : "md:grid-cols-3 lg:grid-cols-4"
+            }`}
+          >
+            {stages.map((stage, index) => (
+              <motion.div
+                key={`${stage}-${index}`}
+                initial={reduce ? false : { opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ delay: index * 0.07, duration: 0.5, ease }}
+                className="relative text-center"
+              >
+                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full border border-white/15 bg-white/5 backdrop-blur">
+                  <span className="font-display text-lg text-cyan">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  {!reduce ? (
+                    <motion.span
+                      className="absolute inset-0 rounded-full border border-cyan/40"
+                      animate={{ scale: [1, 1.18, 1], opacity: [0.55, 0, 0.55] }}
+                      transition={{
+                        duration: 2.4,
+                        repeat: Infinity,
+                        delay: index * 0.25,
+                      }}
+                    />
+                  ) : null}
+                </div>
+                <p className="mt-4 font-display text-base normal-case text-white md:text-lg">
+                  {stage}
+                </p>
+              </motion.div>
+            ))}
+          </div>
         </div>
-      </Reveal>
-      <Stagger className="space-y-4">
-        {pairs.map((pair, index) => (
-          <StaggerItem key={pair.challenge}>
-            <div className="grid overflow-hidden rounded-[20px] border border-line md:grid-cols-2">
-              <div className="bg-surface px-5 py-5 md:px-6">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-alert">
-                  Challenge {String(index + 1).padStart(2, "0")}
+
+        <Stagger className="grid gap-4 md:grid-cols-2 lg:grid-cols-3" delay={0.05}>
+          {narrative.map((item, index) => (
+            <StaggerItem key={item}>
+              <div className="h-full border-l-2 border-cyan/40 pl-5">
+                <p className="font-display text-sm text-cyan">
+                  {String(index + 1).padStart(2, "0")}
                 </p>
-                <p className="mt-2 text-sm leading-relaxed text-muted-strong md:text-base">
-                  {pair.challenge}
-                </p>
+                <p className="mt-2 text-sm leading-relaxed text-white/70">{item}</p>
               </div>
-              <div className="border-t border-line bg-bg px-5 py-5 md:border-l md:border-t-0 md:px-6">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-blue">
-                  Outcome
-                </p>
-                <p className="mt-2 text-sm leading-relaxed text-text md:text-base">
-                  {pair.outcome}
-                </p>
-              </div>
-            </div>
-          </StaggerItem>
-        ))}
-      </Stagger>
-    </Section>
+            </StaggerItem>
+          ))}
+        </Stagger>
+      </div>
+    </section>
   );
 }
 
-function HowItWorks({ steps }: { steps: [string, string, string] }) {
-  const labels = ["Deploy", "Detect", "Respond"];
+function StepsSection({
+  title,
+  steps,
+}: {
+  title: string;
+  steps: IndustryPageData["steps"];
+}) {
+  const reduce = useReducedMotion();
 
   return (
-    <Section className="bg-surface">
-      <Reveal>
-        <div className="mb-10 max-w-3xl">
-          <p className="eyebrow mb-3">How it works</p>
-          <h2 className="display text-3xl normal-case text-steel-gradient md:text-4xl">
-            Three steps to sector-ready operations
-          </h2>
-        </div>
-      </Reveal>
-      <Stagger className="grid gap-4 md:grid-cols-3">
-        {steps.map((step, index) => (
-          <StaggerItem key={labels[index]}>
-            <div className="h-full rounded-[20px] border border-line bg-bg p-6">
-              <p className="font-display text-sm text-cyan">
-                {String(index + 1).padStart(2, "0")}
+    <section className="relative overflow-hidden bg-surface py-16 md:py-24">
+      <div className="container relative">
+        <Reveal>
+          <div className="mb-12 max-w-3xl">
+            <p className="eyebrow mb-3">Adoption</p>
+            <h2 className="display text-3xl normal-case text-steel-gradient md:text-4xl">
+              {title}
+            </h2>
+          </div>
+        </Reveal>
+
+        <div className="relative grid gap-8 md:grid-cols-3 md:gap-6">
+          <div className="pointer-events-none absolute left-[16%] right-[16%] top-10 hidden h-px bg-gradient-to-r from-blue/20 via-blue/50 to-blue/20 md:block" />
+          {steps.map((step, index) => (
+            <motion.div
+              key={step.label}
+              initial={reduce ? false : { opacity: 0, y: 32 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ delay: index * 0.12, duration: 0.55, ease }}
+              className="relative text-center md:px-4"
+            >
+              <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-bg shadow-[0_0_0_8px_rgba(43,140,255,0.08)]">
+                <span className="display text-3xl text-blue-gradient">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+              </div>
+              <h3 className="display mt-6 text-2xl normal-case text-text md:text-3xl">
+                {step.label}
+              </h3>
+              <p className="mx-auto mt-3 max-w-xs text-sm leading-relaxed text-muted md:text-[15px]">
+                {step.description}
               </p>
-              <h3 className="display mt-3 text-2xl normal-case text-text">{labels[index]}</h3>
-              <p className="mt-3 text-sm leading-relaxed text-muted">{step}</p>
-            </div>
-          </StaggerItem>
-        ))}
-      </Stagger>
-    </Section>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
 
 function SolutionsSection({
+  industryName,
   relatedSolutions,
   blurbs,
-  industryName,
 }: {
+  industryName: string;
   relatedSolutions: string[];
   blurbs: Record<string, string>;
-  industryName: string;
 }) {
   return (
-    <Section>
-      <Reveal>
-        <div className="mb-10 max-w-3xl">
-          <p className="eyebrow mb-3">Recommended stack</p>
-          <h2 className="display text-3xl normal-case text-steel-gradient md:text-4xl">
-            OrionAlerts for {industryName}
-          </h2>
-          <p className="mt-4 description">
-            A focused solution mix for this sector — each with a clear reason it belongs in your
-            stack.
-          </p>
-        </div>
-      </Reveal>
-      <Stagger className="grid gap-4 sm:grid-cols-2">
-        {relatedSolutions.map((slug) => {
-          const solution = getSolution(slug);
-          if (!solution) return null;
-          return (
-            <StaggerItem key={slug}>
-              <Link
-                href={`/solutions/${slug}`}
-                className="group flex h-full flex-col rounded-[20px] border border-line bg-surface p-6 transition duration-300 hover:-translate-y-1 hover:border-blue/35"
-              >
-                <h3 className="display text-xl normal-case text-text group-hover:text-blue">
-                  {solution.shortName}
-                </h3>
-                <p className="mt-3 flex-1 text-sm leading-relaxed text-muted">
-                  {blurbs[slug] ?? solution.summary}
-                </p>
-                <span className="mt-5 text-sm font-semibold text-blue">Explore solution →</span>
-              </Link>
-            </StaggerItem>
-          );
-        })}
-      </Stagger>
-    </Section>
-  );
-}
-
-function QuoteSection({ quote }: { quote: IndustryPageData["quote"] }) {
-  return (
-    <Section className="bg-surface">
-      <Reveal direction="scale">
-        <blockquote className="relative mx-auto max-w-3xl overflow-hidden rounded-[24px] border border-line bg-bg px-8 py-10 md:px-12 md:py-12">
-          <div className="pointer-events-none absolute -left-4 top-4 font-display text-7xl text-blue/15">
-            “
+    <section className="relative overflow-hidden bg-bg py-16 md:py-24">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_10%_0%,rgba(43,140,255,0.1),transparent_45%)]" />
+      <div className="container relative">
+        <Reveal>
+          <div className="mb-10 max-w-3xl">
+            <p className="eyebrow mb-3">Recommended stack</p>
+            <h2 className="display text-3xl normal-case text-steel-gradient md:text-4xl">
+              OrionAlerts for {industryName}
+            </h2>
+            <p className="mt-4 description">
+              A focused solution mix for this sector — each with a clear reason it belongs in your
+              stack.
+            </p>
           </div>
-          <p className="relative font-display text-xl leading-snug text-text md:text-2xl">
-            {quote.text}
-          </p>
-          <footer className="relative mt-6 text-sm font-medium text-muted">
-            — {quote.attribution}
-          </footer>
-        </blockquote>
-      </Reveal>
-    </Section>
-  );
-}
+        </Reveal>
 
-function FaqSection({ faqs }: { faqs: IndustryPageData["faqs"] }) {
-  const [open, setOpen] = useState(0);
-  const reduce = useReducedMotion();
-
-  return (
-    <Section>
-      <Reveal>
-        <div className="mb-10 max-w-3xl">
-          <p className="eyebrow mb-3">FAQ</p>
-          <h2 className="display text-3xl normal-case text-steel-gradient md:text-4xl">
-            Common questions
-          </h2>
-          <p className="mt-4 description">
-            Straight answers for teams evaluating OrionAlerts for their sector.
-          </p>
-        </div>
-      </Reveal>
-      <div className="mx-auto max-w-3xl space-y-3">
-        {faqs.map((faq, index) => {
-          const isOpen = open === index;
-          return (
-            <div
-              key={faq.question}
-              className="overflow-hidden rounded-[16px] border border-line bg-surface"
-            >
-              <button
-                type="button"
-                onClick={() => setOpen(isOpen ? -1 : index)}
-                className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left"
-                aria-expanded={isOpen}
-              >
-                <span className="font-medium text-text">{faq.question}</span>
-                <ChevronDown
-                  size={18}
-                  className={`shrink-0 text-muted transition ${isOpen ? "rotate-180" : ""}`}
-                />
-              </button>
-              <motion.div
-                initial={false}
-                animate={{
-                  height: isOpen ? "auto" : 0,
-                  opacity: isOpen ? 1 : 0,
-                }}
-                transition={
-                  reduce
-                    ? { duration: 0 }
-                    : { duration: 0.28, ease: [0.22, 1, 0.36, 1] }
-                }
-                className="overflow-hidden"
-              >
-                <p className="border-t border-line px-5 py-4 text-sm leading-relaxed text-muted">
-                  {faq.answer}
-                </p>
-              </motion.div>
-            </div>
-          );
-        })}
+        <Stagger className="grid gap-4 lg:grid-cols-2" delay={0.06}>
+          {relatedSolutions.map((slug, index) => {
+            const solution = getSolution(slug);
+            if (!solution) return null;
+            const Icon = solutionIcons[slug] ?? Shield;
+            const blurb = blurbs[slug] ?? solution.summary;
+            return (
+              <StaggerItem key={slug}>
+                <Link
+                  href={`/solutions/${slug}`}
+                  className="group relative flex h-full gap-5 overflow-hidden rounded-[24px] border border-line bg-white p-6 transition duration-300 hover:-translate-y-1 hover:border-blue/35 hover:shadow-[0_24px_50px_-30px_rgba(43,140,255,0.5)] md:p-7"
+                >
+                  <div className="pointer-events-none absolute inset-y-0 left-0 w-1 bg-gradient-to-b from-blue to-cyan opacity-0 transition group-hover:opacity-100" />
+                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-surface-2 text-blue transition group-hover:bg-blue group-hover:text-white">
+                    <Icon size={20} />
+                  </span>
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-3">
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-caption">
+                        {String(index + 1).padStart(2, "0")}
+                      </p>
+                      <h3 className="display text-xl normal-case text-text transition group-hover:text-blue">
+                        {solution.shortName}
+                      </h3>
+                    </div>
+                    <p className="mt-3 text-sm leading-relaxed text-muted line-clamp-3">
+                      {blurb}
+                    </p>
+                    <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-blue">
+                      Explore solution
+                      <ArrowRight
+                        size={14}
+                        className="transition group-hover:translate-x-1"
+                      />
+                    </span>
+                  </div>
+                </Link>
+              </StaggerItem>
+            );
+          })}
+        </Stagger>
       </div>
-    </Section>
+    </section>
   );
 }
 
@@ -351,20 +520,25 @@ function RelatedIndustries({ related }: { related: Industry[] }) {
           <StaggerItem key={item.slug}>
             <Link
               href={`/industries/${item.slug}`}
-              className="group block overflow-hidden rounded-[18px] border border-line bg-bg transition hover:border-blue/35"
+              className="group relative block overflow-hidden rounded-[22px]"
             >
-              <div className="relative aspect-[4/3]">
+              <div className="relative aspect-[4/5]">
                 <Image
                   src={item.image}
                   alt={item.name}
                   fill
                   sizes="(max-width: 1024px) 45vw, 20vw"
-                  className="object-cover transition duration-500 group-hover:scale-105"
+                  className="object-cover transition duration-700 group-hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/10 to-transparent" />
-                <span className="absolute bottom-3 left-3 font-display text-base font-semibold text-white">
-                  {item.cardLabel ?? item.name}
-                </span>
+                <div className="absolute inset-0 bg-gradient-to-t from-[#07111f] via-[#07111f]/35 to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 p-4">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-cyan/90">
+                    {item.tagline}
+                  </p>
+                  <span className="mt-1 block font-display text-lg font-semibold text-white">
+                    {item.cardLabel ?? item.name}
+                  </span>
+                </div>
               </div>
             </Link>
           </StaggerItem>
