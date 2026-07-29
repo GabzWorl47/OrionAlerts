@@ -113,7 +113,7 @@ export function CustomerTrustSection() {
                 Request a customer briefing
               </MagneticButton>
               <Link
-                href="/resources#docs"
+                href="/contact"
                 className="inline-flex items-center gap-1 text-sm font-semibold text-cyan transition hover:gap-2 hover:text-blue"
               >
                 Explore compliance & security

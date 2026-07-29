@@ -11,23 +11,30 @@ import {
 import { ChevronDown, Menu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { solutions, industries } from "@/lib/site";
+import { solutions, industries, resourceNavItems } from "@/lib/site";
 import { SolutionsMegaMenu } from "@/components/SolutionsMegaMenu";
 import { IndustriesMegaMenu } from "@/components/IndustriesMegaMenu";
+import { ResourcesMenu } from "@/components/ResourcesMenu";
+
+type MegaKey = "solutions" | "industries" | "resources";
 
 const navLinks = [
   { label: "Home", href: "/" },
-  { label: "Solutions", href: "/#solutions", mega: "solutions" as const },
+  { label: "Solutions", href: "/solutions", mega: "solutions" as const },
   { label: "Industries", href: "/industries", mega: "industries" as const },
-  { label: "Partners", href: "/#partners" },
-  { label: "Resources", href: "/#resources" },
+  { label: "Partners", href: "/partners" },
+  { label: "Resources", href: "#", mega: "resources" as const },
   { label: "About Us", href: "/about" },
 ];
 
 function isNavLinkActive(pathname: string, href: string) {
-  if (href === "/") return pathname === "/";
+  if (href === "/" || href === "#") return pathname === "/" && href === "/";
   if (href.startsWith("/#")) return false;
   return pathname === href || pathname.startsWith(`${href}/`);
+}
+
+function isResourcesActive(pathname: string) {
+  return pathname.startsWith("/blogs") || pathname.startsWith("/faqs");
 }
 
 function navItemClass(active: boolean) {
@@ -36,17 +43,18 @@ function navItemClass(active: boolean) {
   }`;
 }
 
-const menuEase = [0.22, 1, 0.36, 1] as const;
+const menuEase = [0.16, 1, 0.3, 1] as const;
 
 export function Header() {
   const pathname = usePathname();
   const reduce = useReducedMotion();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [openMega, setOpenMega] = useState<"solutions" | "industries" | null>(null);
+  const [openMega, setOpenMega] = useState<MegaKey | null>(null);
   const [activeMegaId, setActiveMegaId] = useState(solutions[0]?.slug ?? "vms");
   const [mobileProductsOpen, setMobileProductsOpen] = useState(false);
   const [mobileIndustriesOpen, setMobileIndustriesOpen] = useState(false);
+  const [mobileResourcesOpen, setMobileResourcesOpen] = useState(false);
   const { scrollY } = useScroll();
 
   useMotionValueEvent(scrollY, "change", (v) => {
@@ -58,6 +66,7 @@ export function Header() {
     setOpenMega(null);
     setMobileProductsOpen(false);
     setMobileIndustriesOpen(false);
+    setMobileResourcesOpen(false);
   }, [pathname]);
 
   useEffect(() => {
@@ -126,6 +135,25 @@ export function Header() {
                       className={`transition-transform duration-200 ${openMega === "industries" ? "rotate-180" : ""}`}
                     />
                   </Link>
+                ) : link.mega === "resources" ? (
+                  <button
+                    type="button"
+                    className={`${navItemClass(
+                      openMega === "resources" || isResourcesActive(pathname),
+                    )} m-0 cursor-pointer border-0 bg-transparent text-[inherit]`}
+                    aria-expanded={openMega === "resources"}
+                    aria-haspopup="true"
+                    onMouseEnter={() => setOpenMega("resources")}
+                    onClick={() =>
+                      setOpenMega((current) => (current === "resources" ? null : "resources"))
+                    }
+                  >
+                    {link.label}
+                    <ChevronDown
+                      size={14}
+                      className={`transition-transform duration-200 ${openMega === "resources" ? "rotate-180" : ""}`}
+                    />
+                  </button>
                 ) : (
                   <Link
                     href={link.href}
@@ -169,23 +197,45 @@ export function Header() {
       <AnimatePresence>
         {openMega ? (
           <motion.div
-            initial={reduce ? false : { opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.22, ease: menuEase }}
-            className="absolute inset-x-0 top-full hidden border-b border-line bg-white shadow-[0_20px_50px_rgba(15,23,42,0.08)] lg:block"
+            key="nav-mega-panel"
+            initial={
+              reduce
+                ? false
+                : { opacity: 0, y: -18, clipPath: "inset(0 0 100% 0)" }
+            }
+            animate={{ opacity: 1, y: 0, clipPath: "inset(0 0 0% 0)" }}
+            exit={{ opacity: 0, y: -12, clipPath: "inset(0 0 100% 0)" }}
+            transition={{
+              duration: 0.42,
+              ease: menuEase,
+              opacity: { duration: 0.3, ease: menuEase },
+              clipPath: { duration: 0.42, ease: menuEase },
+            }}
+            className="absolute inset-x-0 top-full hidden origin-top border-b border-line bg-white shadow-[0_20px_50px_rgba(15,23,42,0.08)] lg:block"
             onMouseEnter={() => setOpenMega(openMega)}
           >
             <div className="container py-2">
-              {openMega === "solutions" ? (
-                <SolutionsMegaMenu
-                  activeId={activeMegaId}
-                  onActiveChange={setActiveMegaId}
-                  onClose={() => setOpenMega(null)}
-                />
-              ) : (
-                <IndustriesMegaMenu onClose={() => setOpenMega(null)} />
-              )}
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={openMega}
+                  initial={reduce ? false : { opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -6 }}
+                  transition={{ duration: 0.28, ease: menuEase }}
+                >
+                  {openMega === "solutions" ? (
+                    <SolutionsMegaMenu
+                      activeId={activeMegaId}
+                      onActiveChange={setActiveMegaId}
+                      onClose={() => setOpenMega(null)}
+                    />
+                  ) : openMega === "industries" ? (
+                    <IndustriesMegaMenu onClose={() => setOpenMega(null)} />
+                  ) : (
+                    <ResourcesMenu onClose={() => setOpenMega(null)} />
+                  )}
+                </motion.div>
+              </AnimatePresence>
             </div>
           </motion.div>
         ) : null}
@@ -295,6 +345,39 @@ export function Header() {
                       >
                         View all industries
                       </Link>
+                    </motion.div>
+                  ) : null}
+                </AnimatePresence>
+
+                <button
+                  type="button"
+                  className="nav-link flex w-full items-center justify-between rounded-[10px] px-2 py-3 text-left text-base font-medium"
+                  onClick={() => setMobileResourcesOpen((v) => !v)}
+                >
+                  Resources
+                  <ChevronDown
+                    size={18}
+                    className={`transition-transform ${mobileResourcesOpen ? "rotate-180" : ""}`}
+                  />
+                </button>
+                <AnimatePresence>
+                  {mobileResourcesOpen ? (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      className="overflow-hidden pl-3"
+                    >
+                      {resourceNavItems.map((item) => (
+                        <Link
+                          key={item.href}
+                          href={item.href}
+                          className="block rounded-[10px] px-2 py-2.5 text-sm text-muted-strong hover:text-blue"
+                          onClick={() => setOpen(false)}
+                        >
+                          {item.label}
+                        </Link>
+                      ))}
                     </motion.div>
                   ) : null}
                 </AnimatePresence>

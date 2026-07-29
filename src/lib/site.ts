@@ -662,45 +662,65 @@ export function getIndustry(slug: string) {
 
 export const navLinks = [
   {
-    href: "/#solutions",
+    href: "/solutions",
     label: "Solutions",
     children: solutions.map((s) => ({ href: `/solutions/${s.slug}`, label: s.shortName })),
   },
-  { href: "/#industries", label: "Industries" },
-  { href: "/#partners", label: "Partners" },
-  { href: "/#resources", label: "Resources" },
+  { href: "/industries", label: "Industries" },
+  { href: "/partners", label: "Partners" },
+  {
+    href: "#",
+    label: "Resources",
+    children: [
+      { href: "/blogs", label: "Blogs" },
+      { href: "/faqs", label: "FAQs" },
+    ],
+  },
   { href: "/about", label: "About Us" },
+];
+
+export const resourceNavItems = [
+  {
+    label: "Blogs",
+    description: "Insights, trends, and deployment lessons.",
+    href: "/blogs",
+  },
+  {
+    label: "FAQs",
+    description: "Clear answers on deployment, integrations, and support.",
+    href: "/faqs",
+  },
 ];
 
 export const resourceCategories = [
   {
     title: "Blogs & Insights",
     description: "Product thinking, security operations trends, and deployment lessons.",
-    href: "/resources#insights",
+    href: "/blogs",
   },
   {
     title: "Case Studies",
     description: "How enterprises adopt OrionAlerts across sites and partners.",
-    href: "/resources#case-studies",
+    href: "/book-demo",
   },
   {
     title: "FAQs",
     description: "Clear answers on deployment, integrations, and support.",
-    href: "/resources#faqs",
+    href: "/faqs",
   },
   {
     title: "Documentation",
     description: "Architecture notes, admin guides, and integration overviews.",
-    href: "/resources#docs",
+    href: "/contact",
   },
   {
     title: "Partner Resources",
     description: "Enablement packs for system integrators and technology partners.",
-    href: "/resources#partner-resources",
+    href: "/partners",
   },
   {
     title: "Comparisons",
     description: "Honest capability framing versus common alternatives.",
-    href: "/resources#comparisons",
+    href: "/contact",
   },
 ];

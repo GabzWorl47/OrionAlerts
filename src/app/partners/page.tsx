@@ -97,7 +97,7 @@ export default function PartnersPage() {
           lede="Tell us your region, specialties, and whether you’re SI-led, technology-led, or both."
           primaryHref="/contact"
           primaryLabel="Connect With Us"
-          secondaryHref="/resources#partner-resources"
+          secondaryHref="/partners"
           secondaryLabel="Partner resources"
         />
       </Section>

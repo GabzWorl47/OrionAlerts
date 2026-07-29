@@ -7,13 +7,13 @@ import { Reveal, Stagger, StaggerItem } from "@/components/Reveal";
 const featured = {
   title: "How operators cut alert noise without losing coverage",
   category: "Industry Insights",
-  href: "/resources#insights",
+  href: "/blogs",
 };
 
 const items = [
-  { title: "Case Studies", blurb: "Proof from multi-site deployments.", href: "/resources#case-studies" },
-  { title: "Product Documentation", blurb: "Architecture and admin guides.", href: "/resources#docs" },
-  { title: "FAQs & Partner Resources", blurb: "Answers and enablement packs.", href: "/resources#faqs" },
+  { title: "Blogs", blurb: "Insights and deployment lessons.", href: "/blogs" },
+  { title: "FAQs", blurb: "Answers on demos, deployments, and support.", href: "/faqs" },
+  { title: "Partner Program", blurb: "Enablement for system integrators.", href: "/partners" },
 ];
 
 export function ResourcesPreview() {

@@ -42,9 +42,9 @@ export function Footer() {
           <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted">Company</p>
           <ul className="mt-4 space-y-2 text-sm text-muted-strong">
             <li><Link href="/about" className="transition hover:text-blue">About</Link></li>
-            <li><Link href="/resources#insights" className="transition hover:text-blue">Blog</Link></li>
+            <li><Link href="/blogs" className="transition hover:text-blue">Blog</Link></li>
             <li><Link href="/about#team" className="transition hover:text-blue">Careers</Link></li>
-            <li><Link href="/resources#docs" className="transition hover:text-blue">Trust & Security</Link></li>
+            <li><Link href="/contact" className="transition hover:text-blue">Trust & Security</Link></li>
             <li><Link href="/book-demo" className="transition hover:text-blue">Pricing</Link></li>
           </ul>
         </div>
@@ -66,9 +66,9 @@ export function Footer() {
           <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted">Support</p>
           <ul className="mt-4 space-y-2 text-sm text-muted-strong">
             <li><Link href="/contact" className="transition hover:text-blue">Contact</Link></li>
-            <li><Link href="/resources#faqs" className="transition hover:text-blue">Support</Link></li>
+            <li><Link href="/faqs" className="transition hover:text-blue">Support</Link></li>
             <li><Link href="/partners" className="transition hover:text-blue">Find Partners</Link></li>
-            <li><Link href="/resources#docs" className="transition hover:text-blue">Documentation</Link></li>
+            <li><Link href="/contact" className="transition hover:text-blue">Documentation</Link></li>
             <li>
               <Link href="/book-demo" className="font-semibold text-cyan transition hover:text-blue">
                 Live Demo
@@ -82,9 +82,9 @@ export function Footer() {
         <div className="container flex flex-col gap-2 py-5 text-xs text-muted sm:flex-row sm:items-center sm:justify-between">
           <p>© {new Date().getFullYear()} ORION Alerts. All rights reserved.</p>
           <div className="flex flex-wrap gap-4">
-            <Link href="/resources#docs" className="transition hover:text-blue">Privacy Policy</Link>
-            <Link href="/resources#docs" className="transition hover:text-blue">Security</Link>
-            <Link href="/resources#docs" className="transition hover:text-blue">Terms of Service</Link>
+            <Link href="/contact" className="transition hover:text-blue">Privacy Policy</Link>
+            <Link href="/contact" className="transition hover:text-blue">Security</Link>
+            <Link href="/contact" className="transition hover:text-blue">Terms of Service</Link>
           </div>
         </div>
       </div>
