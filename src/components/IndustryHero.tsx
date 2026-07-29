@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { Button } from "@/components/ui";
 import { SolutionVideo } from "@/components/SolutionVideo";
@@ -17,10 +18,18 @@ export function IndustryHero({ industry }: IndustryHeroProps) {
   const hasVideo = Boolean(industry.introVideo);
 
   return (
-    <section className="relative overflow-hidden bg-bg pb-16 pt-10 md:pb-24 md:pt-12">
+    <section className="relative overflow-hidden bg-bg pb-14 pt-8 md:pb-20 md:pt-10">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_20%_0%,rgba(43,140,255,0.1),transparent_55%)]" />
 
       <div className="container relative">
+        <nav aria-label="Breadcrumb" className="mb-8 text-sm text-muted">
+          <Link href="/industries" className="transition hover:text-blue">
+            Industries
+          </Link>
+          <span className="mx-2 text-caption">/</span>
+          <span className="text-text">{industry.name}</span>
+        </nav>
+
         <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
           <motion.div
             className="order-1"
