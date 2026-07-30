@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui";
 import { SolutionVideo } from "@/components/SolutionVideo";
 import type { IndustryPageData } from "@/lib/industry-pages";
@@ -22,6 +22,7 @@ function shortLede(summary: string) {
 
 export function IndustryHero({ industry }: IndustryHeroProps) {
   const reduce = useReducedMotion();
+  const [ready, setReady] = useState(false);
   const hasVideo = Boolean(industry.introVideo);
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
@@ -32,6 +33,10 @@ export function IndustryHero({ industry }: IndustryHeroProps) {
   const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "12%"]);
   const overlayOpacity = useTransform(scrollYProgress, [0, 1], [0.72, 0.92]);
 
+  useEffect(() => setReady(true), []);
+
+  const animate = ready && !reduce;
+
   return (
     <section
       ref={ref}
@@ -39,7 +44,7 @@ export function IndustryHero({ industry }: IndustryHeroProps) {
     >
       <motion.div
         className="absolute inset-0"
-        style={reduce ? undefined : { y: imageY }}
+        style={animate ? { y: imageY } : undefined}
       >
         {hasVideo && industry.introVideo ? (
           <div className="absolute inset-0">
@@ -64,11 +69,11 @@ export function IndustryHero({ industry }: IndustryHeroProps) {
 
       <motion.div
         className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#07111f] via-[#07111f]/78 to-[#07111f]/35"
-        style={reduce ? undefined : { opacity: overlayOpacity }}
+        style={animate ? { opacity: overlayOpacity } : { opacity: 0.72 }}
       />
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#07111f] via-transparent to-[#07111f]/45" />
       <div className="pointer-events-none absolute inset-0 grid-texture opacity-20 mix-blend-soft-light" />
-      {!reduce ? (
+      {animate ? (
         <motion.div
           className="pointer-events-none absolute inset-x-0 top-1/3 h-px bg-gradient-to-r from-transparent via-cyan/50 to-transparent"
           animate={{ opacity: [0.15, 0.55, 0.15], scaleX: [0.7, 1, 0.7] }}
@@ -78,7 +83,7 @@ export function IndustryHero({ industry }: IndustryHeroProps) {
 
       <motion.div
         className="container relative z-10 flex min-h-[min(78vh,44rem)] flex-col justify-end pb-14 pt-10 md:pb-20 md:pt-16"
-        style={reduce ? undefined : { y: contentY }}
+        style={animate ? { y: contentY } : undefined}
       >
         <nav aria-label="Breadcrumb" className="mb-8 text-sm text-white/55">
           <Link href="/industries" className="transition hover:text-white">
@@ -89,45 +94,45 @@ export function IndustryHero({ industry }: IndustryHeroProps) {
         </nav>
 
         <motion.p
-          initial={reduce ? false : { opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, ease }}
+          initial={animate ? { opacity: 0, x: -40 } : false}
+          animate={{ opacity: 1, x: 0 }}
+          transition={animate ? { duration: 0.55, ease } : { duration: 0 }}
           className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan"
         >
           {industry.tagline}
         </motion.p>
 
         <motion.p
-          initial={reduce ? false : { opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, delay: 0.06, ease }}
+          initial={animate ? { opacity: 0, x: -56 } : false}
+          animate={{ opacity: 1, x: 0 }}
+          transition={animate ? { duration: 0.65, delay: 0.07, ease } : { duration: 0 }}
           className="mt-4 font-display text-[clamp(2.4rem,7vw,5.2rem)] font-semibold uppercase leading-[0.92] tracking-[-0.04em] text-white"
         >
           {industry.name}
         </motion.p>
 
         <motion.h1
-          initial={reduce ? false : { opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.65, delay: 0.12, ease }}
+          initial={animate ? { opacity: 0, x: -48 } : false}
+          animate={{ opacity: 1, x: 0 }}
+          transition={animate ? { duration: 0.7, delay: 0.14, ease } : { duration: 0 }}
           className="mt-5 max-w-3xl font-display text-[clamp(1.35rem,2.6vw,2rem)] font-medium normal-case leading-[1.25] text-white/90"
         >
           {industry.headline}
         </motion.h1>
 
         <motion.p
-          initial={reduce ? false : { opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, delay: 0.2, ease }}
+          initial={animate ? { opacity: 0, x: -36 } : false}
+          animate={{ opacity: 1, x: 0 }}
+          transition={animate ? { duration: 0.6, delay: 0.22, ease } : { duration: 0 }}
           className="mt-5 max-w-xl text-[15px] leading-relaxed text-white/65 md:text-base"
         >
           {shortLede(industry.summary)}
         </motion.p>
 
         <motion.div
-          initial={reduce ? false : { opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.28, ease }}
+          initial={animate ? { opacity: 0, x: -28 } : false}
+          animate={{ opacity: 1, x: 0 }}
+          transition={animate ? { duration: 0.55, delay: 0.3, ease } : { duration: 0 }}
           className="mt-9 flex flex-wrap gap-3"
         >
           <Button href="/book-demo">Book a Demo</Button>

@@ -689,12 +689,12 @@ export const navLinks = [
 export const resourceNavItems = [
   {
     label: "Blogs",
-    description: "Insights, trends, and deployment lessons.",
+    description: "Operator playbooks and vision intelligence briefs.",
     href: "/blogs",
   },
   {
     label: "FAQs",
-    description: "Clear answers on deployment, integrations, and support.",
+    description: "Cameras, AI, multi-site, and platform answers.",
     href: "/faqs",
   },
 ];
