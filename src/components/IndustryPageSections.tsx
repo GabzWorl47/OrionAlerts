@@ -68,7 +68,7 @@ export function IndustryPageSections({ industry, related }: Props) {
             primaryHref="/book-demo"
             primaryLabel="Book a Demo"
             secondaryHref="/contact"
-            secondaryLabel="Connect With Us"
+            secondaryLabel="Contact Us"
           />
         </Reveal>
       </Section>

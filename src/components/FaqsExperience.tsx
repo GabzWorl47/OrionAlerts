@@ -128,7 +128,7 @@ export function FaqsExperience() {
                   title="Talk to us"
                   body="Have a deployment question that isn’t covered here? Our team can walk your site model live."
                   href="/contact"
-                  cta="Connect With Us"
+                  cta="Contact Us"
                 />
                 <HelpCard
                   icon={Sparkles}

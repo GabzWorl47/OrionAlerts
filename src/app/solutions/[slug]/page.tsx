@@ -220,7 +220,7 @@ export default async function SolutionDetailPage({
           primaryHref="/book-demo"
           primaryLabel="Book a Demo"
           secondaryHref="/contact"
-          secondaryLabel="Connect With Us"
+          secondaryLabel="Contact Us"
         />
       </Section>
     </>
