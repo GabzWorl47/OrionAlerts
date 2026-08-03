@@ -12,6 +12,8 @@ import {
   type BlogCategoryFilter,
   type BlogPost,
 } from "@/lib/blogs";
+import { LinkedInUpdates } from "@/components/LinkedInUpdates";
+import { CtaBand } from "@/components/ui";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -23,51 +25,82 @@ export function BlogsExperience() {
 
   const filtered = useMemo(() => {
     const normalized = query.trim().toLowerCase();
-    return blogPosts.filter((post) => {
-      const matchesCategory = category === "All" || post.category === category;
-      const matchesQuery =
-        !normalized ||
-        post.title.toLowerCase().includes(normalized) ||
-        post.excerpt.toLowerCase().includes(normalized) ||
-        post.author.toLowerCase().includes(normalized) ||
-        post.category.toLowerCase().includes(normalized);
-      return matchesCategory && matchesQuery;
-    });
+    return blogPosts
+      .filter((post) => {
+        const matchesCategory = category === "All" || post.category === category;
+        const matchesQuery =
+          !normalized ||
+          post.title.toLowerCase().includes(normalized) ||
+          post.excerpt.toLowerCase().includes(normalized) ||
+          post.author.toLowerCase().includes(normalized) ||
+          post.category.toLowerCase().includes(normalized);
+        return matchesCategory && matchesQuery;
+      })
+      .sort((a, b) => (a.date < b.date ? 1 : -1));
   }, [category, query]);
+
+  const featured = filtered[0];
+  const rest = filtered.slice(1);
 
   return (
     <div className="relative overflow-hidden">
-      <section className="relative pb-6 pt-10 md:pb-8 md:pt-12">
+      {/* Hero */}
+      <section className="relative -mt-[var(--header-h)] overflow-hidden bg-[#07111f] pt-[var(--header-h)] text-white">
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(43,140,255,0.12),transparent_55%)]"
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_15%_0%,rgba(43,140,255,0.35),transparent_45%),radial-gradient(ellipse_at_90%_40%,rgba(48,227,255,0.14),transparent_40%)]"
         />
-        <div className="container relative">
+        <div className="pointer-events-none absolute inset-0 grid-texture opacity-20" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-bg to-transparent" />
+
+        <div className="container relative z-10 pb-14 pt-12 md:pb-16 md:pt-16">
           <motion.div
             initial={reduce ? false : { opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease }}
+            transition={{ duration: 0.55, ease }}
             className="max-w-3xl"
           >
-            <p className="eyebrow">Blog</p>
-            <h1 className="display mt-3 text-[clamp(2rem,4.5vw,3.4rem)] normal-case text-steel-gradient">
-              Insights & updates
-            </h1>
-            <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-muted-strong md:text-base">
-              Articles on AI Vision, Smart Search, video operations, and operational intelligence.
+            <p className="font-display text-[clamp(1rem,1.8vw,1.2rem)] font-bold uppercase tracking-[0.14em] text-cyan">
+              Blog
             </p>
-            <p className="mt-4 text-sm font-medium text-muted">
-              {blogPosts.length} article{blogPosts.length === 1 ? "" : "s"}
+            <h1 className="mt-3 font-display text-[clamp(2rem,4.4vw,3.25rem)] font-semibold normal-case leading-[1.05] tracking-[-0.03em] text-white">
+              Insights for operators who can&apos;t afford noise.
+            </h1>
+            <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-white/70 md:text-base">
+              Practical perspectives on AI Vision, Smart Search, multi-site video ops, and keeping
+              surveillance estates reliable.
+            </p>
+            <p className="mt-5 text-sm font-medium text-white/45">
+              {blogPosts.length} articles · Updated regularly
             </p>
           </motion.div>
+        </div>
+      </section>
+
+      {/* Featured + filters + grid */}
+      <section className="relative pb-14 pt-2 md:pb-16 md:pt-4">
+        <div className="container relative">
+          <AnimatePresence mode="wait">
+            {featured ? (
+              <motion.div
+                key={`featured-${featured.slug}-${category}-${query}`}
+                initial={reduce ? false : { opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.4, ease }}
+              >
+                <FeaturedArticle post={featured} />
+              </motion.div>
+            ) : null}
+          </AnimatePresence>
 
           <motion.div
             initial={reduce ? false : { opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.08, ease }}
-            className="mt-7 space-y-4"
+            transition={{ duration: 0.45, delay: 0.06, ease }}
+            className="mt-10 flex flex-col gap-4 border-y border-line py-5 md:flex-row md:items-center md:justify-between"
           >
-            <div className="relative max-w-xl">
+            <div className="relative w-full max-w-md">
               <Search
                 size={16}
                 className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-caption"
@@ -78,7 +111,7 @@ export function BlogsExperience() {
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search articles…"
                 aria-label="Search articles"
-                className="w-full rounded-full border border-line bg-white py-2.5 pl-10 pr-4 text-sm text-text outline-none transition placeholder:text-caption focus:border-blue/35 focus:ring-2 focus:ring-blue/10"
+                className="w-full rounded-[12px] border border-line bg-white py-2.5 pl-10 pr-4 text-sm text-text outline-none transition placeholder:text-caption focus:border-blue/35 focus:ring-2 focus:ring-blue/10"
               />
             </div>
 
@@ -92,9 +125,9 @@ export function BlogsExperience() {
                     key={item}
                     type="button"
                     onClick={() => setCategory(item)}
-                    className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition ${
+                    className={`inline-flex items-center gap-2 rounded-full px-3.5 py-2 text-xs font-semibold transition sm:text-[13px] ${
                       active
-                        ? "bg-[#0f172a] text-white shadow-[0_10px_28px_rgba(15,23,42,0.22)]"
+                        ? "bg-[#0f172a] text-white shadow-[0_10px_28px_rgba(15,23,42,0.18)]"
                         : "bg-white text-muted-strong ring-1 ring-line hover:text-blue"
                     }`}
                   >
@@ -111,35 +144,54 @@ export function BlogsExperience() {
               })}
             </div>
           </motion.div>
-        </div>
-      </section>
 
-      <section className="relative pb-16 md:pb-20">
-        <div className="container">
           <AnimatePresence mode="wait">
             {filtered.length ? (
               <motion.div
-                key={`${category}-${query}`}
+                key={`${category}-${query}-grid`}
                 initial={reduce ? false : { opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -8 }}
                 transition={{ duration: 0.35, ease }}
-                className="grid gap-6 md:grid-cols-2"
+                className="mt-8"
               >
-                {filtered.map((post) => (
-                  <ArticleCard key={post.slug} post={post} />
-                ))}
+                {rest.length ? (
+                  <>
+                    <div className="mb-5 flex items-end justify-between gap-3">
+                      <div>
+                        <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-caption">
+                          More articles
+                        </p>
+                        <h2 className="display mt-1 text-2xl normal-case text-text md:text-[1.75rem]">
+                          Keep reading
+                        </h2>
+                      </div>
+                      <p className="text-sm text-muted">
+                        {rest.length} more piece{rest.length === 1 ? "" : "s"}
+                      </p>
+                    </div>
+                    <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+                      {rest.map((post, index) => (
+                        <ArticleCard key={post.slug} post={post} index={index} />
+                      ))}
+                    </div>
+                  </>
+                ) : (
+                  <p className="text-sm text-muted">
+                    Showing the latest match above. Adjust filters to explore more.
+                  </p>
+                )}
               </motion.div>
             ) : (
               <motion.div
                 key="empty"
                 initial={reduce ? false : { opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="rounded-[22px] border border-dashed border-line bg-white px-8 py-16 text-center"
+                className="mt-10 rounded-[22px] border border-dashed border-line bg-white px-8 py-16 text-center"
               >
                 <p className="font-display text-2xl normal-case text-text">No articles found</p>
                 <p className="mx-auto mt-2 max-w-md text-sm text-muted">
-                  Try another keyword or category. You can also reset filters to see all insights.
+                  Try another keyword or category, or reset filters to see all insights.
                 </p>
                 <button
                   type="button"
@@ -154,17 +206,28 @@ export function BlogsExperience() {
               </motion.div>
             )}
           </AnimatePresence>
+        </div>
+      </section>
 
-          <div className="mt-14 border-t border-line pt-10">
-            <p className="text-sm font-semibold uppercase tracking-[0.14em] text-caption">
-              Continue exploring
-            </p>
-            <div className="mt-4 flex flex-wrap gap-3">
+      <LinkedInUpdates />
+
+      <section className="relative pb-10 md:pb-12">
+        <div className="container">
+          <div className="flex flex-wrap items-end justify-between gap-4 border-t border-line pt-8">
+            <div>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-caption">
+                Continue exploring
+              </p>
+              <p className="mt-1 text-sm text-muted-strong">
+                Jump into product pages, FAQs, or talk to the team.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-2">
               {[
                 { href: "/solutions", label: "Solutions" },
-                { href: "/faqs", label: "FAQ" },
-                { href: "/book-demo", label: "Request a Demo" },
-                { href: "/contact", label: "Contact Us" },
+                { href: "/faqs", label: "FAQs" },
+                { href: "/industries", label: "Industries" },
+                { href: "/contact", label: "Contact" },
               ].map((item) => (
                 <Link
                   key={item.href}
@@ -180,93 +243,62 @@ export function BlogsExperience() {
         </div>
       </section>
 
-      <section className="relative overflow-hidden border-t border-line bg-[#0c2238] py-16 md:py-20">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_30%_0%,rgba(43,140,255,0.28),transparent_50%),radial-gradient(ellipse_at_90%_80%,rgba(48,227,255,0.12),transparent_40%)]"
-        />
-        <div className="container relative">
-          <div className="grid items-end gap-8 lg:grid-cols-[1.4fr_auto]">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-cyan">
-                Ready for critical operations
-              </p>
-              <h2 className="display mt-3 max-w-2xl text-[clamp(1.8rem,3.5vw,2.8rem)] normal-case text-white">
-                Ready to respond faster when every second counts?
-              </h2>
-              <p className="mt-4 max-w-xl text-sm leading-relaxed text-white/70 md:text-base">
-                See how OrionAlerts helps teams monitor, detect, notify, and analyze critical events
-                across your organization.
-              </p>
-              <ul className="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-sm text-white/80">
-                {["Live demo", "Enterprise-ready", "No hardware swap"].map((item) => (
-                  <li key={item} className="inline-flex items-center gap-2">
-                    <span className="h-1.5 w-1.5 rounded-full bg-cyan" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="flex flex-wrap gap-3">
-              <Link
-                href="/book-demo"
-                className="inline-flex items-center justify-center rounded-[8px] border border-cyan/40 bg-cyan px-5 py-3 text-sm font-semibold text-[#0c2238] shadow-[0_0_24px_rgba(48,227,255,0.28)] transition-colors hover:bg-white"
-              >
-                Request a Demo
-              </Link>
-              <Link
-                href="/contact"
-                className="inline-flex items-center justify-center rounded-[10px] border border-white/25 px-5 py-3 text-sm font-semibold text-white transition hover:border-white/50 hover:bg-white/5"
-              >
-                Contact Us
-              </Link>
-            </div>
-          </div>
+      <section className="relative pb-16 md:pb-20">
+        <div className="container">
+          <CtaBand
+            title="See OrionAlerts against your real workflows"
+            lede="Book a demo tailored to your camera estate, staffing model, and industry constraints."
+            primaryHref="/book-demo"
+            primaryLabel="Book a Demo"
+            secondaryHref="/contact"
+            secondaryLabel="Connect With Us"
+          />
         </div>
       </section>
     </div>
   );
 }
 
-function ArticleCard({ post }: { post: BlogPost }) {
+function FeaturedArticle({ post }: { post: BlogPost }) {
   return (
     <Link
       href={`/blogs/${post.slug}`}
-      className="group flex h-full flex-col overflow-hidden rounded-[22px] border border-line bg-white transition duration-300 hover:-translate-y-1 hover:border-blue/25 hover:shadow-[0_24px_50px_-28px_rgba(15,61,120,0.35)]"
+      className="group relative grid overflow-hidden rounded-[28px] bg-[#0c2238] lg:grid-cols-[1.2fr_0.9fr]"
     >
-      <div className="relative aspect-[16/10] overflow-hidden">
+      <div className="relative min-h-[240px] lg:min-h-[360px]">
         <Image
           src={post.image}
           alt={post.title}
           fill
-          sizes="(max-width: 768px) 100vw, 45vw"
-          className="object-cover transition duration-700 group-hover:scale-105"
+          priority
+          sizes="(max-width: 1024px) 100vw, 55vw"
+          className="object-cover transition duration-700 group-hover:scale-[1.03]"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0c2238]/45 via-[#0c2238]/10 to-transparent" />
-        <span className="absolute left-4 top-4 rounded-full bg-white/90 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-blue backdrop-blur">
-          {post.category}
-        </span>
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0c2238] via-[#0c2238]/25 to-transparent lg:bg-gradient-to-r lg:from-transparent lg:via-[#0c2238]/35 lg:to-[#0c2238]" />
       </div>
 
-      <div className="flex flex-1 flex-col p-6 md:p-7">
-        <p className="text-xs font-medium text-caption">
-          {post.dateLabel} · {post.readTime}
+      <div className="relative flex flex-col justify-end p-6 text-white md:p-8 lg:p-10">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-cyan">
+          Featured · {post.category}
         </p>
-        <h2 className="display mt-2 text-[1.35rem] normal-case leading-snug text-text transition group-hover:text-blue md:text-[1.5rem]">
+        <h2 className="mt-3 font-display text-[clamp(1.5rem,2.6vw,2.15rem)] font-semibold normal-case leading-[1.15] tracking-[-0.02em]">
           {post.title}
         </h2>
-        <p className="mt-3 flex-1 text-sm leading-relaxed text-muted">{post.excerpt}</p>
-
-        <div className="mt-6 flex items-center justify-between gap-4 border-t border-line pt-5">
+        <p className="mt-3 max-w-xl text-sm leading-relaxed text-white/70 md:text-[15px]">
+          {post.excerpt}
+        </p>
+        <div className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-white/10 pt-5">
           <div className="flex items-center gap-3">
             <AuthorAvatar name={post.author} />
             <div>
-              <p className="text-sm font-semibold text-text">{post.author}</p>
-              <p className="text-xs text-muted">{post.authorRole}</p>
+              <p className="text-sm font-semibold text-white">{post.author}</p>
+              <p className="text-xs text-white/55">
+                {post.dateLabel} · {post.readTime}
+              </p>
             </div>
           </div>
-          <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-blue transition group-hover:gap-2">
-            Learn more <ArrowRight size={14} />
+          <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-cyan transition group-hover:gap-2.5">
+            Read article <ArrowRight size={15} />
           </span>
         </div>
       </div>
@@ -274,7 +306,53 @@ function ArticleCard({ post }: { post: BlogPost }) {
   );
 }
 
-function AuthorAvatar({ name }: { name: string }) {
+function ArticleCard({ post, index }: { post: BlogPost; index: number }) {
+  return (
+    <Link
+      href={`/blogs/${post.slug}`}
+      className="group flex h-full flex-col overflow-hidden rounded-[22px] border border-line bg-white transition duration-300 hover:-translate-y-1 hover:border-blue/25 hover:shadow-[0_24px_50px_-28px_rgba(15,61,120,0.35)]"
+      style={{ transitionDelay: `${Math.min(index, 6) * 20}ms` }}
+    >
+      <div className="relative aspect-[16/10] overflow-hidden">
+        <Image
+          src={post.image}
+          alt={post.title}
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1280px) 45vw, 30vw"
+          className="object-cover transition duration-700 group-hover:scale-105"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0c2238]/40 via-transparent to-transparent" />
+        <span className="absolute left-3.5 top-3.5 rounded-full bg-white/92 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-blue backdrop-blur">
+          {post.category}
+        </span>
+      </div>
+
+      <div className="flex flex-1 flex-col p-5 md:p-6">
+        <p className="text-xs font-medium text-caption">
+          {post.dateLabel} · {post.readTime}
+        </p>
+        <h3 className="display mt-2 text-[1.2rem] normal-case leading-snug text-text transition group-hover:text-blue md:text-[1.3rem]">
+          {post.title}
+        </h3>
+        <p className="mt-2.5 flex-1 text-sm leading-relaxed text-muted line-clamp-3">
+          {post.excerpt}
+        </p>
+
+        <div className="mt-5 flex items-center justify-between gap-3 border-t border-line pt-4">
+          <div className="flex min-w-0 items-center gap-2.5">
+            <AuthorAvatar name={post.author} size="sm" />
+            <p className="truncate text-sm font-semibold text-text">{post.author}</p>
+          </div>
+          <span className="inline-flex shrink-0 items-center gap-1 text-sm font-semibold text-blue transition group-hover:gap-1.5">
+            Read <ArrowRight size={14} />
+          </span>
+        </div>
+      </div>
+    </Link>
+  );
+}
+
+function AuthorAvatar({ name, size = "md" }: { name: string; size?: "sm" | "md" }) {
   const initials = name
     .split(" ")
     .filter(Boolean)
@@ -282,8 +360,12 @@ function AuthorAvatar({ name }: { name: string }) {
     .map((part) => part[0]?.toUpperCase() ?? "")
     .join("");
 
+  const dim = size === "sm" ? "h-8 w-8 text-[10px]" : "h-10 w-10 text-xs";
+
   return (
-    <span className="relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-[#1a5fb0] via-blue to-cyan text-xs font-bold text-white shadow-[0_0_0_3px_rgba(43,140,255,0.12)]">
+    <span
+      className={`relative flex items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-[#1a5fb0] via-blue to-cyan font-bold text-white shadow-[0_0_0_3px_rgba(43,140,255,0.12)] ${dim}`}
+    >
       {initials || name.slice(0, 1)}
     </span>
   );

@@ -9,6 +9,8 @@ import { industries } from "@/lib/site";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
+const INDUSTRIES_HERO_IMAGE = "/Images/industries-hero-skyline.jpg";
+
 const clusters = [
   {
     id: "all",
@@ -81,55 +83,63 @@ export function IndustryGrid() {
   }, [activeCluster]);
 
   return (
-    <section className="relative overflow-hidden bg-bg pb-10 pt-8 md:pb-14 md:pt-10">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-[28rem] bg-[radial-gradient(ellipse_at_50%_0%,rgba(43,140,255,0.14),transparent_55%),radial-gradient(ellipse_at_90%_20%,rgba(48,227,255,0.08),transparent_40%)]" />
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-[22rem] grid-texture opacity-50" />
-
-      <div className="relative mx-auto w-[min(100%-1.5rem,90rem)]">
-        <div className="mx-auto max-w-3xl text-center">
-          <motion.p
-            className="eyebrow"
-            initial={animate ? { opacity: 0, y: 16 } : false}
-            animate={{ opacity: 1, y: 0 }}
-            transition={animate ? { duration: 0.5, ease } : { duration: 0 }}
-          >
-            Industries
-          </motion.p>
-
-          <motion.h1
-            className="display mt-4 text-[clamp(1.9rem,4.2vw,3.15rem)] normal-case tracking-[-0.03em] text-steel-gradient"
-            initial={animate ? { opacity: 0, y: 28 } : false}
-            animate={{ opacity: 1, y: 0 }}
-            transition={animate ? { duration: 0.7, delay: 0.05, ease } : { duration: 0 }}
-          >
-            Modern protection for any space.
-          </motion.h1>
-
-          <motion.p
-            className="mx-auto mt-4 max-w-2xl text-[15px] leading-relaxed text-muted-strong md:text-base"
-            initial={animate ? { opacity: 0, y: 18 } : false}
-            animate={{ opacity: 1, y: 0 }}
-            transition={animate ? { duration: 0.55, delay: 0.12, ease } : { duration: 0 }}
-          >
-            AI video intelligence for plants, campuses, and critical sites — tailored to how each
-            sector actually operates, without replacing the cameras you already have.
-          </motion.p>
-
-          <motion.p
-            className="mt-3 text-sm font-medium text-muted"
-            initial={animate ? { opacity: 0 } : false}
-            animate={{ opacity: 1 }}
-            transition={animate ? { duration: 0.45, delay: 0.18 } : { duration: 0 }}
-          >
-            {industries.length} sectors · Existing cameras · One operating layer
-          </motion.p>
+    <section className="relative overflow-hidden bg-bg pb-10 md:pb-14">
+      <div className="relative -mt-[var(--header-h)] h-[min(44vh,24rem)] overflow-hidden bg-[#07111f] md:h-[min(40vh,26rem)]">
+        <div className="absolute inset-0">
+          <Image
+            src={INDUSTRIES_HERO_IMAGE}
+            alt=""
+            fill
+            priority
+            quality={95}
+            sizes="100vw"
+            className="object-cover object-center"
+            aria-hidden
+          />
         </div>
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#07111f]/65 via-[#07111f]/25 to-transparent" />
+        {/* Soft handoff into the listing below + readable copy zone */}
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[48%] bg-gradient-to-t from-bg via-bg/80 to-transparent" />
 
+        <div className="container relative z-10 flex h-full flex-col pt-[var(--header-h)]">
+          <div className="mt-auto max-w-2xl pb-10 pt-10 md:pb-12">
+            <motion.p
+              className="font-display text-[clamp(1.05rem,2vw,1.35rem)] font-bold uppercase tracking-[0.14em] text-blue"
+              initial={animate ? { opacity: 0, y: 12 } : false}
+              animate={{ opacity: 1, y: 0 }}
+              transition={animate ? { duration: 0.45, ease } : { duration: 0 }}
+            >
+              Industries
+            </motion.p>
+
+            <motion.h1
+              className="mt-2 font-display text-[clamp(1.65rem,3.4vw,2.5rem)] font-semibold normal-case leading-[1.1] tracking-[-0.03em] text-steel-gradient"
+              initial={animate ? { opacity: 0, y: 20 } : false}
+              animate={{ opacity: 1, y: 0 }}
+              transition={animate ? { duration: 0.55, delay: 0.05, ease } : { duration: 0 }}
+            >
+              Modern protection for any space.
+            </motion.h1>
+
+            <motion.p
+              className="mt-3 max-w-xl text-[15px] leading-relaxed text-muted-strong md:text-base"
+              initial={animate ? { opacity: 0, y: 14 } : false}
+              animate={{ opacity: 1, y: 0 }}
+              transition={animate ? { duration: 0.5, delay: 0.1, ease } : { duration: 0 }}
+            >
+              AI video intelligence for plants, campuses, and critical sites — tailored to how each
+              sector actually operates, without replacing the cameras you already have.
+            </motion.p>
+          </div>
+        </div>
+      </div>
+
+      <div className="relative mx-auto w-[min(100%-1.5rem,90rem)] -mt-2 pt-4 md:pt-5">
         <motion.div
-          className="mt-8 flex flex-wrap items-center justify-center gap-2"
+          className="relative flex flex-wrap items-center justify-center gap-2"
           initial={animate ? { opacity: 0, y: 12 } : false}
           animate={{ opacity: 1, y: 0 }}
-          transition={animate ? { duration: 0.5, delay: 0.2, ease } : { duration: 0 }}
+          transition={animate ? { duration: 0.5, delay: 0.15, ease } : { duration: 0 }}
         >
           {clusters.map((cluster) => {
             const active = activeCluster === cluster.id;
