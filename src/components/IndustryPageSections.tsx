@@ -14,7 +14,7 @@ import {
   Sparkles,
   Zap,
 } from "lucide-react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { Button, CtaBand, Section } from "@/components/ui";
 import { Reveal, Stagger, StaggerItem } from "@/components/Reveal";
 import { getSolution } from "@/lib/site";
@@ -60,7 +60,7 @@ export function IndustryPageSections({ industry, related }: Props) {
         blurbs={industry.solutionBlurbs}
       />
       <RelatedIndustries related={related} />
-      <Section>
+      <Section className="!py-10 md:!py-14">
         <Reveal direction="up">
           <CtaBand
             title={`See OrionAlerts for ${industry.name}`}
@@ -91,7 +91,7 @@ function PressureStrip({
   return (
     <section className="relative overflow-hidden border-b border-line bg-surface">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_0%_50%,rgba(43,140,255,0.08),transparent_45%)]" />
-      <div className="container relative grid gap-10 py-14 md:grid-cols-[1.1fr_0.9fr] md:gap-14 md:py-16">
+      <div className="container relative grid gap-10 py-10 md:grid-cols-[1.1fr_0.9fr] md:gap-14 md:py-12">
         <div>
           <Reveal direction="left">
             <p className="eyebrow mb-3">The operational gap</p>
@@ -152,35 +152,50 @@ function UseCasesSlider({
 }) {
   const reduce = useReducedMotion();
   const [index, setIndex] = useState(0);
-  const directionRef = useRef(1);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  const current = useCases[index] ?? useCases[0];
+  const Icon = useCaseIcons[index % useCaseIcons.length];
+  const hasVideo = Boolean(current.video);
 
   useEffect(() => {
     if (reduce || useCases.length <= 1) return;
     const timer = window.setInterval(() => {
-      directionRef.current = 1;
-      setIndex((current) => (current + 1) % useCases.length);
-    }, 5600);
+      setIndex((currentIndex) => (currentIndex + 1) % useCases.length);
+    }, hasVideo ? 8000 : 5600);
     return () => window.clearInterval(timer);
-  }, [reduce, useCases.length]);
+  }, [reduce, useCases.length, hasVideo, index]);
 
-  const current = useCases[index] ?? useCases[0];
-  const Icon = useCaseIcons[index % useCaseIcons.length];
-  const slideDir = directionRef.current;
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video || !current.video) return;
+    video.muted = true;
+    video.currentTime = 0;
+    const tryPlay = async () => {
+      try {
+        await video.play();
+      } catch {
+        // Autoplay may be blocked until user interaction.
+      }
+    };
+    if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
+      void tryPlay();
+    } else {
+      video.addEventListener("loadeddata", () => void tryPlay(), { once: true });
+    }
+  }, [current.video, index]);
 
   function goTo(next: number) {
     if (next === index) return;
-    if (index === 0 && next === useCases.length - 1) directionRef.current = -1;
-    else if (index === useCases.length - 1 && next === 0) directionRef.current = 1;
-    else directionRef.current = next > index ? 1 : -1;
     setIndex(next);
   }
 
   return (
-    <section className="relative overflow-hidden bg-bg py-16 md:py-24">
+    <section className="relative overflow-hidden bg-bg py-10 md:py-14">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_80%_10%,rgba(43,140,255,0.12),transparent_50%)]" />
       <div className="container relative">
         <Reveal direction="left">
-          <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
+          <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
             <div className="max-w-2xl">
               <p className="eyebrow mb-3">Key use cases</p>
               <h2 className="display text-3xl normal-case text-steel-gradient md:text-4xl">
@@ -208,78 +223,74 @@ function UseCasesSlider({
           </div>
         </Reveal>
 
-        <div className="grid gap-5 lg:grid-cols-[1.35fr_0.65fr]">
-          <Reveal direction="left" delay={0.05}>
-            <div className="relative min-h-[320px] overflow-hidden rounded-[28px] bg-[#0b1628] p-8 text-white shadow-[0_30px_80px_-40px_rgba(15,61,120,0.65)] md:min-h-[380px] md:p-11">
-              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_20%_0%,rgba(43,140,255,0.35),transparent_45%),radial-gradient(ellipse_at_100%_100%,rgba(48,227,255,0.18),transparent_40%)]" />
-              {!reduce ? (
-                <motion.div
-                  className="pointer-events-none absolute inset-x-0 h-px bg-gradient-to-r from-transparent via-cyan/60 to-transparent"
-                  animate={{ top: ["12%", "88%", "12%"] }}
-                  transition={{ duration: 7, ease: "linear", repeat: Infinity }}
-                />
-              ) : null}
-
-              <AnimatePresence mode="wait" custom={slideDir}>
-                <motion.div
-                  key={current.title}
-                  custom={slideDir}
-                  initial={
-                    reduce
-                      ? false
-                      : { opacity: 0, x: slideDir * 56 }
-                  }
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: slideDir * -44 }}
-                  transition={{ duration: 0.45, ease }}
-                  className="relative"
-                >
-                  <div className="flex items-center gap-3">
-                    <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/10 text-cyan backdrop-blur">
-                      <Icon size={22} />
-                    </span>
-                    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-cyan">
-                      Use case {String(index + 1).padStart(2, "0")} /{" "}
-                      {String(useCases.length).padStart(2, "0")}
-                    </p>
-                  </div>
-                  <h3 className="display mt-7 max-w-2xl text-[clamp(1.7rem,3.4vw,2.6rem)] normal-case leading-[1.1] text-white">
-                    {current.title}
-                  </h3>
-                  <p className="mt-5 max-w-2xl text-[15px] leading-relaxed text-white/70 md:text-base">
-                    {current.description}
-                  </p>
-                </motion.div>
-              </AnimatePresence>
-
-              <div className="absolute bottom-8 left-8 right-8 flex gap-2 md:left-11 md:right-11">
-                {useCases.map((item, i) => (
-                  <button
-                    key={item.title}
-                    type="button"
-                    aria-label={`Show ${item.title}`}
-                    onClick={() => goTo(i)}
-                    className={`h-1 rounded-full transition-all ${
-                      i === index ? "flex-[2] bg-cyan" : "flex-1 bg-white/20 hover:bg-white/40"
-                    }`}
+        <div className="grid items-stretch gap-5 lg:grid-cols-[1.35fr_0.65fr]">
+          <Reveal direction="left" delay={0.05} className="h-full">
+            <div className="relative flex h-full min-h-[360px] flex-col overflow-hidden rounded-[28px] bg-[#0b1628] text-white shadow-[0_30px_80px_-40px_rgba(15,61,120,0.65)] md:min-h-[420px]">
+              {hasVideo && current.video ? (
+                <>
+                  <video
+                    key={current.video}
+                    ref={videoRef}
+                    src={current.video}
+                    className="absolute inset-0 h-full w-full object-cover brightness-[1.16] contrast-[1.05] saturate-[1.04]"
+                    muted
+                    loop
+                    playsInline
+                    autoPlay
+                    preload="auto"
+                    aria-hidden
                   />
-                ))}
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#07111f]/75 via-[#07111f]/15 to-transparent" />
+                </>
+              ) : (
+                <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_20%_0%,rgba(43,140,255,0.35),transparent_45%),radial-gradient(ellipse_at_100%_100%,rgba(48,227,255,0.18),transparent_40%)]" />
+              )}
+
+              <div className="relative z-10 flex flex-1 flex-col justify-end p-8 md:p-10">
+                <div className="flex items-center gap-3">
+                  <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-cyan backdrop-blur">
+                    <Icon size={20} />
+                  </span>
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-cyan">
+                    Use case {String(index + 1).padStart(2, "0")} /{" "}
+                    {String(useCases.length).padStart(2, "0")}
+                  </p>
+                </div>
+                <h3 className="display mt-4 max-w-2xl text-[clamp(1.45rem,2.8vw,2.1rem)] normal-case leading-[1.15] text-white">
+                  {current.title}
+                </h3>
+
+                <div className="mt-6 flex gap-2">
+                  {useCases.map((item, i) => (
+                    <button
+                      key={item.title}
+                      type="button"
+                      aria-label={`Show ${item.title}`}
+                      onClick={() => goTo(i)}
+                      className={`h-1 rounded-full transition-all ${
+                        i === index ? "flex-[2] bg-cyan" : "flex-1 bg-white/20 hover:bg-white/40"
+                      }`}
+                    />
+                  ))}
+                </div>
               </div>
             </div>
           </Reveal>
 
-          <Stagger className="flex flex-col gap-3" delay={0.07}>
-            {useCases.map((item, i) => {
-              const ItemIcon = useCaseIcons[i % useCaseIcons.length];
-              const active = i === index;
-              return (
-                <StaggerItem key={item.title} direction="right">
+          <Reveal direction="right" delay={0.08} className="h-full">
+            <div className="flex h-full min-h-[360px] flex-col gap-2.5 md:min-h-[420px]">
+              {useCases.map((item, i) => {
+                const ItemIcon = useCaseIcons[i % useCaseIcons.length];
+                const active = i === index;
+                return (
                   <button
+                    key={item.title}
                     type="button"
                     onClick={() => goTo(i)}
-                    className={`group flex w-full flex-1 items-start gap-3 rounded-[20px] border px-4 py-4 text-left transition ${
+                    aria-pressed={active}
+                    className={`group flex w-full flex-1 items-start gap-3 rounded-[18px] border px-4 py-3.5 text-left transition-colors ${
                       active
-                        ? "border-blue/35 bg-white shadow-[0_18px_40px_-28px_rgba(43,140,255,0.55)]"
+                        ? "border-blue/35 bg-white shadow-[0_14px_32px_-24px_rgba(43,140,255,0.55)]"
                         : "border-transparent bg-white/50 hover:border-line hover:bg-white"
                     }`}
                   >
@@ -290,19 +301,28 @@ function UseCasesSlider({
                     >
                       <ItemIcon size={16} />
                     </span>
-                    <span>
+                    <span className="min-w-0 flex-1">
                       <span className="block text-[11px] font-semibold uppercase tracking-[0.12em] text-caption">
                         {String(i + 1).padStart(2, "0")}
                       </span>
-                      <span className="mt-1 block font-display text-[15px] normal-case leading-snug text-text">
+                      <span
+                        className={`mt-1 block font-display text-[15px] normal-case leading-snug ${
+                          active ? "text-blue" : "text-text"
+                        }`}
+                      >
                         {item.title}
                       </span>
+                      {active ? (
+                        <span className="mt-2 block text-[13px] leading-relaxed text-muted-strong line-clamp-3">
+                          {item.description}
+                        </span>
+                      ) : null}
                     </span>
                   </button>
-                </StaggerItem>
-              );
-            })}
-          </Stagger>
+                );
+              })}
+            </div>
+          </Reveal>
         </div>
       </div>
     </section>
@@ -325,12 +345,12 @@ function ProcessSection({
   const reduce = useReducedMotion();
 
   return (
-    <section className="relative overflow-hidden bg-[#07111f] py-16 text-white md:py-24">
+    <section className="relative overflow-hidden bg-[#07111f] py-10 text-white md:py-14">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,rgba(43,140,255,0.22),transparent_50%)]" />
       <div className="pointer-events-none absolute inset-0 grid-texture opacity-25" />
       <div className="container relative">
         <Reveal direction="left">
-          <div className="mb-12 max-w-3xl">
+          <div className="mb-8 max-w-3xl">
             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-cyan">
               Process
             </p>
@@ -340,7 +360,7 @@ function ProcessSection({
           </div>
         </Reveal>
 
-        <div className="relative mb-12">
+        <div className="relative mb-8">
           <div className="pointer-events-none absolute left-0 right-0 top-8 hidden h-px bg-gradient-to-r from-transparent via-cyan/40 to-transparent md:block" />
           <div
             className={`grid gap-4 sm:grid-cols-2 ${
@@ -414,10 +434,10 @@ function StepsSection({
   const reduce = useReducedMotion();
 
   return (
-    <section className="relative overflow-hidden bg-surface py-16 md:py-24">
+    <section className="relative overflow-hidden bg-surface py-10 md:py-14">
       <div className="container relative">
         <Reveal direction="left">
-          <div className="mb-12 max-w-3xl">
+          <div className="mb-8 max-w-3xl">
             <p className="eyebrow mb-3">Adoption</p>
             <h2 className="display text-3xl normal-case text-steel-gradient md:text-4xl">
               {title}
@@ -472,11 +492,11 @@ function SolutionsSection({
   blurbs: Record<string, string>;
 }) {
   return (
-    <section className="relative overflow-hidden bg-bg py-16 md:py-24">
+    <section className="relative overflow-hidden bg-bg py-10 md:py-14">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_10%_0%,rgba(43,140,255,0.1),transparent_45%)]" />
       <div className="container relative">
         <Reveal direction="left">
-          <div className="mb-10 max-w-3xl">
+          <div className="mb-8 max-w-3xl">
             <p className="eyebrow mb-3">Recommended stack</p>
             <h2 className="display text-3xl normal-case text-steel-gradient md:text-4xl">
               OrionAlerts for {industryName}
@@ -539,9 +559,9 @@ function SolutionsSection({
 
 function RelatedIndustries({ related }: { related: Industry[] }) {
   return (
-    <Section className="bg-surface pt-10 md:pt-14">
+    <Section className="bg-surface !py-10 md:!py-14">
       <Reveal direction="left">
-        <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+        <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
           <div>
             <p className="eyebrow mb-3">Explore more</p>
             <h2 className="display text-3xl normal-case text-steel-gradient md:text-4xl">

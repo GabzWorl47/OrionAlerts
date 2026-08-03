@@ -7,12 +7,25 @@ import {
   ArrowLeft,
   ArrowRight,
   Check,
-  Linkedin,
   Link2,
   Share2,
 } from "lucide-react";
 import { Button } from "@/components/ui";
 import type { BlogPost } from "@/lib/blogs";
+
+function LinkedInIcon({ size = 15 }: { size?: number }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      width={size}
+      height={size}
+      className="fill-current"
+      aria-hidden
+    >
+      <path d="M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8.5h4V23h-4V8.5zM8.5 8.5h3.8v2h.05c.53-1 1.82-2.05 3.75-2.05 4.01 0 4.75 2.64 4.75 6.07V23h-4v-6.6c0-1.57-.03-3.59-2.19-3.59-2.19 0-2.53 1.71-2.53 3.48V23h-3.88V8.5z" />
+    </svg>
+  );
+}
 
 type BlogArticleProps = {
   post: BlogPost;
@@ -110,7 +123,7 @@ export function BlogArticle({ post, related }: BlogArticleProps) {
                 className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-line bg-white text-muted transition hover:border-blue/30 hover:text-blue"
                 aria-label="Share on LinkedIn"
               >
-                <Linkedin size={15} />
+                <LinkedInIcon size={15} />
               </a>
               <button
                 type="button"

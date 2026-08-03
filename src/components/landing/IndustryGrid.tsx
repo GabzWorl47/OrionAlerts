@@ -2,12 +2,49 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { ChevronRight } from "lucide-react";
 import { industries } from "@/lib/site";
 
 const ease = [0.22, 1, 0.36, 1] as const;
+
+const clusters = [
+  {
+    id: "all",
+    label: "All sectors",
+    slugs: null as string[] | null,
+  },
+  {
+    id: "industrial",
+    label: "Industrial & process",
+    slugs: [
+      "manufacturing",
+      "automotive",
+      "metals-mining",
+      "cement",
+      "oil-gas",
+      "pulp-paper",
+      "textile",
+      "polymers-plastics",
+    ],
+  },
+  {
+    id: "life-sciences",
+    label: "Life sciences & regulated",
+    slugs: ["pharma", "food-fmcg"],
+  },
+  {
+    id: "built",
+    label: "Logistics & built environment",
+    slugs: ["logistics", "commercial-infrastructure", "utilities"],
+  },
+  {
+    id: "education",
+    label: "Education & campuses",
+    slugs: ["schools"],
+  },
+] as const;
 
 function useColumnsPerRow() {
   const [cols, setCols] = useState(5);
@@ -28,76 +65,148 @@ function useColumnsPerRow() {
 
 export function IndustryGrid() {
   const reduce = useReducedMotion();
+  const [ready, setReady] = useState(false);
+  const [activeCluster, setActiveCluster] = useState<(typeof clusters)[number]["id"]>("all");
   const cols = useColumnsPerRow();
 
+  useEffect(() => setReady(true), []);
+
+  const animate = ready && !reduce;
+
+  const visible = useMemo(() => {
+    const cluster = clusters.find((item) => item.id === activeCluster) ?? clusters[0];
+    if (!cluster.slugs) return industries;
+    const allowed = new Set(cluster.slugs);
+    return industries.filter((industry) => allowed.has(industry.slug));
+  }, [activeCluster]);
+
   return (
-    <section className="relative overflow-hidden bg-bg py-10 md:py-14">
+    <section className="relative overflow-hidden bg-bg pb-10 pt-8 md:pb-14 md:pt-10">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-[28rem] bg-[radial-gradient(ellipse_at_50%_0%,rgba(43,140,255,0.14),transparent_55%),radial-gradient(ellipse_at_90%_20%,rgba(48,227,255,0.08),transparent_40%)]" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-[22rem] grid-texture opacity-50" />
+
       <div className="relative mx-auto w-[min(100%-1.5rem,90rem)]">
-        <motion.h2
-          className="display mx-auto max-w-3xl text-center text-[clamp(1.85rem,4vw,3rem)] normal-case tracking-[-0.03em] text-text"
-          initial={reduce ? false : { opacity: 0, y: 36, filter: "blur(8px)" }}
-          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.8, ease }}
-        >
-          Modern protection for any space.
-        </motion.h2>
+        <div className="mx-auto max-w-3xl text-center">
+          <motion.p
+            className="eyebrow"
+            initial={animate ? { opacity: 0, y: 16 } : false}
+            animate={{ opacity: 1, y: 0 }}
+            transition={animate ? { duration: 0.5, ease } : { duration: 0 }}
+          >
+            Industries
+          </motion.p>
+
+          <motion.h1
+            className="display mt-4 text-[clamp(1.9rem,4.2vw,3.15rem)] normal-case tracking-[-0.03em] text-steel-gradient"
+            initial={animate ? { opacity: 0, y: 28 } : false}
+            animate={{ opacity: 1, y: 0 }}
+            transition={animate ? { duration: 0.7, delay: 0.05, ease } : { duration: 0 }}
+          >
+            Modern protection for any space.
+          </motion.h1>
+
+          <motion.p
+            className="mx-auto mt-4 max-w-2xl text-[15px] leading-relaxed text-muted-strong md:text-base"
+            initial={animate ? { opacity: 0, y: 18 } : false}
+            animate={{ opacity: 1, y: 0 }}
+            transition={animate ? { duration: 0.55, delay: 0.12, ease } : { duration: 0 }}
+          >
+            AI video intelligence for plants, campuses, and critical sites — tailored to how each
+            sector actually operates, without replacing the cameras you already have.
+          </motion.p>
+
+          <motion.p
+            className="mt-3 text-sm font-medium text-muted"
+            initial={animate ? { opacity: 0 } : false}
+            animate={{ opacity: 1 }}
+            transition={animate ? { duration: 0.45, delay: 0.18 } : { duration: 0 }}
+          >
+            {industries.length} sectors · Existing cameras · One operating layer
+          </motion.p>
+        </div>
 
         <motion.div
-          className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 md:gap-5 lg:grid-cols-5"
+          className="mt-8 flex flex-wrap items-center justify-center gap-2"
+          initial={animate ? { opacity: 0, y: 12 } : false}
+          animate={{ opacity: 1, y: 0 }}
+          transition={animate ? { duration: 0.5, delay: 0.2, ease } : { duration: 0 }}
+        >
+          {clusters.map((cluster) => {
+            const active = activeCluster === cluster.id;
+            return (
+              <button
+                key={cluster.id}
+                type="button"
+                onClick={() => setActiveCluster(cluster.id)}
+                className={`rounded-full px-3.5 py-2 text-xs font-semibold transition sm:text-[13px] ${
+                  active
+                    ? "bg-[#0f172a] text-white shadow-[0_10px_28px_rgba(15,23,42,0.18)]"
+                    : "bg-white/80 text-muted-strong ring-1 ring-line hover:text-blue"
+                }`}
+              >
+                {cluster.label}
+              </button>
+            );
+          })}
+        </motion.div>
+
+        <motion.div
+          key={activeCluster}
+          className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 md:gap-5 lg:grid-cols-5"
           initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-40px" }}
+          animate="show"
           variants={{
             hidden: {},
             show: {
               transition: {
-                staggerChildren: reduce ? 0 : 0.06,
-                delayChildren: reduce ? 0 : 0.08,
+                staggerChildren: animate ? 0.05 : 0,
+                delayChildren: animate ? 0.04 : 0,
               },
             },
           }}
         >
-          {industries.map((industry, industryIndex) => {
+          {visible.map((industry, industryIndex) => {
             const label = industry.cardLabel ?? industry.name;
             const row = Math.floor(industryIndex / cols);
             const fromLeft = row % 2 === 0;
-            const slideX = fromLeft ? -40 : 40;
+            const slideX = fromLeft ? -36 : 36;
 
             return (
               <motion.div
                 key={industry.slug}
                 custom={{ slideX }}
                 variants={
-                  reduce
-                    ? undefined
-                    : {
+                  animate
+                    ? {
                         hidden: (custom: { slideX: number }) => ({
                           opacity: 0,
                           x: custom.slideX,
+                          y: 12,
                         }),
                         show: {
                           opacity: 1,
                           x: 0,
+                          y: 0,
                           transition: {
-                            duration: 0.85,
-                            ease: [0.22, 1, 0.36, 1],
+                            duration: 0.7,
+                            ease,
                           },
                         },
                       }
+                    : undefined
                 }
                 className="h-full"
               >
                 <motion.div
                   className="h-full"
                   whileHover={
-                    reduce
-                      ? undefined
-                      : {
+                    animate
+                      ? {
                           y: -8,
                           scale: 1.03,
                           transition: { type: "spring", stiffness: 420, damping: 24 },
                         }
+                      : undefined
                   }
                 >
                   <Link
@@ -113,10 +222,15 @@ export function IndustryGrid() {
                         sizes="(max-width: 640px) 45vw, (max-width: 1024px) 30vw, 18vw"
                         className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                       />
-                      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-black/15 to-transparent" />
-                      <span className="absolute bottom-3 left-3 right-3 font-display text-[0.95rem] font-semibold leading-snug text-white sm:text-[1.05rem] lg:text-[1.1rem]">
-                        {label}
-                      </span>
+                      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/65 via-black/15 to-transparent" />
+                      <div className="absolute inset-x-0 bottom-0 p-3">
+                        <span className="block font-display text-[0.95rem] font-semibold leading-snug text-white sm:text-[1.05rem] lg:text-[1.1rem]">
+                          {label}
+                        </span>
+                        <span className="mt-1 block text-[11px] text-white/70 opacity-0 transition group-hover:opacity-100 sm:text-xs">
+                          {industry.tagline}
+                        </span>
+                      </div>
                     </div>
 
                     <div className="mt-3 inline-flex w-full items-center justify-between rounded-full bg-white px-3.5 py-2.5 text-xs font-medium text-text transition duration-300 group-hover:bg-surface-2 sm:text-[13px]">
