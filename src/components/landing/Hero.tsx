@@ -1,120 +1,106 @@
 "use client";
 
-import { motion, useMotionValue, useReducedMotion, useSpring, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { motion, useReducedMotion } from "framer-motion";
+import { ChevronDown } from "lucide-react";
 import { MagneticButton } from "@/components/MagneticButton";
+
+const ease = [0.22, 1, 0.36, 1] as const;
 
 export function Hero() {
   const reduce = useReducedMotion();
-  const ref = useRef<HTMLElement>(null);
-  const mx = useMotionValue(0);
-  const my = useMotionValue(0);
-  const springX = useSpring(mx, { stiffness: 60, damping: 20 });
-  const springY = useSpring(my, { stiffness: 60, damping: 20 });
-  const layerX = useTransform(springX, (v) => v * -0.03);
-  const layerY = useTransform(springY, (v) => v * -0.03);
-
-  function onMove(e: React.MouseEvent) {
-    if (reduce || !ref.current) return;
-    const rect = ref.current.getBoundingClientRect();
-    mx.set(e.clientX - (rect.left + rect.width / 2));
-    my.set(e.clientY - (rect.top + rect.height / 2));
-  }
 
   return (
-    <section
-      ref={ref}
-      onMouseMove={onMove}
-      className="relative overflow-hidden pt-[var(--header-h)]"
-    >
+    <section className="relative overflow-hidden pt-[var(--header-h)]">
       <div className="absolute inset-0 bg-bg" />
-      <div className="absolute inset-0 grid-texture opacity-60" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,rgba(43,140,255,0.12),transparent_55%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_80%_70%,rgba(48,227,255,0.08),transparent_45%)]" />
+      <div className="absolute inset-0 grid-texture opacity-50" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,rgba(43,140,255,0.14),transparent_55%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_85%_75%,rgba(48,227,255,0.08),transparent_42%)]" />
 
-      <div className="container relative z-10 py-16 text-center md:py-20">
-        <motion.p
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="eyebrow"
-        >
-          Enterprise AI Surveillance
-        </motion.p>
-        <motion.h1
-          initial={{ opacity: 0, y: 28 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
-          className="display mx-auto mt-5 max-w-4xl text-[clamp(2.6rem,6.5vw,5rem)] uppercase text-steel-gradient"
-        >
-          Proactive physical security, powered by AI
-        </motion.h1>
-        <motion.p
-          initial={{ opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, delay: 0.18 }}
-          className="description mx-auto mt-6 max-w-2xl text-lg"
-        >
-          ORION Alerts turns video, AI analytics, and operational data into real-time decisions —
-          one platform for security and operations teams.
-        </motion.p>
+      <div className="container relative z-10 grid items-center gap-10 py-14 md:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] md:gap-12 md:py-20 lg:py-24">
+        <div className="max-w-xl">
+          <motion.h1
+            initial={reduce ? false : { opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.65, ease }}
+            className="display text-[clamp(2.35rem,5.5vw,4.25rem)] uppercase leading-[0.95] tracking-[-0.04em] text-steel-gradient"
+          >
+            Intelligent Alerts for Smarter, Safer Operations.
+          </motion.h1>
+
+          <motion.p
+            initial={reduce ? false : { opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, delay: 0.1, ease }}
+            className="mt-5 max-w-lg text-base leading-relaxed text-muted-strong md:text-lg"
+          >
+            Monitor sites in real time, detect exceptions earlier, and notify the right teams fast —
+            with Orion Alerts as the operational command layer.
+          </motion.p>
+
+          <motion.div
+            initial={reduce ? false : { opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2, ease }}
+            className="mt-8 flex flex-wrap items-center gap-3"
+          >
+            <MagneticButton href="/book-demo">Book a Demo</MagneticButton>
+            <MagneticButton href="/solutions" variant="outline">
+              Explore Solutions
+            </MagneticButton>
+          </motion.div>
+
+          <motion.a
+            href="#platform-videos"
+            initial={reduce ? false : { opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.45, delay: 0.35 }}
+            className="mt-10 inline-flex items-center gap-2 text-sm font-medium text-muted transition hover:text-blue"
+          >
+            See the platform in action
+            <ChevronDown size={16} className="animate-bounce" />
+          </motion.a>
+        </div>
+
         <motion.div
-          initial={{ opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, delay: 0.28 }}
-          className="mt-8 flex flex-wrap items-center justify-center gap-3"
+          initial={reduce ? false : { opacity: 0, y: 28, scale: 0.98 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.75, delay: 0.14, ease }}
+          className="relative"
         >
-          <MagneticButton href="/book-demo">Book a Demo</MagneticButton>
-          <MagneticButton href="/#solutions" variant="outline">
-            Explore Solutions
-          </MagneticButton>
+          <div className="panel relative aspect-[16/10] overflow-hidden shadow-[0_24px_60px_rgba(15,23,42,0.14)]">
+            <div className="command-panel absolute inset-0" />
+            <div className="scanlines absolute inset-0 opacity-40" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_35%,rgba(43,140,255,0.28),transparent_40%),radial-gradient(circle_at_72%_62%,rgba(48,227,255,0.18),transparent_42%)]" />
+
+            {!reduce ? (
+              <motion.div
+                className="absolute inset-x-0 h-px bg-gradient-to-r from-transparent via-cyan to-transparent"
+                animate={{ top: ["12%", "86%", "12%"] }}
+                transition={{ duration: 5.5, ease: "linear", repeat: Infinity }}
+              />
+            ) : null}
+
+            <div className="absolute left-[14%] top-[24%] h-[36%] w-[22%] rounded-[4px] border-2 border-cyan/90">
+              <span className="absolute -top-6 left-0 whitespace-nowrap rounded bg-black/50 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-cyan">
+                Person Detected
+              </span>
+            </div>
+            <div className="absolute left-[48%] top-[42%] h-[24%] w-[28%] rounded-[4px] border-2 border-alert/90">
+              <span className="absolute -top-6 left-0 whitespace-nowrap rounded bg-black/50 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-alert">
+                Restricted Zone
+              </span>
+            </div>
+
+            <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between gap-3 text-[10px] uppercase tracking-[0.14em] text-white/70">
+              <span>ORION Ops · Dashboard preview</span>
+              <span className="inline-flex items-center gap-2 text-alert">
+                <span className="pulse-dot h-1.5 w-1.5 rounded-full bg-alert" />
+                Live
+              </span>
+            </div>
+          </div>
         </motion.div>
       </div>
-
-      <motion.div
-        initial={{ opacity: 0, y: 36, scale: 0.97 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.8, delay: 0.32, ease: [0.22, 1, 0.36, 1] }}
-        className="container relative z-10 pb-16 md:pb-20"
-        style={{ x: layerX, y: layerY }}
-      >
-        <div className="panel relative mx-auto aspect-[21/9] max-w-5xl overflow-hidden will-change-transform ai-glow">
-          <div className="command-panel absolute inset-0" />
-          <div className="absolute inset-0 opacity-40 mix-blend-screen bg-[radial-gradient(circle_at_30%_40%,rgba(124,58,237,0.35),transparent_35%),radial-gradient(circle_at_70%_60%,rgba(6,182,212,0.25),transparent_40%)]" />
-          <div className="scanlines absolute inset-0 opacity-45" />
-          {!reduce ? (
-            <motion.div
-              className="absolute inset-x-0 h-px bg-gradient-to-r from-transparent via-cyan to-transparent"
-              animate={{ top: ["10%", "90%", "10%"] }}
-              transition={{ duration: 5.5, ease: "linear", repeat: Infinity }}
-            />
-          ) : null}
-          <motion.div
-            className="absolute left-[18%] top-[28%] h-[38%] w-[18%] border border-cyan"
-            animate={{ opacity: [0.4, 1, 0.4] }}
-            transition={{ duration: 2.6, repeat: Infinity }}
-          >
-            <span className="absolute -top-5 left-0 text-[10px] font-semibold tracking-wide text-cyan">
-              Person Detected
-            </span>
-          </motion.div>
-          <motion.div
-            className="absolute left-[52%] top-[40%] h-[26%] w-[24%] border border-alert"
-            animate={{ opacity: [0.35, 1, 0.35] }}
-            transition={{ duration: 3.1, repeat: Infinity, delay: 0.4 }}
-          >
-            <span className="absolute -top-5 left-0 text-[10px] font-semibold tracking-wide text-alert">
-              Restricted Zone
-            </span>
-          </motion.div>
-          <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-[10px] uppercase tracking-[0.16em] text-white/60">
-            <span>ORION Ops · Command visual placeholder</span>
-            <span className="flex items-center gap-2 text-alert">
-              <span className="pulse-dot h-1.5 w-1.5 rounded-full bg-alert" /> Live
-            </span>
-          </div>
-        </div>
-      </motion.div>
     </section>
   );
 }

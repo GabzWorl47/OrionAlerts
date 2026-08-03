@@ -30,18 +30,18 @@ function ResourceItem({
     <Link
       href={href}
       onClick={onClose}
-      className="group flex gap-3 rounded-[10px] px-2 py-2 transition hover:bg-surface-2/70"
+      className="group flex gap-3 rounded-[10px] px-2 py-2 transition hover:bg-white/8"
     >
       <Icon
         size={20}
         strokeWidth={1.75}
-        className="mt-0.5 shrink-0 text-muted-strong transition group-hover:text-blue"
+        className="mt-0.5 shrink-0 text-white/55 transition group-hover:text-cyan"
       />
       <div className="min-w-0">
-        <p className="text-[15px] font-semibold leading-snug text-text transition group-hover:text-blue">
+        <p className="text-[15px] font-semibold leading-snug text-white/90 transition group-hover:text-cyan">
           {label}
         </p>
-        <p className="mt-0.5 text-sm leading-snug text-muted">{description}</p>
+        <p className="mt-0.5 text-sm leading-snug text-white/45">{description}</p>
       </div>
     </Link>
   );
@@ -50,7 +50,7 @@ function ResourceItem({
 export function ResourcesMenu({ onClose }: ResourcesMenuProps) {
   return (
     <div className="px-2 py-5 xl:px-4">
-      <p className="px-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-caption">
+      <p className="px-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/40">
         Resources
       </p>
 

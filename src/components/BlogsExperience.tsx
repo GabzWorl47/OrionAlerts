@@ -210,7 +210,7 @@ export function BlogsExperience() {
             <div className="flex flex-wrap gap-3">
               <Link
                 href="/book-demo"
-                className="inline-flex items-center justify-center rounded-[10px] bg-cyan px-5 py-3 text-sm font-semibold text-[#0c2238] transition hover:bg-white"
+                className="inline-flex items-center justify-center rounded-[8px] border border-cyan/40 bg-cyan px-5 py-3 text-sm font-semibold text-[#0c2238] shadow-[0_0_24px_rgba(48,227,255,0.28)] transition-colors hover:bg-white"
               >
                 Request a Demo
               </Link>

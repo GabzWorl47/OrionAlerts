@@ -12,6 +12,7 @@ import { ChevronDown, Menu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { solutions, industries, resourceNavItems } from "@/lib/site";
+import { PLATFORM_OVERVIEW_ID } from "@/lib/mega-menu";
 import { SolutionsMegaMenu } from "@/components/SolutionsMegaMenu";
 import { IndustriesMegaMenu } from "@/components/IndustriesMegaMenu";
 import { ResourcesMenu } from "@/components/ResourcesMenu";
@@ -51,7 +52,7 @@ export function Header() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [openMega, setOpenMega] = useState<MegaKey | null>(null);
-  const [activeMegaId, setActiveMegaId] = useState(solutions[0]?.slug ?? "vms");
+  const [activeMegaId, setActiveMegaId] = useState(PLATFORM_OVERVIEW_ID);
   const [mobileProductsOpen, setMobileProductsOpen] = useState(false);
   const [mobileIndustriesOpen, setMobileIndustriesOpen] = useState(false);
   const [mobileResourcesOpen, setMobileResourcesOpen] = useState(false);
@@ -107,7 +108,7 @@ export function Header() {
                     )} m-0 cursor-pointer border-0 bg-transparent text-[inherit]`}
                     aria-expanded={openMega === "solutions"}
                     onMouseEnter={() => {
-                      setActiveMegaId(solutions[0]?.slug ?? "vms");
+                      setActiveMegaId(PLATFORM_OVERVIEW_ID);
                       setOpenMega("solutions");
                     }}
                     onClick={() =>
@@ -170,14 +171,8 @@ export function Header() {
 
         <div className="ml-auto hidden items-center gap-5 lg:flex">
           <Link
-            href="/contact"
-            className="nav-link rounded-[12px] px-3 py-2 text-sm font-medium"
-          >
-            Log in
-          </Link>
-          <Link
             href="/book-demo"
-            className="inline-flex items-center justify-center rounded-[8px] border border-cyan/40 bg-cyan px-4 py-2.5 text-sm font-semibold text-[#0c2238] shadow-[0_0_24px_rgba(48,227,255,0.28)] transition-colors hover:bg-white"
+            className="inline-flex items-center justify-center rounded-[8px] border border-cyan/40 bg-cyan px-4 py-2.5 text-sm font-semibold !text-[#0c2238] shadow-[0_0_24px_rgba(48,227,255,0.28)] transition-colors hover:bg-white hover:!text-[#0c2238]"
           >
             Book a Demo
           </Link>
@@ -201,17 +196,16 @@ export function Header() {
             initial={
               reduce
                 ? false
-                : { opacity: 0, y: -18, clipPath: "inset(0 0 100% 0)" }
+                : { opacity: 0, y: -18 }
             }
-            animate={{ opacity: 1, y: 0, clipPath: "inset(0 0 0% 0)" }}
-            exit={{ opacity: 0, y: -12, clipPath: "inset(0 0 100% 0)" }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -12 }}
             transition={{
               duration: 0.42,
               ease: menuEase,
               opacity: { duration: 0.3, ease: menuEase },
-              clipPath: { duration: 0.42, ease: menuEase },
             }}
-            className="absolute inset-x-0 top-full hidden origin-top border-b border-line bg-white shadow-[0_20px_50px_rgba(15,23,42,0.08)] lg:block"
+            className="absolute inset-x-0 top-full hidden origin-top overflow-visible border-b border-white/10 bg-[#0f1c2e] shadow-[0_28px_70px_rgba(0,0,0,0.4)] lg:block"
             onMouseEnter={() => setOpenMega(openMega)}
           >
             <div className="container py-2">
@@ -401,15 +395,8 @@ export function Header() {
 
             <div className="border-t border-line px-4 py-5">
               <Link
-                href="/contact"
-                className="block py-2 text-center text-sm font-medium text-muted-strong"
-                onClick={() => setOpen(false)}
-              >
-                Log in
-              </Link>
-              <Link
                 href="/book-demo"
-                className="mt-2 flex w-full items-center justify-center rounded-[8px] border border-blue bg-blue py-3 text-sm font-semibold text-white shadow-[0_0_28px_rgba(43,140,255,0.35)] transition-colors hover:bg-[#1f7aef]"
+                className="flex w-full items-center justify-center rounded-[8px] border border-cyan/40 bg-cyan py-3 text-sm font-semibold !text-[#0c2238] shadow-[0_0_24px_rgba(48,227,255,0.28)] transition-colors hover:bg-white hover:!text-[#0c2238]"
                 onClick={() => setOpen(false)}
               >
                 Book a Demo

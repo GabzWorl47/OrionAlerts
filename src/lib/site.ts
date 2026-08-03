@@ -12,6 +12,9 @@ export type Solution = {
   slug: string;
   name: string;
   shortName: string;
+  image: string;
+  tagline: string;
+  headline: string;
   summary: string;
   overview: string;
   introVideo?: string;
@@ -28,6 +31,10 @@ export const solutions: Solution[] = [
     slug: "vms",
     name: "Video Management System (VMS)",
     shortName: "VMS",
+    image: "/Images/VMS.jpeg",
+    tagline: "Live monitoring & control",
+    headline:
+      "Unify cameras, sites, and operators in one enterprise VMS for live monitoring, playback, and control.",
     introVideo: "/Videos/VMS.mp4",
     summary:
       "Unify your surveillance operations with an enterprise-grade platform designed for seamless visibility and control. Orion Alerts enables security teams to collaborate more effectively, improve operational efficiency, and manage surveillance ecosystems with greater confidence.",
@@ -79,6 +86,11 @@ export const solutions: Solution[] = [
     slug: "ai-analytics",
     name: "AI Vision & Real-Time Alerts",
     shortName: "AI Vision",
+    image: "/visuals/solutions/ai-vision.png",
+    tagline: "Intelligent video analytics",
+    headline:
+      "Turn live video into real-time AI alerts for safety, intrusion, PPE, and operational events.",
+    introVideo: "/Videos/video/AI_video_analytics_real-time_alerts_202607281709.mp4",
     summary:
       "Empower your organization with intelligent visual insights that enhance security, improve operational awareness, and support faster decision-making. Orion Alerts helps businesses move beyond traditional surveillance by turning video into meaningful actions and measurable outcomes.",
     overview:
@@ -129,6 +141,11 @@ export const solutions: Solution[] = [
     slug: "smart-search",
     name: "Smart Search",
     shortName: "Smart Search",
+    image: "/visuals/solutions/smart-search.png",
+    tagline: "Faster investigations",
+    headline:
+      "Find the right clip across sites in seconds with natural-language and filter-based search.",
+    introVideo: "/Videos/video/Smart%20search.mp4",
     summary:
       "Instantly retrieve relevant clips, events, and alerts — without manually reviewing hours of footage.\n\nQuery events like \"Show all crowding incidents at Gate 1\" and get relevant clips and alerts in seconds — faster investigations with less storage dependency.",
     overview:
@@ -179,30 +196,58 @@ export const solutions: Solution[] = [
     slug: "asset-tracking",
     name: "Asset Tracking",
     shortName: "Asset Tracking",
+    image: "/visuals/solutions/asset-tracking.png",
+    tagline: "Inventory & lifecycle visibility",
+    headline:
+      "Track surveillance and IT assets across locations with clear ownership and lifecycle visibility.",
+    introVideo: "/Videos/video/Asset%20tracking.mp4",
     summary:
       "Gain complete visibility and control over your organization's assets through a centralized platform. Track asset inventory, location, ownership, warranty, lifecycle, and movement in real time to improve utilization, simplify audits, and support informed business decisions.",
     overview:
-      "Gain complete visibility and control over your organization's assets through a centralized platform. Track asset inventory, location, ownership, warranty, lifecycle, and movement in real time to improve utilization, simplify audits, and support informed business decisions.",
+      "Orion Alerts Asset Tracking provides a centralized platform to manage and monitor your organization's physical assets throughout their entire lifecycle. From procurement and deployment to transfer, maintenance, and retirement, every asset is digitally tracked with complete ownership, warranty, location, and utilization visibility. This eliminates manual spreadsheets, improves accountability, reduces asset loss, and enables smarter operational planning.",
     features: [
       {
         title: "Centralized Asset Inventory",
         description: "Maintain a single inventory of organizational assets with clear operational context.",
       },
       {
-        title: "Lifecycle & Warranty Management",
-        description: "Track asset lifecycle stages and warranty coverage in one place.",
+        title: "Asset Lifecycle Management",
+        description: "Track assets from procurement and deployment through transfer, maintenance, and retirement.",
       },
       {
-        title: "Asset Location & Ownership Tracking",
-        description: "Know where assets are and who owns them to improve utilization and accountability.",
+        title: "QR/Barcode & Serial Number Tracking",
+        description: "Identify and look up assets quickly with QR, barcode, and serial number support.",
       },
       {
-        title: "Asset Transfer History",
-        description: "Follow asset movement and transfers with a clear historical record.",
+        title: "Location & Department Mapping",
+        description: "Map assets to sites, locations, and departments for clear operational visibility.",
       },
       {
-        title: "Reports & Audit Trail",
-        description: "Simplify audits with reports and a reliable trail of asset activity.",
+        title: "Asset Assignment & Ownership",
+        description: "Assign ownership and accountability so every asset has a clear responsible party.",
+      },
+      {
+        title: "Transfer & Movement History",
+        description: "Follow asset transfers and movement with a complete historical record.",
+      },
+      {
+        title: "Warranty & Documentation Management",
+        description: "Keep warranty coverage and supporting documents attached to each asset.",
+      },
+      {
+        title: "Audit Trail & Compliance Reports",
+        description:
+          "Generate a complete audit trail of ownership, transfers, and document access with compliance-ready reports for regulated reviews.",
+      },
+      {
+        title: "Utilization & Performance Reports",
+        description:
+          "Measure utilization and performance across assets to cut idle inventory and guide smarter procurement and deployment decisions.",
+      },
+      {
+        title: "Dashboard & Analytics",
+        description:
+          "Track estate health, warranty risk, movement, and KPIs from a centralized asset analytics dashboard.",
       },
     ],
     architecture: [
@@ -212,10 +257,12 @@ export const solutions: Solution[] = [
       "Maps, alerts & ERP sync",
     ],
     workflow: [
-      "Register assets and attach tags",
-      "Map sites and geofences",
-      "Monitor movement and exceptions",
-      "Reconcile with ops systems",
+      "Asset Procurement",
+      "Asset Registration",
+      "Location & Ownership Mapping",
+      "Transfer / Movement Tracking",
+      "Lifecycle & Warranty Monitoring",
+      "Dashboard • Reports • Analytics",
     ],
     benefits: [
       "Reduce loss and search time",
@@ -229,13 +276,18 @@ export const solutions: Solution[] = [
     slug: "amc-management",
     name: "AMC Management",
     shortName: "AMC Management",
+    image: "/visuals/solutions/amc-management.png",
+    tagline: "Maintenance & warranties",
+    headline:
+      "Keep AMC, warranties, vendors, and preventive maintenance on schedule from one workspace.",
+    introVideo: "/Videos/video/AMC_Management_video_202607281648.mp4",
     summary:
       "Streamline maintenance operations with intelligent AMC and warranty management. Automate preventive maintenance, monitor service requests, track vendor performance, and manage SLA compliance to maximize asset uptime and reduce maintenance costs.",
     overview:
-      "Streamline maintenance operations with intelligent AMC and warranty management. Automate preventive maintenance, monitor service requests, track vendor performance, and manage SLA compliance to maximize asset uptime and reduce maintenance costs.",
+      "Orion Alerts AMC Management digitizes maintenance operations by automating preventive maintenance schedules, warranty tracking, service requests, vendor management, and SLA monitoring. The platform helps organizations reduce equipment downtime, extend asset life, improve vendor accountability, and ensure maintenance activities are completed on time.",
     features: [
       {
-        title: "AMC & Warranty Tracking",
+        title: "AMC & Warranty Management",
         description: "Manage AMC and warranty coverage alongside the assets they protect.",
       },
       {
@@ -247,25 +299,49 @@ export const solutions: Solution[] = [
         description: "Monitor service requests from intake through resolution.",
       },
       {
-        title: "Vendor & SLA Management",
-        description: "Track vendor performance and SLA compliance across maintenance operations.",
+        title: "Vendor Performance Monitoring",
+        description: "Track vendor performance across maintenance jobs and service visits.",
       },
       {
-        title: "Renewal Alerts & Performance Reports",
-        description: "Stay ahead of renewals and review maintenance performance with clear reports.",
+        title: "SLA Compliance Tracking",
+        description: "Monitor SLA commitments and catch breaches before they escalate.",
+      },
+      {
+        title: "Renewal Alerts & Notifications",
+        description: "Stay ahead of contract and warranty renewals with timely alerts.",
+      },
+      {
+        title: "Maintenance History",
+        description: "Keep a complete history of maintenance activity on every asset.",
+      },
+      {
+        title: "Work Order Management",
+        description: "Create, assign, and close work orders from one maintenance workspace.",
+      },
+      {
+        title: "Dashboard & Maintenance Reports",
+        description: "Review estate maintenance health and performance from clear reports.",
+      },
+      {
+        title: "Automated Reminders",
+        description: "Trigger reminders for upcoming maintenance, renewals, and open tickets.",
       },
     ],
     architecture: [
-      "Asset & contract registry",
-      "Scheduling engine",
-      "Partner / technician portal",
-      "SLA & reporting layer",
+      "Asset Added",
+      "AMC/Warranty Assigned",
+      "Preventive Maintenance Scheduled",
+      "Service Requests Managed",
+      "Vendor & SLA Tracking",
+      "Performance Reports",
     ],
     workflow: [
-      "Import assets and active AMCs",
-      "Define SLA and preventive plans",
-      "Dispatch tickets to partners",
-      "Review performance and renewals",
+      "Asset Added",
+      "AMC/Warranty Assigned",
+      "Preventive Maintenance Scheduled",
+      "Service Requests Managed",
+      "Vendor & SLA Tracking",
+      "Performance Reports",
     ],
     benefits: [
       "Fewer prolonged camera outages",
@@ -279,6 +355,13 @@ export const solutions: Solution[] = [
     slug: "health-monitoring",
     name: "Health Monitoring",
     shortName: "Health Monitoring",
+    image:
+      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=80",
+    tagline: "Infrastructure uptime",
+    headline:
+      "Spot camera, NVR, storage, and network issues before they create operational blind spots.",
+    introVideo:
+      "/Videos/video/Health_monitoring_security_infra._202607281649%20(1).mp4",
     summary:
       "Maintain complete confidence in your surveillance ecosystem with intelligent infrastructure oversight. Orion Alerts provides continuous operational visibility, helping organizations improve system reliability, streamline maintenance efforts, and ensure business-critical security systems are always performing at their best.",
     overview:

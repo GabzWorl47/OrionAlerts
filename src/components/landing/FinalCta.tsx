@@ -5,29 +5,37 @@ import { MagneticButton } from "@/components/MagneticButton";
 
 export function FinalCta() {
   return (
-    <section className="relative overflow-hidden py-24 md:py-32">
-      <div className="absolute inset-0 grid-texture opacity-50" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_70%,rgba(43,140,255,0.28),transparent_45%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_100%,rgba(48,227,255,0.12),transparent_40%)]" />
+    <section
+      id="final-cta"
+      aria-labelledby="final-cta-heading"
+      className="relative overflow-hidden py-20 md:py-28"
+    >
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,#0c2238_0%,#102a44_55%,#0c2238_100%)]" />
+      <div className="absolute inset-0 grid-texture opacity-30" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_80%,rgba(48,227,255,0.18),transparent_45%)]" />
 
       <div className="container relative text-center">
         <motion.h2
+          id="final-cta-heading"
           initial={{ opacity: 0, y: 22 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="display mx-auto max-w-4xl text-[clamp(2.3rem,5.5vw,5rem)] uppercase text-blue-gradient"
+          className="display mx-auto max-w-4xl text-[clamp(2rem,5vw,3.6rem)] uppercase text-white"
         >
-          See What Your
-          <br />
-          Operations Are Missing.
+          Ready to Make Your Operations Smarter and Safer?
         </motion.h2>
-        <p className="mx-auto mt-5 max-w-xl text-muted">
-          Turn every camera, event, and alert into a confident decision.
+        <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-white/70 md:text-lg">
+          Discover how Orion AI can transform traditional monitoring into an intelligent, proactive,
+          and automated operation.
         </p>
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-          <MagneticButton href="/book-demo">Book Your Demo</MagneticButton>
-          <MagneticButton href="/contact" variant="outline">
-            Talk to Our Team
+        <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
+          <MagneticButton href="/book-demo">Book a Demo</MagneticButton>
+          <MagneticButton
+            href="/contact"
+            variant="outline"
+            className="!border-white/30 !text-white hover:!border-cyan hover:!text-cyan"
+          >
+            Talk to Our Expert
           </MagneticButton>
         </div>
       </div>

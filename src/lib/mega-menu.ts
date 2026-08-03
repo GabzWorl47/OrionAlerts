@@ -1,12 +1,14 @@
-import { Activity, Cpu, LayoutGrid, Search, Shield, Video } from "lucide-react";
+import { Activity, Cpu, LayoutGrid, Search, Shield, Video, Wrench, type LucideIcon } from "lucide-react";
 import type { Solution } from "@/lib/site";
-import { solutions } from "@/lib/site";
+import { solutions, site } from "@/lib/site";
+
+export const PLATFORM_OVERVIEW_ID = "overview";
 
 export type MegaMenuItem = {
   id: string;
   label: string;
   href: string;
-  solution: Solution;
+  solution?: Solution;
 };
 
 export const megaMenuProducts: MegaMenuItem[] = solutions.map((solution) => ({
@@ -16,23 +18,133 @@ export const megaMenuProducts: MegaMenuItem[] = solutions.map((solution) => ({
   solution,
 }));
 
+export const megaMenuNavItems: MegaMenuItem[] = [
+  {
+    id: PLATFORM_OVERVIEW_ID,
+    label: "Overview",
+    href: "/solutions",
+  },
+  ...megaMenuProducts,
+];
+
 export function getMegaMenuItem(id: string) {
-  return megaMenuProducts.find((item) => item.id === id) ?? megaMenuProducts[0];
+  return megaMenuNavItems.find((item) => item.id === id) ?? megaMenuNavItems[0];
 }
 
 type FeatureCard = {
   label: string;
+  description: string;
+  preview: string;
   href: string;
-  icon: typeof Video;
+  icon: LucideIcon;
+};
+
+/** Short labels that fit mega-menu cards without truncation. */
+const featureShortLabels: Record<string, string[]> = {
+  vms: [
+    "Live Monitoring",
+    "Multi-Site Ops",
+    "Video Search",
+    "Access Control",
+    "Open Integration",
+  ],
+  "ai-analytics": [
+    "AI Analytics",
+    "Smart Alerts",
+    "Safety Monitoring",
+    "Occupancy Insights",
+    "Custom Rules",
+  ],
+  "smart-search": [
+    "Natural Search",
+    "Cross-Site Search",
+    "Ranked Results",
+    "Smart Filters",
+    "Faster Review",
+  ],
+  "asset-tracking": [
+    "Asset Inventory",
+    "Lifecycle Tracking",
+    "Location & Ownership",
+    "Transfer History",
+    "Audit Reports",
+  ],
+  "amc-management": [
+    "AMC & Warranty",
+    "Preventive Plans",
+    "Service Requests",
+    "Vendor Performance",
+    "SLA Tracking",
+  ],
+  "health-monitoring": [
+    "Device Health",
+    "Camera & NVR Status",
+    "Recording Health",
+    "Network Status",
+    "Instant Alerts",
+  ],
+};
+
+const overviewLeads: Record<string, string> = {
+  [PLATFORM_OVERVIEW_ID]:
+    "One integrated platform for VMS, AI vision, smart search, assets, AMC, and health monitoring — so security and operations run from a single command layer.",
+  vms: "Unify cameras, sites, and operators in one enterprise VMS for live monitoring, playback, and control.",
+  "ai-analytics":
+    "Turn live video into real-time AI alerts for safety, intrusion, PPE, and operational events.",
+  "smart-search":
+    "Find the right clip across sites in seconds with natural-language and filter-based search.",
+  "asset-tracking":
+    "Track surveillance and IT assets across locations with clear ownership and lifecycle visibility.",
+  "amc-management":
+    "Keep AMC, warranties, vendors, and preventive maintenance on schedule from one workspace.",
+  "health-monitoring":
+    "Spot camera, NVR, storage, and network issues before they create operational blind spots.",
+};
+
+const solutionIcons: Record<string, LucideIcon> = {
+  vms: Video,
+  "ai-analytics": Cpu,
+  "smart-search": Search,
+  "asset-tracking": Shield,
+  "amc-management": Wrench,
+  "health-monitoring": Activity,
+};
+
+const platformFeatureCards: FeatureCard[] = solutions.map((solution) => {
+  const lead = overviewLeads[solution.slug] ?? solution.summary;
+  return {
+    label: solution.shortName,
+    description: lead,
+    preview: `${lead} Explore how ${solution.shortName} connects into the broader Orion Alerts platform for monitoring, alerts, search, and upkeep.`,
+    href: `/solutions/${solution.slug}`,
+    icon: solutionIcons[solution.slug] ?? LayoutGrid,
+  };
+});
+
+const solutionImages: Record<string, string> = {
+  [PLATFORM_OVERVIEW_ID]: "/visuals/platform-dashboard.svg",
+  ...Object.fromEntries(solutions.map((solution) => [solution.slug, solution.image])),
 };
 
 export function getFeatureCards(activeId: string): FeatureCard[] {
+  if (activeId === PLATFORM_OVERVIEW_ID) {
+    return platformFeatureCards;
+  }
+
   const item = getMegaMenuItem(activeId);
+  if (!item.solution) return platformFeatureCards;
+
   const icons = [Search, Cpu, Video, Shield, Activity, LayoutGrid];
+  const shorts = featureShortLabels[item.solution.slug];
+  const solutionName = item.solution.shortName;
 
   return item.solution.features.slice(0, 5).map((feature, index) => ({
-    label: feature.title.split(" & ")[0].split(" — ")[0].slice(0, 28),
-    href: `/solutions/${item.solution.slug}`,
+    label:
+      shorts?.[index] ??
+      feature.title.split(" & ")[0].split(" — ")[0].replace(/\s+with\s+.*/i, ""),
+    description: feature.description,
+    preview: `${feature.description} This ${solutionName} capability helps teams act faster with clearer context, less manual review, and smoother day-to-day operations.`,
+    href: `/solutions/${item.solution!.slug}`,
     icon: icons[index % icons.length],
   }));
 }
@@ -40,9 +152,19 @@ export function getFeatureCards(activeId: string): FeatureCard[] {
 export function getOverviewCopy(activeId: string) {
   const item = getMegaMenuItem(activeId);
 
+  if (activeId === PLATFORM_OVERVIEW_ID || !item.solution) {
+    return {
+      title: "Overview",
+      description: overviewLeads[PLATFORM_OVERVIEW_ID] ?? site.tagline,
+      href: "/solutions",
+      image: solutionImages[PLATFORM_OVERVIEW_ID],
+    };
+  }
+
   return {
-    title: "Overview",
-    description: item.solution.summary,
+    title: item.solution.shortName,
+    description: item.solution.headline,
     href: `/solutions/${item.solution.slug}`,
+    image: item.solution.image,
   };
 }

@@ -190,7 +190,6 @@ const extrasBySlug: Record<string, Extras> = {
       "smart-search": `Instantly locate incidents involving heavy equipment, material handling, worker safety, unauthorized access, or production interruptions using AI-powered event search, reducing investigation time and improving operational decision-making.`,
     },
   },
-<<<<<<< Updated upstream
   "cement": {
     headline: `Building Safer, More Efficient Cement Operations with AI-Powered Video Intelligence`,
     summary: `Cement and building material plants operate continuously under demanding conditions where production uptime, worker safety, heavy equipment coordination, and process consistency are essential for profitability. Dust-intensive environments, large production facilities, and high-risk operational zones make manual monitoring both difficult and inefficient. Orion Alerts enhances existing surveillance infrastructure with AI-powered operational intelligence, delivering real-time visibility, automated alerts, and centralized monitoring to improve safety, operational continuity, and plant performance.`,
@@ -242,112 +241,6 @@ const extrasBySlug: Record<string, Extras> = {
       "health-monitoring": `Continuously monitor the health of cameras, NVRs, servers, storage systems, and network infrastructure. Receive proactive alerts before surveillance failures impact operational visibility or plant security.`,
       "smart-search": `Instantly retrieve footage related to production interruptions, loading operations, safety violations, vehicle movement, or operational incidents using AI-powered natural language search, reducing investigation time and improving decision-making.`,
     },
-=======
-  cement: {
-    stats: [
-      {
-        value: "Efficiency",
-        label: "Catch process interruptions and bottlenecks before production targets slip",
-      },
-      {
-        value: "Availability",
-        label: "Reduce unplanned downtime with proactive surveillance health monitoring",
-      },
-      {
-        value: "Safety",
-        label: "AI-driven PPE, zone, vehicle, and hazard monitoring for high-risk plant areas",
-      },
-    ],
-    useCases: [
-      {
-        title: "Production process monitoring",
-        description:
-          "Continuously monitor crushers, raw mills, kilns, clinker handling, cement mills, and packing lines to identify abnormal operations, production interruptions, and process inefficiencies in real time.",
-        capability: "AI Vision + VMS",
-      },
-      {
-        title: "Material handling monitoring",
-        description:
-          "Track limestone, clinker, gypsum, fly ash, finished cement, and bulk materials across conveyors, storage yards, silos, and loading areas to improve visibility and reduce material losses.",
-        capability: "VMS + AI Analytics",
-      },
-      {
-        title: "Loading & dispatch monitoring",
-        description:
-          "Monitor truck loading bays, weighbridges, dispatch areas, and packaging operations to improve logistics visibility, reduce loading errors, and keep material movement smooth.",
-        capability: "VMS + Smart Search",
-      },
-      {
-        title: "PPE & restricted-zone safety",
-        description:
-          "Automatically verify helmets, jackets, shoes, gloves, and masks, and alert when unauthorized personnel enter hazardous locations such as kiln areas, crushers, clinker coolers, electrical rooms, or conveyor systems.",
-        capability: "AI Vision & Real-Time Alerts",
-      },
-      {
-        title: "Vehicle, hazard & worker safety",
-        description:
-          "Monitor dumpers, loaders, and forklifts for unsafe behaviour; detect smoke, fire, and abnormal heat early; and identify slips, trips, falls, and prolonged inactivity across production and maintenance areas.",
-        capability: "AI Analytics + Incident Management",
-      },
-      {
-        title: "Infrastructure health & AMC",
-        description:
-          "Continuously monitor cameras, NVRs, servers, storage, switches, and networks; maintain asset inventory and lifecycle records; and automate preventive maintenance, vendor SLAs, and warranty renewals.",
-        capability: "Health Monitoring + Asset Tracking + AMC",
-      },
-    ],
-    howItWorks: [
-      "Connect plant cameras across crushers, kilns, yards, packing lines, and dispatch, then define the zones, roles, and sites that matter.",
-      "Detect process interruptions, material anomalies, PPE gaps, restricted-zone entry, and infrastructure faults with AI-powered alerts.",
-      "Investigate faster with Smart Search, then keep systems healthy through asset tracking, health monitoring, and AMC workflows.",
-    ],
-    solutionBlurbs: {
-      vms: "Manage live monitoring, recordings, playback, users, and multiple plant locations from a centralized Video Management System with complete operational visibility.",
-      "ai-analytics":
-        "Deliver PPE compliance, restricted-zone alerts, vehicle monitoring, fire/smoke detection, and fall detection for high-risk cement environments.",
-      "smart-search":
-        "Quickly locate production events, equipment stoppages, vehicle movements, safety incidents, or operational anomalies using AI-powered natural language search.",
-      "asset-tracking":
-        "Maintain complete visibility of surveillance equipment and IT infrastructure with inventory, ownership, lifecycle, warranty, and location mapping.",
-      "amc-management":
-        "Automate preventive maintenance schedules, service requests, vendor coordination, SLA monitoring, warranty renewals, and maintenance history.",
-      "health-monitoring":
-        "Receive instant alerts for camera failures, recording issues, storage limits, and communication faults before plant visibility is compromised.",
-    },
-    quote: {
-      text: "Maintaining uninterrupted operations while ensuring worker safety, equipment reliability, and product consistency requires complete operational visibility — and that is exactly what Orion Alerts brings to the cement plant.",
-      attribution: "Orion Alerts for Cement & Building Materials",
-    },
-    faqs: [
-      {
-        question: "Can Orion Alerts work with our existing cement plant cameras?",
-        answer:
-          "Yes. Orion Alerts transforms existing surveillance infrastructure into an AI-powered operational intelligence platform — so you can gain production, safety, and infrastructure visibility without a rip-and-replace.",
-      },
-      {
-        question: "Which cement plant areas can we monitor?",
-        answer:
-          "Typical coverage spans crushers, raw mills, kilns, clinker handling, cement mills, packing lines, conveyors, storage yards, silos, loading bays, weighbridges, dispatch areas, and other high-risk production zones.",
-      },
-      {
-        question: "How does this improve dispatch and material movement?",
-        answer:
-          "Loading and dispatch monitoring improves visibility across truck bays, weighbridges, and packaging operations, helping reduce loading errors, material losses, and logistics delays.",
-      },
-      {
-        question: "How are safety and compliance events handled?",
-        answer:
-          "Critical PPE, restricted-zone, vehicle, fire/smoke, and fall events can notify security and operations teams through dashboards, mobile applications, and email, with complete incident records for investigation, compliance, and audit.",
-      },
-      {
-        question: "How do Health Monitoring and AMC reduce downtime?",
-        answer:
-          "Continuous health monitoring of cameras, NVRs, servers, storage, and networks — combined with automated AMC workflows — helps catch failures early, keep maintenance on schedule, and maximize plant availability.",
-      },
-    ],
-    contextNote:
-      "Improve operational efficiency with real-time production visibility, maximize plant availability through proactive health monitoring, and strengthen safety compliance across high-risk cement environments — while getting more value from the cameras you already have.",
->>>>>>> Stashed changes
   },
   "oil-gas": {
     headline: `Strengthening Industrial Safety & Operational Reliability with AI-Powered Video Intelligence`,
