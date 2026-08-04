@@ -2,9 +2,9 @@ export type BlogCategory = "Video Intelligence" | "Vision Intelligence" | "Opera
 
 export type BlogSection =
   | { type: "paragraph"; text: string }
-  | { type: "heading"; text: string }
+  | { type: "heading"; text: string; level?: 2 | 3 }
   | { type: "quote"; text: string }
-  | { type: "list"; items: string[] };
+  | { type: "list"; items: string[]; ordered?: boolean };
 
 export type BlogPost = {
   slug: string;
@@ -94,9 +94,18 @@ export function serializeTakeaways(takeaways: string[]) {
 export function serializeBlogBody(sections: BlogSection[]) {
   return sections
     .map((section) => {
-      if (section.type === "heading") return `## ${section.text}`;
+      if (section.type === "heading") {
+        const marks = section.level === 3 ? "###" : "##";
+        return `${marks} ${section.text}`;
+      }
       if (section.type === "quote") return `> ${section.text}`;
-      if (section.type === "list") return section.items.map((item) => `- ${item}`).join("\n");
+      if (section.type === "list") {
+        return section.items
+          .map((item, index) =>
+            section.ordered ? `${index + 1}. ${item}` : `- ${item}`,
+          )
+          .join("\n");
+      }
       return section.text;
     })
     .join("\n\n");
@@ -111,8 +120,20 @@ export function parseBlogBody(text: string): BlogSection[] {
     .filter(Boolean);
 
   return blocks.map((block): BlogSection => {
-    if (block.startsWith("## ")) {
-      return { type: "heading", text: block.replace(/^##\s+/, "").trim() };
+    if (/^###\s+\S/.test(block)) {
+      return {
+        type: "heading",
+        level: 3,
+        text: block.replace(/^###\s+/, "").trim(),
+      };
+    }
+
+    if (/^##\s+\S/.test(block) || /^#\s+\S/.test(block)) {
+      return {
+        type: "heading",
+        level: 2,
+        text: block.replace(/^#{1,2}\s+/, "").trim(),
+      };
     }
 
     if (block.startsWith(">")) {
@@ -132,6 +153,26 @@ export function parseBlogBody(text: string): BlogSection[] {
         type: "list",
         items: lines.map((line) => line.replace(/^[-*•]\s+/, "").trim()),
       };
+    }
+
+    if (lines.length > 0 && lines.every((line) => /^\d+[.)]\s+/.test(line))) {
+      return {
+        type: "list",
+        ordered: true,
+        items: lines.map((line) => line.replace(/^\d+[.)]\s+/, "").trim()),
+      };
+    }
+
+    // Short single-line title-like blocks without terminal punctuation → subheading
+    if (
+      lines.length === 1 &&
+      lines[0].length >= 18 &&
+      lines[0].length <= 70 &&
+      !/[.!?]$/.test(lines[0]) &&
+      !/[,;:]$/.test(lines[0]) &&
+      /^[A-Z0-9]/.test(lines[0])
+    ) {
+      return { type: "heading", level: 3, text: lines[0] };
     }
 
     return { type: "paragraph", text: lines.join(" ") };

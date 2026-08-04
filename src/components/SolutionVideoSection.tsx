@@ -487,6 +487,7 @@ export function SolutionVideoSection({
   const currentOutcome = outcomeItems[outcomeIndex] ?? outcomeItems[0];
   const activeOutcomeVideo = currentOutcome?.videoSrc ?? src;
   const OutcomeIcon = outcomeIcons[outcomeIndex % outcomeIcons.length];
+  const outcomeDurationMs = activeOutcomeVideo ? 8000 : 5600;
 
   useEffect(() => {
     if (reduce || !autoPlay || preview || steps.length < 2 || expanded) return;
@@ -500,11 +501,11 @@ export function SolutionVideoSection({
     if (!cinematicEntrance || reduce || outcomeItems.length <= 1) return;
     const timer = window.setInterval(() => {
       setOutcomeIndex((value) => (value + 1) % outcomeItems.length);
-    }, activeOutcomeVideo ? 8000 : 5600);
+    }, outcomeDurationMs);
     return () => window.clearInterval(timer);
   }, [
-    activeOutcomeVideo,
     cinematicEntrance,
+    outcomeDurationMs,
     outcomeIndex,
     outcomeItems.length,
     reduce,
@@ -810,12 +811,27 @@ export function SolutionVideoSection({
                       type="button"
                       aria-label={`Show ${item.title}`}
                       onClick={() => goToOutcome(i)}
-                      className={`h-1 rounded-full transition-all ${
+                      className={`relative h-1.5 overflow-hidden rounded-full transition-all ${
                         i === outcomeIndex
-                          ? "flex-[2] bg-cyan"
+                          ? "flex-[2.2] bg-white/20"
                           : "flex-1 bg-white/20 hover:bg-white/40"
                       }`}
-                    />
+                    >
+                      {i === outcomeIndex && !reduce ? (
+                        <motion.span
+                          key={`outcome-progress-${outcomeIndex}-${outcomeDurationMs}`}
+                          className="absolute inset-y-0 left-0 rounded-full bg-cyan"
+                          initial={{ width: "0%" }}
+                          animate={{ width: "100%" }}
+                          transition={{
+                            duration: outcomeDurationMs / 1000,
+                            ease: "linear",
+                          }}
+                        />
+                      ) : i === outcomeIndex ? (
+                        <span className="absolute inset-0 rounded-full bg-cyan" />
+                      ) : null}
+                    </button>
                   ))}
                 </div>
               </div>

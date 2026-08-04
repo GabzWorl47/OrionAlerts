@@ -153,14 +153,15 @@ function UseCasesSlider({
   const current = useCases[index] ?? useCases[0];
   const Icon = useCaseIcons[index % useCaseIcons.length];
   const hasVideo = Boolean(current.video);
+  const durationMs = hasVideo ? 8000 : 5600;
 
   useEffect(() => {
     if (reduce || useCases.length <= 1) return;
     const timer = window.setInterval(() => {
       setIndex((currentIndex) => (currentIndex + 1) % useCases.length);
-    }, hasVideo ? 8000 : 5600);
+    }, durationMs);
     return () => window.clearInterval(timer);
-  }, [reduce, useCases.length, hasVideo, index]);
+  }, [reduce, useCases.length, durationMs, index]);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -188,141 +189,152 @@ function UseCasesSlider({
 
   return (
     <section className="relative overflow-hidden bg-bg py-10 md:py-14">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_80%_10%,rgba(43,140,255,0.12),transparent_50%)]" />
       <div className="container relative">
-        <Reveal direction="left">
-          <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
-            <div className="max-w-2xl">
-              <p className="eyebrow mb-3">Key use cases</p>
-              <h2 className="text-[clamp(1.75rem,3.5vw,2.5rem)] font-semibold leading-[1.1] tracking-[-0.03em] text-text">
-                What teams actually run with OrionAlerts in {industryName}
-              </h2>
-            </div>
+        <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+          <div className="max-w-2xl">
+            <p className="eyebrow mb-3">Key use cases</p>
+            <h2 className="display text-3xl normal-case text-steel-gradient md:text-4xl">
+              What teams actually run with OrionAlerts in {industryName}
+            </h2>
+          </div>
+          {useCases.length > 1 ? (
             <div className="flex gap-2">
               <button
                 type="button"
                 aria-label="Previous use case"
                 onClick={() => goTo((index - 1 + useCases.length) % useCases.length)}
-                className="flex h-12 w-12 items-center justify-center rounded-full bg-white text-text shadow-[0_10px_28px_rgba(15,23,42,0.16)] transition hover:scale-105"
+                className="flex h-11 w-11 items-center justify-center rounded-full border border-line bg-white text-text transition hover:border-blue/40 hover:text-blue"
               >
-                <ArrowLeft size={18} strokeWidth={1.75} />
+                <ArrowLeft size={16} />
               </button>
               <button
                 type="button"
                 aria-label="Next use case"
                 onClick={() => goTo((index + 1) % useCases.length)}
-                className="flex h-12 w-12 items-center justify-center rounded-full bg-white text-text shadow-[0_10px_28px_rgba(15,23,42,0.16)] transition hover:scale-105"
+                className="flex h-11 w-11 items-center justify-center rounded-full border border-line bg-white text-text transition hover:border-blue/40 hover:text-blue"
               >
-                <ArrowRight size={18} strokeWidth={1.75} />
+                <ArrowRight size={16} />
               </button>
             </div>
-          </div>
-        </Reveal>
+          ) : null}
+        </div>
 
         <div className="grid items-stretch gap-5 lg:grid-cols-[1.35fr_0.65fr]">
-          <Reveal direction="left" delay={0.05} className="h-full">
-            <div className="relative flex h-full min-h-[360px] flex-col overflow-hidden rounded-[28px] bg-blue text-white md:min-h-[420px]">
-              <div className="flex items-start gap-3 px-7 pt-7 md:gap-4 md:px-9 md:pt-9">
-                <span className="mt-1 inline-flex shrink-0 text-cyan">
-                  <Icon size={22} strokeWidth={1.6} />
+          <div className="relative flex h-full min-h-[360px] flex-col overflow-hidden rounded-[28px] bg-[#0b1628] text-white shadow-[0_30px_80px_-40px_rgba(15,61,120,0.65)] md:min-h-[420px]">
+            {hasVideo && current.video ? (
+              <>
+                <video
+                  key={current.video}
+                  ref={videoRef}
+                  src={current.video}
+                  className="absolute inset-0 h-full w-full object-cover brightness-[1.16] contrast-[1.05] saturate-[1.04]"
+                  muted
+                  loop
+                  playsInline
+                  autoPlay
+                  preload="auto"
+                  aria-hidden
+                />
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#07111f]/75 via-[#07111f]/15 to-transparent" />
+              </>
+            ) : (
+              <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_20%_0%,rgba(43,140,255,0.35),transparent_45%),radial-gradient(ellipse_at_100%_100%,rgba(48,227,255,0.18),transparent_40%)]" />
+            )}
+
+            <div className="relative z-10 flex flex-1 flex-col justify-end p-8 md:p-10">
+              <div className="flex items-center gap-3">
+                <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-cyan backdrop-blur">
+                  <Icon size={20} />
                 </span>
-                <div className="min-w-0">
-                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-cyan">
-                    Use case {String(index + 1).padStart(2, "0")} /{" "}
-                    {String(useCases.length).padStart(2, "0")}
-                  </p>
-                  <h3 className="mt-2 font-display text-[clamp(1.35rem,2.4vw,1.85rem)] font-semibold leading-[1.2] tracking-[-0.02em] text-white">
-                    {current.title}
-                  </h3>
-                </div>
+                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-cyan">
+                  Use case {String(index + 1).padStart(2, "0")} /{" "}
+                  {String(useCases.length).padStart(2, "0")}
+                </p>
               </div>
+              <h3 className="display mt-4 max-w-2xl text-[clamp(1.45rem,2.8vw,2.1rem)] normal-case leading-[1.15] text-white">
+                {current.title}
+              </h3>
+              {current.description ? (
+                <p className="mt-3 max-w-xl text-sm leading-relaxed text-white/70">
+                  {current.description}
+                </p>
+              ) : null}
 
-              <div className="relative mx-5 mb-0 mt-6 flex-1 overflow-hidden rounded-t-[18px] bg-ink-deep md:mx-7 md:mt-8">
-                <div className="relative aspect-[16/10] w-full md:aspect-[16/9] md:min-h-[220px]">
-                  {hasVideo && current.video ? (
-                    <video
-                      key={current.video}
-                      ref={videoRef}
-                      src={current.video}
-                      className="absolute inset-0 h-full w-full object-cover object-top"
-                      muted
-                      loop
-                      playsInline
-                      autoPlay
-                      preload="auto"
-                      aria-hidden
-                    />
-                  ) : null}
-                </div>
-              </div>
-
-              <div className="flex gap-2 px-7 pb-7 pt-5 md:px-9 md:pb-8">
+              <div className="mt-6 flex gap-2">
                 {useCases.map((item, i) => (
                   <button
                     key={item.title}
                     type="button"
                     aria-label={`Show ${item.title}`}
                     onClick={() => goTo(i)}
-                    className={`h-1 rounded-full transition-all ${
+                    className={`relative h-1.5 overflow-hidden rounded-full transition-all ${
                       i === index
-                        ? "flex-[2] bg-cyan"
+                        ? "flex-[2.2] bg-white/20"
                         : "flex-1 bg-white/20 hover:bg-white/40"
                     }`}
-                  />
+                  >
+                    {i === index && !reduce ? (
+                      <motion.span
+                        key={`progress-${index}-${durationMs}`}
+                        className="absolute inset-y-0 left-0 rounded-full bg-cyan"
+                        initial={{ width: "0%" }}
+                        animate={{ width: "100%" }}
+                        transition={{ duration: durationMs / 1000, ease: "linear" }}
+                      />
+                    ) : i === index ? (
+                      <span className="absolute inset-0 rounded-full bg-cyan" />
+                    ) : null}
+                  </button>
                 ))}
               </div>
             </div>
-          </Reveal>
+          </div>
 
-          <Reveal direction="right" delay={0.08} className="h-full">
-            <div className="flex h-full min-h-[360px] flex-col gap-2.5 md:min-h-[420px]">
-              {useCases.map((item, i) => {
-                const ItemIcon = useCaseIcons[i % useCaseIcons.length];
-                const active = i === index;
-                return (
-                  <button
-                    key={item.title}
-                    type="button"
-                    onClick={() => goTo(i)}
-                    aria-pressed={active}
-                    className={`group flex w-full flex-1 items-start gap-3 rounded-[18px] px-4 py-3.5 text-left transition-colors ${
-                      active
-                        ? "bg-blue text-white shadow-[0_14px_32px_-20px_rgba(12,34,56,0.55)]"
-                        : "bg-white text-text hover:bg-white/80"
+          <div className="flex h-full min-h-[360px] flex-col gap-2.5 md:min-h-[420px]">
+            {useCases.map((item, i) => {
+              const ItemIcon = useCaseIcons[i % useCaseIcons.length];
+              const active = i === index;
+              return (
+                <button
+                  key={item.title}
+                  type="button"
+                  onClick={() => goTo(i)}
+                  aria-pressed={active}
+                  className={`group flex w-full flex-1 items-start gap-3 rounded-[18px] border px-4 py-3.5 text-left transition-colors ${
+                    active
+                      ? "border-blue/35 bg-white shadow-[0_14px_32px_-24px_rgba(43,140,255,0.55)]"
+                      : "border-transparent bg-white/50 hover:border-line hover:bg-white"
+                  }`}
+                >
+                  <span
+                    className={`mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl transition ${
+                      active ? "bg-blue text-white" : "bg-surface-2 text-blue"
                     }`}
                   >
+                    <ItemIcon size={16} />
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block text-[11px] font-semibold uppercase tracking-[0.12em] text-caption">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
                     <span
-                      className={`mt-0.5 inline-flex shrink-0 ${
-                        active ? "text-cyan" : "text-text/45"
+                      className={`mt-1 block font-display text-[15px] normal-case leading-snug ${
+                        active ? "text-blue" : "text-text"
                       }`}
                     >
-                      <ItemIcon size={18} strokeWidth={1.6} />
+                      {item.title}
                     </span>
-                    <span className="min-w-0 flex-1">
-                      <span
-                        className={`block text-[11px] font-semibold uppercase tracking-[0.12em] ${
-                          active ? "text-cyan/80" : "text-text/45"
-                        }`}
-                      >
-                        {String(i + 1).padStart(2, "0")}
+                    {active ? (
+                      <span className="mt-2 block text-[13px] leading-relaxed text-muted-strong line-clamp-3">
+                        {item.description}
                       </span>
-                      <span
-                        className={`mt-1 block font-display text-[15px] font-semibold normal-case leading-snug ${
-                          active ? "text-white" : "text-text"
-                        }`}
-                      >
-                        {item.title}
-                      </span>
-                      {active ? (
-                        <span className="mt-2 block text-[13px] leading-relaxed text-white/70 line-clamp-3">
-                          {item.description}
-                        </span>
-                      ) : null}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-          </Reveal>
+                    ) : null}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
     </section>

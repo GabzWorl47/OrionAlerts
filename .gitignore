@@ -40,3 +40,7 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 next.config.ts
+
+# admin-uploaded blog assets (keep folder)
+/public/uploads/blogs/*
+!/public/uploads/blogs/.gitkeep

@@ -25,12 +25,24 @@ import {
 } from "lucide-react";
 import {
   blogCategoryOptions,
+  estimateReadTime,
+  formatBlogDateLabel,
+  parseBlogBody,
+  parseTakeaways,
   serializeBlogBody,
   serializeTakeaways,
   slugifyTitle,
   type BlogCategory,
   type BlogPost,
 } from "@/lib/blogs";
+import {
+  htmlToImportMarkdown,
+  isDocumentFile,
+  isImageFile,
+  parseBlogDocument,
+} from "@/lib/blog-import";
+import { DropZone } from "@/components/admin/DropZone";
+import { BlogPreviewModal } from "@/components/admin/BlogPreviewModal";
 
 type Counts = {
   all: number;
@@ -105,6 +117,9 @@ export function AdminPanel({
   const [editorOpen, setEditorOpen] = useState(false);
   const [editingSlug, setEditingSlug] = useState<string | null>(null);
   const [form, setForm] = useState<FormState>(emptyForm);
+  const [importingDoc, setImportingDoc] = useState(false);
+  const [uploadingImage, setUploadingImage] = useState(false);
+  const [previewOpen, setPreviewOpen] = useState(false);
 
   const loadPosts = useCallback(async () => {
     setLoading(true);
@@ -174,6 +189,7 @@ export function AdminPanel({
     setEditingSlug(null);
     setForm(emptyForm());
     setEditorOpen(true);
+    setPreviewOpen(false);
     setActionMessage(null);
     setActionError(null);
   }
@@ -182,6 +198,7 @@ export function AdminPanel({
     setEditingSlug(post.slug);
     setForm(postToForm(post));
     setEditorOpen(true);
+    setPreviewOpen(false);
     setActionMessage(null);
     setActionError(null);
   }
@@ -190,6 +207,7 @@ export function AdminPanel({
     setEditorOpen(false);
     setEditingSlug(null);
     setForm(emptyForm());
+    setPreviewOpen(false);
   }
 
   function updateForm<K extends keyof FormState>(key: K, value: FormState[K]) {
@@ -203,6 +221,84 @@ export function AdminPanel({
       }
       return next;
     });
+  }
+
+  async function importDocumentFiles(files: FileList) {
+    const file = files[0];
+    if (!file) return;
+    if (!isDocumentFile(file)) {
+      setActionError("Use a .md, .txt, or .docx file.");
+      return;
+    }
+
+    setImportingDoc(true);
+    setActionError(null);
+    setActionMessage(null);
+
+    try {
+      let markdown = "";
+      const lower = file.name.toLowerCase();
+
+      if (lower.endsWith(".docx")) {
+        const arrayBuffer = await file.arrayBuffer();
+        const mammoth = await import("mammoth");
+        const result = await mammoth.convertToHtml({ arrayBuffer });
+        markdown = htmlToImportMarkdown(result.value);
+      } else {
+        markdown = await file.text();
+      }
+
+      const draft = parseBlogDocument(markdown, file.name);
+      setForm((current) => ({
+        ...current,
+        title: draft.title || current.title,
+        slug: current.slugTouched && current.slug ? current.slug : draft.slug,
+        excerpt: draft.excerpt || current.excerpt,
+        takeawaysText: draft.takeawaysText || current.takeawaysText,
+        body: draft.body || current.body,
+        slugTouched: current.slugTouched || Boolean(draft.slug),
+      }));
+      setActionMessage(`Imported “${file.name}”. Review fields before saving.`);
+    } catch (error) {
+      setActionError(
+        error instanceof Error ? error.message : "Could not import document.",
+      );
+    } finally {
+      setImportingDoc(false);
+    }
+  }
+
+  async function uploadCoverFiles(files: FileList) {
+    const file = files[0];
+    if (!file) return;
+    if (!isImageFile(file)) {
+      setActionError("Use a JPG, PNG, WEBP, or GIF image.");
+      return;
+    }
+
+    setUploadingImage(true);
+    setActionError(null);
+    setActionMessage(null);
+
+    try {
+      const body = new FormData();
+      body.append("file", file);
+      const response = await fetch("/api/admin/upload", {
+        method: "POST",
+        body,
+      });
+      const json = (await response.json()) as { url?: string; error?: string };
+      if (!response.ok || !json.url) {
+        setActionError(json.error || "Could not upload image.");
+        return;
+      }
+      updateForm("image", json.url);
+      setActionMessage("Cover image uploaded.");
+    } catch {
+      setActionError("Could not upload image.");
+    } finally {
+      setUploadingImage(false);
+    }
   }
 
   async function handleSave(event: FormEvent) {
@@ -295,6 +391,27 @@ export function AdminPanel({
     () => [...posts].sort((a, b) => (a.date < b.date ? 1 : -1)),
     [posts],
   );
+
+  const previewPost = useMemo((): BlogPost => {
+    const takeaways = parseTakeaways(form.takeawaysText);
+    const sections = parseBlogBody(form.body);
+    return {
+      slug: form.slug || slugifyTitle(form.title) || "preview",
+      title: form.title.trim() || "Untitled post",
+      excerpt: form.excerpt.trim(),
+      category: form.category,
+      date: form.date,
+      dateLabel: formatBlogDateLabel(form.date),
+      readTime: estimateReadTime(sections, takeaways),
+      author: form.author.trim() || "OrionAlerts Team",
+      authorRole: form.authorRole.trim() || "Editorial",
+      image: form.image.trim(),
+      takeaways,
+      sections,
+      published: form.published,
+      updatedAt: null,
+    };
+  }, [form]);
 
   if (!authConfigured) {
     return (
@@ -448,14 +565,24 @@ export function AdminPanel({
                 {editingSlug ? "Update article" : "Write a new article"}
               </h2>
             </div>
-            <button
-              type="button"
-              onClick={closeEditor}
-              className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-line text-muted transition hover:text-text"
-              aria-label="Close editor"
-            >
-              <X size={16} />
-            </button>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => setPreviewOpen(true)}
+                className="inline-flex items-center gap-1.5 rounded-full border border-line px-3.5 py-2 text-sm font-semibold text-muted-strong transition hover:border-blue/30 hover:text-blue"
+              >
+                <Eye size={15} />
+                Preview
+              </button>
+              <button
+                type="button"
+                onClick={closeEditor}
+                className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-line text-muted transition hover:text-text"
+                aria-label="Close editor"
+              >
+                <X size={16} />
+              </button>
+            </div>
           </div>
 
           <div className="mt-6 grid gap-4 md:grid-cols-2">
@@ -517,13 +644,40 @@ export function AdminPanel({
           </div>
 
           <div className="mt-4 space-y-4">
+            <DropZone
+              label="Import article document"
+              hint="Drop a .md, .txt, or .docx file to fill title, excerpt, takeaways, and body. You can edit everything after import."
+              accept=".md,.markdown,.txt,.docx,text/plain,text/markdown,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+              busy={importingDoc}
+              onFiles={importDocumentFiles}
+            />
+
+            <DropZone
+              label="Cover image"
+              hint="Drop a JPG, PNG, WEBP, or GIF (max 8MB), or paste an image URL below."
+              accept="image/png,image/jpeg,image/webp,image/gif,.png,.jpg,.jpeg,.webp,.gif"
+              busy={uploadingImage}
+              onFiles={uploadCoverFiles}
+            >
+              {form.image ? (
+                <div className="mt-3 overflow-hidden rounded-[12px] border border-line bg-white">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={form.image}
+                    alt="Cover preview"
+                    className="h-36 w-full object-cover"
+                  />
+                </div>
+              ) : null}
+            </DropZone>
+
             <Field label="Cover image URL">
               <input
                 required
                 value={form.image}
                 onChange={(e) => updateForm("image", e.target.value)}
                 className={inputClass}
-                placeholder="https://..."
+                placeholder="https://... or /uploads/blogs/..."
               />
             </Field>
             <Field label="Excerpt">
@@ -545,7 +699,7 @@ export function AdminPanel({
             </Field>
             <Field
               label="Article body"
-              hint="Use blank lines between blocks. Start a line with ## for a heading, > for a quote, or - for list items."
+              hint="Separate blocks with a blank line. Use ## for a main heading, ### for a subheading, > for a quote, - for bullets, or 1. 2. 3. for numbered points. You can also use **bold** and *italic*."
             >
               <textarea
                 required
@@ -579,6 +733,14 @@ export function AdminPanel({
             </button>
             <button
               type="button"
+              onClick={() => setPreviewOpen(true)}
+              className="inline-flex items-center gap-2 rounded-full border border-line px-5 py-2.5 text-sm font-semibold text-muted-strong transition hover:border-blue/30 hover:text-blue"
+            >
+              <Eye size={15} />
+              Preview post
+            </button>
+            <button
+              type="button"
               onClick={closeEditor}
               className="inline-flex items-center gap-2 rounded-full border border-line px-5 py-2.5 text-sm font-semibold text-muted-strong"
             >
@@ -586,6 +748,10 @@ export function AdminPanel({
             </button>
           </div>
         </form>
+      ) : null}
+
+      {previewOpen && editorOpen ? (
+        <BlogPreviewModal post={previewPost} onClose={() => setPreviewOpen(false)} />
       ) : null}
 
       <div className="rounded-[24px] border border-line bg-white p-6 shadow-[0_20px_50px_-36px_rgba(15,61,120,0.35)] md:p-8">

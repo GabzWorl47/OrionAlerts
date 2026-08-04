@@ -104,7 +104,7 @@ export function IndustryGrid() {
         <div className="container relative z-10 flex h-full flex-col pt-[var(--header-h)]">
           <div className="mt-auto max-w-2xl pb-10 pt-10 md:pb-12">
             <motion.p
-              className="font-display text-[clamp(1.05rem,2vw,1.35rem)] font-bold uppercase tracking-[0.14em] text-blue"
+              className="font-display text-[clamp(1.05rem,2vw,1.35rem)] font-bold uppercase tracking-[0.14em] text-white"
               initial={animate ? { opacity: 0, y: 12 } : false}
               animate={{ opacity: 1, y: 0 }}
               transition={animate ? { duration: 0.45, ease } : { duration: 0 }}
@@ -113,7 +113,7 @@ export function IndustryGrid() {
             </motion.p>
 
             <motion.h1
-              className="mt-2 font-display text-[clamp(1.65rem,3.4vw,2.5rem)] font-semibold normal-case leading-[1.1] tracking-[-0.03em] text-steel-gradient"
+              className="mt-2 font-display text-[clamp(1.65rem,3.4vw,2.5rem)] font-semibold normal-case leading-[1.1] tracking-[-0.03em] text-white"
               initial={animate ? { opacity: 0, y: 20 } : false}
               animate={{ opacity: 1, y: 0 }}
               transition={animate ? { duration: 0.55, delay: 0.05, ease } : { duration: 0 }}
