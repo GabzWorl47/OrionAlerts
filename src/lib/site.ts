@@ -558,6 +558,28 @@ export const industries: Industry[] = [
     relatedSolutions: ["vms", "ai-analytics", "asset-tracking", "health-monitoring"],
   },
   {
+    slug: "quick-commerce",
+    name: "Quick Commerce & Micro-Fulfillment",
+    cardLabel: "Quick Commerce",
+    image: "https://images.unsplash.com/photo-1553413077-190dd305871c?auto=format&fit=crop&w=900&q=80",
+    tagline: "Dark stores, MFCs & hyperlocal fulfillment",
+    summary:
+      "Quick commerce platforms depend on dense networks of micro-fulfillment centers—also known as dark stores—to deliver in minutes. Orion Alerts turns existing CCTV into an AI-powered operations platform that monitors picking floors, staging zones, and multi-outlet networks with instant alerts and actionable insights for speed, safety, and loss prevention.",
+    challenges: [
+      "Pick-and-pack SLAs measured in minutes under peak load",
+      "Shrinkage and unauthorized access in high-SKU dense layouts",
+      "Blind spots when cameras or NVRs go offline across hundreds of nodes",
+      "Slow investigation of disputes, damage, and process failures",
+    ],
+    outcomes: [
+      "Floor and pick-path visibility across dark store networks",
+      "Rider staging, entry, and high-value zone monitoring",
+      "Infrastructure health for cameras, NVRs, and networks",
+      "Smart search and instant alerts for critical events",
+    ],
+    relatedSolutions: ["ai-analytics", "vms", "health-monitoring", "asset-tracking"],
+  },
+  {
     slug: "logistics",
     name: "Logistics & Warehousing",
     cardLabel: "Logistics",

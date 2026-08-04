@@ -37,6 +37,11 @@ const clusters = [
     slugs: ["pharma", "food-fmcg"],
   },
   {
+    id: "retail",
+    label: "Quick commerce & retail",
+    slugs: ["quick-commerce"],
+  },
+  {
     id: "built",
     label: "Logistics & built environment",
     slugs: ["logistics", "commercial-infrastructure", "utilities"],

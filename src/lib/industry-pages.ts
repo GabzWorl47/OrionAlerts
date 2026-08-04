@@ -448,6 +448,58 @@ const extrasBySlug: Record<string, Extras> = {
       "health-monitoring": `Monitor cameras, NVRs, servers, storage, and network health with proactive alerts.`,
     },
   },
+  "quick-commerce": {
+    headline: `AI-Powered Visibility for Dark Stores & Micro-Fulfillment`,
+    summary: `Quick commerce depends on hyperlocal micro-fulfillment centers—commonly called dark stores—placed close to customers so orders can be picked, packed, and handed to riders in minutes. Orion Alerts transforms existing CCTV infrastructure into an AI-powered operational intelligence platform that continuously monitors fulfillment floors, staging areas, and multi-outlet networks, with instant alerts and insights that protect SLAs, safety, and inventory.`,
+    useCases: [
+      {
+        title: `Pick-Floor & SLA Monitoring`,
+        description: `Monitors aisle congestion, pick-path activity, packing stations, and workflow bottlenecks that threaten minute-level fulfillment SLAs.`,
+      },
+      {
+        title: `Security & Loss Prevention`,
+        description: `Detects unauthorized access, after-hours activity, high-value zone breaches, and suspicious movement across dense SKU layouts.`,
+      },
+      {
+        title: `Rider Staging & Entry Control`,
+        description: `Tracks rider waiting zones, dock/handoff areas, entry points, and vehicle or personnel movement around the facility.`,
+      },
+      {
+        title: `Infrastructure Health & Smart Search`,
+        description: `Continuously checks cameras, NVRs, servers, and networks for uptime, and enables AI-powered search to locate disputes, damage, or process failures fast.`,
+      },
+    ],
+    processTitle: `How It Works`,
+    processFlow: `Capture → Analyze → Alert → Respond → Improve`,
+    processNarrative: [
+      `Existing cameras monitor picking floors, packing stations, cold zones, entrances, and rider staging areas.`,
+      `AI continuously analyzes video streams to identify safety, security, SLA risk, and operational issues.`,
+      `Real-time alerts are sent to store managers and central operations teams for immediate action.`,
+      `Every event is automatically recorded and indexed for audits, investigations, and quality reviews.`,
+      `Dashboards provide multi-outlet insights to improve throughput, compliance, and loss prevention.`,
+    ],
+    stepsTitle: `Three Steps to Fulfillment-Ready Operations`,
+    steps: [
+      {
+        label: `Connect`,
+        description: `Integrate existing CCTV cameras across dark stores and micro-fulfillment centers into a centralized platform.`,
+      },
+      {
+        label: `Intelligence`,
+        description: `Enable AI to automatically detect operational, safety, security, and SLA-related events.`,
+      },
+      {
+        label: `Improve`,
+        description: `Use reports, analytics, and alerts to standardize performance across the quick-commerce network.`,
+      },
+    ],
+    solutionBlurbs: {
+      "ai-analytics": `Monitor pick-floor activity, packing bottlenecks, unauthorized access, high-value zones, after-hours movement, and safety incidents with instant alerts. Retrieve disputes, damage events, or specific operational incidents with AI-powered search.`,
+      vms: `Centralize live monitoring across hundreds of dark stores and MFCs so operations teams can oversee picking floors, staging areas, and entrances from a single platform.`,
+      "health-monitoring": `Continuously check cameras, NVRs, servers, storage, and network devices so no micro-fulfillment node goes dark without an alert.`,
+      "asset-tracking": `Support gate, dock, and rider-zone visibility with automated identification and movement monitoring around fulfillment nodes.`,
+    },
+  },
   logistics: {
     headline: `Intelligent Visibility for Faster & Secure Logistics Operations`,
     summary: `Warehouses and distribution centers require continuous visibility to ensure safe operations, inventory security, and on-time deliveries. Orion Alerts uses AI-powered video intelligence to optimize warehouse workflows, strengthen security, and improve operational efficiency.`,
