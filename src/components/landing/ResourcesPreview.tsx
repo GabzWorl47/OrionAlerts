@@ -183,7 +183,7 @@ export function ResourcesPreview() {
                 Straight answers
               </h3>
               <p className="mt-2 text-sm leading-relaxed text-white/55">
-                From existing cameras to Smart Search — the questions buyers ask first.
+                From existing cameras to AI-assisted operations — the questions buyers ask first.
               </p>
               <Link
                 href="/faqs"

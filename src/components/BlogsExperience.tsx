@@ -54,7 +54,7 @@ export function BlogsExperience() {
               Insights & updates
             </h1>
             <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-muted-strong md:text-base">
-              Articles on AI Vision, Smart Search, video operations, and operational intelligence.
+              Articles on AI Vision, video operations, and operational intelligence.
             </p>
             <p className="mt-4 text-sm font-medium text-muted">
               {blogPosts.length} article{blogPosts.length === 1 ? "" : "s"}

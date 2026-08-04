@@ -84,7 +84,7 @@ export const blogPosts: BlogPost[] = [
       },
       {
         type: "paragraph",
-        text: "High-performing teams do not eliminate human judgment — they protect it. They give operators fewer, better signals; they shorten investigation cycles with smart search; and they keep camera estates healthy so blind spots do not appear silently overnight.",
+        text: "High-performing teams do not eliminate human judgment — they protect it. They give operators fewer, better signals; they shorten investigation cycles; and they keep camera estates healthy so blind spots do not appear silently overnight.",
       },
       {
         type: "paragraph",
@@ -154,7 +154,7 @@ export const blogPosts: BlogPost[] = [
       },
       {
         type: "paragraph",
-        text: "OrionAlerts is built around that workflow: AI Vision for detection, VMS for command, Smart Search for investigations, and health/AMC layers so uptime remains part of the operating model.",
+        text: "OrionAlerts is built around that workflow: AI Vision for detection, VMS for command, and health/AMC layers so uptime remains part of the operating model.",
       },
     ],
   },

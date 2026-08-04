@@ -38,12 +38,7 @@ export const faqs: FaqItem[] = [
   {
     category: "Platform",
     q: "What AI capabilities does Orion Alerts provide?",
-    a: "The platform offers AI Video Analytics, Vision Copilot, Smart Search, Real-Time Alerts, Incident Management, Business Intelligence Dashboards, and intelligent workflow automation.",
-  },
-  {
-    category: "Platform",
-    q: "What is Smart Search?",
-    a: "Smart Search allows users to locate incidents within seconds using natural language, keywords, objects, people, time, camera, or location — eliminating the need to manually review hours of recorded video.",
+    a: "The platform offers AI Video Analytics, Vision Copilot, Real-Time Alerts, Incident Management, Business Intelligence Dashboards, and intelligent workflow automation.",
   },
   {
     category: "Platform",
@@ -98,7 +93,7 @@ export const faqs: FaqItem[] = [
   {
     category: "General",
     q: "Why should businesses choose Orion Alerts?",
-    a: "Orion Alerts brings AI Video Analytics, Smart Search, Vision Copilot, Health Monitoring, Asset Tracking, AMC Management, and Business Intelligence together in one integrated platform — transforming existing surveillance into a proactive system without a full infrastructure replacement.",
+    a: "Orion Alerts brings AI Video Analytics, Vision Copilot, Health Monitoring, Asset Tracking, AMC Management, and Business Intelligence together in one integrated platform — transforming existing surveillance into a proactive system without a full infrastructure replacement.",
   },
   {
     category: "Partners",
@@ -115,7 +110,7 @@ export const faqs: FaqItem[] = [
 export function getFeaturedFaqs(limit = 3) {
   const preferred = [
     "Do I need to replace my existing cameras?",
-    "What is Smart Search?",
+    "What is Health Monitoring?",
     "Is Orion Alerts suitable for both single-site and multi-site operations?",
   ];
   const picked = preferred

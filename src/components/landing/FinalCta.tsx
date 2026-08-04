@@ -8,19 +8,15 @@ export function FinalCta() {
     <section
       id="final-cta"
       aria-labelledby="final-cta-heading"
-      className="relative overflow-hidden py-20 md:py-28"
+      className="relative overflow-hidden bg-blue py-20 md:py-28"
     >
-      <div className="absolute inset-0 bg-[linear-gradient(180deg,#0c2238_0%,#102a44_55%,#0c2238_100%)]" />
-      <div className="absolute inset-0 grid-texture opacity-30" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_80%,rgba(48,227,255,0.18),transparent_45%)]" />
-
       <div className="container relative text-center">
         <motion.h2
           id="final-cta-heading"
           initial={{ opacity: 0, y: 22 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="display mx-auto max-w-4xl text-[clamp(2rem,5vw,3.6rem)] uppercase text-white"
+          className="mx-auto max-w-4xl text-[clamp(2rem,5vw,3.6rem)] font-semibold leading-[1.1] tracking-[-0.03em] text-white"
         >
           Ready to Make Your Operations Smarter and Safer?
         </motion.h2>
@@ -33,7 +29,7 @@ export function FinalCta() {
           <MagneticButton
             href="/contact"
             variant="outline"
-            className="!border-white/30 !text-white hover:!border-cyan hover:!text-cyan"
+            className="!border-white/30 !bg-transparent !text-white hover:!border-cyan hover:!text-cyan"
           >
             Talk to Our Expert
           </MagneticButton>

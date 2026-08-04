@@ -57,7 +57,7 @@ export function IndustryHero({ industry }: IndustryHeroProps) {
   return (
     <section
       ref={ref}
-      className="relative min-h-[min(92vh,52rem)] overflow-hidden bg-[#07111f] pt-[var(--header-h)] text-white"
+      className="relative min-h-[min(92vh,52rem)] overflow-hidden bg-blue pt-[var(--header-h)] text-white"
     >
       <motion.div
         className="absolute inset-0"
@@ -89,15 +89,15 @@ export function IndustryHero({ industry }: IndustryHeroProps) {
         )}
       </motion.div>
 
-      {/* Soft overlays — keep text readable without crushing the video */}
+      {/* Soft overlays — same navy as homepage cards */}
       <div
         className={`pointer-events-none absolute inset-0 ${
           hasVideo
-            ? "bg-gradient-to-t from-[#07111f]/80 via-[#07111f]/20 to-transparent"
-            : "bg-gradient-to-r from-[#07111f]/85 via-[#07111f]/55 to-[#07111f]/25"
+            ? "bg-gradient-to-t from-blue/85 via-blue/25 to-transparent"
+            : "bg-gradient-to-r from-blue/88 via-blue/55 to-blue/25"
         }`}
       />
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#07111f]/65 via-transparent to-[#07111f]/10" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink-deep/55 via-transparent to-blue/15" />
 
       <div className="container relative z-10 flex min-h-[min(78vh,44rem)] flex-col">
         <nav aria-label="Breadcrumb" className="pt-6 text-sm text-white/55 md:pt-8">

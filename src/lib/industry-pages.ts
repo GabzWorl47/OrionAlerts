@@ -56,7 +56,7 @@ const extrasBySlug: Record<string, Extras> = {
         video: "/Videos/industries/manufacturing/usecases/equipment-health.mp4",
       },
       {
-        title: `Smart Search & Alerts`,
+        title: `Instant Alerts & Investigation`,
         description: `Instantly notifies teams of critical events and enables AI-powered search to find incidents within seconds.`,
         video: "/Videos/industries/manufacturing/usecases/smart-incident.mp4",
       },
@@ -89,7 +89,6 @@ const extrasBySlug: Record<string, Extras> = {
       "ai-analytics": `Detect PPE violations, intrusions, fire/smoke, and production anomalies.`,
       vms: `Centralized live monitoring, playback, and multi-site management.`,
       "health-monitoring": `Proactively monitor surveillance infrastructure and prevent system failures.`,
-      "smart-search": `Find production incidents instantly using AI-powered natural language search.`,
     },
   },
   automotive: {
@@ -109,7 +108,7 @@ const extrasBySlug: Record<string, Extras> = {
         description: `Tracks component movement, forklifts, finished goods, and critical assets across production and warehouse areas.`,
       },
       {
-        title: `Smart Search & Alerts`,
+        title: `Instant Alerts & Investigation`,
         description: `Sends instant alerts for operational incidents and enables rapid AI-powered video search for investigations.`,
       },
     ],
@@ -141,7 +140,6 @@ const extrasBySlug: Record<string, Extras> = {
       "ai-analytics": `Detect PPE violations, assembly line anomalies, vehicle movement, restricted access, and safety incidents.`,
       vms: `Centralized live monitoring, playback, multi-site visibility, and incident management.`,
       "health-monitoring": `Monitor cameras, NVRs, servers, storage, and network health with proactive alerts.`,
-      "smart-search": `Instantly find production, quality, and safety events using AI-powered natural language search.`,
     },
   },
   "metals-mining": {
@@ -161,7 +159,7 @@ const extrasBySlug: Record<string, Extras> = {
         description: `Identifies conveyor blockages, equipment stoppages, material accumulation, and workflow disruptions.`,
       },
       {
-        title: `Smart Search & Alerts`,
+        title: `Instant Alerts & Investigation`,
         description: `Instantly notifies teams of critical incidents and enables rapid AI-powered event search.`,
       },
     ],
@@ -193,7 +191,6 @@ const extrasBySlug: Record<string, Extras> = {
       "ai-analytics": `Detect PPE violations, restricted access, vehicle movement, conveyor issues, fire/smoke, and operational risks.`,
       vms: `Centralized live monitoring, playback, multi-site visibility, and incident management.`,
       "health-monitoring": `Monitor cameras, NVRs, servers, storage, and network health with proactive alerts.`,
-      "smart-search": `Instantly locate safety, equipment, and production incidents using AI-powered natural language search.`,
     },
   },
   cement: {
@@ -213,7 +210,7 @@ const extrasBySlug: Record<string, Extras> = {
         description: `Tracks dumpers, loaders, forklifts, and loading operations to improve logistics and safety.`,
       },
       {
-        title: `Smart Search & Alerts`,
+        title: `Instant Alerts & Investigation`,
         description: `Sends instant alerts for critical incidents and enables rapid AI-powered event search.`,
       },
     ],
@@ -245,7 +242,6 @@ const extrasBySlug: Record<string, Extras> = {
       "ai-analytics": `Detect PPE violations, restricted access, conveyor issues, vehicle movement, fire/smoke, and operational risks.`,
       vms: `Centralized live monitoring, playback, multi-site visibility, and incident management.`,
       "health-monitoring": `Monitor cameras, NVRs, servers, storage, and network health with proactive alerts.`,
-      "smart-search": `Instantly locate production, loading, and safety incidents using AI-powered natural language search.`,
     },
   },
   "oil-gas": {
@@ -265,7 +261,7 @@ const extrasBySlug: Record<string, Extras> = {
         description: `Tracks tanker movement, loading bays, forklifts, and service vehicles to improve safety and traffic flow.`,
       },
       {
-        title: `Smart Search & Alerts`,
+        title: `Instant Alerts & Investigation`,
         description: `Delivers instant alerts for safety, security, fire/smoke, and operational incidents with AI-powered event search.`,
       },
     ],
@@ -297,7 +293,6 @@ const extrasBySlug: Record<string, Extras> = {
       "ai-analytics": `Detect PPE violations, perimeter breaches, fire/smoke, unauthorized access, unsafe vehicle movement, and suspicious activities.`,
       vms: `Centralized live monitoring, playback, multi-site visibility, and incident management.`,
       "health-monitoring": `Monitor cameras, NVRs, servers, storage, and network health with proactive alerts.`,
-      "smart-search": `Instantly locate safety, security, and operational incidents using AI-powered natural language search.`,
     },
   },
   schools: {
@@ -317,7 +312,7 @@ const extrasBySlug: Record<string, Extras> = {
         description: `Tracks school buses, visitor vehicles, and parking areas for safer traffic management.`,
       },
       {
-        title: `Smart Search & Alerts`,
+        title: `Instant Alerts & Investigation`,
         description: `Delivers instant alerts and enables AI-powered search for rapid incident investigations.`,
       },
     ],
@@ -349,7 +344,6 @@ const extrasBySlug: Record<string, Extras> = {
       "ai-analytics": `Detect unauthorized access, fights, crowding, loitering, falls, abandoned objects, and suspicious activities.`,
       vms: `Centralized live monitoring, playback, multi-campus visibility, and incident management.`,
       "health-monitoring": `Monitor cameras, NVRs, servers, storage, and network health with proactive alerts.`,
-      "smart-search": `Instantly locate student safety, visitor, and emergency incidents using AI-powered natural language search.`,
     },
   },
   pharma: {
@@ -369,7 +363,7 @@ const extrasBySlug: Record<string, Extras> = {
         description: `Monitors inventory areas, material movement, and controlled access in real time.`,
       },
       {
-        title: `Smart Search & Alerts`,
+        title: `Instant Alerts & Investigation`,
         description: `Delivers instant alerts and enables AI-powered search for audits, investigations, and compliance reviews.`,
       },
     ],
@@ -401,7 +395,6 @@ const extrasBySlug: Record<string, Extras> = {
       "ai-analytics": `Detect PPE violations, cleanroom access breaches, restricted area intrusions, unattended objects, and operational anomalies.`,
       vms: `Centralized live monitoring, playback, multi-site visibility, and incident management.`,
       "health-monitoring": `Monitor cameras, NVRs, servers, storage, and network health with proactive alerts.`,
-      "smart-search": `Instantly locate production, compliance, and quality incidents using AI-powered natural language search.`,
     },
   },
   "food-fmcg": {
@@ -421,7 +414,7 @@ const extrasBySlug: Record<string, Extras> = {
         description: `Tracks material movement, forklifts, loading operations, and inventory security.`,
       },
       {
-        title: `Smart Search & Alerts`,
+        title: `Instant Alerts & Investigation`,
         description: `Delivers instant alerts and enables AI-powered search for faster investigations and audits.`,
       },
     ],
@@ -453,7 +446,6 @@ const extrasBySlug: Record<string, Extras> = {
       "ai-analytics": `Detect PPE and hygiene violations, restricted access, production stoppages, unattended objects, fire/smoke, and operational risks.`,
       vms: `Centralized live monitoring, playback, multi-site visibility, and incident management.`,
       "health-monitoring": `Monitor cameras, NVRs, servers, storage, and network health with proactive alerts.`,
-      "smart-search": `Instantly locate production, hygiene, warehouse, and dispatch incidents using AI-powered natural language search.`,
     },
   },
   logistics: {
@@ -473,7 +465,7 @@ const extrasBySlug: Record<string, Extras> = {
         description: `Tracks material movement, high-value storage areas, abandoned objects, and suspicious activities.`,
       },
       {
-        title: `Smart Search & Alerts`,
+        title: `Instant Alerts & Investigation`,
         description: `Delivers instant alerts and enables AI-powered search for shipment verification and incident investigations.`,
       },
     ],
@@ -505,7 +497,6 @@ const extrasBySlug: Record<string, Extras> = {
       "ai-analytics": `Detect PPE violations, unauthorized access, loading dock congestion, forklift movement, abandoned objects, fire/smoke, and suspicious activities.`,
       "asset-tracking": `Automate vehicle identification, monitor truck entry/exit, and streamline gate and dispatch operations.`,
       vms: `Centralized live monitoring, playback, multi-site visibility, and incident management.`,
-      "smart-search": `Instantly locate shipment, loading, inventory, and vehicle events using AI-powered natural language search.`,
     },
   },
   "commercial-infrastructure": {
@@ -525,7 +516,7 @@ const extrasBySlug: Record<string, Extras> = {
         description: `Monitors vehicle movement, parking violations, congestion, and entry/exit operations.`,
       },
       {
-        title: `Smart Search & Alerts`,
+        title: `Instant Alerts & Investigation`,
         description: `Delivers instant alerts and enables AI-powered search for faster incident investigations.`,
       },
     ],
@@ -557,7 +548,6 @@ const extrasBySlug: Record<string, Extras> = {
       "ai-analytics": `Detect unauthorized access, crowding, loitering, abandoned objects, fire/smoke, and suspicious activities.`,
       "asset-tracking": `Automate vehicle entry/exit, parking monitoring, and traffic flow management.`,
       vms: `Centralized live monitoring, playback, multi-site visibility, and incident management.`,
-      "smart-search": `Instantly locate security, visitor, parking, and facility incidents using AI-powered natural language search.`,
     },
   },
   utilities: {
@@ -577,7 +567,7 @@ const extrasBySlug: Record<string, Extras> = {
         description: `Detects PPE violations, restricted area access, and unsafe work practices in real time.`,
       },
       {
-        title: `Smart Search & Alerts`,
+        title: `Instant Alerts & Investigation`,
         description: `Delivers instant alerts and enables AI-powered search for faster investigations and incident response.`,
       },
     ],
@@ -609,7 +599,6 @@ const extrasBySlug: Record<string, Extras> = {
       "ai-analytics": `Detect perimeter breaches, PPE violations, fire/smoke, restricted area access, and suspicious activities.`,
       "health-monitoring": `Continuously monitor cameras, NVRs, servers, storage, and network health to ensure uninterrupted surveillance.`,
       vms: `Centralized live monitoring, playback, multi-site visibility, and incident management.`,
-      "smart-search": `Instantly locate security, safety, and operational incidents using AI-powered natural language search.`,
     },
   },
   "pulp-paper": {
@@ -629,7 +618,7 @@ const extrasBySlug: Record<string, Extras> = {
         description: `Tracks paper rolls, pallets, forklifts, finished goods, and loading operations.`,
       },
       {
-        title: `Smart Search & Alerts`,
+        title: `Instant Alerts & Investigation`,
         description: `Delivers instant alerts and enables AI-powered search for quality reviews and incident investigations.`,
       },
     ],
@@ -661,7 +650,6 @@ const extrasBySlug: Record<string, Extras> = {
       "ai-analytics": `Detect PPE violations, conveyor issues, restricted area access, forklift movement, fire/smoke, and production anomalies.`,
       vms: `Centralized live monitoring, playback, multi-site visibility, and incident management.`,
       "health-monitoring": `Monitor cameras, NVRs, servers, storage, and network health with proactive alerts.`,
-      "smart-search": `Instantly locate production, warehouse, safety, and quality incidents using AI-powered natural language search.`,
     },
   },
   textile: {
@@ -681,7 +669,7 @@ const extrasBySlug: Record<string, Extras> = {
         description: `Tracks fabric rolls, raw materials, finished goods, forklifts, and dispatch operations.`,
       },
       {
-        title: `Smart Search & Alerts`,
+        title: `Instant Alerts & Investigation`,
         description: `Delivers instant alerts and enables AI-powered search for production and safety incidents.`,
       },
     ],
@@ -713,7 +701,6 @@ const extrasBySlug: Record<string, Extras> = {
       "ai-analytics": `Detect PPE violations, machine safety risks, restricted area access, fire/smoke, production bottlenecks, and operational anomalies.`,
       vms: `Centralized live monitoring, playback, multi-site visibility, and incident management.`,
       "health-monitoring": `Monitor cameras, NVRs, servers, storage, and network health with proactive alerts.`,
-      "smart-search": `Instantly locate production, quality, warehouse, and safety events using AI-powered natural language search.`,
     },
   },
   "polymers-plastics": {
@@ -733,7 +720,7 @@ const extrasBySlug: Record<string, Extras> = {
         description: `Tracks raw materials, finished goods, forklifts, and loading operations.`,
       },
       {
-        title: `Smart Search & Alerts`,
+        title: `Instant Alerts & Investigation`,
         description: `Delivers instant alerts and enables AI-powered search for production and safety incidents.`,
       },
     ],
@@ -765,7 +752,6 @@ const extrasBySlug: Record<string, Extras> = {
       "ai-analytics": `Detect PPE violations, restricted access, production anomalies, fire/smoke, and operational risks.`,
       vms: `Centralized live monitoring, playback, multi-plant visibility, and incident management.`,
       "health-monitoring": `Monitor cameras, NVRs, servers, storage, and network health with proactive alerts.`,
-      "smart-search": `Instantly locate production, material, and safety incidents using AI-powered natural language search.`,
     },
   },
 };
