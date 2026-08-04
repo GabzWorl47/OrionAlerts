@@ -16,7 +16,7 @@ export default async function AdminPage() {
 
   return (
     <div className="min-h-screen bg-bg px-4 py-10 md:px-6 md:py-14">
-      <div className="mx-auto w-full max-w-5xl">
+      <div className="mx-auto w-full max-w-6xl">
         <AdminPanel
           authConfigured={authConfigured}
           initiallyAuthenticated={authenticated}

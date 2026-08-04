@@ -1,42 +1,89 @@
 "use client";
 
-import { FormEvent, useCallback, useEffect, useState } from "react";
+import {
+  FormEvent,
+  type ReactNode,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import Link from "next/link";
 import {
   ArrowUpRight,
   CheckCircle2,
   CircleAlert,
+  Eye,
+  EyeOff,
   LoaderCircle,
   LogOut,
-  RefreshCw,
+  Pencil,
+  Plus,
   Shield,
+  Trash2,
+  X,
 } from "lucide-react";
-import type { LinkedInPost } from "@/lib/linkedin";
+import {
+  blogCategoryOptions,
+  serializeBlogBody,
+  serializeTakeaways,
+  slugifyTitle,
+  type BlogCategory,
+  type BlogPost,
+} from "@/lib/blogs";
 
-type LinkedInStatus = {
-  configured: boolean;
-  hasAccessToken: boolean;
-  hasOrganizationId: boolean;
-  organizationId: string | null;
-  apiVersion: string;
-  pageUrl: string;
-  cache: {
-    ageSeconds: number;
-    postCount: number;
-    error: string | null;
-  } | null;
+type Counts = {
+  all: number;
+  published: number;
+  drafts: number;
 };
 
-type AdminPost = LinkedInPost & { visible: boolean };
-
-type PanelData = {
-  status: LinkedInStatus;
-  posts: AdminPost[];
-  defaultVisible: boolean;
-  visibleCount: number;
-  updatedAt?: string | null;
-  error?: string | null;
+type FormState = {
+  title: string;
+  slug: string;
+  excerpt: string;
+  category: BlogCategory;
+  date: string;
+  author: string;
+  authorRole: string;
+  image: string;
+  takeawaysText: string;
+  body: string;
+  published: boolean;
+  slugTouched: boolean;
 };
+
+const emptyForm = (): FormState => ({
+  title: "",
+  slug: "",
+  excerpt: "",
+  category: "Operations",
+  date: new Date().toISOString().slice(0, 10),
+  author: "OrionAlerts Team",
+  authorRole: "Editorial",
+  image: "",
+  takeawaysText: "",
+  body: "",
+  published: true,
+  slugTouched: false,
+});
+
+function postToForm(post: BlogPost): FormState {
+  return {
+    title: post.title,
+    slug: post.slug,
+    excerpt: post.excerpt,
+    category: post.category,
+    date: post.date,
+    author: post.author,
+    authorRole: post.authorRole,
+    image: post.image,
+    takeawaysText: serializeTakeaways(post.takeaways),
+    body: serializeBlogBody(post.sections),
+    published: post.published,
+    slugTouched: true,
+  };
+}
 
 export function AdminPanel({
   authConfigured,
@@ -49,40 +96,47 @@ export function AdminPanel({
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState<string | null>(null);
   const [loggingIn, setLoggingIn] = useState(false);
-  const [data, setData] = useState<PanelData | null>(null);
+  const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [counts, setCounts] = useState<Counts>({ all: 0, published: 0, drafts: 0 });
   const [loading, setLoading] = useState(initiallyAuthenticated);
-  const [refreshing, setRefreshing] = useState(false);
+  const [saving, setSaving] = useState(false);
   const [actionMessage, setActionMessage] = useState<string | null>(null);
+  const [actionError, setActionError] = useState<string | null>(null);
+  const [editorOpen, setEditorOpen] = useState(false);
+  const [editingSlug, setEditingSlug] = useState<string | null>(null);
+  const [form, setForm] = useState<FormState>(emptyForm);
 
-  const loadStatus = useCallback(async () => {
+  const loadPosts = useCallback(async () => {
     setLoading(true);
-    setActionMessage(null);
+    setActionError(null);
     try {
-      const response = await fetch("/api/admin/linkedin");
+      const response = await fetch("/api/admin/blogs");
       if (response.status === 401) {
         setAuthenticated(false);
-        setData(null);
+        setPosts([]);
         return;
       }
-      const json = (await response.json()) as PanelData & { error?: string };
-      setData({
-        status: json.status,
-        posts: json.posts || [],
-        defaultVisible: Boolean(json.defaultVisible),
-        visibleCount: json.visibleCount ?? 0,
-        updatedAt: json.updatedAt,
-        error: json.error,
-      });
+      const json = (await response.json()) as {
+        posts?: BlogPost[];
+        counts?: Counts;
+        error?: string;
+      };
+      if (!response.ok) {
+        setActionError(json.error || "Could not load blogs.");
+        return;
+      }
+      setPosts(json.posts || []);
+      setCounts(json.counts || { all: 0, published: 0, drafts: 0 });
     } catch {
-      setActionMessage("Could not load admin status.");
+      setActionError("Could not load blogs.");
     } finally {
       setLoading(false);
     }
   }, []);
 
   useEffect(() => {
-    if (authenticated) void loadStatus();
-  }, [authenticated, loadStatus]);
+    if (authenticated) void loadPosts();
+  }, [authenticated, loadPosts]);
 
   async function handleLogin(event: FormEvent) {
     event.preventDefault();
@@ -102,7 +156,7 @@ export function AdminPanel({
       setPassword("");
       setAuthenticated(true);
     } catch {
-      setLoginError("Login failed. Try again.");
+      setLoginError("Login failed.");
     } finally {
       setLoggingIn(false);
     }
@@ -111,124 +165,147 @@ export function AdminPanel({
   async function handleLogout() {
     await fetch("/api/admin/logout", { method: "POST" });
     setAuthenticated(false);
-    setData(null);
+    setPosts([]);
+    setEditorOpen(false);
+    setEditingSlug(null);
   }
 
-  async function handleRefresh() {
-    setRefreshing(true);
+  function openCreate() {
+    setEditingSlug(null);
+    setForm(emptyForm());
+    setEditorOpen(true);
     setActionMessage(null);
-    try {
-      const response = await fetch("/api/admin/linkedin", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action: "refresh" }),
-      });
-      const json = (await response.json()) as PanelData & { error?: string | null };
-      if (!response.ok) {
-        setActionMessage(json.error || "Refresh failed.");
-        return;
+    setActionError(null);
+  }
+
+  function openEdit(post: BlogPost) {
+    setEditingSlug(post.slug);
+    setForm(postToForm(post));
+    setEditorOpen(true);
+    setActionMessage(null);
+    setActionError(null);
+  }
+
+  function closeEditor() {
+    setEditorOpen(false);
+    setEditingSlug(null);
+    setForm(emptyForm());
+  }
+
+  function updateForm<K extends keyof FormState>(key: K, value: FormState[K]) {
+    setForm((current) => {
+      const next = { ...current, [key]: value };
+      if (key === "title" && !current.slugTouched && !editingSlug) {
+        next.slug = slugifyTitle(String(value));
       }
-      setData({
-        status: json.status,
-        posts: json.posts || [],
-        defaultVisible: Boolean(json.defaultVisible),
-        visibleCount: json.visibleCount ?? 0,
-        updatedAt: json.updatedAt,
-        error: json.error,
-      });
-      setActionMessage(
-        json.status.configured
-          ? `Fetched ${json.posts?.length ?? 0} post(s). ${json.visibleCount ?? 0} visible on site.`
-          : "LinkedIn credentials are not configured yet. You can still manage visibility after posts are fetched.",
-      );
-    } catch {
-      setActionMessage("Refresh failed.");
-    } finally {
-      setRefreshing(false);
-    }
-  }
-
-  async function handleToggle(postId: string, visible: boolean) {
-    setActionMessage(null);
-    // Optimistic UI
-    setData((current) => {
-      if (!current) return current;
-      const posts = current.posts.map((post) =>
-        post.id === postId ? { ...post, visible } : post,
-      );
-      return {
-        ...current,
-        posts,
-        visibleCount: posts.filter((post) => post.visible).length,
-      };
+      if (key === "slug") {
+        next.slugTouched = true;
+      }
+      return next;
     });
+  }
+
+  async function handleSave(event: FormEvent) {
+    event.preventDefault();
+    setSaving(true);
+    setActionError(null);
+    setActionMessage(null);
+
+    const payload = {
+      title: form.title,
+      slug: form.slug,
+      excerpt: form.excerpt,
+      category: form.category,
+      date: form.date,
+      author: form.author,
+      authorRole: form.authorRole,
+      image: form.image,
+      takeawaysText: form.takeawaysText,
+      body: form.body,
+      published: form.published,
+    };
 
     try {
-      const response = await fetch("/api/admin/linkedin", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action: "set-visibility", postId, visible }),
-      });
-      const json = (await response.json()) as PanelData & { error?: string };
+      const response = await fetch(
+        editingSlug ? `/api/admin/blogs/${editingSlug}` : "/api/admin/blogs",
+        {
+          method: editingSlug ? "PUT" : "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        },
+      );
+      const json = (await response.json()) as { error?: string; post?: BlogPost };
       if (!response.ok) {
-        setActionMessage(json.error || "Could not update visibility.");
-        await loadStatus();
+        setActionError(json.error || "Could not save blog post.");
         return;
       }
-      setData({
-        status: json.status,
-        posts: json.posts || [],
-        defaultVisible: Boolean(json.defaultVisible),
-        visibleCount: json.visibleCount ?? 0,
-        updatedAt: json.updatedAt,
-        error: json.error,
-      });
+      setActionMessage(editingSlug ? "Blog post updated." : "Blog post created.");
+      closeEditor();
+      await loadPosts();
     } catch {
-      setActionMessage("Could not update visibility.");
-      await loadStatus();
+      setActionError("Could not save blog post.");
+    } finally {
+      setSaving(false);
     }
   }
 
-  async function handleBulk(visible: boolean) {
-    if (!data?.posts.length) return;
-    const updates = Object.fromEntries(data.posts.map((post) => [post.id, visible]));
-    setRefreshing(true);
+  async function togglePublished(post: BlogPost) {
+    setActionError(null);
     setActionMessage(null);
     try {
-      const response = await fetch("/api/admin/linkedin", {
-        method: "POST",
+      const response = await fetch(`/api/admin/blogs/${post.slug}`, {
+        method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action: "set-many-visibility", updates }),
+        body: JSON.stringify({ published: !post.published, publishedOnly: true }),
       });
-      const json = (await response.json()) as PanelData & { error?: string };
+      const json = (await response.json()) as { error?: string };
       if (!response.ok) {
-        setActionMessage(json.error || "Bulk update failed.");
+        setActionError(json.error || "Could not update publish state.");
         return;
       }
-      setData({
-        status: json.status,
-        posts: json.posts || [],
-        defaultVisible: Boolean(json.defaultVisible),
-        visibleCount: json.visibleCount ?? 0,
-        updatedAt: json.updatedAt,
-        error: json.error,
-      });
-      setActionMessage(visible ? "All listed posts are now visible." : "All listed posts are now hidden.");
+      setActionMessage(!post.published ? "Post published." : "Post moved to drafts.");
+      await loadPosts();
     } catch {
-      setActionMessage("Bulk update failed.");
-    } finally {
-      setRefreshing(false);
+      setActionError("Could not update publish state.");
     }
   }
+
+  async function handleDelete(post: BlogPost) {
+    const confirmed = window.confirm(`Delete “${post.title}”? This cannot be undone.`);
+    if (!confirmed) return;
+
+    setActionError(null);
+    setActionMessage(null);
+    try {
+      const response = await fetch(`/api/admin/blogs/${post.slug}`, { method: "DELETE" });
+      const json = (await response.json()) as { error?: string };
+      if (!response.ok) {
+        setActionError(json.error || "Could not delete blog post.");
+        return;
+      }
+      if (editingSlug === post.slug) closeEditor();
+      setActionMessage("Blog post deleted.");
+      await loadPosts();
+    } catch {
+      setActionError("Could not delete blog post.");
+    }
+  }
+
+  const sortedPosts = useMemo(
+    () => [...posts].sort((a, b) => (a.date < b.date ? 1 : -1)),
+    [posts],
+  );
 
   if (!authConfigured) {
     return (
-      <div className="mx-auto max-w-xl rounded-[22px] border border-line bg-white p-8">
-        <p className="eyebrow">Admin</p>
-        <h1 className="display mt-3 text-3xl normal-case text-steel-gradient">
-          Password not set
+      <div className="rounded-[24px] border border-line bg-white p-8 shadow-[0_20px_50px_-36px_rgba(15,61,120,0.45)]">
+        <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-surface-2 text-blue">
+          <Shield size={20} />
+        </div>
+        <h1 className="display mt-4 text-3xl normal-case text-steel-gradient">
+          Admin not configured
         </h1>
-        <p className="mt-3 text-sm leading-relaxed text-muted-strong">
+        <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted-strong">
           Add <code className="rounded bg-surface-2 px-1.5 py-0.5 text-text">ADMIN_PASSWORD</code>{" "}
           to your <code className="rounded bg-surface-2 px-1.5 py-0.5 text-text">.env.local</code>{" "}
           file, then restart the dev server.
@@ -239,13 +316,13 @@ export function AdminPanel({
 
   if (!authenticated) {
     return (
-      <div className="mx-auto max-w-md rounded-[22px] border border-line bg-white p-8 shadow-[0_24px_50px_-32px_rgba(15,61,120,0.35)]">
+      <div className="mx-auto max-w-md rounded-[24px] border border-line bg-white p-8 shadow-[0_20px_50px_-36px_rgba(15,61,120,0.45)]">
         <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-surface-2 text-blue">
           <Shield size={20} />
         </div>
         <h1 className="display mt-4 text-3xl normal-case text-steel-gradient">Admin login</h1>
-        <p className="mt-2 text-sm text-muted">
-          Manage LinkedIn sync for the blogs page.
+        <p className="mt-2 text-sm text-muted-strong">
+          Sign in to create, edit, and publish website blogs.
         </p>
         <form onSubmit={handleLogin} className="mt-6 space-y-4">
           <label className="block">
@@ -256,234 +333,346 @@ export function AdminPanel({
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full rounded-[12px] border border-line bg-bg px-3.5 py-2.5 text-sm outline-none focus:border-blue/40 focus:ring-2 focus:ring-blue/10"
+              className="w-full rounded-[12px] border border-line bg-white px-3.5 py-2.5 text-sm outline-none focus:border-blue/35 focus:ring-2 focus:ring-blue/10"
               autoComplete="current-password"
               required
             />
           </label>
-          {loginError ? <p className="text-sm text-alert">{loginError}</p> : null}
+          {loginError ? (
+            <p className="inline-flex items-center gap-2 text-sm text-red-600">
+              <CircleAlert size={15} />
+              {loginError}
+            </p>
+          ) : null}
           <button
             type="submit"
             disabled={loggingIn}
-            className="inline-flex w-full items-center justify-center gap-2 rounded-[10px] bg-[#0f172a] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-blue disabled:opacity-60"
+            className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#0f172a] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[#1e293b] disabled:opacity-60"
           >
             {loggingIn ? <LoaderCircle size={16} className="animate-spin" /> : null}
-            Enter admin
+            Sign in
           </button>
         </form>
       </div>
     );
   }
 
-  const status = data?.status;
-
   return (
     <div className="space-y-6">
-      <div className="flex flex-wrap items-start justify-between gap-4">
-        <div>
-          <p className="eyebrow">Admin</p>
-          <h1 className="display mt-2 text-[clamp(1.8rem,3.5vw,2.6rem)] normal-case text-steel-gradient">
-            LinkedIn content
-          </h1>
-          <p className="mt-2 max-w-2xl text-sm text-muted-strong">
-            Fetch LinkedIn posts, then choose which ones appear on the public blogs page.
-          </p>
-        </div>
-        <div className="flex flex-wrap gap-2">
-          <Link
-            href="/blogs"
-            className="inline-flex items-center gap-1.5 rounded-[10px] border border-line bg-white px-3.5 py-2 text-sm font-semibold text-muted-strong transition hover:border-blue/30 hover:text-blue"
-          >
-            View blogs
-            <ArrowUpRight size={14} />
-          </Link>
-          <button
-            type="button"
-            onClick={() => void handleLogout()}
-            className="inline-flex items-center gap-1.5 rounded-[10px] border border-line bg-white px-3.5 py-2 text-sm font-semibold text-muted-strong transition hover:border-alert/30 hover:text-alert"
-          >
-            <LogOut size={14} />
-            Log out
-          </button>
-        </div>
-      </div>
-
-      <div className="grid gap-4 md:grid-cols-3">
-        <StatusCard
-          label="Admin access"
-          ok
-          detail="Signed in"
-        />
-        <StatusCard
-          label="Access token"
-          ok={Boolean(status?.hasAccessToken)}
-          detail={status?.hasAccessToken ? "Present in env" : "Missing LINKEDIN_ACCESS_TOKEN"}
-        />
-        <StatusCard
-          label="Organization ID"
-          ok={Boolean(status?.hasOrganizationId)}
-          detail={
-            status?.hasOrganizationId
-              ? `Configured (${status.organizationId})`
-              : "Missing LINKEDIN_ORGANIZATION_ID"
-          }
-        />
-      </div>
-
-      <div className="rounded-[22px] border border-line bg-white p-5 md:p-6">
-        <div className="flex flex-wrap items-center justify-between gap-3">
+      <div className="rounded-[24px] border border-line bg-white p-6 shadow-[0_20px_50px_-36px_rgba(15,61,120,0.35)] md:p-8">
+        <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
-            <h2 className="font-display text-xl normal-case text-text">Sync controls</h2>
-            <p className="mt-1 text-sm text-muted">
-              API version {status?.apiVersion || "—"} ·{" "}
-              {status?.configured ? "Ready to fetch" : "Waiting for LinkedIn env vars"}
+            <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-caption">
+              OrionAlerts Admin
             </p>
-          </div>
-          <button
-            type="button"
-            onClick={() => void handleRefresh()}
-            disabled={refreshing || loading}
-            className="inline-flex items-center gap-2 rounded-[10px] bg-blue px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[#1f74e0] disabled:opacity-60"
-          >
-            {refreshing ? (
-              <LoaderCircle size={16} className="animate-spin" />
-            ) : (
-              <RefreshCw size={16} />
-            )}
-            Refresh from LinkedIn
-          </button>
-        </div>
-
-        {actionMessage ? (
-          <p className="mt-4 rounded-[12px] bg-surface px-3 py-2 text-sm text-muted-strong">
-            {actionMessage}
-          </p>
-        ) : null}
-        {data?.error ? (
-          <p className="mt-4 rounded-[12px] border border-alert/20 bg-alert/5 px-3 py-2 text-sm text-alert">
-            {data.error}
-          </p>
-        ) : null}
-
-        <div className="mt-5 grid gap-3 text-sm text-muted-strong sm:grid-cols-2">
-          <p>
-            <span className="font-semibold text-text">Page URL: </span>
-            {status?.pageUrl ? (
-              <a
-                href={status.pageUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="text-blue hover:underline"
-              >
-                {status.pageUrl}
-              </a>
-            ) : (
-              "—"
-            )}
-          </p>
-          <p>
-            <span className="font-semibold text-text">Cache: </span>
-            {status?.cache
-              ? `${status.cache.postCount} posts · ${status.cache.ageSeconds}s ago`
-              : "Empty"}
-          </p>
-        </div>
-      </div>
-
-      <div className="rounded-[22px] border border-line bg-white p-5 md:p-6">
-        <div className="flex flex-wrap items-start justify-between gap-3">
-          <div>
-            <h2 className="font-display text-xl normal-case text-text">Post visibility</h2>
-            <p className="mt-1 text-sm text-muted">
-              Toggle which posts show in “From LinkedIn” on `/blogs`. New posts stay hidden until
-              you enable them.
-            </p>
-            <p className="mt-2 text-sm font-medium text-text">
-              {data?.visibleCount ?? 0} visible
-              {data?.posts?.length ? ` · ${data.posts.length} total` : ""}
+            <h1 className="display mt-2 text-[clamp(1.8rem,3.5vw,2.6rem)] normal-case text-steel-gradient">
+              Blog manager
+            </h1>
+            <p className="mt-2 max-w-2xl text-sm text-muted-strong">
+              Create and publish articles for the website blogs section. Drafts stay private until
+              you publish them.
             </p>
           </div>
           <div className="flex flex-wrap gap-2">
+            <Link
+              href="/blogs"
+              className="inline-flex items-center gap-1.5 rounded-full border border-line px-4 py-2 text-sm font-semibold text-muted-strong transition hover:border-blue/30 hover:text-blue"
+            >
+              View blogs
+              <ArrowUpRight size={14} />
+            </Link>
             <button
               type="button"
-              onClick={() => void handleBulk(true)}
-              disabled={!data?.posts?.length || refreshing}
-              className="rounded-[10px] border border-line px-3 py-2 text-sm font-semibold text-muted-strong transition hover:border-blue/30 hover:text-blue disabled:opacity-50"
+              onClick={() => void handleLogout()}
+              className="inline-flex items-center gap-1.5 rounded-full border border-line px-4 py-2 text-sm font-semibold text-muted-strong transition hover:border-red-200 hover:text-red-600"
             >
-              Show all
-            </button>
-            <button
-              type="button"
-              onClick={() => void handleBulk(false)}
-              disabled={!data?.posts?.length || refreshing}
-              className="rounded-[10px] border border-line px-3 py-2 text-sm font-semibold text-muted-strong transition hover:border-alert/30 hover:text-alert disabled:opacity-50"
-            >
-              Hide all
+              <LogOut size={14} />
+              Log out
             </button>
           </div>
         </div>
 
-        {loading ? (
-          <p className="mt-6 text-sm text-muted">Loading…</p>
-        ) : data?.posts?.length ? (
-          <div className="mt-5 space-y-3">
-            {data.posts.map((post) => (
-              <div
-                key={post.id}
-                className={`flex flex-col gap-3 rounded-[16px] border px-4 py-3 sm:flex-row sm:items-center sm:justify-between ${
-                  post.visible
-                    ? "border-blue/25 bg-blue/[0.03]"
-                    : "border-line bg-surface"
-                }`}
-              >
-                <div className="min-w-0 flex-1">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-caption">
-                      {post.dateLabel}
-                    </p>
-                    <span
-                      className={`rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.12em] ${
-                        post.visible
-                          ? "bg-blue/10 text-blue"
-                          : "bg-white text-muted"
-                      }`}
-                    >
-                      {post.visible ? "Visible" : "Hidden"}
-                    </span>
-                  </div>
-                  <p className="mt-1.5 font-display text-[15px] font-semibold normal-case text-text">
-                    {post.title}
-                  </p>
-                  <p className="mt-1 text-sm text-muted-strong line-clamp-2">{post.excerpt}</p>
-                  <a
-                    href={post.url}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="mt-2 inline-flex items-center gap-1 text-sm font-semibold text-blue hover:underline"
-                  >
-                    Open on LinkedIn
-                    <ArrowUpRight size={13} />
-                  </a>
-                </div>
+        <div className="mt-6 grid gap-3 sm:grid-cols-3">
+          {[
+            { label: "Total posts", value: counts.all },
+            { label: "Published", value: counts.published },
+            { label: "Drafts", value: counts.drafts },
+          ].map((item) => (
+            <div
+              key={item.label}
+              className="rounded-[16px] border border-line bg-surface px-4 py-3"
+            >
+              <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-caption">
+                {item.label}
+              </p>
+              <p className="mt-1 font-display text-2xl font-semibold normal-case text-text">
+                {item.value}
+              </p>
+            </div>
+          ))}
+        </div>
 
-                <label className="inline-flex shrink-0 cursor-pointer items-center gap-2 rounded-[10px] border border-line bg-white px-3 py-2 text-sm font-semibold text-text">
-                  <input
-                    type="checkbox"
-                    checked={post.visible}
-                    onChange={(e) => void handleToggle(post.id, e.target.checked)}
-                    className="h-4 w-4 accent-[var(--blue)]"
-                  />
-                  Show on website
-                </label>
-              </div>
-            ))}
+        <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
+          <button
+            type="button"
+            onClick={openCreate}
+            className="inline-flex items-center gap-2 rounded-full bg-[#0f172a] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[#1e293b]"
+          >
+            <Plus size={16} />
+            New blog post
+          </button>
+          {(actionMessage || actionError) && (
+            <p
+              className={`inline-flex items-center gap-2 text-sm ${
+                actionError ? "text-red-600" : "text-emerald-700"
+              }`}
+            >
+              {actionError ? <CircleAlert size={15} /> : <CheckCircle2 size={15} />}
+              {actionError || actionMessage}
+            </p>
+          )}
+        </div>
+      </div>
+
+      {editorOpen ? (
+        <form
+          onSubmit={handleSave}
+          className="rounded-[24px] border border-line bg-white p-6 shadow-[0_20px_50px_-36px_rgba(15,61,120,0.35)] md:p-8"
+        >
+          <div className="flex flex-wrap items-start justify-between gap-3">
+            <div>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-caption">
+                {editingSlug ? "Edit post" : "New post"}
+              </p>
+              <h2 className="display mt-1 text-2xl normal-case text-text">
+                {editingSlug ? "Update article" : "Write a new article"}
+              </h2>
+            </div>
+            <button
+              type="button"
+              onClick={closeEditor}
+              className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-line text-muted transition hover:text-text"
+              aria-label="Close editor"
+            >
+              <X size={16} />
+            </button>
+          </div>
+
+          <div className="mt-6 grid gap-4 md:grid-cols-2">
+            <Field label="Title">
+              <input
+                required
+                value={form.title}
+                onChange={(e) => updateForm("title", e.target.value)}
+                className={inputClass}
+                placeholder="Alert Fatigue Is an Ops Problem"
+              />
+            </Field>
+            <Field label="URL slug">
+              <input
+                required
+                value={form.slug}
+                onChange={(e) => updateForm("slug", slugifyTitle(e.target.value) || e.target.value)}
+                className={inputClass}
+                placeholder="alert-fatigue-is-an-ops-problem"
+              />
+            </Field>
+            <Field label="Category">
+              <select
+                value={form.category}
+                onChange={(e) => updateForm("category", e.target.value as BlogCategory)}
+                className={inputClass}
+              >
+                {blogCategoryOptions.map((category) => (
+                  <option key={category} value={category}>
+                    {category}
+                  </option>
+                ))}
+              </select>
+            </Field>
+            <Field label="Publish date">
+              <input
+                type="date"
+                required
+                value={form.date}
+                onChange={(e) => updateForm("date", e.target.value)}
+                className={inputClass}
+              />
+            </Field>
+            <Field label="Author">
+              <input
+                required
+                value={form.author}
+                onChange={(e) => updateForm("author", e.target.value)}
+                className={inputClass}
+              />
+            </Field>
+            <Field label="Author role">
+              <input
+                value={form.authorRole}
+                onChange={(e) => updateForm("authorRole", e.target.value)}
+                className={inputClass}
+              />
+            </Field>
+          </div>
+
+          <div className="mt-4 space-y-4">
+            <Field label="Cover image URL">
+              <input
+                required
+                value={form.image}
+                onChange={(e) => updateForm("image", e.target.value)}
+                className={inputClass}
+                placeholder="https://..."
+              />
+            </Field>
+            <Field label="Excerpt">
+              <textarea
+                required
+                value={form.excerpt}
+                onChange={(e) => updateForm("excerpt", e.target.value)}
+                className={`${inputClass} min-h-[90px] resize-y`}
+                placeholder="One or two sentences shown on the blogs listing."
+              />
+            </Field>
+            <Field label="Key takeaways (one per line)">
+              <textarea
+                value={form.takeawaysText}
+                onChange={(e) => updateForm("takeawaysText", e.target.value)}
+                className={`${inputClass} min-h-[100px] resize-y`}
+                placeholder={"First takeaway\nSecond takeaway"}
+              />
+            </Field>
+            <Field
+              label="Article body"
+              hint="Use blank lines between blocks. Start a line with ## for a heading, > for a quote, or - for list items."
+            >
+              <textarea
+                required
+                value={form.body}
+                onChange={(e) => updateForm("body", e.target.value)}
+                className={`${inputClass} min-h-[280px] resize-y font-mono text-[13px] leading-relaxed`}
+                placeholder={
+                  "Opening paragraph...\n\n## Section heading\n\nMore detail here.\n\n> A short quote\n\n- Bullet one\n- Bullet two"
+                }
+              />
+            </Field>
+            <label className="inline-flex items-center gap-2 text-sm font-medium text-text">
+              <input
+                type="checkbox"
+                checked={form.published}
+                onChange={(e) => updateForm("published", e.target.checked)}
+                className="h-4 w-4 rounded border-line text-blue"
+              />
+              Publish immediately on the website
+            </label>
+          </div>
+
+          <div className="mt-6 flex flex-wrap gap-2">
+            <button
+              type="submit"
+              disabled={saving}
+              className="inline-flex items-center gap-2 rounded-full bg-[#0f172a] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#1e293b] disabled:opacity-60"
+            >
+              {saving ? <LoaderCircle size={16} className="animate-spin" /> : null}
+              {editingSlug ? "Save changes" : "Create post"}
+            </button>
+            <button
+              type="button"
+              onClick={closeEditor}
+              className="inline-flex items-center gap-2 rounded-full border border-line px-5 py-2.5 text-sm font-semibold text-muted-strong"
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+      ) : null}
+
+      <div className="rounded-[24px] border border-line bg-white p-6 shadow-[0_20px_50px_-36px_rgba(15,61,120,0.35)] md:p-8">
+        <div className="flex items-center justify-between gap-3">
+          <h2 className="display text-2xl normal-case text-text">All posts</h2>
+          {loading ? (
+            <LoaderCircle size={18} className="animate-spin text-muted" />
+          ) : null}
+        </div>
+
+        {sortedPosts.length === 0 && !loading ? (
+          <div className="mt-6 rounded-[16px] border border-dashed border-line bg-surface px-4 py-10 text-center">
+            <p className="font-display text-xl normal-case text-text">No blog posts yet</p>
+            <p className="mt-1 text-sm text-muted">Create your first article to show it on /blogs.</p>
+            <button
+              type="button"
+              onClick={openCreate}
+              className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-blue"
+            >
+              <Plus size={15} />
+              New blog post
+            </button>
           </div>
         ) : (
-          <div className="mt-6 rounded-[16px] border border-dashed border-line bg-surface px-4 py-8 text-center">
-            <p className="text-sm font-medium text-text">No posts fetched yet</p>
-            <p className="mx-auto mt-1 max-w-md text-sm text-muted">
-              Add LinkedIn credentials in `.env.local`, then click “Refresh from LinkedIn”.
-            </p>
+          <div className="mt-5 divide-y divide-line border-y border-line">
+            {sortedPosts.map((post) => (
+              <div
+                key={post.slug}
+                className="flex flex-col gap-3 py-4 md:flex-row md:items-center md:justify-between"
+              >
+                <div className="min-w-0">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <h3 className="font-display text-lg font-semibold normal-case text-text">
+                      {post.title}
+                    </h3>
+                    <span
+                      className={`rounded-full px-2 py-0.5 text-[11px] font-semibold uppercase tracking-[0.1em] ${
+                        post.published
+                          ? "bg-emerald-50 text-emerald-700"
+                          : "bg-amber-50 text-amber-700"
+                      }`}
+                    >
+                      {post.published ? "Published" : "Draft"}
+                    </span>
+                  </div>
+                  <p className="mt-1 text-sm text-muted">
+                    {post.category} · {post.dateLabel} · {post.readTime}
+                  </p>
+                  <p className="mt-1 line-clamp-2 text-sm text-muted-strong">{post.excerpt}</p>
+                </div>
+                <div className="flex flex-wrap gap-2 md:shrink-0">
+                  {post.published ? (
+                    <Link
+                      href={`/blogs/${post.slug}`}
+                      className="inline-flex items-center gap-1.5 rounded-full border border-line px-3 py-1.5 text-xs font-semibold text-muted-strong transition hover:text-blue"
+                    >
+                      Open
+                      <ArrowUpRight size={13} />
+                    </Link>
+                  ) : null}
+                  <button
+                    type="button"
+                    onClick={() => void togglePublished(post)}
+                    className="inline-flex items-center gap-1.5 rounded-full border border-line px-3 py-1.5 text-xs font-semibold text-muted-strong transition hover:text-blue"
+                  >
+                    {post.published ? <EyeOff size={13} /> : <Eye size={13} />}
+                    {post.published ? "Unpublish" : "Publish"}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => openEdit(post)}
+                    className="inline-flex items-center gap-1.5 rounded-full border border-line px-3 py-1.5 text-xs font-semibold text-muted-strong transition hover:text-blue"
+                  >
+                    <Pencil size={13} />
+                    Edit
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => void handleDelete(post)}
+                    className="inline-flex items-center gap-1.5 rounded-full border border-line px-3 py-1.5 text-xs font-semibold text-muted-strong transition hover:border-red-200 hover:text-red-600"
+                  >
+                    <Trash2 size={13} />
+                    Delete
+                  </button>
+                </div>
+              </div>
+            ))}
           </div>
         )}
       </div>
@@ -491,26 +680,25 @@ export function AdminPanel({
   );
 }
 
-function StatusCard({
+const inputClass =
+  "w-full rounded-[12px] border border-line bg-white px-3.5 py-2.5 text-sm text-text outline-none transition placeholder:text-caption focus:border-blue/35 focus:ring-2 focus:ring-blue/10";
+
+function Field({
   label,
-  ok,
-  detail,
+  hint,
+  children,
 }: {
   label: string;
-  ok: boolean;
-  detail: string;
+  hint?: string;
+  children: ReactNode;
 }) {
   return (
-    <div className="rounded-[18px] border border-line bg-white p-4">
-      <div className="flex items-center gap-2">
-        {ok ? (
-          <CheckCircle2 size={16} className="text-blue" />
-        ) : (
-          <CircleAlert size={16} className="text-alert" />
-        )}
-        <p className="text-sm font-semibold text-text">{label}</p>
-      </div>
-      <p className="mt-2 text-sm text-muted-strong">{detail}</p>
-    </div>
+    <label className="block">
+      <span className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.12em] text-caption">
+        {label}
+      </span>
+      {children}
+      {hint ? <span className="mt-1.5 block text-xs leading-relaxed text-muted">{hint}</span> : null}
+    </label>
   );
 }

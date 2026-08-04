@@ -7,25 +7,23 @@ import { ArrowRight, ArrowUpRight, Search } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
   blogCategories,
-  blogPosts,
   getBlogCategoryCounts,
   type BlogCategoryFilter,
   type BlogPost,
 } from "@/lib/blogs";
-import { LinkedInUpdates } from "@/components/LinkedInUpdates";
 import { CtaBand } from "@/components/ui";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
-export function BlogsExperience() {
+export function BlogsExperience({ posts }: { posts: BlogPost[] }) {
   const reduce = useReducedMotion();
   const [category, setCategory] = useState<BlogCategoryFilter>("All");
   const [query, setQuery] = useState("");
-  const counts = getBlogCategoryCounts();
+  const counts = getBlogCategoryCounts(posts);
 
   const filtered = useMemo(() => {
     const normalized = query.trim().toLowerCase();
-    return blogPosts
+    return posts
       .filter((post) => {
         const matchesCategory = category === "All" || post.category === category;
         const matchesQuery =
@@ -37,7 +35,7 @@ export function BlogsExperience() {
         return matchesCategory && matchesQuery;
       })
       .sort((a, b) => (a.date < b.date ? 1 : -1));
-  }, [category, query]);
+  }, [category, query, posts]);
 
   const featured = filtered[0];
   const rest = filtered.slice(1);
@@ -71,7 +69,7 @@ export function BlogsExperience() {
               surveillance estates reliable.
             </p>
             <p className="mt-5 text-sm font-medium text-white/45">
-              {blogPosts.length} articles · Updated regularly
+              {posts.length} articles · Updated regularly
             </p>
           </motion.div>
         </div>
@@ -208,8 +206,6 @@ export function BlogsExperience() {
           </AnimatePresence>
         </div>
       </section>
-
-      <LinkedInUpdates />
 
       <section className="relative pb-10 md:pb-12">
         <div className="container">
