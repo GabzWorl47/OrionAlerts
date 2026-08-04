@@ -2,16 +2,19 @@ import { promises as fs } from "fs";
 import path from "path";
 import { seedBlogPosts } from "@/lib/blog-seed";
 import {
+  DEFAULT_BLOG_CATEGORIES,
   estimateReadTime,
   findBlog,
   formatBlogDateLabel,
+  getCategorySuggestions,
   getRelatedPosts as getRelatedFromList,
-  isBlogCategory,
+  isValidCategory,
+  normalizeCategory,
   parseBlogBody,
   parseTakeaways,
+  publishedAtFromDate,
   slugifyTitle,
   sortBlogPosts,
-  type BlogCategory,
   type BlogPost,
   type BlogSection,
 } from "@/lib/blogs";
@@ -20,7 +23,7 @@ export type BlogInput = {
   title: string;
   slug?: string;
   excerpt: string;
-  category: BlogCategory | string;
+  category: string;
   date?: string;
   author: string;
   authorRole?: string;
@@ -34,24 +37,42 @@ export type BlogInput = {
 
 type BlogStoreFile = {
   posts: BlogPost[];
+  categories: string[];
   updatedAt: string | null;
 };
 
 const STORE_PATH = path.join(process.cwd(), "data", "blogs.json");
 
+function mergeCategories(existing: string[], extras: string[] = []) {
+  const set = new Set<string>();
+  for (const category of DEFAULT_BLOG_CATEGORIES) set.add(category);
+  for (const category of existing) {
+    const normalized = normalizeCategory(category);
+    if (normalized) set.add(normalized);
+  }
+  for (const category of extras) {
+    const normalized = normalizeCategory(category);
+    if (normalized) set.add(normalized);
+  }
+  return Array.from(set).sort((a, b) => a.localeCompare(b));
+}
+
 function normalizePost(raw: Partial<BlogPost>): BlogPost | null {
   if (!raw.slug || !raw.title || !raw.excerpt || !raw.category) return null;
-  if (!isBlogCategory(raw.category)) return null;
+  const category = normalizeCategory(String(raw.category));
+  if (!isValidCategory(category)) return null;
 
   const sections = Array.isArray(raw.sections) ? raw.sections : [];
   const takeaways = Array.isArray(raw.takeaways) ? raw.takeaways.filter(Boolean) : [];
   const date = raw.date || new Date().toISOString().slice(0, 10);
+  const publishedAt =
+    raw.publishedAt || publishedAtFromDate(date, null);
 
   return {
     slug: raw.slug,
     title: raw.title,
     excerpt: raw.excerpt,
-    category: raw.category,
+    category,
     date,
     dateLabel: raw.dateLabel || formatBlogDateLabel(date),
     readTime: raw.readTime || estimateReadTime(sections, takeaways),
@@ -64,6 +85,7 @@ function normalizePost(raw: Partial<BlogPost>): BlogPost | null {
     sections,
     published: raw.published !== false,
     updatedAt: raw.updatedAt ?? null,
+    publishedAt,
   };
 }
 
@@ -74,6 +96,7 @@ async function ensureStoreFile() {
   } catch {
     const initial: BlogStoreFile = {
       posts: seedBlogPosts,
+      categories: mergeCategories([], seedBlogPosts.map((post) => post.category)),
       updatedAt: new Date().toISOString(),
     };
     await fs.writeFile(STORE_PATH, JSON.stringify(initial, null, 2), "utf8");
@@ -89,23 +112,41 @@ async function readStoreFile(): Promise<BlogStoreFile> {
       ? parsed.posts.map(normalizePost).filter((post): post is BlogPost => Boolean(post))
       : [];
 
+    const categories = mergeCategories(
+      Array.isArray(parsed.categories) ? parsed.categories : [],
+      posts.map((post) => post.category),
+    );
+
     if (posts.length === 0) {
-      return { posts: seedBlogPosts, updatedAt: parsed.updatedAt ?? null };
+      return {
+        posts: seedBlogPosts,
+        categories: mergeCategories(categories, seedBlogPosts.map((post) => post.category)),
+        updatedAt: parsed.updatedAt ?? null,
+      };
     }
 
     return {
       posts,
+      categories,
       updatedAt: parsed.updatedAt ?? null,
     };
   } catch {
-    return { posts: seedBlogPosts, updatedAt: null };
+    return {
+      posts: seedBlogPosts,
+      categories: mergeCategories([], seedBlogPosts.map((post) => post.category)),
+      updatedAt: null,
+    };
   }
 }
 
-async function writeStoreFile(posts: BlogPost[]) {
+async function writeStoreFile(posts: BlogPost[], categories: string[] = []) {
   await ensureStoreFile();
   const next: BlogStoreFile = {
     posts: sortBlogPosts(posts),
+    categories: mergeCategories(
+      categories,
+      posts.map((post) => post.category),
+    ),
     updatedAt: new Date().toISOString(),
   };
   await fs.writeFile(STORE_PATH, JSON.stringify(next, null, 2), "utf8");
@@ -139,9 +180,10 @@ function buildPostFromInput(input: BlogInput, existing?: BlogPost): BlogPost {
   }
 
   const date = input.date || existing?.date || new Date().toISOString().slice(0, 10);
-  const category = isBlogCategory(String(input.category))
-    ? (input.category as BlogCategory)
-    : existing?.category || "Operations";
+  const category = normalizeCategory(String(input.category || existing?.category || "Operations"));
+  if (!isValidCategory(category)) {
+    throw new Error("Category must be between 2 and 48 characters.");
+  }
 
   return {
     slug: existing?.slug || "",
@@ -158,12 +200,18 @@ function buildPostFromInput(input: BlogInput, existing?: BlogPost): BlogPost {
     sections,
     published: input.published ?? existing?.published ?? false,
     updatedAt: new Date().toISOString(),
+    publishedAt: publishedAtFromDate(date, existing?.publishedAt),
   };
 }
 
 export async function getAllBlogPosts() {
   const store = await readStoreFile();
   return sortBlogPosts(store.posts);
+}
+
+export async function getBlogCategories() {
+  const store = await readStoreFile();
+  return getCategorySuggestions(store.posts, store.categories);
 }
 
 export async function getPublishedBlogPosts() {
@@ -196,7 +244,7 @@ export async function createBlogPost(input: BlogInput) {
     throw new Error("Add at least one paragraph to the article body.");
   }
 
-  const next = await writeStoreFile([post, ...store.posts]);
+  const next = await writeStoreFile([post, ...store.posts], store.categories);
   return findBlog(next.posts, slug)!;
 }
 
@@ -217,7 +265,7 @@ export async function updateBlogPost(slug: string, input: BlogInput) {
   }
 
   const posts = store.posts.map((item) => (item.slug === slug ? post : item));
-  const next = await writeStoreFile(posts);
+  const next = await writeStoreFile(posts, store.categories);
   return findBlog(next.posts, nextSlug)!;
 }
 
@@ -226,7 +274,10 @@ export async function deleteBlogPost(slug: string) {
   if (!store.posts.some((post) => post.slug === slug)) {
     throw new Error("Blog post not found.");
   }
-  await writeStoreFile(store.posts.filter((post) => post.slug !== slug));
+  await writeStoreFile(
+    store.posts.filter((post) => post.slug !== slug),
+    store.categories,
+  );
   return { ok: true as const };
 }
 
@@ -240,6 +291,6 @@ export async function setBlogPublished(slug: string, published: boolean) {
       ? { ...post, published, updatedAt: new Date().toISOString() }
       : post,
   );
-  const next = await writeStoreFile(posts);
+  const next = await writeStoreFile(posts, store.categories);
   return findBlog(next.posts, slug)!;
 }

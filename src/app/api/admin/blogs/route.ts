@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { isAdminAuthenticated } from "@/lib/admin-auth";
-import { createBlogPost, getAllBlogPosts } from "@/lib/blog-store";
+import { createBlogPost, getAllBlogPosts, getBlogCategories } from "@/lib/blog-store";
 import type { BlogInput } from "@/lib/blog-store";
 
 export const runtime = "nodejs";
@@ -11,9 +11,13 @@ export async function GET() {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const posts = await getAllBlogPosts();
+  const [posts, categories] = await Promise.all([
+    getAllBlogPosts(),
+    getBlogCategories(),
+  ]);
   return NextResponse.json({
     posts,
+    categories,
     counts: {
       all: posts.length,
       published: posts.filter((post) => post.published).length,

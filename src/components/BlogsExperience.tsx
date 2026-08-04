@@ -6,9 +6,9 @@ import { useMemo, useState } from "react";
 import { ArrowRight, ArrowUpRight, Search } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
-  blogCategories,
+  formatRelativeTime,
   getBlogCategoryCounts,
-  type BlogCategoryFilter,
+  getFilterCategories,
   type BlogPost,
 } from "@/lib/blogs";
 import { CtaBand } from "@/components/ui";
@@ -17,8 +17,9 @@ const ease = [0.22, 1, 0.36, 1] as const;
 
 export function BlogsExperience({ posts }: { posts: BlogPost[] }) {
   const reduce = useReducedMotion();
-  const [category, setCategory] = useState<BlogCategoryFilter>("All");
+  const [category, setCategory] = useState("All");
   const [query, setQuery] = useState("");
+  const filterCategories = useMemo(() => getFilterCategories(posts), [posts]);
   const counts = getBlogCategoryCounts(posts);
 
   const filtered = useMemo(() => {
@@ -114,7 +115,7 @@ export function BlogsExperience({ posts }: { posts: BlogPost[] }) {
             </div>
 
             <div className="flex flex-wrap gap-2">
-              {blogCategories.map((item) => {
+              {filterCategories.map((item) => {
                 const active = category === item;
                 const count = counts[item] ?? 0;
                 if (item !== "All" && count === 0) return null;
@@ -289,7 +290,8 @@ function FeaturedArticle({ post }: { post: BlogPost }) {
             <div>
               <p className="text-sm font-semibold text-white">{post.author}</p>
               <p className="text-xs text-white/55">
-                {post.dateLabel} · {post.readTime}
+                Posted {formatRelativeTime(post.publishedAt || post.date).toLowerCase()} ·{" "}
+                {post.readTime}
               </p>
             </div>
           </div>
@@ -325,7 +327,8 @@ function ArticleCard({ post, index }: { post: BlogPost; index: number }) {
 
       <div className="flex flex-1 flex-col p-5 md:p-6">
         <p className="text-xs font-medium text-caption">
-          {post.dateLabel} · {post.readTime}
+          Posted {formatRelativeTime(post.publishedAt || post.date).toLowerCase()} ·{" "}
+          {post.readTime}
         </p>
         <h3 className="display mt-2 text-[1.2rem] normal-case leading-snug text-text transition group-hover:text-blue md:text-[1.3rem]">
           {post.title}

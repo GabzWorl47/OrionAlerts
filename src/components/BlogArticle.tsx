@@ -11,7 +11,7 @@ import {
   Share2,
 } from "lucide-react";
 import { Button } from "@/components/ui";
-import type { BlogPost } from "@/lib/blogs";
+import { formatRelativeTime, type BlogPost } from "@/lib/blogs";
 import { BlogArticleContent, BlogArticleToc } from "@/components/BlogArticleContent";
 
 function LinkedInIcon({ size = 15 }: { size?: number }) {
@@ -93,6 +93,10 @@ export function BlogArticle({ post, related }: BlogArticleProps) {
 
           <div className="mt-6 flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.12em]">
             <span className="rounded-full bg-blue/10 px-2.5 py-1 text-blue">{post.category}</span>
+            <span className="text-caption">·</span>
+            <span className="text-caption">
+              {formatRelativeTime(post.publishedAt || post.date)}
+            </span>
             <span className="text-caption">·</span>
             <span className="text-caption">{post.dateLabel}</span>
             <span className="text-caption">·</span>

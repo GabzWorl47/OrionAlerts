@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { Eye, X } from "lucide-react";
-import type { BlogPost } from "@/lib/blogs";
+import { formatRelativeTime, type BlogPost } from "@/lib/blogs";
 import { BlogArticleContent, BlogArticleToc } from "@/components/BlogArticleContent";
 
 export function BlogPreviewModal({
@@ -72,6 +72,10 @@ export function BlogPreviewModal({
               <div className="mt-6 flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.12em]">
                 <span className="rounded-full bg-blue/10 px-2.5 py-1 text-blue">
                   {post.category}
+                </span>
+                <span className="text-caption">·</span>
+                <span className="text-caption">
+                  Posted {formatRelativeTime(post.publishedAt || post.date).toLowerCase()}
                 </span>
                 <span className="text-caption">·</span>
                 <span className="text-caption">{post.dateLabel}</span>

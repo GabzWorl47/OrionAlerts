@@ -24,15 +24,15 @@ import {
   X,
 } from "lucide-react";
 import {
-  blogCategoryOptions,
+  DEFAULT_BLOG_CATEGORIES,
   estimateReadTime,
   formatBlogDateLabel,
+  getCategorySuggestions,
   parseBlogBody,
   parseTakeaways,
   serializeBlogBody,
   serializeTakeaways,
   slugifyTitle,
-  type BlogCategory,
   type BlogPost,
 } from "@/lib/blogs";
 import {
@@ -54,7 +54,7 @@ type FormState = {
   title: string;
   slug: string;
   excerpt: string;
-  category: BlogCategory;
+  category: string;
   date: string;
   author: string;
   authorRole: string;
@@ -109,6 +109,7 @@ export function AdminPanel({
   const [loginError, setLoginError] = useState<string | null>(null);
   const [loggingIn, setLoggingIn] = useState(false);
   const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [categories, setCategories] = useState<string[]>([...DEFAULT_BLOG_CATEGORIES]);
   const [counts, setCounts] = useState<Counts>({ all: 0, published: 0, drafts: 0 });
   const [loading, setLoading] = useState(initiallyAuthenticated);
   const [saving, setSaving] = useState(false);
@@ -133,6 +134,7 @@ export function AdminPanel({
       }
       const json = (await response.json()) as {
         posts?: BlogPost[];
+        categories?: string[];
         counts?: Counts;
         error?: string;
       };
@@ -141,6 +143,11 @@ export function AdminPanel({
         return;
       }
       setPosts(json.posts || []);
+      setCategories(
+        json.categories?.length
+          ? json.categories
+          : getCategorySuggestions(json.posts || []),
+      );
       setCounts(json.counts || { all: 0, published: 0, drafts: 0 });
     } catch {
       setActionError("Could not load blogs.");
@@ -604,18 +611,23 @@ export function AdminPanel({
                 placeholder="alert-fatigue-is-an-ops-problem"
               />
             </Field>
-            <Field label="Category">
-              <select
+            <Field
+              label="Category"
+              hint="Pick a suggestion or type a new category name (saved with the post)."
+            >
+              <input
+                required
+                list="admin-blog-categories"
                 value={form.category}
-                onChange={(e) => updateForm("category", e.target.value as BlogCategory)}
+                onChange={(e) => updateForm("category", e.target.value)}
                 className={inputClass}
-              >
-                {blogCategoryOptions.map((category) => (
-                  <option key={category} value={category}>
-                    {category}
-                  </option>
+                placeholder="e.g. Security, Product Updates, Manufacturing"
+              />
+              <datalist id="admin-blog-categories">
+                {categories.map((category) => (
+                  <option key={category} value={category} />
                 ))}
-              </select>
+              </datalist>
             </Field>
             <Field label="Publish date">
               <input
