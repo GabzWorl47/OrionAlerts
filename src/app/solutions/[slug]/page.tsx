@@ -48,7 +48,6 @@ export default async function SolutionDetailPage({
             solution.slug === "vms" ||
             solution.slug === "asset-tracking" ||
             solution.slug === "ai-analytics" ||
-            solution.slug === "smart-search" ||
             solution.slug === "amc-management" ||
             solution.slug === "health-monitoring"
           }
@@ -126,30 +125,7 @@ export default async function SolutionDetailPage({
                         preview: "multisite",
                       },
                     ]
-                  : solution.slug === "smart-search"
-                    ? [
-                        {
-                          title: "Seconds instead of hours for footage review",
-                          description: "Find the right clip without scrubbing recordings",
-                          preview: "search",
-                        },
-                        {
-                          title: "Search across all cameras and sites at once",
-                          description: "One query spans every camera in the estate",
-                          preview: "multisite",
-                        },
-                        {
-                          title: "Less storage dependency for investigations",
-                          description: "Go straight to ranked evidence, not full archives",
-                          preview: "livewall",
-                        },
-                        {
-                          title: "Higher operator productivity on every incident",
-                          description: "Natural language and filters cut review time",
-                          preview: "alert",
-                        },
-                      ]
-                    : solution.slug === "amc-management"
+                  : solution.slug === "amc-management"
                       ? [
                           {
                             title: "Fewer prolonged camera outages",
@@ -191,7 +167,7 @@ export default async function SolutionDetailPage({
                     videoSrc: "/Videos/workflow/ai-alert.mp4",
                   },
                   {
-                    title: "Smart search",
+                    title: "Evidence search",
                     description: "Pull evidence without scrubbing footage",
                     preview: "search",
                     videoSrc: "/Videos/video/Smart%20search.mp4",
@@ -249,30 +225,7 @@ export default async function SolutionDetailPage({
                         preview: "multisite",
                       },
                     ]
-                  : solution.slug === "smart-search"
-                    ? [
-                        {
-                          title: "Index footage",
-                          description: "Index cameras, events, and alert history",
-                          preview: "livewall",
-                        },
-                        {
-                          title: "Query estate",
-                          description: "Search by language or filters across sites",
-                          preview: "search",
-                        },
-                        {
-                          title: "Review clips",
-                          description: "Open ranked clips and related alerts",
-                          preview: "alert",
-                        },
-                        {
-                          title: "Export evidence",
-                          description: "Close investigations with ready proof",
-                          preview: "multisite",
-                        },
-                      ]
-                    : solution.slug === "amc-management"
+                  : solution.slug === "amc-management"
                       ? [
                           {
                             title: "Import contracts",

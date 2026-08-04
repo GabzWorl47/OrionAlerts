@@ -87,7 +87,6 @@ export function LeadForm({ kind, title, subtitle }: LeadFormProps) {
               </option>
               <option value="vms">VMS</option>
               <option value="ai-analytics">AI Vision & Real-Time Alerts</option>
-              <option value="smart-search">Smart Search</option>
               <option value="asset-tracking">Asset Tracking</option>
               <option value="amc-management">AMC Management</option>
               <option value="health-monitoring">Health Monitoring</option>

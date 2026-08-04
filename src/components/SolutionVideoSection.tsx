@@ -6,6 +6,8 @@ import Image from "next/image";
 import { AnimatePresence, motion, useInView, useReducedMotion } from "framer-motion";
 import {
   Activity,
+  ArrowLeft,
+  ArrowRight,
   BellRing,
   CheckCircle2,
   LayoutGrid,
@@ -45,7 +47,7 @@ const DEFAULT_WORKFLOW: WorkflowStep[] = [
     preview: "alert",
   },
   {
-    title: "Smart search",
+    title: "Event search",
     description: "Find evidence in seconds",
     preview: "search",
   },
@@ -479,6 +481,12 @@ export function SolutionVideoSection({
   const [activeStep, setActiveStep] = useState(0);
   const [preview, setPreview] = useState<PreviewTarget>(null);
   const [autoPlay, setAutoPlay] = useState(true);
+  const [outcomeIndex, setOutcomeIndex] = useState(0);
+  const outcomeVideoRef = useRef<HTMLVideoElement>(null);
+
+  const currentOutcome = outcomeItems[outcomeIndex] ?? outcomeItems[0];
+  const activeOutcomeVideo = currentOutcome?.videoSrc ?? src;
+  const OutcomeIcon = outcomeIcons[outcomeIndex % outcomeIcons.length];
 
   useEffect(() => {
     if (reduce || !autoPlay || preview || steps.length < 2 || expanded) return;
@@ -487,6 +495,45 @@ export function SolutionVideoSection({
     }, 2600);
     return () => window.clearInterval(timer);
   }, [autoPlay, expanded, preview, reduce, steps.length]);
+
+  useEffect(() => {
+    if (!cinematicEntrance || reduce || outcomeItems.length <= 1) return;
+    const timer = window.setInterval(() => {
+      setOutcomeIndex((value) => (value + 1) % outcomeItems.length);
+    }, activeOutcomeVideo ? 8000 : 5600);
+    return () => window.clearInterval(timer);
+  }, [
+    activeOutcomeVideo,
+    cinematicEntrance,
+    outcomeIndex,
+    outcomeItems.length,
+    reduce,
+  ]);
+
+  useEffect(() => {
+    if (!cinematicEntrance) return;
+    const video = outcomeVideoRef.current;
+    if (!video || !activeOutcomeVideo) return;
+    video.muted = true;
+    video.currentTime = 0;
+    const tryPlay = async () => {
+      try {
+        await video.play();
+      } catch {
+        // Autoplay may be blocked until user interaction.
+      }
+    };
+    if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
+      void tryPlay();
+    } else {
+      video.addEventListener("loadeddata", () => void tryPlay(), { once: true });
+    }
+  }, [activeOutcomeVideo, cinematicEntrance, outcomeIndex]);
+
+  function goToOutcome(next: number) {
+    if (next === outcomeIndex) return;
+    setOutcomeIndex(next);
+  }
 
   const openWorkflowPreview = (index: number) => {
     setActiveStep(index);
@@ -526,15 +573,6 @@ export function SolutionVideoSection({
   const panelsReady = !expanded;
   const showWorkflow = !cinematicEntrance;
   const cinematicEase = [0.22, 1, 0.36, 1] as const;
-  const [isLg, setIsLg] = useState(false);
-
-  useEffect(() => {
-    const mq = window.matchMedia("(min-width: 1024px)");
-    const sync = () => setIsLg(mq.matches);
-    sync();
-    mq.addEventListener("change", sync);
-    return () => mq.removeEventListener("change", sync);
-  }, []);
 
   const outcomesList = (
     <>
@@ -682,6 +720,157 @@ export function SolutionVideoSection({
     </div>
   );
 
+  if (cinematicEntrance) {
+    return (
+      <section
+        ref={sectionRef}
+        className="relative overflow-hidden bg-bg py-10 md:py-14"
+      >
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_80%_10%,rgba(43,140,255,0.12),transparent_50%)]" />
+        <div className="container relative">
+          <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+            <div className="max-w-2xl">
+              <p className="eyebrow mb-3">Outcomes</p>
+              <h2 className="display text-3xl normal-case text-steel-gradient md:text-4xl">
+                What operators notice first
+              </h2>
+            </div>
+            {outcomeItems.length > 1 ? (
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  aria-label="Previous outcome"
+                  onClick={() =>
+                    goToOutcome(
+                      (outcomeIndex - 1 + outcomeItems.length) % outcomeItems.length,
+                    )
+                  }
+                  className="flex h-11 w-11 items-center justify-center rounded-full border border-line bg-white text-text transition hover:border-blue/40 hover:text-blue"
+                >
+                  <ArrowLeft size={16} />
+                </button>
+                <button
+                  type="button"
+                  aria-label="Next outcome"
+                  onClick={() => goToOutcome((outcomeIndex + 1) % outcomeItems.length)}
+                  className="flex h-11 w-11 items-center justify-center rounded-full border border-line bg-white text-text transition hover:border-blue/40 hover:text-blue"
+                >
+                  <ArrowRight size={16} />
+                </button>
+              </div>
+            ) : null}
+          </div>
+
+          <div className="grid items-stretch gap-5 lg:grid-cols-[1.35fr_0.65fr]">
+            <div className="relative flex h-full min-h-[360px] flex-col overflow-hidden rounded-[28px] bg-[#0b1628] text-white shadow-[0_30px_80px_-40px_rgba(15,61,120,0.65)] md:min-h-[420px]">
+              {activeOutcomeVideo ? (
+                <>
+                  <video
+                    key={activeOutcomeVideo}
+                    ref={outcomeVideoRef}
+                    src={activeOutcomeVideo}
+                    poster={poster}
+                    className="absolute inset-0 h-full w-full object-cover brightness-[1.16] contrast-[1.05] saturate-[1.04]"
+                    muted
+                    loop
+                    playsInline
+                    autoPlay
+                    preload="auto"
+                    aria-hidden
+                  />
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#07111f]/75 via-[#07111f]/15 to-transparent" />
+                </>
+              ) : (
+                <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_20%_0%,rgba(43,140,255,0.35),transparent_45%),radial-gradient(ellipse_at_100%_100%,rgba(48,227,255,0.18),transparent_40%)]" />
+              )}
+
+              <div className="relative z-10 flex flex-1 flex-col justify-end p-8 md:p-10">
+                <div className="flex items-center gap-3">
+                  <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-cyan backdrop-blur">
+                    <OutcomeIcon size={20} />
+                  </span>
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-cyan">
+                    Outcome {String(outcomeIndex + 1).padStart(2, "0")} /{" "}
+                    {String(outcomeItems.length).padStart(2, "0")}
+                  </p>
+                </div>
+                <h3 className="display mt-4 max-w-2xl text-[clamp(1.45rem,2.8vw,2.1rem)] normal-case leading-[1.15] text-white">
+                  {currentOutcome?.title ?? label}
+                </h3>
+                {currentOutcome?.description ? (
+                  <p className="mt-3 max-w-xl text-sm leading-relaxed text-white/70">
+                    {currentOutcome.description}
+                  </p>
+                ) : null}
+
+                <div className="mt-6 flex gap-2">
+                  {outcomeItems.map((item, i) => (
+                    <button
+                      key={item.title}
+                      type="button"
+                      aria-label={`Show ${item.title}`}
+                      onClick={() => goToOutcome(i)}
+                      className={`h-1 rounded-full transition-all ${
+                        i === outcomeIndex
+                          ? "flex-[2] bg-cyan"
+                          : "flex-1 bg-white/20 hover:bg-white/40"
+                      }`}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="flex h-full min-h-[360px] flex-col gap-2.5 md:min-h-[420px]">
+              {outcomeItems.map((item, i) => {
+                const ItemIcon = outcomeIcons[i % outcomeIcons.length];
+                const active = i === outcomeIndex;
+                return (
+                  <button
+                    key={item.title}
+                    type="button"
+                    onClick={() => goToOutcome(i)}
+                    aria-pressed={active}
+                    className={`group flex w-full flex-1 items-start gap-3 rounded-[18px] border px-4 py-3.5 text-left transition-colors ${
+                      active
+                        ? "border-blue/35 bg-white shadow-[0_14px_32px_-24px_rgba(43,140,255,0.55)]"
+                        : "border-transparent bg-white/50 hover:border-line hover:bg-white"
+                    }`}
+                  >
+                    <span
+                      className={`mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl transition ${
+                        active ? "bg-blue text-white" : "bg-surface-2 text-blue"
+                      }`}
+                    >
+                      <ItemIcon size={16} />
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block text-[11px] font-semibold uppercase tracking-[0.12em] text-caption">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <span
+                        className={`mt-1 block font-display text-[15px] normal-case leading-snug ${
+                          active ? "text-blue" : "text-text"
+                        }`}
+                      >
+                        {item.title}
+                      </span>
+                      {active ? (
+                        <span className="mt-2 block text-[13px] leading-relaxed text-muted-strong line-clamp-3">
+                          {item.description}
+                        </span>
+                      ) : null}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section
       ref={sectionRef}
@@ -700,33 +889,7 @@ export function SolutionVideoSection({
       </div>
 
       <div className="container relative z-10">
-        {cinematicEntrance ? (
-          <div className="flex flex-col lg:flex-row lg:items-stretch">
-            <motion.aside
-              className="order-2 mt-6 shrink-0 overflow-hidden lg:order-1 lg:mt-0"
-              initial={false}
-              animate={
-                isLg
-                  ? {
-                      width: expanded ? 0 : 300,
-                      opacity: expanded ? 0 : 1,
-                      marginRight: expanded ? 0 : 28,
-                    }
-                  : { width: "100%", opacity: 1, marginRight: 0 }
-              }
-              transition={{ duration: 1.15, ease: cinematicEase }}
-            >
-              <div className={isLg ? "w-[300px]" : "w-full"}>
-                <div className="rounded-[22px] border border-line bg-white/90 p-4 shadow-[0_18px_44px_-28px_rgba(43,140,255,0.45)] backdrop-blur-sm md:p-5">
-                  {outcomesList}
-                </div>
-              </div>
-            </motion.aside>
-
-            <div className="order-1 min-w-0 flex-1 lg:order-2">{videoStage}</div>
-          </div>
-        ) : (
-          <div className="solution-video-layout grid items-center">
+        <div className="solution-video-layout grid items-center">
             {showWorkflow ? (
               <aside className="hidden lg:block">
                 <motion.div
@@ -812,7 +975,6 @@ export function SolutionVideoSection({
 
             <aside className="mt-6 lg:mt-0">{outcomesPanel}</aside>
           </div>
-        )}
 
         {showWorkflow ? (
           <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:hidden">

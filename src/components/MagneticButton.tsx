@@ -13,11 +13,11 @@ type MagneticButtonProps = {
 
 const variants = {
   solid:
-    "rounded-[8px] border border-cyan/40 bg-cyan px-4 py-2.5 text-sm font-semibold !text-[#0c2238] shadow-[0_0_24px_rgba(48,227,255,0.28)] transition-colors hover:bg-white hover:!text-[#0c2238]",
+    "rounded-[10px] border border-cyan/50 bg-cyan px-5 py-3 text-sm font-semibold !text-blue shadow-[0_10px_28px_rgba(12,34,56,0.12)] transition-colors hover:bg-white hover:!text-blue",
   outline:
-    "rounded-[14px] border border-line bg-white px-5 py-3 text-sm font-semibold text-text shadow-sm transition duration-200 hover:border-blue/40 hover:text-blue",
+    "rounded-[10px] border border-line bg-white px-5 py-3 text-sm font-semibold text-text shadow-[0_10px_28px_rgba(12,34,56,0.06)] transition duration-200 hover:border-blue/25 hover:text-blue",
   ghost:
-    "rounded-[14px] border border-transparent bg-transparent px-5 py-3 text-sm font-semibold text-muted transition duration-200 hover:text-text",
+    "rounded-[10px] border border-transparent bg-transparent px-5 py-3 text-sm font-semibold text-muted transition duration-200 hover:text-text",
 };
 
 export function MagneticButton({

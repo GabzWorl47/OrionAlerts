@@ -16,13 +16,13 @@ function LogoBadge({ client }: { client: ClientLogo }) {
       className="h-8 w-auto max-w-[140px] object-contain opacity-70 grayscale transition group-hover:opacity-100 group-hover:grayscale-0 group-focus-visible:opacity-100 group-focus-visible:grayscale-0"
     />
   ) : (
-    <span className="text-center text-xs font-semibold uppercase tracking-[0.14em] text-muted transition group-hover:text-text group-focus-visible:text-text">
+    <span className="text-center text-xs font-semibold uppercase tracking-[0.14em] text-caption transition group-hover:text-text group-focus-visible:text-text">
       {client.name}
     </span>
   );
 
   const className =
-    "group flex h-16 w-[200px] shrink-0 items-center justify-center rounded-[14px] border border-line bg-surface px-5 shadow-sm transition hover:border-blue/30 focus-visible:border-blue/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue/30";
+    "group flex h-16 w-[200px] shrink-0 items-center justify-center rounded-[14px] border border-line bg-white px-5 shadow-[0_10px_28px_rgba(12,34,56,0.06)] transition hover:border-blue/20 focus-visible:border-blue/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan/40";
 
   if (client.href) {
     return (
@@ -53,7 +53,7 @@ export function LogoMarquee() {
         <Reveal>
           <h2
             id="trusted-clients-heading"
-            className="display text-center text-[clamp(1.6rem,3.5vw,2.4rem)] uppercase text-steel-gradient"
+            className="text-center text-[clamp(1.6rem,3.5vw,2.4rem)] font-semibold leading-[1.1] tracking-[-0.03em] text-text"
           >
             Trusted by Leading Organizations
           </h2>

@@ -13,13 +13,13 @@ function replyFor(input: string) {
     return "Partner tracks cover integrators, technology partners, white-label, and certification. Visit Become a Partner or request a callback.";
   if (q.includes("detection") || q.includes("ai") || q.includes("copilot") || q.includes("vision"))
     return "AI Vision turns camera streams into prioritized alerts — intrusion, PPE, safety events, and custom rules.";
-  if (q.includes("smart search") || q.includes("search"))
-    return "Smart Search retrieves relevant clips and alerts in seconds across cameras and sites — without manual footage review.";
+  if (q.includes("search") || q.includes("investigat") || q.includes("footage"))
+    return "Investigations stay in the AI Vision and VMS workflow — prioritized alerts with clip context help operators find what matters without scrubbing hours of video.";
   if (q.includes("health"))
     return "Health Monitoring tracks cameras, NVRs, servers, storage, and network status in real time so issues are caught before they impact operations.";
   if (q.includes("support") || q.includes("ticket"))
     return "Describe the issue, site, and urgency — or use Talk to Our Team to open a contact lead.";
-  return "I can answer briefly about VMS, AI Vision, Smart Search, Asset Tracking, AMC, and Health Monitoring — or capture a callback request.";
+  return "I can answer briefly about VMS, AI Vision, Asset Tracking, AMC, and Health Monitoring — or capture a callback request.";
 }
 
 export function AiAssistant() {

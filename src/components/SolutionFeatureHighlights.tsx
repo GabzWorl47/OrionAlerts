@@ -60,7 +60,7 @@ export function SolutionFeatureHighlights({ features }: { features: Feature[] })
   const [openId, setOpenId] = useState<string | null>(null);
 
   return (
-    <div className="grid gap-3 sm:grid-cols-2">
+    <div className="grid gap-4 sm:grid-cols-2">
       {features.map((feature, index) => {
         const Icon = ICONS[index % ICONS.length];
         const open = openId === feature.title;
@@ -68,49 +68,53 @@ export function SolutionFeatureHighlights({ features }: { features: Feature[] })
         return (
           <div
             key={feature.title}
-            className={`overflow-hidden rounded-[16px] border bg-white transition ${
+            className={`group relative overflow-hidden rounded-[24px] border bg-white transition duration-300 hover:-translate-y-1 hover:border-blue/35 hover:shadow-[0_24px_50px_-30px_rgba(43,140,255,0.5)] ${
               open
-                ? "border-cyan/50 shadow-[0_12px_28px_rgba(0,0,0,0.12)]"
-                : "border-line hover:border-cyan/40 hover:shadow-[0_10px_24px_rgba(15,23,42,0.08)]"
+                ? "border-blue/35 shadow-[0_24px_50px_-30px_rgba(43,140,255,0.5)]"
+                : "border-line"
             }`}
           >
+            <div
+              className={`pointer-events-none absolute inset-y-0 left-0 w-1 bg-gradient-to-b from-blue to-cyan transition ${
+                open ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+              }`}
+            />
             <button
               type="button"
               onClick={() =>
                 setOpenId((current) => (current === feature.title ? null : feature.title))
               }
               aria-expanded={open}
-              className="group flex w-full items-start justify-between gap-3 px-4 py-4 text-left"
+              className="flex w-full items-start gap-5 p-6 text-left md:p-7"
             >
-              <span className="min-w-0">
-                <span className="mb-2 block font-display text-sm text-cyan">
+              <span
+                className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl transition ${
+                  open
+                    ? "bg-blue text-white"
+                    : "bg-surface-2 text-blue group-hover:bg-blue group-hover:text-white"
+                }`}
+              >
+                <Icon size={20} />
+              </span>
+
+              <span className="min-w-0 flex-1">
+                <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-caption">
                   {String(index + 1).padStart(2, "0")}
                 </span>
-                <span className="block text-sm font-semibold leading-snug text-[#0f172a] group-hover:text-blue">
+                <span className="mt-1 block display text-xl normal-case leading-snug text-text transition group-hover:text-blue">
                   {feature.title}
                 </span>
-                <span className="mt-1.5 block text-[13px] leading-relaxed text-muted-strong">
+                <span className="mt-3 block text-sm leading-relaxed text-muted line-clamp-3">
                   {feature.description}
                 </span>
               </span>
 
-              <span className="mt-0.5 flex shrink-0 items-center gap-2">
-                <span
-                  className={`flex h-9 w-9 items-center justify-center rounded-[10px] transition ${
-                    open
-                      ? "bg-blue text-white"
-                      : "bg-[#e8f4ff] text-blue group-hover:bg-blue/15"
-                  }`}
-                >
-                  <Icon size={16} />
-                </span>
-                <span
-                  className={`inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#f3f7fc] text-muted transition ${
-                    open ? "rotate-180 text-blue" : ""
-                  }`}
-                >
-                  <ChevronDown size={16} />
-                </span>
+              <span
+                className={`mt-1 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-surface-2 text-muted transition ${
+                  open ? "rotate-180 text-blue" : ""
+                }`}
+              >
+                <ChevronDown size={16} />
               </span>
             </button>
 
@@ -124,11 +128,11 @@ export function SolutionFeatureHighlights({ features }: { features: Feature[] })
                   transition={{ duration: 0.32, ease }}
                   className="overflow-hidden"
                 >
-                  <div className="border-t border-cyan/20 bg-[linear-gradient(180deg,#f7fbff_0%,#ffffff_100%)] px-4 pb-4 pt-3">
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-cyan">
+                  <div className="border-t border-line bg-surface px-6 pb-6 pt-4 md:px-7">
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-caption">
                       Feature preview
                     </p>
-                    <p className="mt-2 text-[13px] leading-relaxed text-muted-strong">
+                    <p className="mt-2 text-sm leading-relaxed text-muted">
                       {featurePreviewText(feature)}
                     </p>
                   </div>

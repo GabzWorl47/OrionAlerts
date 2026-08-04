@@ -8,14 +8,6 @@ export type UniversalVideoCard = {
   poster?: string;
 };
 
-export type ClientLogo = {
-  id: string;
-  name: string;
-  /** Optional image; omit until approved logos land. */
-  logoSrc?: string;
-  href?: string;
-};
-
 export type HomepageSolution = {
   slug: string;
   name: string;
@@ -24,6 +16,14 @@ export type HomepageSolution = {
   media: { poster: string; src?: string; alt: string };
   ctaLabel: string;
   ctaHref: string;
+};
+
+export type ClientLogo = {
+  id: string;
+  name: string;
+  /** Optional image; omit until approved logos land. */
+  logoSrc?: string;
+  href?: string;
 };
 
 export type ComparisonRow = {
@@ -68,12 +68,13 @@ export const universalSolutionVideos: UniversalVideoCard[] = [
     poster: "/visuals/solutions/ai-vision.png",
   },
   {
-    id: "smart-search",
-    title: "Faster Investigations",
+    id: "health-uptime",
+    title: "Infrastructure Health & Uptime",
     description:
-      "Find people, vehicles, and events across cameras in seconds with smart search and filters.",
-    src: "/Videos/video/Smart%20search.mp4",
-    poster: "/visuals/solutions/smart-search.png",
+      "Detect camera, NVR, storage, and network issues before they create operational blind spots.",
+    src: "/Videos/video/health-monitoring.mp4",
+    poster:
+      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=80",
   },
   {
     id: "estate-ops",
@@ -154,7 +155,7 @@ export const aiUseCases: UseCase[] = [
     title: "Fire and Smoke Detection",
     description: "Spot early smoke and fire indicators across monitored zones.",
     poster: useCasePoster,
-    previewSrc: useCasePreview,
+    previewSrc: "/Videos/video/Fire%20and%20Smoke%20Detection.mp4",
     href: "/solutions/ai-analytics",
   },
   {
@@ -162,7 +163,7 @@ export const aiUseCases: UseCase[] = [
     title: "Fall Detection",
     description: "Identify falls quickly so responders can intervene sooner.",
     poster: useCasePoster,
-    previewSrc: useCasePreview,
+    previewSrc: "/Videos/video/Fall%20Detection.mp4",
     href: "/solutions/ai-analytics",
   },
   {
@@ -178,7 +179,7 @@ export const aiUseCases: UseCase[] = [
     title: "Perimeter Intrusion Detection",
     description: "Monitor fences, gates, and outer boundaries continuously.",
     poster: useCasePoster,
-    previewSrc: useCasePreview,
+    previewSrc: "/Videos/video/Perimeter%20Intrusion%20Detection.mp4",
     href: "/solutions/ai-analytics",
   },
   {
@@ -186,7 +187,7 @@ export const aiUseCases: UseCase[] = [
     title: "Crowd Detection",
     description: "Track density build-ups that need operational attention.",
     poster: useCasePoster,
-    previewSrc: useCasePreview,
+    previewSrc: "/Videos/video/Crowd%20Detection.mp4",
     href: "/solutions/ai-analytics",
   },
   {
@@ -194,7 +195,7 @@ export const aiUseCases: UseCase[] = [
     title: "Loitering Detection",
     description: "Flag prolonged presence in sensitive or idle zones.",
     poster: useCasePoster,
-    previewSrc: useCasePreview,
+    previewSrc: "/Videos/video/Loitering%20Detection.mp4",
     href: "/solutions/ai-analytics",
   },
   {
@@ -202,7 +203,7 @@ export const aiUseCases: UseCase[] = [
     title: "Camera Tampering Detection",
     description: "Detect blocked, moved, or otherwise compromised cameras.",
     poster: useCasePoster,
-    previewSrc: useCasePreview,
+    previewSrc: "/Videos/video/Camera%20tampering%20detection.mp4",
     href: "/solutions/ai-analytics",
   },
   {
@@ -210,7 +211,7 @@ export const aiUseCases: UseCase[] = [
     title: "No-Motion or Black-Screen Alert",
     description: "Catch failed feeds and silent sensors before blind spots grow.",
     poster: useCasePoster,
-    previewSrc: useCasePreview,
+    previewSrc: "/Videos/video/No-Motion%20Or%20Black-Screen%20Alert.mp4",
     href: "/solutions/health-monitoring",
   },
   {
@@ -218,7 +219,7 @@ export const aiUseCases: UseCase[] = [
     title: "Vehicle Detection",
     description: "Monitor vehicle presence, movement, and restricted approaches.",
     poster: useCasePoster,
-    previewSrc: useCasePreview,
+    previewSrc: "/Videos/video/Vehicle%20Detection.mp4",
     href: "/solutions/ai-analytics",
   },
   {
@@ -226,7 +227,7 @@ export const aiUseCases: UseCase[] = [
     title: "Safety Compliance Detection",
     description: "Enforce PPE and site safety rules with visual AI checks.",
     poster: useCasePoster,
-    previewSrc: useCasePreview,
+    previewSrc: "/Videos/video/Safety%20Compliance%20Detection.mp4",
     href: "/solutions/ai-analytics",
   },
   {
@@ -234,7 +235,7 @@ export const aiUseCases: UseCase[] = [
     title: "Abandoned Object Detection",
     description: "Identify unattended items that may indicate risk.",
     poster: useCasePoster,
-    previewSrc: useCasePreview,
+    previewSrc: "/Videos/video/Abandoned%20Object%20Detection.mp4",
     href: "/solutions/ai-analytics",
   },
   {
@@ -242,7 +243,7 @@ export const aiUseCases: UseCase[] = [
     title: "Restricted-Zone Monitoring",
     description: "Keep prohibited zones clear with continuous zone analytics.",
     poster: useCasePoster,
-    previewSrc: useCasePreview,
+    previewSrc: "/Videos/video/Restricted-Zone%20Monitoring.mp4",
     href: "/solutions/ai-analytics",
   },
 ];

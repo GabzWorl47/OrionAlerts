@@ -13,7 +13,7 @@ function Stars({ rating }: { rating: number }) {
         <Star
           key={i}
           size={14}
-          className={i < rating ? "fill-blue text-blue" : "text-line"}
+          className={i < rating ? "fill-cyan text-cyan" : "text-line"}
           aria-hidden
         />
       ))}
@@ -24,7 +24,7 @@ function Stars({ rating }: { rating: number }) {
 function TestimonialCard({ item }: { item: Testimonial }) {
   return (
     <article className="panel relative flex h-full flex-col p-6 md:p-7">
-      <Quote size={28} className="text-cyan/30" aria-hidden />
+      <Quote size={28} className="text-cyan/40" aria-hidden />
       {item.rating ? (
         <div className="mt-4">
           <Stars rating={item.rating} />
@@ -38,7 +38,7 @@ function TestimonialCard({ item }: { item: Testimonial }) {
         <p className="mt-0.5 text-sm text-muted-strong">{item.designation}</p>
         <p className="mt-0.5 text-xs text-muted">{item.organization}</p>
         {item.placeholder ? (
-          <p className="mt-2 inline-flex rounded-full border border-line bg-surface-2 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-muted">
+          <p className="mt-2 inline-flex rounded-full border border-line bg-bg px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-caption">
             Placeholder · pending approval
           </p>
         ) : null}
@@ -63,13 +63,12 @@ export function TestimonialsSection() {
       aria-labelledby="testimonials-heading"
       className="relative overflow-hidden bg-bg py-16 md:py-24"
     >
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_0%,rgba(48,227,255,0.08),transparent_40%)]" />
       <div className="container relative">
         <Reveal>
-          <p className="eyebrow">Customers</p>
+          <p className="eyebrow mb-3">Customers</p>
           <h2
             id="testimonials-heading"
-            className="display mt-2 max-w-3xl text-[clamp(1.85rem,4vw,2.75rem)] uppercase text-steel-gradient"
+            className="max-w-3xl text-[clamp(1.85rem,4vw,2.75rem)] font-semibold leading-[1.1] tracking-[-0.03em] text-text"
           >
             What Our Clients Say
           </h2>
@@ -101,7 +100,7 @@ export function TestimonialsSection() {
               <button
                 type="button"
                 onClick={prev}
-                className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-line bg-surface text-text transition hover:border-blue/35"
+                className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-white text-text shadow-[0_10px_28px_rgba(12,34,56,0.16)] transition hover:scale-105"
                 aria-label="Previous testimonial"
               >
                 <ChevronLeft size={18} />
@@ -124,7 +123,7 @@ export function TestimonialsSection() {
               <button
                 type="button"
                 onClick={next}
-                className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-line bg-surface text-text transition hover:border-blue/35"
+                className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-white text-text shadow-[0_10px_28px_rgba(12,34,56,0.16)] transition hover:scale-105"
                 aria-label="Next testimonial"
               >
                 <ChevronRight size={18} />

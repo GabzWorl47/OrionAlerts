@@ -138,61 +138,6 @@ export const solutions: Solution[] = [
     screenshotLabels: ["Alert inbox", "Zone configuration", "Forensic search"],
   },
   {
-    slug: "smart-search",
-    name: "Smart Search",
-    shortName: "Smart Search",
-    image: "/visuals/solutions/smart-search.png",
-    tagline: "Faster investigations",
-    headline:
-      "Find the right clip across sites in seconds with natural-language and filter-based search.",
-    introVideo: "/Videos/video/Smart%20search.mp4",
-    summary:
-      "Instantly retrieve relevant clips, events, and alerts — without manually reviewing hours of footage.\n\nQuery events like \"Show all crowding incidents at Gate 1\" and get relevant clips and alerts in seconds — faster investigations with less storage dependency.",
-    overview:
-      "Finding a specific person, vehicle, or event across dozens of cameras used to require hours of manual footage review. Smart Search uses AI to index every frame and return matching clips in seconds — ranked by relevance and filterable by site, time, or camera. Operators get faster investigations without scrubbing through recordings.",
-    features: [
-      {
-        title: "Natural-Language & Filter-Based Retrieval",
-        description: "Search events with plain language or filters to find the clips that matter.",
-      },
-      {
-        title: "Cross-Site Camera Search",
-        description: "Search across cameras, zones, and time ranges simultaneously.",
-      },
-      {
-        title: "Ranked Results in Seconds",
-        description: "Return relevance-ranked clips and alerts without manual footage scrubbing.",
-      },
-      {
-        title: "Filter by Site, Time, Camera & Event",
-        description: "Narrow results by site, time range, camera, or event type for precise investigations.",
-      },
-      {
-        title: "Faster Investigations, Lower Review Cost",
-        description: "Dramatically reduce investigation time and the cost of manual video review.",
-      },
-    ],
-    architecture: [
-      "AI frame & event indexing",
-      "Natural-language search engine",
-      "Cross-site filter layer",
-      "Ranked clip & alert results",
-    ],
-    workflow: [
-      "Index cameras, events, and alert history",
-      "Query by language or filters across sites",
-      "Review ranked clips and related alerts",
-      "Export evidence and close investigations faster",
-    ],
-    benefits: [
-      "Seconds instead of hours for footage review",
-      "Search across all cameras and sites at once",
-      "Less storage dependency for investigations",
-      "Higher operator productivity on every incident",
-    ],
-    screenshotLabels: ["Smart Search results", "Cross-site filters", "Clip evidence timeline"],
-  },
-  {
     slug: "asset-tracking",
     name: "Asset Tracking",
     shortName: "Asset Tracking",
@@ -360,8 +305,7 @@ export const solutions: Solution[] = [
     tagline: "Infrastructure uptime",
     headline:
       "Spot camera, NVR, storage, and network issues before they create operational blind spots.",
-    introVideo:
-      "/Videos/video/Health_monitoring_security_infra._202607281649%20(1).mp4",
+    introVideo: "/Videos/video/health-monitoring.mp4",
     summary:
       "Maintain complete confidence in your surveillance ecosystem with intelligent infrastructure oversight. Orion Alerts provides continuous operational visibility, helping organizations improve system reliability, streamline maintenance efforts, and ensure business-critical security systems are always performing at their best.",
     overview:
@@ -448,9 +392,9 @@ export const industries: Industry[] = [
       "AI workplace safety alerts in real time",
       "Production monitoring for idle time and deviations",
       "Proactive infrastructure health for cameras and NVRs",
-      "Instant smart search and critical event alerts",
+      "Instant event search and critical event alerts",
     ],
-    relatedSolutions: ["vms", "ai-analytics", "smart-search", "asset-tracking", "amc-management", "health-monitoring"],
+    relatedSolutions: ["vms", "ai-analytics", "asset-tracking", "amc-management", "health-monitoring"],
   },
   {
     slug: "automotive",
@@ -470,9 +414,9 @@ export const industries: Industry[] = [
       "Production monitoring across assembly lines",
       "AI workplace safety detection in real time",
       "Material and asset visibility across plant areas",
-      "Instant smart search and operational alerts",
+      "Instant event search and operational alerts",
     ],
-    relatedSolutions: ["vms", "ai-analytics", "smart-search", "health-monitoring", "amc-management"],
+    relatedSolutions: ["vms", "ai-analytics", "health-monitoring", "amc-management"],
   },
   {
     slug: "metals-mining",
@@ -493,7 +437,7 @@ export const industries: Industry[] = [
       "AI safety monitoring across mines and plants",
       "Equipment and vehicle monitoring in real time",
       "Material and process monitoring at scale",
-      "Instant smart search and critical alerts",
+      "Instant event search and critical alerts",
     ],
     relatedSolutions: ["vms", "ai-analytics", "health-monitoring", "asset-tracking", "amc-management"],
   },
@@ -515,12 +459,11 @@ export const industries: Industry[] = [
       "AI safety monitoring across the plant",
       "Conveyor and material monitoring in real time",
       "Vehicle and loading monitoring at dispatch",
-      "Instant smart search and critical alerts",
+      "Instant event search and critical alerts",
     ],
     relatedSolutions: [
       "vms",
       "ai-analytics",
-      "smart-search",
       "asset-tracking",
       "amc-management",
       "health-monitoring",
@@ -544,9 +487,9 @@ export const industries: Industry[] = [
       "AI safety monitoring in high-risk zones",
       "Perimeter and asset protection alerts",
       "Vehicle and loading monitoring in real time",
-      "Instant smart search and critical alerts",
+      "Instant event search and critical alerts",
     ],
-    relatedSolutions: ["vms", "ai-analytics", "smart-search", "health-monitoring", "amc-management"],
+    relatedSolutions: ["vms", "ai-analytics", "health-monitoring", "amc-management"],
   },
   {
     slug: "schools",
@@ -566,9 +509,9 @@ export const industries: Industry[] = [
       "Stronger campus security monitoring",
       "Student safety alerts in real time",
       "Bus and traffic monitoring coverage",
-      "Instant smart search and critical alerts",
+      "Instant event search and critical alerts",
     ],
-    relatedSolutions: ["vms", "ai-analytics", "smart-search", "health-monitoring", "amc-management"],
+    relatedSolutions: ["vms", "ai-analytics", "health-monitoring", "amc-management"],
   },
   {
     slug: "pharma",
@@ -588,9 +531,9 @@ export const industries: Industry[] = [
       "GMP and cleanroom compliance monitoring",
       "Production and packaging visibility",
       "Warehouse and cold storage security",
-      "Instant smart search and critical alerts",
+      "Instant event search and critical alerts",
     ],
-    relatedSolutions: ["vms", "ai-analytics", "smart-search", "health-monitoring", "amc-management"],
+    relatedSolutions: ["vms", "ai-analytics", "health-monitoring", "amc-management"],
   },
   {
     slug: "food-fmcg",
@@ -610,9 +553,9 @@ export const industries: Industry[] = [
       "Hygiene and PPE compliance monitoring",
       "Production monitoring for quality consistency",
       "Warehouse and dispatch monitoring",
-      "Instant smart search and critical alerts",
+      "Instant event search and critical alerts",
     ],
-    relatedSolutions: ["vms", "ai-analytics", "smart-search", "asset-tracking", "health-monitoring"],
+    relatedSolutions: ["vms", "ai-analytics", "asset-tracking", "health-monitoring"],
   },
   {
     slug: "logistics",
@@ -632,9 +575,9 @@ export const industries: Industry[] = [
       "Warehouse safety monitoring in real time",
       "Loading and vehicle monitoring",
       "Stronger inventory protection",
-      "Instant smart search and critical alerts",
+      "Instant event search and critical alerts",
     ],
-    relatedSolutions: ["vms", "ai-analytics", "smart-search", "asset-tracking", "health-monitoring"],
+    relatedSolutions: ["vms", "ai-analytics", "asset-tracking", "health-monitoring"],
   },
   {
     slug: "commercial-infrastructure",
@@ -654,9 +597,9 @@ export const industries: Industry[] = [
       "Access and perimeter security monitoring",
       "Crowd and occupancy monitoring",
       "Parking and traffic management visibility",
-      "Instant smart search and critical alerts",
+      "Instant event search and critical alerts",
     ],
-    relatedSolutions: ["vms", "ai-analytics", "smart-search", "health-monitoring", "amc-management"],
+    relatedSolutions: ["vms", "ai-analytics", "health-monitoring", "amc-management"],
   },
   {
     slug: "utilities",
@@ -676,9 +619,9 @@ export const industries: Industry[] = [
       "Perimeter and asset security monitoring",
       "Remote site monitoring with centralized alerts",
       "Worker safety and compliance detection",
-      "Instant smart search and critical alerts",
+      "Instant event search and critical alerts",
     ],
-    relatedSolutions: ["vms", "ai-analytics", "health-monitoring", "amc-management", "smart-search"],
+    relatedSolutions: ["vms", "ai-analytics", "health-monitoring", "amc-management"],
   },
   {
     slug: "pulp-paper",
@@ -698,9 +641,9 @@ export const industries: Industry[] = [
       "Production monitoring across mill operations",
       "Safety monitoring in real time",
       "Warehouse and dispatch monitoring",
-      "Instant smart search and critical alerts",
+      "Instant event search and critical alerts",
     ],
-    relatedSolutions: ["vms", "ai-analytics", "smart-search", "health-monitoring", "amc-management"],
+    relatedSolutions: ["vms", "ai-analytics", "health-monitoring", "amc-management"],
   },
   {
     slug: "textile",
@@ -720,7 +663,7 @@ export const industries: Industry[] = [
       "Production monitoring across factory floors",
       "Safety and compliance alerts in real time",
       "Material and warehouse monitoring",
-      "Instant smart search and critical alerts",
+      "Instant event search and critical alerts",
     ],
     relatedSolutions: ["vms", "ai-analytics", "asset-tracking", "health-monitoring", "amc-management"],
   },
@@ -742,9 +685,9 @@ export const industries: Industry[] = [
       "Production monitoring across polymer lines",
       "Safety monitoring in real time",
       "Warehouse and dispatch monitoring",
-      "Instant smart search and critical alerts",
+      "Instant event search and critical alerts",
     ],
-    relatedSolutions: ["vms", "ai-analytics", "smart-search", "health-monitoring", "asset-tracking"],
+    relatedSolutions: ["vms", "ai-analytics", "health-monitoring", "asset-tracking"],
   },
 ];
 

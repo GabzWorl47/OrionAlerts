@@ -101,26 +101,23 @@ export function Header() {
             {navLinks.map((link) => (
               <li key={link.label} className="flex shrink-0">
                 {link.mega === "solutions" ? (
-                  <button
-                    type="button"
-                    className={`${navItemClass(
+                  <Link
+                    href={link.href}
+                    className={navItemClass(
                       openMega === "solutions" || pathname.startsWith("/solutions"),
-                    )} m-0 cursor-pointer border-0 bg-transparent text-[inherit]`}
+                    )}
                     aria-expanded={openMega === "solutions"}
                     onMouseEnter={() => {
                       setActiveMegaId(PLATFORM_OVERVIEW_ID);
                       setOpenMega("solutions");
                     }}
-                    onClick={() =>
-                      setOpenMega((current) => (current === "solutions" ? null : "solutions"))
-                    }
                   >
                     {link.label}
                     <ChevronDown
                       size={14}
                       className={`transition-transform duration-200 ${openMega === "solutions" ? "rotate-180" : ""}`}
                     />
-                  </button>
+                  </Link>
                 ) : link.mega === "industries" ? (
                   <Link
                     href={link.href}

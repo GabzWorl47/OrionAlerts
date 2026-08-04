@@ -19,15 +19,14 @@ export function ComparisonSection() {
       aria-labelledby="comparison-heading"
       className="relative overflow-hidden bg-bg py-16 md:py-24"
     >
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_20%,rgba(43,140,255,0.1),transparent_45%)]" />
       <div className="container relative">
         <Reveal>
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
-              <p className="eyebrow">Upgrade path</p>
+              <p className="eyebrow mb-3">Upgrade path</p>
               <h2
                 id="comparison-heading"
-                className="display mt-2 text-[clamp(1.85rem,4vw,2.85rem)] uppercase text-steel-gradient"
+                className="text-[clamp(1.85rem,4vw,2.85rem)] font-semibold leading-[1.1] tracking-[-0.03em] text-text"
               >
                 Upgrade from Outdated Systems to Orion AI
               </h2>
@@ -56,7 +55,7 @@ export function ComparisonSection() {
               className={`min-h-11 rounded-full px-4 text-sm font-semibold transition ${
                 view === id
                   ? "bg-blue text-white"
-                  : "border border-line bg-surface text-muted-strong"
+                  : "border border-line bg-white text-muted-strong"
               }`}
             >
               {label}
@@ -65,15 +64,15 @@ export function ComparisonSection() {
         </div>
 
         <Reveal delay={0.06}>
-          <div className="mt-8 overflow-hidden rounded-[24px] border border-line bg-surface shadow-[0_18px_50px_rgba(15,23,42,0.08)]">
+          <div className="mt-8 overflow-hidden rounded-[28px] border border-line bg-white shadow-[0_18px_50px_rgba(12,34,56,0.08)]">
             <div className="hidden grid-cols-2 border-b border-line md:grid">
-              <div className="bg-surface-2 px-6 py-4">
-                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted">
+              <div className="bg-bg px-6 py-4">
+                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-caption">
                   Traditional Systems
                 </p>
               </div>
-              <div className="bg-[linear-gradient(135deg,rgba(43,140,255,0.14),rgba(48,227,255,0.1))] px-6 py-4">
-                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-blue">
+              <div className="bg-blue px-6 py-4">
+                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-cyan">
                   Orion AI
                 </p>
               </div>
@@ -92,7 +91,7 @@ export function ComparisonSection() {
                       view === "orion" ? "hidden md:block" : ""
                     } ${view === "traditional" ? "block" : ""}`}
                   >
-                    <p className="mb-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-muted md:hidden">
+                    <p className="mb-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-caption md:hidden">
                       Traditional
                     </p>
                     <p className="text-sm leading-relaxed text-muted-strong md:text-[15px]">
@@ -100,11 +99,11 @@ export function ComparisonSection() {
                     </p>
                   </div>
                   <div
-                    className={`bg-[linear-gradient(90deg,rgba(43,140,255,0.06),transparent)] px-5 py-4 md:px-6 ${
+                    className={`bg-blue/[0.04] px-5 py-4 md:px-6 ${
                       view === "traditional" ? "hidden md:block" : ""
                     }`}
                   >
-                    <p className="mb-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-blue md:hidden">
+                    <p className="mb-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-cyan md:hidden">
                       Orion AI
                     </p>
                     <p className="text-sm font-medium leading-relaxed text-text md:text-[15px]">

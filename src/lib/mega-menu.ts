@@ -55,13 +55,6 @@ const featureShortLabels: Record<string, string[]> = {
     "Occupancy Insights",
     "Custom Rules",
   ],
-  "smart-search": [
-    "Natural Search",
-    "Cross-Site Search",
-    "Ranked Results",
-    "Smart Filters",
-    "Faster Review",
-  ],
   "asset-tracking": [
     "Asset Inventory",
     "Lifecycle Tracking",
@@ -87,12 +80,10 @@ const featureShortLabels: Record<string, string[]> = {
 
 const overviewLeads: Record<string, string> = {
   [PLATFORM_OVERVIEW_ID]:
-    "One integrated platform for VMS, AI vision, smart search, assets, AMC, and health monitoring — so security and operations run from a single command layer.",
+    "One integrated platform for VMS, AI vision, assets, AMC, and health monitoring — so security and operations run from a single command layer.",
   vms: "Unify cameras, sites, and operators in one enterprise VMS for live monitoring, playback, and control.",
   "ai-analytics":
     "Turn live video into real-time AI alerts for safety, intrusion, PPE, and operational events.",
-  "smart-search":
-    "Find the right clip across sites in seconds with natural-language and filter-based search.",
   "asset-tracking":
     "Track surveillance and IT assets across locations with clear ownership and lifecycle visibility.",
   "amc-management":
@@ -104,7 +95,6 @@ const overviewLeads: Record<string, string> = {
 const solutionIcons: Record<string, LucideIcon> = {
   vms: Video,
   "ai-analytics": Cpu,
-  "smart-search": Search,
   "asset-tracking": Shield,
   "amc-management": Wrench,
   "health-monitoring": Activity,

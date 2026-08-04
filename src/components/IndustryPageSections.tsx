@@ -27,7 +27,6 @@ const solutionIcons: Record<string, typeof Shield> = {
   "ai-analytics": Sparkles,
   vms: Radar,
   "health-monitoring": Cpu,
-  "smart-search": Search,
   "asset-tracking": Shield,
   "amc-management": Shield,
 };
@@ -89,13 +88,12 @@ function PressureStrip({
   const deeper = sentences.slice(1, 3).join(" ");
 
   return (
-    <section className="relative overflow-hidden border-b border-line bg-surface">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_0%_50%,rgba(43,140,255,0.08),transparent_45%)]" />
+    <section className="relative overflow-hidden border-b border-line bg-bg">
       <div className="container relative grid gap-10 py-10 md:grid-cols-[1.1fr_0.9fr] md:gap-14 md:py-12">
         <div>
           <Reveal direction="left">
             <p className="eyebrow mb-3">The operational gap</p>
-            <h2 className="display text-3xl normal-case text-steel-gradient md:text-4xl">
+            <h2 className="text-[clamp(1.75rem,3.5vw,2.5rem)] font-semibold leading-[1.1] tracking-[-0.03em] text-text">
               Built for the pressure of real sites
             </h2>
             {deeper ? (
@@ -108,7 +106,7 @@ function PressureStrip({
             {challenges.slice(0, 4).map((item) => (
               <StaggerItem key={item} direction="left">
                 <div className="flex gap-3 text-sm leading-relaxed text-muted-strong md:text-[15px]">
-                  <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-alert" />
+                  <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-blue" />
                   <span>{item}</span>
                 </div>
               </StaggerItem>
@@ -117,9 +115,7 @@ function PressureStrip({
         </div>
 
         <Reveal direction="right" delay={0.08}>
-          <div className="relative overflow-hidden rounded-[28px] bg-[#0c2238] p-7 text-white md:p-8">
-            <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-blue/20 blur-3xl" />
-            <div className="pointer-events-none absolute -bottom-12 left-8 h-32 w-32 rounded-full bg-cyan/15 blur-3xl" />
+          <div className="relative overflow-hidden rounded-[28px] bg-blue p-7 text-white md:p-8">
             <p className="text-xs font-semibold uppercase tracking-[0.16em] text-cyan">
               With OrionAlerts
             </p>
@@ -192,13 +188,12 @@ function UseCasesSlider({
 
   return (
     <section className="relative overflow-hidden bg-bg py-10 md:py-14">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_80%_10%,rgba(43,140,255,0.12),transparent_50%)]" />
       <div className="container relative">
         <Reveal direction="left">
           <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
             <div className="max-w-2xl">
               <p className="eyebrow mb-3">Key use cases</p>
-              <h2 className="display text-3xl normal-case text-steel-gradient md:text-4xl">
+              <h2 className="text-[clamp(1.75rem,3.5vw,2.5rem)] font-semibold leading-[1.1] tracking-[-0.03em] text-text">
                 What teams actually run with OrionAlerts in {industryName}
               </h2>
             </div>
@@ -207,17 +202,17 @@ function UseCasesSlider({
                 type="button"
                 aria-label="Previous use case"
                 onClick={() => goTo((index - 1 + useCases.length) % useCases.length)}
-                className="flex h-11 w-11 items-center justify-center rounded-full border border-line bg-white text-text transition hover:border-blue/40 hover:text-blue"
+                className="flex h-12 w-12 items-center justify-center rounded-full bg-white text-text shadow-[0_10px_28px_rgba(15,23,42,0.16)] transition hover:scale-105"
               >
-                <ArrowLeft size={16} />
+                <ArrowLeft size={18} strokeWidth={1.75} />
               </button>
               <button
                 type="button"
                 aria-label="Next use case"
                 onClick={() => goTo((index + 1) % useCases.length)}
-                className="flex h-11 w-11 items-center justify-center rounded-full border border-line bg-white text-text transition hover:border-blue/40 hover:text-blue"
+                className="flex h-12 w-12 items-center justify-center rounded-full bg-white text-text shadow-[0_10px_28px_rgba(15,23,42,0.16)] transition hover:scale-105"
               >
-                <ArrowRight size={16} />
+                <ArrowRight size={18} strokeWidth={1.75} />
               </button>
             </div>
           </div>
@@ -225,54 +220,55 @@ function UseCasesSlider({
 
         <div className="grid items-stretch gap-5 lg:grid-cols-[1.35fr_0.65fr]">
           <Reveal direction="left" delay={0.05} className="h-full">
-            <div className="relative flex h-full min-h-[360px] flex-col overflow-hidden rounded-[28px] bg-[#0b1628] text-white shadow-[0_30px_80px_-40px_rgba(15,61,120,0.65)] md:min-h-[420px]">
-              {hasVideo && current.video ? (
-                <>
-                  <video
-                    key={current.video}
-                    ref={videoRef}
-                    src={current.video}
-                    className="absolute inset-0 h-full w-full object-cover brightness-[1.16] contrast-[1.05] saturate-[1.04]"
-                    muted
-                    loop
-                    playsInline
-                    autoPlay
-                    preload="auto"
-                    aria-hidden
-                  />
-                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#07111f]/75 via-[#07111f]/15 to-transparent" />
-                </>
-              ) : (
-                <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_20%_0%,rgba(43,140,255,0.35),transparent_45%),radial-gradient(ellipse_at_100%_100%,rgba(48,227,255,0.18),transparent_40%)]" />
-              )}
-
-              <div className="relative z-10 flex flex-1 flex-col justify-end p-8 md:p-10">
-                <div className="flex items-center gap-3">
-                  <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-cyan backdrop-blur">
-                    <Icon size={20} />
-                  </span>
+            <div className="relative flex h-full min-h-[360px] flex-col overflow-hidden rounded-[28px] bg-blue text-white md:min-h-[420px]">
+              <div className="flex items-start gap-3 px-7 pt-7 md:gap-4 md:px-9 md:pt-9">
+                <span className="mt-1 inline-flex shrink-0 text-cyan">
+                  <Icon size={22} strokeWidth={1.6} />
+                </span>
+                <div className="min-w-0">
                   <p className="text-xs font-semibold uppercase tracking-[0.16em] text-cyan">
                     Use case {String(index + 1).padStart(2, "0")} /{" "}
                     {String(useCases.length).padStart(2, "0")}
                   </p>
+                  <h3 className="mt-2 font-display text-[clamp(1.35rem,2.4vw,1.85rem)] font-semibold leading-[1.2] tracking-[-0.02em] text-white">
+                    {current.title}
+                  </h3>
                 </div>
-                <h3 className="display mt-4 max-w-2xl text-[clamp(1.45rem,2.8vw,2.1rem)] normal-case leading-[1.15] text-white">
-                  {current.title}
-                </h3>
+              </div>
 
-                <div className="mt-6 flex gap-2">
-                  {useCases.map((item, i) => (
-                    <button
-                      key={item.title}
-                      type="button"
-                      aria-label={`Show ${item.title}`}
-                      onClick={() => goTo(i)}
-                      className={`h-1 rounded-full transition-all ${
-                        i === index ? "flex-[2] bg-cyan" : "flex-1 bg-white/20 hover:bg-white/40"
-                      }`}
+              <div className="relative mx-5 mb-0 mt-6 flex-1 overflow-hidden rounded-t-[18px] bg-ink-deep md:mx-7 md:mt-8">
+                <div className="relative aspect-[16/10] w-full md:aspect-[16/9] md:min-h-[220px]">
+                  {hasVideo && current.video ? (
+                    <video
+                      key={current.video}
+                      ref={videoRef}
+                      src={current.video}
+                      className="absolute inset-0 h-full w-full object-cover object-top"
+                      muted
+                      loop
+                      playsInline
+                      autoPlay
+                      preload="auto"
+                      aria-hidden
                     />
-                  ))}
+                  ) : null}
                 </div>
+              </div>
+
+              <div className="flex gap-2 px-7 pb-7 pt-5 md:px-9 md:pb-8">
+                {useCases.map((item, i) => (
+                  <button
+                    key={item.title}
+                    type="button"
+                    aria-label={`Show ${item.title}`}
+                    onClick={() => goTo(i)}
+                    className={`h-1 rounded-full transition-all ${
+                      i === index
+                        ? "flex-[2] bg-cyan"
+                        : "flex-1 bg-white/20 hover:bg-white/40"
+                    }`}
+                  />
+                ))}
               </div>
             </div>
           </Reveal>
@@ -288,32 +284,36 @@ function UseCasesSlider({
                     type="button"
                     onClick={() => goTo(i)}
                     aria-pressed={active}
-                    className={`group flex w-full flex-1 items-start gap-3 rounded-[18px] border px-4 py-3.5 text-left transition-colors ${
+                    className={`group flex w-full flex-1 items-start gap-3 rounded-[18px] px-4 py-3.5 text-left transition-colors ${
                       active
-                        ? "border-blue/35 bg-white shadow-[0_14px_32px_-24px_rgba(43,140,255,0.55)]"
-                        : "border-transparent bg-white/50 hover:border-line hover:bg-white"
+                        ? "bg-blue text-white shadow-[0_14px_32px_-20px_rgba(12,34,56,0.55)]"
+                        : "bg-white text-text hover:bg-white/80"
                     }`}
                   >
                     <span
-                      className={`mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl transition ${
-                        active ? "bg-blue text-white" : "bg-surface-2 text-blue"
+                      className={`mt-0.5 inline-flex shrink-0 ${
+                        active ? "text-cyan" : "text-text/45"
                       }`}
                     >
-                      <ItemIcon size={16} />
+                      <ItemIcon size={18} strokeWidth={1.6} />
                     </span>
                     <span className="min-w-0 flex-1">
-                      <span className="block text-[11px] font-semibold uppercase tracking-[0.12em] text-caption">
+                      <span
+                        className={`block text-[11px] font-semibold uppercase tracking-[0.12em] ${
+                          active ? "text-cyan/80" : "text-text/45"
+                        }`}
+                      >
                         {String(i + 1).padStart(2, "0")}
                       </span>
                       <span
-                        className={`mt-1 block font-display text-[15px] normal-case leading-snug ${
-                          active ? "text-blue" : "text-text"
+                        className={`mt-1 block font-display text-[15px] font-semibold normal-case leading-snug ${
+                          active ? "text-white" : "text-text"
                         }`}
                       >
                         {item.title}
                       </span>
                       {active ? (
-                        <span className="mt-2 block text-[13px] leading-relaxed text-muted-strong line-clamp-3">
+                        <span className="mt-2 block text-[13px] leading-relaxed text-white/70 line-clamp-3">
                           {item.description}
                         </span>
                       ) : null}
@@ -345,23 +345,21 @@ function ProcessSection({
   const reduce = useReducedMotion();
 
   return (
-    <section className="relative overflow-hidden bg-[#07111f] py-10 text-white md:py-14">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,rgba(43,140,255,0.22),transparent_50%)]" />
-      <div className="pointer-events-none absolute inset-0 grid-texture opacity-25" />
+    <section className="relative overflow-hidden bg-blue py-10 text-white md:py-14">
       <div className="container relative">
         <Reveal direction="left">
           <div className="mb-8 max-w-3xl">
             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-cyan">
               Process
             </p>
-            <h2 className="display text-3xl normal-case text-white md:text-4xl">
+            <h2 className="text-[clamp(1.75rem,3.5vw,2.5rem)] font-semibold leading-[1.1] tracking-[-0.03em] text-white">
               {title || "How it works"}
             </h2>
           </div>
         </Reveal>
 
         <div className="relative mb-8">
-          <div className="pointer-events-none absolute left-0 right-0 top-8 hidden h-px bg-gradient-to-r from-transparent via-cyan/40 to-transparent md:block" />
+          <div className="pointer-events-none absolute left-0 right-0 top-8 hidden h-px bg-gradient-to-r from-transparent via-cyan/35 to-transparent md:block" />
           <div
             className={`grid gap-4 sm:grid-cols-2 ${
               stages.length >= 6
@@ -380,7 +378,7 @@ function ProcessSection({
                 transition={{ delay: index * 0.1, duration: 0.55, ease }}
                 className="relative text-center"
               >
-                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full border border-white/15 bg-white/5 backdrop-blur">
+                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full border border-white/15 bg-ink-deep">
                   <span className="font-display text-lg text-cyan">
                     {String(index + 1).padStart(2, "0")}
                   </span>
@@ -434,19 +432,19 @@ function StepsSection({
   const reduce = useReducedMotion();
 
   return (
-    <section className="relative overflow-hidden bg-surface py-10 md:py-14">
+    <section className="relative overflow-hidden bg-bg py-10 md:py-14">
       <div className="container relative">
         <Reveal direction="left">
           <div className="mb-8 max-w-3xl">
             <p className="eyebrow mb-3">Adoption</p>
-            <h2 className="display text-3xl normal-case text-steel-gradient md:text-4xl">
+            <h2 className="text-[clamp(1.75rem,3.5vw,2.5rem)] font-semibold leading-[1.1] tracking-[-0.03em] text-text">
               {title}
             </h2>
           </div>
         </Reveal>
 
         <div className="relative grid gap-8 md:grid-cols-3 md:gap-6">
-          <div className="pointer-events-none absolute left-[16%] right-[16%] top-10 hidden h-px bg-gradient-to-r from-blue/20 via-blue/50 to-blue/20 md:block" />
+          <div className="pointer-events-none absolute left-[16%] right-[16%] top-10 hidden h-px bg-gradient-to-r from-blue/10 via-blue/30 to-blue/10 md:block" />
           {steps.map((step, index) => {
             const fromLeft = index % 2 === 0;
             return (
@@ -462,12 +460,12 @@ function StepsSection({
                 transition={{ delay: index * 0.14, duration: 0.65, ease }}
                 className="relative text-center md:px-4"
               >
-                <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-bg shadow-[0_0_0_8px_rgba(43,140,255,0.08)]">
-                  <span className="display text-3xl text-blue-gradient">
+                <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-white shadow-[0_10px_28px_rgba(12,34,56,0.1)]">
+                  <span className="font-display text-3xl font-semibold text-text">
                     {String(index + 1).padStart(2, "0")}
                   </span>
                 </div>
-                <h3 className="display mt-6 text-2xl normal-case text-text md:text-3xl">
+                <h3 className="mt-6 font-display text-2xl font-semibold normal-case text-text md:text-3xl">
                   {step.label}
                 </h3>
                 <p className="mx-auto mt-3 max-w-xs text-sm leading-relaxed text-muted md:text-[15px]">
@@ -493,15 +491,14 @@ function SolutionsSection({
 }) {
   return (
     <section className="relative overflow-hidden bg-bg py-10 md:py-14">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_10%_0%,rgba(43,140,255,0.1),transparent_45%)]" />
       <div className="container relative">
         <Reveal direction="left">
           <div className="mb-8 max-w-3xl">
             <p className="eyebrow mb-3">Recommended stack</p>
-            <h2 className="display text-3xl normal-case text-steel-gradient md:text-4xl">
+            <h2 className="text-[clamp(1.75rem,3.5vw,2.5rem)] font-semibold leading-[1.1] tracking-[-0.03em] text-text">
               OrionAlerts for {industryName}
             </h2>
-            <p className="mt-4 description">
+            <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-muted-strong md:text-base">
               A focused solution mix for this sector — each with a clear reason it belongs in your
               stack.
             </p>
@@ -521,25 +518,24 @@ function SolutionsSection({
               >
                 <Link
                   href={`/solutions/${slug}`}
-                  className="group relative flex h-full gap-5 overflow-hidden rounded-[24px] border border-line bg-white p-6 transition duration-300 hover:-translate-y-1 hover:border-blue/35 hover:shadow-[0_24px_50px_-30px_rgba(43,140,255,0.5)] md:p-7"
+                  className="group relative flex h-full gap-5 overflow-hidden rounded-[28px] bg-blue p-6 text-white transition duration-300 hover:bg-[#0e2740] md:p-7"
                 >
-                  <div className="pointer-events-none absolute inset-y-0 left-0 w-1 bg-gradient-to-b from-blue to-cyan opacity-0 transition group-hover:opacity-100" />
-                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-surface-2 text-blue transition group-hover:bg-blue group-hover:text-white">
-                    <Icon size={20} />
+                  <span className="mt-0.5 inline-flex shrink-0 text-cyan">
+                    <Icon size={22} strokeWidth={1.6} />
                   </span>
                   <div className="min-w-0">
                     <div className="flex items-center gap-3">
-                      <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-caption">
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-cyan/80">
                         {String(index + 1).padStart(2, "0")}
                       </p>
-                      <h3 className="display text-xl normal-case text-text transition group-hover:text-blue">
+                      <h3 className="font-display text-xl font-semibold normal-case text-white">
                         {solution.shortName}
                       </h3>
                     </div>
-                    <p className="mt-3 text-sm leading-relaxed text-muted line-clamp-3">
+                    <p className="mt-3 text-sm leading-relaxed text-white/70 line-clamp-3">
                       {blurb}
                     </p>
-                    <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-blue">
+                    <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-cyan">
                       Explore solution
                       <ArrowRight
                         size={14}
@@ -559,12 +555,12 @@ function SolutionsSection({
 
 function RelatedIndustries({ related }: { related: Industry[] }) {
   return (
-    <Section className="bg-surface !py-10 md:!py-14">
+    <Section className="bg-bg !py-10 md:!py-14">
       <Reveal direction="left">
         <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
           <div>
             <p className="eyebrow mb-3">Explore more</p>
-            <h2 className="display text-3xl normal-case text-steel-gradient md:text-4xl">
+            <h2 className="text-[clamp(1.75rem,3.5vw,2.5rem)] font-semibold leading-[1.1] tracking-[-0.03em] text-text">
               Other industries
             </h2>
           </div>
@@ -581,7 +577,7 @@ function RelatedIndustries({ related }: { related: Industry[] }) {
           >
             <Link
               href={`/industries/${item.slug}`}
-              className="group relative block overflow-hidden rounded-[22px]"
+              className="group relative block overflow-hidden rounded-[28px] bg-blue"
             >
               <div className="relative aspect-[4/5]">
                 <Image
@@ -591,9 +587,9 @@ function RelatedIndustries({ related }: { related: Industry[] }) {
                   sizes="(max-width: 1024px) 45vw, 20vw"
                   className="object-cover transition duration-700 group-hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#07111f] via-[#07111f]/35 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-blue via-blue/40 to-transparent" />
                 <div className="absolute inset-x-0 bottom-0 p-4">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-cyan/90">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-cyan">
                     {item.tagline}
                   </p>
                   <span className="mt-1 block font-display text-lg font-semibold text-white">
