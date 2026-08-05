@@ -18,14 +18,7 @@ export const megaMenuProducts: MegaMenuItem[] = solutions.map((solution) => ({
   solution,
 }));
 
-export const megaMenuNavItems: MegaMenuItem[] = [
-  {
-    id: PLATFORM_OVERVIEW_ID,
-    label: "Overview",
-    href: "/solutions",
-  },
-  ...megaMenuProducts,
-];
+export const megaMenuNavItems: MegaMenuItem[] = [...megaMenuProducts];
 
 export function getMegaMenuItem(id: string) {
   return megaMenuNavItems.find((item) => item.id === id) ?? megaMenuNavItems[0];

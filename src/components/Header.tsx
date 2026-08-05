@@ -12,12 +12,13 @@ import { ChevronDown, Menu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { solutions, industries, resourceNavItems } from "@/lib/site";
-import { PLATFORM_OVERVIEW_ID } from "@/lib/mega-menu";
 import { SolutionsMegaMenu } from "@/components/SolutionsMegaMenu";
 import { IndustriesMegaMenu } from "@/components/IndustriesMegaMenu";
 import { ResourcesMenu } from "@/components/ResourcesMenu";
 
 type MegaKey = "solutions" | "industries" | "resources";
+
+const defaultSolutionsMegaId = solutions[0]?.slug ?? "vms";
 
 const navLinks = [
   { label: "Home", href: "/" },
@@ -52,7 +53,7 @@ export function Header() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [openMega, setOpenMega] = useState<MegaKey | null>(null);
-  const [activeMegaId, setActiveMegaId] = useState(PLATFORM_OVERVIEW_ID);
+  const [activeMegaId, setActiveMegaId] = useState(defaultSolutionsMegaId);
   const [mobileProductsOpen, setMobileProductsOpen] = useState(false);
   const [mobileIndustriesOpen, setMobileIndustriesOpen] = useState(false);
   const [mobileResourcesOpen, setMobileResourcesOpen] = useState(false);
@@ -108,7 +109,7 @@ export function Header() {
                     )}
                     aria-expanded={openMega === "solutions"}
                     onMouseEnter={() => {
-                      setActiveMegaId(PLATFORM_OVERVIEW_ID);
+                      setActiveMegaId(defaultSolutionsMegaId);
                       setOpenMega("solutions");
                     }}
                   >
