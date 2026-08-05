@@ -377,7 +377,7 @@ export const industries: Industry[] = [
     slug: "manufacturing",
     name: "Manufacturing",
     cardLabel: "Manufacturing",
-    image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=900&q=80",
+    image: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=1600&q=90",
     introVideo: "/Videos/industries/manufacturing.mp4",
     tagline: "Discrete & process plants",
     summary:
@@ -400,7 +400,7 @@ export const industries: Industry[] = [
     slug: "automotive",
     name: "Automotive & Autoparts",
     cardLabel: "Automotive",
-    image: "https://images.unsplash.com/photo-1565043666747-69f6646db940?auto=format&fit=crop&w=900&q=80",
+    image: "https://images.unsplash.com/photo-1487754180451-c456f719a1fc?auto=format&fit=crop&w=1600&q=90",
     tagline: "Precision engineering & assemblies",
     summary:
       "Automotive manufacturing requires synchronized production, consistent quality, and uninterrupted operations. Orion Alerts converts existing CCTV into an AI-powered monitoring platform that enhances safety, streamlines production, and improves operational visibility across assembly plants.",
@@ -422,7 +422,7 @@ export const industries: Industry[] = [
     slug: "metals-mining",
     name: "Metals, Minerals & Mining",
     cardLabel: "Metals & Mining",
-    image: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=900&q=80",
+    image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?auto=format&fit=crop&w=1600&q=90",
     introVideo: "/Videos/industries/metals-mining.mp4",
     tagline: "Heavy industry & extraction",
     summary:
@@ -445,7 +445,7 @@ export const industries: Industry[] = [
     slug: "cement",
     name: "Cement & Building Materials",
     cardLabel: "Cement",
-    image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=900&q=80",
+    image: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=1600&q=90",
     tagline: "Continuous plants & heavy material flow",
     summary:
       "Cement plants require continuous monitoring of production, material handling, and worker safety. Orion Alerts delivers AI-powered monitoring, real-time alerts, and centralized visibility to improve operational efficiency and minimize risks.",
@@ -473,7 +473,7 @@ export const industries: Industry[] = [
     slug: "oil-gas",
     name: "Oil, Gas & Petrochemicals",
     cardLabel: "Oil & Gas",
-    image: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=900&q=80",
+    image: "https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?auto=format&fit=crop&w=1600&q=90",
     tagline: "Refining, upstream & midstream",
     summary:
       "Oil, gas, and petrochemical facilities require continuous monitoring of hazardous areas, critical assets, and site security. Orion Alerts provides AI-powered monitoring, real-time alerts, and centralized visibility to enhance safety, security, and operational reliability.",
@@ -495,7 +495,7 @@ export const industries: Industry[] = [
     slug: "schools",
     name: "Schools",
     cardLabel: "Schools",
-    image: "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=900&q=80",
+    image: "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1600&q=90",
     tagline: "K-12, colleges & educational campuses",
     summary:
       "From classrooms and playgrounds to school buses and entry gates, Orion Alerts uses AI to monitor critical campus activities, detect potential risks, and provide real-time alerts that strengthen safety and operational efficiency.",
@@ -517,7 +517,7 @@ export const industries: Industry[] = [
     slug: "pharma",
     name: "Pharmaceuticals & Life Sciences",
     cardLabel: "Pharma",
-    image: "https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=900&q=80",
+    image: "https://images.unsplash.com/photo-1582719471384-894fbb16e074?auto=format&fit=crop&w=1600&q=90",
     tagline: "API, formulations, biologics & CDMO",
     summary:
       "Maintaining compliance and product integrity requires continuous visibility across every stage of pharmaceutical manufacturing. Orion Alerts delivers AI-powered monitoring, proactive alerts, and centralized oversight to support safer, more efficient operations.",
@@ -539,7 +539,7 @@ export const industries: Industry[] = [
     slug: "food-fmcg",
     name: "Food & FMCG",
     cardLabel: "Food & FMCG",
-    image: "https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&w=900&q=80",
+    image: "https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&w=1600&q=90",
     tagline: "Processing, bottling, packaging & personal care",
     summary:
       "Food and FMCG manufacturers must maintain strict hygiene, product quality, and production consistency. Orion Alerts uses AI-powered video intelligence to strengthen compliance, improve operational visibility, and support uninterrupted manufacturing.",
@@ -561,7 +561,7 @@ export const industries: Industry[] = [
     slug: "quick-commerce",
     name: "Quick Commerce & Micro-Fulfillment",
     cardLabel: "Quick Commerce",
-    image: "https://images.unsplash.com/photo-1553413077-190dd305871c?auto=format&fit=crop&w=900&q=80",
+    image: "https://images.unsplash.com/photo-1605745341112-85968b19335b?auto=format&fit=crop&w=1600&q=90",
     tagline: "Dark stores, MFCs & hyperlocal fulfillment",
     summary:
       "Quick commerce platforms depend on dense networks of micro-fulfillment centers—also known as dark stores—to deliver in minutes. Orion Alerts turns existing CCTV into an AI-powered operations platform that monitors picking floors, staging zones, and multi-outlet networks with instant alerts and actionable insights for speed, safety, and loss prevention.",
@@ -583,7 +583,7 @@ export const industries: Industry[] = [
     slug: "logistics",
     name: "Logistics & Warehousing",
     cardLabel: "Logistics",
-    image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=900&q=80",
+    image: "https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&w=1600&q=90",
     tagline: "Transport hubs, yards & fulfillment",
     summary:
       "Warehouses and distribution centers require continuous visibility to ensure safe operations, inventory security, and on-time deliveries. Orion Alerts uses AI-powered video intelligence to optimize warehouse workflows, strengthen security, and improve operational efficiency.",
@@ -605,7 +605,7 @@ export const industries: Industry[] = [
     slug: "commercial-infrastructure",
     name: "Airports, Buildings & Commercial",
     cardLabel: "Commercial",
-    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=900&q=80",
+    image: "https://images.unsplash.com/photo-1530521954074-e64f6810b32d?auto=format&fit=crop&w=1600&q=90",
     tagline: "Transport hubs, retail & logistics facilities",
     summary:
       "Airports, commercial buildings, business parks, and public facilities require continuous visibility to manage security, visitor movement, and daily operations. Orion Alerts delivers AI-powered intelligence that helps improve safety, operational efficiency, and facility performance.",
@@ -627,7 +627,7 @@ export const industries: Industry[] = [
     slug: "utilities",
     name: "Utilities & Smart Infrastructure",
     cardLabel: "Utilities",
-    image: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=900&q=80",
+    image: "https://images.unsplash.com/photo-1466611653911-95081537e5b7?auto=format&fit=crop&w=1600&q=90",
     tagline: "Power, water, grids & industrial facilities",
     summary:
       "Critical infrastructure demands continuous monitoring to protect assets, maintain compliance, and minimize operational disruptions. Orion Alerts provides AI-driven insights and automated monitoring to improve security and operational continuity across remote facilities.",
@@ -649,7 +649,7 @@ export const industries: Industry[] = [
     slug: "pulp-paper",
     name: "Pulp, Paper & Packaging",
     cardLabel: "Pulp & Paper",
-    image: "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?auto=format&fit=crop&w=900&q=80",
+    image: "https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&w=1600&q=90",
     tagline: "Integrated mills & specialty packaging",
     summary:
       "Pulp, paper, and packaging plants rely on uninterrupted production, safe operations, and efficient material handling. Orion Alerts delivers AI-powered monitoring to improve productivity, enhance worker safety, and strengthen operational control across manufacturing facilities.",
@@ -671,7 +671,7 @@ export const industries: Industry[] = [
     slug: "textile",
     name: "Textile & Garment",
     cardLabel: "Textile",
-    image: "https://images.unsplash.com/photo-1558171813-4c088753af8f?auto=format&fit=crop&w=900&q=80",
+    image: "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?auto=format&fit=crop&w=1600&q=90",
     tagline: "Spinning, weaving, dyeing & finishing",
     summary:
       "Textile and garment manufacturers rely on synchronized production and efficient material flow to meet customer demands. Orion Alerts provides AI-driven monitoring that helps identify operational bottlenecks, improve safety, and optimize factory performance.",
@@ -693,7 +693,7 @@ export const industries: Industry[] = [
     slug: "polymers-plastics",
     name: "Polymers & Plastics",
     cardLabel: "Polymers",
-    image: "https://images.unsplash.com/photo-1565793298595-6a879b1d9492?auto=format&fit=crop&w=900&q=80",
+    image: "https://images.unsplash.com/photo-1565793298595-6a879b1d9492?auto=format&fit=crop&w=1600&q=90",
     tagline: "Molding, extrusion & polymer processing",
     summary:
       "Polymer and plastics plants need continuous monitoring of production lines, worker safety, and material flow. Orion Alerts turns existing CCTV into an AI-powered platform for real-time alerts, centralized visibility, and faster operational decisions.",
