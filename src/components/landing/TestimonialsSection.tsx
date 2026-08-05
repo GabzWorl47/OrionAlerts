@@ -58,15 +58,17 @@ export function TestimonialsSection({ className }: { className?: string }) {
     >
       <div className="container relative">
         <Reveal>
-          <h2
-            id="testimonials-heading"
-            className="max-w-3xl text-[clamp(1.85rem,4vw,2.75rem)] font-semibold leading-[1.1] tracking-[-0.03em] text-text"
-          >
-            Testimonials
-          </h2>
-          <p className="mt-3 max-w-2xl text-sm text-muted md:text-base">
-            Sample voices for layout only — replace with approved customer quotes before launch.
-          </p>
+          <div className="mx-auto max-w-3xl text-center">
+            <h2
+              id="testimonials-heading"
+              className="text-[clamp(1.85rem,4vw,2.75rem)] font-semibold leading-[1.1] tracking-[-0.03em] text-text"
+            >
+              Testimonials
+            </h2>
+            <p className="mt-3 text-sm text-muted md:text-base">
+              Sample voices for layout only — replace with approved customer quotes before launch.
+            </p>
+          </div>
         </Reveal>
       </div>
 

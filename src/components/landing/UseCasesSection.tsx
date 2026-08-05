@@ -115,60 +115,59 @@ export function UseCasesSection() {
       aria-labelledby="use-cases-heading"
       className="relative overflow-hidden bg-bg py-16 md:py-24"
     >
-      {/* Same column math as .container so heading + first card share one left edge */}
-      <div className="grid grid-cols-[minmax(1rem,1fr)_min(var(--container),calc(100%-2rem))_minmax(1rem,1fr)]">
-        <div className="col-start-2">
-          <Reveal>
-            <h2
-              id="use-cases-heading"
-              className="max-w-4xl text-[clamp(2rem,4.5vw,3.35rem)] font-semibold leading-[1.1] tracking-[-0.03em] text-text"
+      <div className="container">
+        <Reveal>
+          <h2
+            id="use-cases-heading"
+            className="mx-auto max-w-4xl text-center text-[clamp(2rem,4.5vw,3.35rem)] font-semibold leading-[1.1] tracking-[-0.03em] text-text"
+          >
+            Proactive physical security, powered by AI
+          </h2>
+        </Reveal>
+      </div>
+
+      <div className="relative mt-10 min-w-0 w-full md:mt-14">
+        <div
+          ref={scrollerRef}
+          className="flex gap-5 overflow-x-auto scroll-smooth pb-2 pt-1 [-ms-overflow-style:none] [scrollbar-width:none] snap-x snap-mandatory [&::-webkit-scrollbar]:hidden"
+        >
+          {aiUseCases.map((useCase, i) => (
+            <div
+              key={useCase.slug}
+              data-usecase-card
+              className={`w-[min(92vw,42rem)] shrink-0 snap-start md:w-[min(78%,48rem)] lg:w-[min(72%,52rem)] ${
+                i === 0 ? "ml-4 sm:ml-5" : ""
+              }`}
             >
-              Proactive physical security, powered by AI
-            </h2>
-          </Reveal>
+              <UseCaseCard useCase={useCase} active={i === index} />
+            </div>
+          ))}
+          <div className="w-4 shrink-0 sm:w-8" aria-hidden />
         </div>
 
-        <div className="relative col-start-2 col-end-[-1] mt-10 min-w-0 md:mt-14">
-          <div
-            ref={scrollerRef}
-            className="flex gap-5 overflow-x-auto scroll-smooth pb-2 pt-1 [-ms-overflow-style:none] [scrollbar-width:none] snap-x snap-mandatory [&::-webkit-scrollbar]:hidden"
-          >
-            {aiUseCases.map((useCase, i) => (
-              <div
-                key={useCase.slug}
-                data-usecase-card
-                className="w-[min(92vw,42rem)] shrink-0 snap-start md:w-[min(78%,48rem)] lg:w-[min(72%,52rem)]"
-              >
-                <UseCaseCard useCase={useCase} active={i === index} />
-              </div>
-            ))}
-            <div className="w-4 shrink-0 sm:w-8" aria-hidden />
-          </div>
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-bg to-transparent md:w-24" />
 
-          <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-bg to-transparent md:w-24" />
-
-          <div className="absolute right-4 top-1/2 z-10 flex -translate-y-1/2 flex-col gap-3 md:right-8">
-            {index > 0 ? (
-              <button
-                type="button"
-                aria-label="Previous use case"
-                onClick={goPrev}
-                className="pointer-events-auto flex h-12 w-12 items-center justify-center rounded-full bg-white text-text shadow-[0_10px_28px_rgba(12,34,56,0.16)] transition hover:scale-105"
-              >
-                <ArrowLeft size={18} strokeWidth={1.75} />
-              </button>
-            ) : null}
-            {index < aiUseCases.length - 1 ? (
-              <button
-                type="button"
-                aria-label="Next use case"
-                onClick={goNext}
-                className="pointer-events-auto flex h-12 w-12 items-center justify-center rounded-full bg-white text-text shadow-[0_10px_28px_rgba(12,34,56,0.16)] transition hover:scale-105"
-              >
-                <ArrowRight size={18} strokeWidth={1.75} />
-              </button>
-            ) : null}
-          </div>
+        <div className="absolute right-4 top-1/2 z-10 flex -translate-y-1/2 flex-col gap-3 md:right-8">
+          {index > 0 ? (
+            <button
+              type="button"
+              aria-label="Previous use case"
+              onClick={goPrev}
+              className="pointer-events-auto flex h-12 w-12 items-center justify-center rounded-full bg-white text-text shadow-[0_10px_28px_rgba(12,34,56,0.16)] transition hover:scale-105"
+            >
+              <ArrowLeft size={18} strokeWidth={1.75} />
+            </button>
+          ) : null}
+          {index < aiUseCases.length - 1 ? (
+            <button
+              type="button"
+              aria-label="Next use case"
+              onClick={goNext}
+              className="pointer-events-auto flex h-12 w-12 items-center justify-center rounded-full bg-white text-text shadow-[0_10px_28px_rgba(12,34,56,0.16)] transition hover:scale-105"
+            >
+              <ArrowRight size={18} strokeWidth={1.75} />
+            </button>
+          ) : null}
         </div>
       </div>
     </section>
