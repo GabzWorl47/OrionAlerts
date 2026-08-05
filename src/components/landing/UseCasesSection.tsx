@@ -56,7 +56,7 @@ function UseCaseCard({ useCase, active }: { useCase: UseCase; active: boolean })
               alt=""
               fill
               className="object-cover object-top transition duration-500 group-hover:scale-[1.02]"
-              sizes="(max-width: 768px) 92vw, 70vw"
+              sizes="(max-width: 768px) 92vw, 832px"
             />
           )}
         </div>
@@ -76,7 +76,7 @@ export function UseCasesSection() {
     const target = cards[next];
     if (!target) return;
     root.scrollTo({
-      left: target.offsetLeft,
+      left: target.offsetLeft - root.clientLeft,
       behavior: "smooth",
     });
     setIndex(next);
@@ -126,23 +126,22 @@ export function UseCasesSection() {
         </Reveal>
       </div>
 
-      <div className="relative mt-10 min-w-0 w-full md:mt-14">
+      {/* Full-bleed track (left edge → right edge). Cards stay fixed rem width. */}
+      <div className="relative mt-10 w-full md:mt-14">
         <div
           ref={scrollerRef}
-          className="flex gap-5 overflow-x-auto scroll-smooth pb-2 pt-1 [-ms-overflow-style:none] [scrollbar-width:none] snap-x snap-mandatory [&::-webkit-scrollbar]:hidden"
+          className="flex gap-5 overflow-x-auto scroll-smooth px-4 pb-2 pt-1 [-ms-overflow-style:none] [scrollbar-width:none] snap-x snap-mandatory sm:px-5 [&::-webkit-scrollbar]:hidden"
         >
           {aiUseCases.map((useCase, i) => (
             <div
               key={useCase.slug}
               data-usecase-card
-              className={`w-[min(92vw,42rem)] shrink-0 snap-start md:w-[min(78%,48rem)] lg:w-[min(72%,52rem)] ${
-                i === 0 ? "ml-4 sm:ml-5" : ""
-              }`}
+              className="w-[min(92vw,42rem)] shrink-0 snap-start md:w-[48rem] lg:w-[52rem]"
             >
               <UseCaseCard useCase={useCase} active={i === index} />
             </div>
           ))}
-          <div className="w-4 shrink-0 sm:w-8" aria-hidden />
+          <div className="w-2 shrink-0 sm:w-4" aria-hidden />
         </div>
 
         <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-bg to-transparent md:w-24" />

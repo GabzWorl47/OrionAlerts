@@ -1,47 +1,33 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useReducedMotion } from "framer-motion";
 import { Reveal } from "@/components/Reveal";
-import { clients, type ClientLogo } from "@/lib/homepage";
+import { certificates, type CertificateBadge } from "@/lib/homepage";
 
-function LogoBadge({ client }: { client: ClientLogo }) {
-  const content = client.logoSrc ? (
-    <Image
-      src={client.logoSrc}
-      alt={client.name}
-      width={140}
-      height={40}
-      className="h-8 w-auto max-w-[140px] object-contain opacity-70 grayscale transition group-hover:opacity-100 group-hover:grayscale-0 group-focus-visible:opacity-100 group-focus-visible:grayscale-0"
-    />
-  ) : (
-    <span className="text-center text-xs font-semibold uppercase tracking-[0.14em] text-caption transition group-hover:text-text group-focus-visible:text-text">
-      {client.name}
-    </span>
-  );
-
-  const className =
-    "group flex h-16 w-[200px] shrink-0 items-center justify-center rounded-[14px] border border-line bg-white px-5 shadow-[0_10px_28px_rgba(12,34,56,0.06)] transition hover:border-blue/20 focus-visible:border-blue/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan/40";
-
-  if (client.href) {
-    return (
-      <Link href={client.href} className={className}>
-        {content}
-      </Link>
-    );
-  }
-
+function CertificateItem({ certificate }: { certificate: CertificateBadge }) {
   return (
-    <div className={className} tabIndex={0} aria-label={client.name}>
-      {content}
+    <div className="flex w-[9.75rem] shrink-0 flex-col items-center gap-2 sm:w-[10.75rem] md:w-[11.5rem]">
+      <div className="flex h-[4.5rem] w-full items-center justify-center rounded-[16px] border border-line bg-white px-3 py-2 shadow-[0_10px_28px_rgba(12,34,56,0.06)]">
+        <Image
+          src={certificate.logoSrc}
+          alt={certificate.name}
+          width={160}
+          height={64}
+          unoptimized
+          className="h-11 w-auto max-w-full object-contain"
+        />
+      </div>
+      <p className="text-center text-[11px] font-semibold leading-snug text-muted-strong sm:text-xs">
+        {certificate.label}
+      </p>
     </div>
   );
 }
 
 export function LogoMarquee() {
   const reduce = useReducedMotion();
-  const loop = [...clients, ...clients];
+  const loop = [...certificates, ...certificates];
 
   return (
     <section
@@ -58,13 +44,13 @@ export function LogoMarquee() {
             Trusted by Leading Organizations
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-center text-sm text-muted">
-            Industry segments and partner categories from existing site content — swap in approved
-            client logos when available.
+            Built to align with industry standards and security frameworks that matter for
+            enterprise and government surveillance.
           </p>
         </Reveal>
       </div>
 
-      <div className="certificate-marquee relative mt-8 overflow-hidden">
+      <div className="certificate-marquee relative mt-8 overflow-hidden sm:mt-10">
         <div
           className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-bg to-transparent sm:w-24"
           aria-hidden
@@ -75,15 +61,23 @@ export function LogoMarquee() {
         />
 
         {reduce ? (
-          <div className="flex gap-4 overflow-x-auto px-4 pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            {clients.map((client) => (
-              <LogoBadge key={client.id} client={client} />
+          <ul className="flex flex-wrap items-start justify-center gap-x-4 gap-y-6 px-4 sm:gap-x-6 md:gap-x-7">
+            {certificates.map((certificate) => (
+              <li key={certificate.id}>
+                <CertificateItem certificate={certificate} />
+              </li>
             ))}
-          </div>
+          </ul>
         ) : (
-          <div className="certificate-marquee-track gap-4 px-2">
-            {loop.map((client, index) => (
-              <LogoBadge key={`${client.id}-${index}`} client={client} />
+          <div
+            className="certificate-marquee-track gap-4 px-2 sm:gap-5"
+            role="list"
+            aria-label="Compliance and security certifications"
+          >
+            {loop.map((certificate, index) => (
+              <div key={`${certificate.id}-${index}`} role="listitem">
+                <CertificateItem certificate={certificate} />
+              </div>
             ))}
           </div>
         )}

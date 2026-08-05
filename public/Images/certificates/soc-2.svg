@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 80" role="img" aria-label="SOC 2 Type II">
+  <defs>
+    <linearGradient id="socRing" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0D9488"/>
+      <stop offset="100%" stop-color="#0F766E"/>
+    </linearGradient>
+  </defs>
+  <circle cx="100" cy="40" r="34" fill="url(#socRing)"/>
+  <circle cx="100" cy="40" r="28" fill="#FFFFFF"/>
+  <text x="100" y="36" text-anchor="middle" fill="#0F766E" font-family="Arial Black, Arial, sans-serif" font-size="16" font-weight="800" letter-spacing="0.5">SOC 2</text>
+  <text x="100" y="52" text-anchor="middle" fill="#115E59" font-family="Arial, sans-serif" font-size="9" font-weight="700" letter-spacing="1.5">TYPE II</text>
+</svg>

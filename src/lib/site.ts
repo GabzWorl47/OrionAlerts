@@ -26,7 +26,7 @@ export type Solution = {
   screenshotLabels: string[];
 };
 
-export const solutions: Solution[] = [
+const solutionsSource: Solution[] = [
   {
     slug: "vms",
     name: "Video Management System (VMS)",
@@ -54,8 +54,14 @@ export const solutions: Solution[] = [
         description: "Find footage quickly and accelerate investigations with searchable video workflows.",
       },
       {
-        title: "User & Role-Based Access Control",
-        description: "Manage users and permissions so the right teams see the right cameras and tools.",
+        title: "Secure Remote Access",
+        description:
+          "Give authorized teams secure remote access to live video, playback, and controls without exposing the estate.",
+      },
+      {
+        title: "Event & Alarm Management",
+        description:
+          "Centralize events and alarms so operators can acknowledge, escalate, and clear incidents from one queue.",
       },
       {
         title: "Open Integration with IP Cameras & Third-Party Systems",
@@ -113,8 +119,14 @@ export const solutions: Solution[] = [
         description: "Track people, vehicles, and occupancy for operations and security insight.",
       },
       {
-        title: "Custom AI Rules & Workflows",
-        description: "Configure custom AI use cases and response workflows for your environment.",
+        title: "Intrusion Detection",
+        description:
+          "Detect unauthorized entry and perimeter breaches in real time so teams can respond before incidents escalate.",
+      },
+      {
+        title: "Restricted Area Monitoring",
+        description:
+          "Watch restricted zones continuously and alert when people enter areas they should not access.",
       },
     ],
     architecture: [
@@ -160,8 +172,9 @@ export const solutions: Solution[] = [
         description: "Track assets from procurement and deployment through transfer, maintenance, and retirement.",
       },
       {
-        title: "QR/Barcode & Serial Number Tracking",
-        description: "Identify and look up assets quickly with QR, barcode, and serial number support.",
+        title: "Serial Number Tracking",
+        description:
+          "Identify and look up assets quickly with serial numbers, plus QR and barcode support when needed.",
       },
       {
         title: "Location & Department Mapping",
@@ -170,10 +183,6 @@ export const solutions: Solution[] = [
       {
         title: "Asset Assignment & Ownership",
         description: "Assign ownership and accountability so every asset has a clear responsible party.",
-      },
-      {
-        title: "Transfer & Movement History",
-        description: "Follow asset transfers and movement with a complete historical record.",
       },
       {
         title: "Warranty & Documentation Management",
@@ -331,6 +340,11 @@ export const solutions: Solution[] = [
         title: "Instant Alerts & Notifications",
         description: "Get notified immediately when devices or services fall out of healthy status.",
       },
+      {
+        title: "Uptime & Availability Reports",
+        description:
+          "Review uptime and availability trends across cameras, NVRs, and network nodes to prove reliability and prioritize fixes.",
+      },
     ],
     architecture: [
       "Device & infrastructure polling",
@@ -353,6 +367,20 @@ export const solutions: Solution[] = [
     screenshotLabels: ["Health dashboard", "Device status board", "Alert notifications"],
   },
 ];
+
+const SOLUTION_ORDER = [
+  "asset-tracking",
+  "amc-management",
+  "health-monitoring",
+  "vms",
+  "ai-analytics",
+] as const;
+
+export const solutions: Solution[] = SOLUTION_ORDER.map((slug) => {
+  const solution = solutionsSource.find((item) => item.slug === slug);
+  if (!solution) throw new Error(`Missing solution: ${slug}`);
+  return solution;
+});
 
 export function getSolution(slug: string) {
   return solutions.find((s) => s.slug === slug);

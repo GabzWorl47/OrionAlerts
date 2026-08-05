@@ -26,6 +26,13 @@ export type ClientLogo = {
   href?: string;
 };
 
+export type CertificateBadge = {
+  id: string;
+  name: string;
+  label: string;
+  logoSrc: string;
+};
+
 export type ComparisonRow = {
   traditional: string;
   orion: string;
@@ -103,6 +110,76 @@ export const clients: ClientLogo[] = [
   { id: "access", name: "Access Control" },
   { id: "cloud", name: "Cloud Infra" },
   { id: "network", name: "Network" },
+];
+
+/** Colored compliance / trust marks for the #customers section. */
+export const certificates: CertificateBadge[] = [
+  {
+    id: "onvif",
+    name: "ONVIF",
+    label: "ONVIF Conformant",
+    logoSrc: "/Images/certificates/onvif.svg",
+  },
+  {
+    id: "fips",
+    name: "FIPS 140-2",
+    label: "FIPS 140-2 Support",
+    logoSrc: "/Images/certificates/fips-140-2.svg",
+  },
+  {
+    id: "safety-act",
+    name: "SAFETY Act",
+    label: "SAFETY Act Designation",
+    logoSrc: "/Images/certificates/safety-act.svg",
+  },
+  {
+    id: "ndaa",
+    name: "NDAA",
+    label: "NDAA Compliant",
+    logoSrc: "/Images/certificates/ndaa.svg",
+  },
+  {
+    id: "taa",
+    name: "TAA",
+    label: "TAA Compliant",
+    logoSrc: "/Images/certificates/taa.svg",
+  },
+  {
+    id: "soc-2",
+    name: "SOC 2",
+    label: "SOC 2 Type II",
+    logoSrc: "/Images/certificates/soc-2.svg",
+  },
+  {
+    id: "iso-27001",
+    name: "ISO 27001",
+    label: "ISO 27001 Certified",
+    logoSrc: "/Images/certificates/iso-27001.svg",
+  },
+  {
+    id: "iso-27017",
+    name: "ISO 27017",
+    label: "ISO 27017 Cloud Security",
+    logoSrc: "/Images/certificates/iso-27017.svg",
+  },
+  {
+    id: "iso-27018",
+    name: "ISO 27018",
+    label: "ISO 27018 Cloud Privacy",
+    logoSrc: "/Images/certificates/iso-27018.svg",
+  },
+  {
+    id: "iso-27701",
+    name: "ISO 27701",
+    label: "ISO 27701 Privacy",
+    logoSrc: "/Images/certificates/iso-27701.svg",
+  },
+  {
+    id: "fedramp",
+    name: "FedRAMP",
+    label: "FedRAMP Moderate",
+    logoSrc: "/Images/certificates/fedramp.svg",
+  },
 ];
 
 export const homepageSolutions: HomepageSolution[] = solutions.map((solution) => ({

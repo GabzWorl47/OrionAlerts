@@ -38,7 +38,8 @@ const featureShortLabels: Record<string, string[]> = {
     "Live Monitoring",
     "Multi-Site Ops",
     "Video Search",
-    "Access Control",
+    "Secure Remote Access",
+    "Event & Alarm Management",
     "Open Integration",
   ],
   "ai-analytics": [
@@ -46,14 +47,16 @@ const featureShortLabels: Record<string, string[]> = {
     "Smart Alerts",
     "Safety Monitoring",
     "Occupancy Insights",
-    "Custom Rules",
+    "Intrusion Detection",
+    "Restricted Area Monitoring",
   ],
   "asset-tracking": [
     "Asset Inventory",
     "Lifecycle Tracking",
-    "Location & Ownership",
-    "Transfer History",
-    "Audit Reports",
+    "Serial Number Tracking",
+    "Location Mapping",
+    "Ownership",
+    "Warranty Docs",
   ],
   "amc-management": [
     "AMC & Warranty",
@@ -68,6 +71,7 @@ const featureShortLabels: Record<string, string[]> = {
     "Recording Health",
     "Network Status",
     "Instant Alerts",
+    "Uptime & Availability Reports",
   ],
 };
 
@@ -121,7 +125,7 @@ export function getFeatureCards(activeId: string): FeatureCard[] {
   const shorts = featureShortLabels[item.solution.slug];
   const solutionName = item.solution.shortName;
 
-  return item.solution.features.slice(0, 5).map((feature, index) => ({
+  return item.solution.features.slice(0, 6).map((feature, index) => ({
     label:
       shorts?.[index] ??
       feature.title.split(" & ")[0].split(" — ")[0].replace(/\s+with\s+.*/i, ""),
