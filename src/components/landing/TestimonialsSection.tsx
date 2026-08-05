@@ -65,16 +65,12 @@ export function TestimonialsSection() {
     >
       <div className="container relative">
         <Reveal>
-          <p className="eyebrow mb-3">Customers</p>
           <h2
             id="testimonials-heading"
             className="max-w-3xl text-[clamp(1.85rem,4vw,2.75rem)] font-semibold leading-[1.1] tracking-[-0.03em] text-text"
           >
-            What Our Clients Say
+            Testimonials
           </h2>
-          <p className="description mt-4 max-w-2xl text-base md:text-lg">
-            Sample voices for layout only — replace with approved customer quotes before launch.
-          </p>
         </Reveal>
 
         <div className="mt-10 hidden gap-5 md:grid md:grid-cols-3">

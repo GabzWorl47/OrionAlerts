@@ -265,72 +265,84 @@ export function SolutionsMegaMenu({
   }, [activeId]);
 
   return (
-    <div className="relative flex min-h-0 overflow-visible">
-      <aside className="w-[240px] shrink-0 border-r border-white/10 py-6 pl-1 pr-4 xl:w-[260px]">
-        <p className="px-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/40">
-          Solutions
-        </p>
-        <ul className="mt-3 space-y-0.5">
-          {megaMenuNavItems.map((item) => {
-            const active = activeId === item.id;
-            return (
-              <li key={item.id}>
-                <Link
-                  href={item.href}
-                  className={`group block w-full rounded-[10px] px-2 py-2 text-left transition hover:bg-white/8 ${
-                    active ? "bg-white/8" : ""
-                  }`}
-                  onMouseEnter={() => onActiveChange(item.id)}
-                  onFocus={() => onActiveChange(item.id)}
-                  onClick={onClose}
-                >
-                  <p
-                    className={`text-[15px] font-semibold leading-snug transition ${
-                      active
-                        ? "text-cyan"
-                        : "text-white/90 group-hover:text-cyan"
+    <div className="relative min-h-0 overflow-visible">
+      <div className="flex min-h-0 overflow-visible">
+        <aside className="w-[240px] shrink-0 py-6 pl-1 pr-4 xl:w-[260px]">
+          <p className="px-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/40">
+            Solutions
+          </p>
+          <ul className="mt-3 space-y-0.5">
+            {megaMenuNavItems.map((item) => {
+              const active = activeId === item.id;
+              return (
+                <li key={item.id}>
+                  <Link
+                    href={item.href}
+                    className={`group block w-full rounded-[10px] px-2 py-2 text-left transition hover:bg-white/8 ${
+                      active ? "bg-white/8" : ""
                     }`}
+                    onMouseEnter={() => onActiveChange(item.id)}
+                    onFocus={() => onActiveChange(item.id)}
+                    onClick={onClose}
                   >
-                    {item.label}
-                  </p>
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
-      </aside>
+                    <p
+                      className={`text-[15px] font-semibold leading-snug transition ${
+                        active
+                          ? "text-cyan"
+                          : "text-white/90 group-hover:text-cyan"
+                      }`}
+                    >
+                      {item.label}
+                    </p>
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </aside>
 
-      <div className="flex-1 overflow-visible bg-[#0f1c2e] px-5 py-5 xl:px-6">
-        <motion.div
-          key={activeId}
-          initial={{ opacity: 0, y: 6 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.2 }}
-          className="flex flex-col gap-3 lg:flex-row lg:items-stretch"
-        >
-          <div className="lg:w-[min(100%,320px)] lg:shrink-0">
-            <OverviewCard
-              {...overview}
-              showPlatformTiles={isPlatformOverview}
-              onClose={onClose}
-            />
-          </div>
-
-          <div className="grid min-w-0 flex-1 grid-cols-1 content-start gap-2 overflow-visible sm:grid-cols-2">
-            {features.map((feature) => (
-              <FeatureCard
-                key={`${activeId}-${feature.label}`}
-                feature={feature}
-                open={openFeature === feature.label}
-                onToggle={() =>
-                  setOpenFeature((current) =>
-                    current === feature.label ? null : feature.label,
-                  )
-                }
+        <div className="flex-1 overflow-visible bg-[#0f1c2e] px-5 py-5 xl:px-6">
+          <motion.div
+            key={activeId}
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.2 }}
+            className="flex flex-col gap-3 lg:flex-row lg:items-stretch"
+          >
+            <div className="lg:w-[min(100%,320px)] lg:shrink-0">
+              <OverviewCard
+                {...overview}
+                showPlatformTiles={isPlatformOverview}
+                onClose={onClose}
               />
-            ))}
-          </div>
-        </motion.div>
+            </div>
+
+            <div className="grid min-w-0 flex-1 grid-cols-1 content-start gap-2 overflow-visible sm:grid-cols-2">
+              {features.map((feature) => (
+                <FeatureCard
+                  key={`${activeId}-${feature.label}`}
+                  feature={feature}
+                  open={openFeature === feature.label}
+                  onToggle={() =>
+                    setOpenFeature((current) =>
+                      current === feature.label ? null : feature.label,
+                    )
+                  }
+                />
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      </div>
+
+      <div className="mt-4 border-t border-white/10 px-2 pt-4 pb-1 xl:px-4">
+        <Link
+          href="/solutions"
+          onClick={onClose}
+          className="text-sm font-semibold text-cyan transition hover:text-white"
+        >
+          View all solutions
+        </Link>
       </div>
     </div>
   );
