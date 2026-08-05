@@ -304,6 +304,20 @@
   animation-duration: 40s;
 }
 
+@keyframes certificate-marquee-ltr {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.certificate-marquee-track--ltr {
+  animation-name: certificate-marquee-ltr;
+  animation-duration: 55s;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

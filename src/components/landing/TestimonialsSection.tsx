@@ -1,7 +1,6 @@
 "use client";
 
-import { useId, useState } from "react";
-import { ChevronLeft, ChevronRight, Quote, Star } from "lucide-react";
+import { Quote, Star } from "lucide-react";
 import { useReducedMotion } from "framer-motion";
 import { Reveal } from "@/components/Reveal";
 import { testimonials, type Testimonial } from "@/lib/homepage";
@@ -23,7 +22,7 @@ function Stars({ rating }: { rating: number }) {
 
 function TestimonialCard({ item }: { item: Testimonial }) {
   return (
-    <article className="panel relative flex h-full flex-col p-6 md:p-7">
+    <article className="panel relative flex h-full w-[min(86vw,22rem)] shrink-0 flex-col p-6 md:w-[24rem] md:p-7">
       <Quote size={28} className="text-cyan/40" aria-hidden />
       {item.rating ? (
         <div className="mt-4">
@@ -49,13 +48,7 @@ function TestimonialCard({ item }: { item: Testimonial }) {
 
 export function TestimonialsSection({ className }: { className?: string }) {
   const reduce = useReducedMotion();
-  const labelId = useId();
-  const [index, setIndex] = useState(0);
-  const total = testimonials.length;
-  const current = testimonials[index] ?? testimonials[0];
-
-  const prev = () => setIndex((i) => (i - 1 + total) % total);
-  const next = () => setIndex((i) => (i + 1) % total);
+  const loop = [...testimonials, ...testimonials];
 
   return (
     <section
@@ -71,62 +64,40 @@ export function TestimonialsSection({ className }: { className?: string }) {
           >
             Testimonials
           </h2>
+          <p className="mt-3 max-w-2xl text-sm text-muted md:text-base">
+            Sample voices for layout only — replace with approved customer quotes before launch.
+          </p>
         </Reveal>
+      </div>
 
-        <div className="mt-10 hidden gap-5 md:grid md:grid-cols-3">
-          {testimonials.map((item, i) => (
-            <Reveal key={item.id} delay={i * 0.06}>
-              <TestimonialCard item={item} />
-            </Reveal>
-          ))}
-        </div>
+      <div
+        className="certificate-marquee relative mt-10 overflow-hidden"
+        role="region"
+        aria-roledescription="marquee"
+        aria-labelledby="testimonials-heading"
+      >
+        <div
+          className="pointer-events-none absolute inset-y-0 left-0 z-10 w-10 bg-gradient-to-r from-bg to-transparent sm:w-20"
+          aria-hidden
+        />
+        <div
+          className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-gradient-to-l from-bg to-transparent sm:w-20"
+          aria-hidden
+        />
 
-        <div className="mt-10 md:hidden">
-          <div
-            role="region"
-            aria-roledescription="carousel"
-            aria-labelledby="testimonials-heading"
-            aria-describedby={labelId}
-          >
-            <p id={labelId} className="sr-only" aria-live="polite">
-              Testimonial {index + 1} of {total}
-            </p>
-            <TestimonialCard item={current} />
-            <div className="mt-4 flex items-center justify-between gap-3">
-              <button
-                type="button"
-                onClick={prev}
-                className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-white text-text shadow-[0_10px_28px_rgba(12,34,56,0.16)] transition hover:scale-105"
-                aria-label="Previous testimonial"
-              >
-                <ChevronLeft size={18} />
-              </button>
-              <div className="flex gap-1.5" role="tablist" aria-label="Testimonial pages">
-                {testimonials.map((item, i) => (
-                  <button
-                    key={item.id}
-                    type="button"
-                    role="tab"
-                    aria-selected={i === index}
-                    aria-label={`Show testimonial ${i + 1}`}
-                    onClick={() => setIndex(i)}
-                    className={`h-2.5 w-2.5 rounded-full transition ${
-                      i === index ? "bg-blue" : "bg-line"
-                    } ${reduce ? "" : ""}`}
-                  />
-                ))}
-              </div>
-              <button
-                type="button"
-                onClick={next}
-                className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-white text-text shadow-[0_10px_28px_rgba(12,34,56,0.16)] transition hover:scale-105"
-                aria-label="Next testimonial"
-              >
-                <ChevronRight size={18} />
-              </button>
-            </div>
+        {reduce ? (
+          <div className="flex gap-5 overflow-x-auto px-4 pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {testimonials.map((item) => (
+              <TestimonialCard key={item.id} item={item} />
+            ))}
           </div>
-        </div>
+        ) : (
+          <div className="certificate-marquee-track certificate-marquee-track--slow gap-5 px-2">
+            {loop.map((item, index) => (
+              <TestimonialCard key={`${item.id}-${index}`} item={item} />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

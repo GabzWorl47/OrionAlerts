@@ -280,4 +280,124 @@ export const testimonials: Testimonial[] = [
     rating: 5,
     placeholder: true,
   },
+  {
+    id: "placeholder-4",
+    quote:
+      "PPE exceptions are caught on the floor instead of in the weekly audit, which changed how supervisors respond.",
+    name: "Customer Placeholder",
+    organization: "Automotive · placeholder",
+    designation: "Plant Safety Manager",
+    rating: 5,
+    placeholder: true,
+  },
+  {
+    id: "placeholder-5",
+    quote:
+      "Camera downtime used to go unnoticed for hours. Health alerts now keep every node online across our campuses.",
+    name: "Customer Placeholder",
+    organization: "Education · placeholder",
+    designation: "Campus Security Lead",
+    rating: 5,
+    placeholder: true,
+  },
+  {
+    id: "placeholder-6",
+    quote:
+      "Dark-store dispatch disputes are resolved faster because we can pull the exact packing and handoff moment.",
+    name: "Customer Placeholder",
+    organization: "Quick Commerce · placeholder",
+    designation: "Regional Ops Manager",
+    rating: 5,
+    placeholder: true,
+  },
+  {
+    id: "placeholder-7",
+    quote:
+      "Restricted-zone breaches in the cleanroom are flagged instantly, which helps us stay audit-ready every shift.",
+    name: "Customer Placeholder",
+    organization: "Pharma · placeholder",
+    designation: "Compliance Officer",
+    rating: 5,
+    placeholder: true,
+  },
+  {
+    id: "placeholder-8",
+    quote:
+      "Loading-bay congestion and unsafe forklift movement are visible in real time, not after an incident report.",
+    name: "Customer Placeholder",
+    organization: "Warehousing · placeholder",
+    designation: "Warehouse Superintendent",
+    rating: 5,
+    placeholder: true,
+  },
+  {
+    id: "placeholder-9",
+    quote:
+      "Perimeter events at remote utility sites reach the control room before crews are even dispatched.",
+    name: "Customer Placeholder",
+    organization: "Utilities · placeholder",
+    designation: "Control Room Lead",
+    rating: 5,
+    placeholder: true,
+  },
+  {
+    id: "placeholder-10",
+    quote:
+      "Queue and crowd pressure in the concourse are easier to manage when alerts arrive with usable context.",
+    name: "Customer Placeholder",
+    organization: "Airports · placeholder",
+    designation: "Terminal Operations Manager",
+    rating: 5,
+    placeholder: true,
+  },
+  {
+    id: "placeholder-11",
+    quote:
+      "After-hours intrusion on construction plots is no longer a next-morning discovery for our security desk.",
+    name: "Customer Placeholder",
+    organization: "Construction · placeholder",
+    designation: "Site Security Coordinator",
+    rating: 5,
+    placeholder: true,
+  },
+  {
+    id: "placeholder-12",
+    quote:
+      "Branch teams get clearer evidence for suspicious activity without scrubbing hours of unrelated footage.",
+    name: "Customer Placeholder",
+    organization: "Banking · placeholder",
+    designation: "Security Operations Head",
+    rating: 5,
+    placeholder: true,
+  },
+  {
+    id: "placeholder-13",
+    quote:
+      "Common-area and gate incidents in our township are routed with clips attached, so response is faster.",
+    name: "Customer Placeholder",
+    organization: "Residential · placeholder",
+    designation: "Facility Director",
+    rating: 5,
+    placeholder: true,
+  },
+  {
+    id: "placeholder-14",
+    quote:
+      "Fire-risk and process-zone exceptions on the polymer line now show up as prioritized alerts, not inbox noise.",
+    name: "Customer Placeholder",
+    organization: "Polymers · placeholder",
+    designation: "EHS Manager",
+    rating: 5,
+    placeholder: true,
+  },
+  {
+    id: "placeholder-15",
+    quote:
+      "Event-day crowd and restricted-area monitoring finally feels proactive instead of purely reactive.",
+    name: "Customer Placeholder",
+    organization: "Sports & Events · placeholder",
+    designation: "Venue Security Director",
+    rating: 5,
+    placeholder: true,
+  },
 ];

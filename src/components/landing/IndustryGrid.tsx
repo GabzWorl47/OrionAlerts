@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { ChevronRight } from "lucide-react";
+import { LogoMarquee } from "@/components/landing/LogoMarquee";
 import { industries } from "@/lib/site";
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -19,7 +20,7 @@ const clusters = [
   },
   {
     id: "industrial",
-    label: "Industrial & process",
+    label: "Manufacturing & heavy industry",
     slugs: [
       "manufacturing",
       "automotive",
@@ -33,25 +34,24 @@ const clusters = [
     ],
   },
   {
-    id: "life-sciences",
-    label: "Life sciences & regulated",
+    id: "regulated",
+    label: "Pharma, food & healthcare",
     slugs: ["pharma", "food-fmcg", "healthcare"],
   },
   {
-    id: "commerce",
-    label: "Commerce & fulfilment",
+    id: "fulfilment",
+    label: "Logistics & fulfilment",
     slugs: [
       "logistics",
       "dark-stores",
       "quick-commerce",
       "ecommerce-fulfilment",
       "cold-storage",
-      "retail-shopping",
     ],
   },
   {
-    id: "built",
-    label: "Built environment & infra",
+    id: "infrastructure",
+    label: "Transport & infrastructure",
     slugs: [
       "airports-ports-railways",
       "commercial-buildings",
@@ -60,13 +60,19 @@ const clusters = [
       "solar-renewable",
       "telecom-remote",
       "government",
-      "residential",
     ],
   },
   {
     id: "public",
-    label: "Public & hospitality",
-    slugs: ["education-campuses", "hotels-hospitality", "banking", "sports-events"],
+    label: "Retail, campuses & public",
+    slugs: [
+      "retail-shopping",
+      "hotels-hospitality",
+      "education-campuses",
+      "banking",
+      "residential",
+      "sports-events",
+    ],
   },
 ] as const;
 
@@ -176,6 +182,8 @@ export function IndustryGrid() {
           </div>
         </div>
       </div>
+
+      <LogoMarquee />
 
       <div className="relative mx-auto w-[min(100%-1.5rem,90rem)] pt-8 md:pt-10">
         <motion.div
