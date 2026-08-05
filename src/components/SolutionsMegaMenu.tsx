@@ -265,10 +265,10 @@ export function SolutionsMegaMenu({
   }, [activeId]);
 
   return (
-    <div className="relative min-h-0 overflow-visible">
+    <div className="relative min-h-0 overflow-visible pl-4 pr-2 xl:pr-4">
       <div className="flex min-h-0 overflow-visible">
-        <aside className="w-[240px] shrink-0 py-6 pl-1 pr-4 xl:w-[260px]">
-          <p className="px-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/40">
+        <aside className="w-[224px] shrink-0 py-6 pr-4 xl:w-[244px]">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-white/40">
             Solutions
           </p>
           <ul className="mt-3 space-y-0.5">
@@ -278,7 +278,7 @@ export function SolutionsMegaMenu({
                 <li key={item.id}>
                   <Link
                     href={item.href}
-                    className={`group block w-full rounded-[10px] px-2 py-2 text-left transition hover:bg-white/8 ${
+                    className={`group -mx-2 block w-[calc(100%+1rem)] rounded-[10px] px-2 py-2 text-left transition hover:bg-white/8 ${
                       active ? "bg-white/8" : ""
                     }`}
                     onMouseEnter={() => onActiveChange(item.id)}
@@ -335,7 +335,7 @@ export function SolutionsMegaMenu({
         </div>
       </div>
 
-      <div className="mt-4 border-t border-white/10 px-2 pt-4 pb-1 xl:px-4">
+      <div className="mt-2 border-t border-white/10 pt-2 pb-1">
         <Link
           href="/solutions"
           onClick={onClose}
