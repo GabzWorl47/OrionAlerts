@@ -272,7 +272,7 @@ export function IndustryGrid() {
                 >
                   <Link
                     href={`/industries/${industry.slug}`}
-                    className="group relative block h-full overflow-hidden rounded-[22px] bg-[#07111f] shadow-[0_18px_40px_-28px_rgba(7,17,31,0.55)] ring-1 ring-black/5 transition-[box-shadow,ring-color] duration-500 hover:shadow-[0_28px_55px_-24px_rgba(7,17,31,0.7)] hover:ring-cyan/35"
+                    className="group relative block h-full overflow-hidden rounded-[22px] bg-[#07111f] shadow-[0_18px_40px_-28px_rgba(7,17,31,0.55)] ring-1 ring-black/5 transition-[box-shadow,ring-color,ring-width] duration-300 hover:shadow-[0_28px_55px_-24px_rgba(7,17,31,0.7)] hover:ring-2 hover:ring-cyan"
                   >
                     <div className="relative aspect-[3/4] overflow-hidden">
                       <Image

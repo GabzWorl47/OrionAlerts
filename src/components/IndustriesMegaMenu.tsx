@@ -58,12 +58,10 @@ type IndustriesMegaMenuProps = {
 function IndustryItem({
   slug,
   name,
-  tagline,
   onClose,
 }: {
   slug: string;
   name: string;
-  tagline?: string;
   onClose: () => void;
 }) {
   const Icon = industryIcons[slug] ?? Building2;
@@ -83,7 +81,6 @@ function IndustryItem({
         <p className="text-[15px] font-semibold leading-snug text-white/90 transition group-hover:text-cyan">
           {name}
         </p>
-        {tagline ? <p className="mt-0.5 text-sm leading-snug text-white/45">{tagline}</p> : null}
       </div>
     </Link>
   );
@@ -102,7 +99,6 @@ export function IndustriesMegaMenu({ onClose }: IndustriesMegaMenuProps) {
             key={industry.slug}
             slug={industry.slug}
             name={industry.name}
-            tagline={industry.tagline}
             onClose={onClose}
           />
         ))}
