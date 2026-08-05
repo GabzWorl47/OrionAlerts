@@ -86,15 +86,22 @@ function IndustryItem({
   );
 }
 
+/** Desktop mega menu is 3 columns — five rows = 15 industries. */
+const MEGA_MENU_ROWS = 5;
+const MEGA_MENU_COLS = 3;
+const MEGA_MENU_PREVIEW = MEGA_MENU_ROWS * MEGA_MENU_COLS;
+
 export function IndustriesMegaMenu({ onClose }: IndustriesMegaMenuProps) {
+  const preview = industries.slice(0, MEGA_MENU_PREVIEW);
+
   return (
-    <div className="px-2 py-5 xl:px-4">
+    <div className="relative min-h-0 overflow-visible px-2 pt-5 xl:px-4">
       <p className="px-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/40">
         Industry
       </p>
 
       <div className="mt-3 grid grid-cols-1 gap-x-6 gap-y-1 sm:grid-cols-2 lg:grid-cols-3">
-        {industries.map((industry) => (
+        {preview.map((industry) => (
           <IndustryItem
             key={industry.slug}
             slug={industry.slug}
@@ -104,7 +111,7 @@ export function IndustriesMegaMenu({ onClose }: IndustriesMegaMenuProps) {
         ))}
       </div>
 
-      <div className="mt-4 border-t border-white/10 px-2 pt-4">
+      <div className="mt-2 border-t border-white/10 pt-2 pb-1">
         <Link
           href="/industries"
           onClick={onClose}
