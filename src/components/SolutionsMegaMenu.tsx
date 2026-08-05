@@ -9,6 +9,7 @@ import {
   Activity,
   Bell,
   Cpu,
+  LayoutGrid,
   Map,
   Search,
   ShieldCheck,
@@ -22,6 +23,7 @@ import {
   getOverviewCopy,
   megaMenuNavItems,
   PLATFORM_OVERVIEW_ID,
+  solutionIcons,
 } from "@/lib/mega-menu";
 
 const overviewTiles: { label: string; icon: LucideIcon }[] = [
@@ -274,19 +276,29 @@ export function SolutionsMegaMenu({
           <ul className="mt-3 space-y-0.5">
             {megaMenuNavItems.map((item) => {
               const active = activeId === item.id;
+              const Icon = solutionIcons[item.id] ?? LayoutGrid;
               return (
                 <li key={item.id}>
                   <Link
                     href={item.href}
-                    className={`group -mx-2 block w-[calc(100%+1rem)] rounded-[10px] px-2 py-2 text-left transition hover:bg-white/8 ${
+                    className={`group -mx-2 flex w-[calc(100%+1rem)] items-center gap-3 rounded-[10px] px-2 py-2 text-left transition hover:bg-white/8 ${
                       active ? "bg-white/8" : ""
                     }`}
                     onMouseEnter={() => onActiveChange(item.id)}
                     onFocus={() => onActiveChange(item.id)}
                     onClick={onClose}
                   >
+                    <Icon
+                      size={20}
+                      strokeWidth={1.75}
+                      className={`mt-0.5 shrink-0 transition ${
+                        active
+                          ? "text-cyan"
+                          : "text-white/55 group-hover:text-cyan"
+                      }`}
+                    />
                     <p
-                      className={`text-[15px] font-semibold leading-snug transition ${
+                      className={`min-w-0 text-[15px] font-semibold leading-snug transition ${
                         active
                           ? "text-cyan"
                           : "text-white/90 group-hover:text-cyan"

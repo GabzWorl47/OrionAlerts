@@ -1,4 +1,4 @@
-import { Activity, Cpu, LayoutGrid, Search, Shield, Video, Wrench, type LucideIcon } from "lucide-react";
+import { Activity, Cpu, LayoutGrid, Package, Search, Shield, Video, Wrench, type LucideIcon } from "lucide-react";
 import type { Solution } from "@/lib/site";
 import { solutions, site } from "@/lib/site";
 
@@ -85,10 +85,10 @@ const overviewLeads: Record<string, string> = {
     "Spot camera, NVR, storage, and network issues before they create operational blind spots.",
 };
 
-const solutionIcons: Record<string, LucideIcon> = {
+export const solutionIcons: Record<string, LucideIcon> = {
   vms: Video,
   "ai-analytics": Cpu,
-  "asset-tracking": Shield,
+  "asset-tracking": Package,
   "amc-management": Wrench,
   "health-monitoring": Activity,
 };
