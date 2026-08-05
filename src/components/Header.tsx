@@ -320,7 +320,7 @@ export function Header() {
                       exit={{ height: 0, opacity: 0 }}
                       className="overflow-hidden pl-3"
                     >
-                      {industries.map((industry) => (
+                      {industries.slice(0, 5).map((industry) => (
                         <Link
                           key={industry.slug}
                           href={`/industries/${industry.slug}`}

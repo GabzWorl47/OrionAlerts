@@ -63,10 +63,11 @@ export function TestimonialsSection({ className }: { className?: string }) {
               id="testimonials-heading"
               className="text-[clamp(1.85rem,4vw,2.75rem)] font-semibold leading-[1.1] tracking-[-0.03em] text-text"
             >
-              Testimonials
+              What Our Clients Say
             </h2>
             <p className="mt-3 text-sm text-muted md:text-base">
-              Sample voices for layout only — replace with approved customer quotes before launch.
+              Security and operations leaders using Orion Alerts across plants, warehouses, campuses,
+              and critical sites.
             </p>
           </div>
         </Reveal>
