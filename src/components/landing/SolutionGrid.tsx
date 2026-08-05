@@ -117,12 +117,28 @@ export function SolutionGrid() {
       <LogoMarquee />
 
       <section className="relative overflow-hidden bg-bg pb-10 md:pb-14">
-      <div className="relative mx-auto w-[min(100%-1.5rem,90rem)] pt-4 md:pt-5">
+      <div className="relative mx-auto w-[min(100%-1.5rem,90rem)] pt-10 md:pt-14">
         <motion.div
-          className="relative flex flex-wrap items-center justify-center gap-2"
+          className="mx-auto max-w-3xl text-center"
+          initial={animate ? { opacity: 0, y: 16 } : false}
+          animate={{ opacity: 1, y: 0 }}
+          transition={animate ? { duration: 0.5, ease } : { duration: 0 }}
+        >
+          <h2 className="text-[clamp(1.85rem,4vw,2.85rem)] font-semibold leading-[1.15] tracking-[-0.03em] text-text">
+            Capabilities built for critical operations
+          </h2>
+          <p className="mx-auto mt-4 max-w-2xl text-[15px] leading-relaxed text-muted-strong md:text-base">
+            Explore the modules that power Orion Alerts — video and AI, asset visibility,
+            maintenance workflows, and infrastructure health — each designed to work alone or as one
+            connected platform.
+          </p>
+        </motion.div>
+
+        <motion.div
+          className="relative mt-10 flex flex-wrap items-center justify-center gap-2"
           initial={animate ? { opacity: 0, y: 12 } : false}
           animate={{ opacity: 1, y: 0 }}
-          transition={animate ? { duration: 0.5, delay: 0.15, ease } : { duration: 0 }}
+          transition={animate ? { duration: 0.5, delay: 0.08, ease } : { duration: 0 }}
         >
           {clusters.map((cluster) => {
             const active = activeCluster === cluster.id;
@@ -194,44 +210,50 @@ export function SolutionGrid() {
                   whileHover={
                     animate
                       ? {
-                          y: -8,
-                          scale: 1.03,
-                          transition: { type: "spring", stiffness: 420, damping: 24 },
+                          y: -10,
+                          transition: { type: "spring", stiffness: 380, damping: 22 },
                         }
                       : undefined
                   }
                 >
                   <Link
                     href={`/solutions/${solution.slug}`}
-                    className="group flex h-full flex-col"
+                    className="group relative block h-full overflow-hidden rounded-[22px] bg-[#07111f] shadow-[0_18px_40px_-28px_rgba(7,17,31,0.55)] ring-1 ring-black/5 transition-[box-shadow,ring-color,ring-width] duration-300 hover:shadow-[0_28px_55px_-24px_rgba(7,17,31,0.7)] hover:ring-2 hover:ring-cyan"
                   >
-                    <div className="relative aspect-[3/4] overflow-hidden rounded-[14px] bg-surface-2">
+                    <div className="relative aspect-[3/4] overflow-hidden">
                       <Image
                         src={solution.image}
                         alt={solution.name}
                         fill
                         priority={solutionIndex < 5}
+                        quality={90}
                         sizes="(max-width: 640px) 45vw, (max-width: 1024px) 30vw, 18vw"
-                        className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                        className="object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.12]"
                       />
-                      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/65 via-black/15 to-transparent" />
-                      <div className="absolute inset-x-0 bottom-0 p-3">
-                        <span className="block font-display text-[0.95rem] font-semibold leading-snug text-white sm:text-[1.05rem] lg:text-[1.1rem]">
+
+                      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#07111f] via-[#07111f]/45 to-transparent opacity-95" />
+                      <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-[#0c2238]/35 via-transparent to-cyan/10 opacity-80 mix-blend-soft-light transition-opacity duration-500 group-hover:opacity-100" />
+                      <div className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-700 ease-out group-hover:translate-x-full" />
+                      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[3px] origin-left scale-x-0 bg-gradient-to-r from-cyan via-cyan/70 to-transparent transition-transform duration-500 ease-out group-hover:scale-x-100" />
+
+                      <div className="absolute inset-x-0 bottom-0 flex flex-col justify-end p-3.5 sm:p-4">
+                        <span className="font-display text-[1.05rem] font-semibold leading-[1.15] tracking-[-0.02em] text-white sm:text-[1.15rem] lg:text-[1.2rem]">
                           {solution.shortName}
                         </span>
-                        <span className="mt-1 block text-[11px] text-white/70 opacity-0 transition group-hover:opacity-100 sm:text-xs">
+
+                        <span className="mt-1.5 max-h-0 overflow-hidden text-[11px] leading-snug text-white/70 opacity-0 transition-all duration-500 ease-out group-hover:max-h-16 group-hover:opacity-100 sm:text-xs">
                           {solution.tagline}
                         </span>
-                      </div>
-                    </div>
 
-                    <div className="mt-3 inline-flex w-full items-center justify-between rounded-full bg-white px-3.5 py-2.5 text-xs font-medium text-text transition duration-300 group-hover:bg-surface-2 sm:text-[13px]">
-                      Learn more
-                      <ChevronRight
-                        size={14}
-                        strokeWidth={2.25}
-                        className="shrink-0 transition duration-300 group-hover:translate-x-0.5"
-                      />
+                        <span className="mt-3 inline-flex items-center gap-1 text-[12px] font-semibold text-cyan transition duration-300 group-hover:gap-2 sm:text-[13px]">
+                          Explore
+                          <ChevronRight
+                            size={15}
+                            strokeWidth={2.4}
+                            className="shrink-0 transition-transform duration-300 group-hover:translate-x-0.5"
+                          />
+                        </span>
+                      </div>
                     </div>
                   </Link>
                 </motion.div>
