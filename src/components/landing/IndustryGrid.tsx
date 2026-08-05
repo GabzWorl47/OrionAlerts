@@ -23,33 +23,50 @@ const clusters = [
     slugs: [
       "manufacturing",
       "automotive",
-      "metals-mining",
       "cement",
+      "metals-mining",
       "oil-gas",
       "pulp-paper",
       "textile",
       "polymers-plastics",
+      "construction",
     ],
   },
   {
     id: "life-sciences",
     label: "Life sciences & regulated",
-    slugs: ["pharma", "food-fmcg"],
+    slugs: ["pharma", "food-fmcg", "healthcare"],
   },
   {
-    id: "retail",
-    label: "Quick commerce & retail",
-    slugs: ["quick-commerce"],
+    id: "commerce",
+    label: "Commerce & fulfilment",
+    slugs: [
+      "logistics",
+      "dark-stores",
+      "quick-commerce",
+      "ecommerce-fulfilment",
+      "cold-storage",
+      "retail-shopping",
+    ],
   },
   {
     id: "built",
-    label: "Logistics & built environment",
-    slugs: ["logistics", "commercial-infrastructure", "utilities"],
+    label: "Built environment & infra",
+    slugs: [
+      "airports-ports-railways",
+      "commercial-buildings",
+      "data-centres",
+      "utilities",
+      "solar-renewable",
+      "telecom-remote",
+      "government",
+      "residential",
+    ],
   },
   {
-    id: "education",
-    label: "Education & campuses",
-    slugs: ["schools"],
+    id: "public",
+    label: "Public & hospitality",
+    slugs: ["education-campuses", "hotels-hospitality", "banking", "sports-events"],
   },
 ] as const;
 
@@ -88,8 +105,8 @@ export function IndustryGrid() {
   }, [activeCluster]);
 
   return (
-    <section className="relative overflow-hidden bg-bg pb-10 md:pb-14">
-      <div className="relative -mt-[var(--header-h)] min-h-[min(100svh,44rem)] overflow-hidden bg-[#07111f] text-white md:min-h-[min(92svh,48rem)]">
+    <section className="relative overflow-hidden bg-bg pb-2 md:pb-4">
+      <div className="relative min-h-[min(92vh,52rem)] overflow-hidden bg-[#07111f] pt-[var(--header-h)] text-white">
         <motion.div
           className="absolute inset-0"
           initial={animate ? { scale: 1.04, opacity: 0.9 } : false}
@@ -110,54 +127,52 @@ export function IndustryGrid() {
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#07111f] via-[#07111f]/78 to-[#07111f]/20" />
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#07111f] via-transparent to-[#07111f]/40" />
 
-        <div className="absolute inset-0 flex flex-col justify-end pt-[var(--header-h)]">
-          <div className="container relative z-10 pb-14 pt-10 md:pb-20 md:pt-16">
-            <div className="max-w-xl">
-              <motion.p
-                className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan"
-                initial={animate ? { opacity: 0, y: 16 } : false}
-                animate={{ opacity: 1, y: 0 }}
-                transition={animate ? { duration: 0.5, delay: 0.06, ease } : { duration: 0 }}
-              >
-                Sector coverage
-              </motion.p>
+        <div className="container relative z-10 flex min-h-[min(78vh,44rem)] flex-col">
+          <div className="mt-auto max-w-xl pb-10 pt-24 md:pb-14 md:pt-32">
+            <motion.p
+              className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan"
+              initial={animate ? { opacity: 0, y: 16 } : false}
+              animate={{ opacity: 1, y: 0 }}
+              transition={animate ? { duration: 0.5, delay: 0.06, ease } : { duration: 0 }}
+            >
+              Sector coverage
+            </motion.p>
 
-              <motion.p
-                className="mt-4 font-display text-[clamp(2.5rem,6.5vw,4.8rem)] font-semibold uppercase leading-[0.92] tracking-[-0.04em] text-white"
-                initial={animate ? { opacity: 0, y: 22 } : false}
-                animate={{ opacity: 1, y: 0 }}
-                transition={animate ? { duration: 0.6, delay: 0.12, ease } : { duration: 0 }}
-              >
-                Industries
-              </motion.p>
+            <motion.p
+              className="mt-4 font-display text-[clamp(2.5rem,6.5vw,4.8rem)] font-semibold uppercase leading-[0.92] tracking-[-0.04em] text-white"
+              initial={animate ? { opacity: 0, y: 22 } : false}
+              animate={{ opacity: 1, y: 0 }}
+              transition={animate ? { duration: 0.6, delay: 0.12, ease } : { duration: 0 }}
+            >
+              Industries
+            </motion.p>
 
-              <motion.span
-                aria-hidden
-                className="mt-5 block h-px origin-left bg-gradient-to-r from-cyan via-blue/80 to-transparent"
-                initial={animate ? { scaleX: 0 } : false}
-                animate={{ scaleX: 1 }}
-                transition={animate ? { duration: 0.8, delay: 0.28, ease } : { duration: 0 }}
-              />
+            <motion.span
+              aria-hidden
+              className="mt-5 block h-px origin-left bg-gradient-to-r from-cyan via-blue/80 to-transparent"
+              initial={animate ? { scaleX: 0 } : false}
+              animate={{ scaleX: 1 }}
+              transition={animate ? { duration: 0.8, delay: 0.28, ease } : { duration: 0 }}
+            />
 
-              <motion.h1
-                className="mt-5 max-w-xl font-display text-[clamp(1.25rem,2.2vw,1.75rem)] font-medium normal-case leading-[1.3] text-white/90"
-                initial={animate ? { opacity: 0, y: 22 } : false}
-                animate={{ opacity: 1, y: 0 }}
-                transition={animate ? { duration: 0.6, delay: 0.22, ease } : { duration: 0 }}
-              >
-                Modern protection for any space.
-              </motion.h1>
+            <motion.h1
+              className="mt-5 max-w-xl font-display text-[clamp(1.25rem,2.2vw,1.75rem)] font-medium normal-case leading-[1.3] text-white/90"
+              initial={animate ? { opacity: 0, y: 22 } : false}
+              animate={{ opacity: 1, y: 0 }}
+              transition={animate ? { duration: 0.6, delay: 0.22, ease } : { duration: 0 }}
+            >
+              Modern protection for any space.
+            </motion.h1>
 
-              <motion.p
-                className="mt-5 max-w-md text-[15px] leading-relaxed text-white/65 md:text-base"
-                initial={animate ? { opacity: 0, y: 18 } : false}
-                animate={{ opacity: 1, y: 0 }}
-                transition={animate ? { duration: 0.55, delay: 0.3, ease } : { duration: 0 }}
-              >
-                AI video intelligence for plants, campuses, and critical sites — tailored to how each
-                sector actually operates, without replacing the cameras you already have.
-              </motion.p>
-            </div>
+            <motion.p
+              className="mt-5 max-w-md text-[15px] leading-relaxed text-white/65 md:text-base"
+              initial={animate ? { opacity: 0, y: 18 } : false}
+              animate={{ opacity: 1, y: 0 }}
+              transition={animate ? { duration: 0.55, delay: 0.3, ease } : { duration: 0 }}
+            >
+              AI video intelligence for plants, campuses, and critical sites — tailored to how each
+              sector actually operates, without replacing the cameras you already have.
+            </motion.p>
           </div>
         </div>
       </div>
@@ -285,7 +300,7 @@ export function IndustryGrid() {
                           {label}
                         </span>
 
-                        <span className="mt-1.5 max-h-0 overflow-hidden text-[11px] leading-snug text-white/70 opacity-0 transition-all duration-500 ease-out group-hover:max-h-12 group-hover:opacity-100 sm:text-xs">
+                        <span className="mt-1.5 max-h-0 overflow-hidden text-[11px] leading-snug text-white/70 opacity-0 transition-all duration-500 ease-out group-hover:max-h-16 group-hover:opacity-100 sm:text-xs">
                           {industry.tagline}
                         </span>
 

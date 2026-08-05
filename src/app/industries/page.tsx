@@ -15,7 +15,7 @@ export default function IndustriesPage() {
     <PageShell>
       <>
         <IndustryGrid />
-        <TestimonialsSection />
+        <TestimonialsSection className="!pt-8 md:!pt-10" />
         <FinalCta />
       </>
     </PageShell>
