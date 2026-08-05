@@ -10,6 +10,8 @@ import { SolutionFeatureHighlights } from "@/components/SolutionFeatureHighlight
 import { SolutionHero } from "@/components/SolutionHero";
 import { SolutionVideoSection } from "@/components/SolutionVideoSection";
 import { WorkflowArchitectureStepper } from "@/components/WorkflowArchitectureStepper";
+import { LogoMarquee } from "@/components/landing/LogoMarquee";
+import { TestimonialsSection } from "@/components/landing/TestimonialsSection";
 import { getSolution, solutions } from "@/lib/site";
 
 export function generateStaticParams() {
@@ -306,6 +308,9 @@ export default async function SolutionDetailPage({
             </div>
           </div>
         </Section>
+
+        <LogoMarquee />
+        <TestimonialsSection />
 
         <Section>
           <p className="mb-4 text-sm text-muted">
