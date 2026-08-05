@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { PageShell } from "@/components/PageShell";
 import { IndustryGrid } from "@/components/landing/IndustryGrid";
+import { TestimonialsSection } from "@/components/landing/TestimonialsSection";
 import { FinalCta } from "@/components/landing/FinalCta";
 
 export const metadata: Metadata = {
@@ -14,6 +15,7 @@ export default function IndustriesPage() {
     <PageShell>
       <>
         <IndustryGrid />
+        <TestimonialsSection />
         <FinalCta />
       </>
     </PageShell>

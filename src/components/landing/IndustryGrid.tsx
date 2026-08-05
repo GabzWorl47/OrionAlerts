@@ -89,8 +89,13 @@ export function IndustryGrid() {
 
   return (
     <section className="relative overflow-hidden bg-bg pb-10 md:pb-14">
-      <div className="relative -mt-[var(--header-h)] h-[min(44vh,24rem)] overflow-hidden bg-[#07111f] md:h-[min(40vh,26rem)]">
-        <div className="absolute inset-0">
+      <div className="relative -mt-[var(--header-h)] min-h-[min(100svh,44rem)] overflow-hidden bg-[#07111f] text-white md:min-h-[min(92svh,48rem)]">
+        <motion.div
+          className="absolute inset-0"
+          initial={animate ? { scale: 1.04, opacity: 0.9 } : false}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={animate ? { duration: 1.15, ease } : { duration: 0 }}
+        >
           <Image
             src={INDUSTRIES_HERO_IMAGE}
             alt=""
@@ -101,45 +106,63 @@ export function IndustryGrid() {
             className="object-cover object-center"
             aria-hidden
           />
-        </div>
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#07111f]/65 via-[#07111f]/25 to-transparent" />
-        {/* Soft handoff into the listing below + readable copy zone */}
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[48%] bg-gradient-to-t from-bg via-bg/80 to-transparent" />
+        </motion.div>
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#07111f] via-[#07111f]/78 to-[#07111f]/20" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#07111f] via-transparent to-[#07111f]/40" />
 
-        <div className="container relative z-10 flex h-full flex-col pt-[var(--header-h)]">
-          <div className="mt-auto max-w-2xl pb-10 pt-10 md:pb-12">
-            <motion.p
-              className="font-display text-[clamp(1.05rem,2vw,1.35rem)] font-bold uppercase tracking-[0.14em] text-white"
-              initial={animate ? { opacity: 0, y: 12 } : false}
-              animate={{ opacity: 1, y: 0 }}
-              transition={animate ? { duration: 0.45, ease } : { duration: 0 }}
-            >
-              Industries
-            </motion.p>
+        <div className="absolute inset-0 flex flex-col justify-end pt-[var(--header-h)]">
+          <div className="container relative z-10 pb-14 pt-10 md:pb-20 md:pt-16">
+            <div className="max-w-xl">
+              <motion.p
+                className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan"
+                initial={animate ? { opacity: 0, y: 16 } : false}
+                animate={{ opacity: 1, y: 0 }}
+                transition={animate ? { duration: 0.5, delay: 0.06, ease } : { duration: 0 }}
+              >
+                Sector coverage
+              </motion.p>
 
-            <motion.h1
-              className="mt-2 font-display text-[clamp(1.65rem,3.4vw,2.5rem)] font-semibold normal-case leading-[1.1] tracking-[-0.03em] text-white"
-              initial={animate ? { opacity: 0, y: 20 } : false}
-              animate={{ opacity: 1, y: 0 }}
-              transition={animate ? { duration: 0.55, delay: 0.05, ease } : { duration: 0 }}
-            >
-              Modern protection for any space.
-            </motion.h1>
+              <motion.p
+                className="mt-4 font-display text-[clamp(2.5rem,6.5vw,4.8rem)] font-semibold uppercase leading-[0.92] tracking-[-0.04em] text-white"
+                initial={animate ? { opacity: 0, y: 22 } : false}
+                animate={{ opacity: 1, y: 0 }}
+                transition={animate ? { duration: 0.6, delay: 0.12, ease } : { duration: 0 }}
+              >
+                Industries
+              </motion.p>
 
-            <motion.p
-              className="mt-3 max-w-xl text-[15px] leading-relaxed text-muted-strong md:text-base"
-              initial={animate ? { opacity: 0, y: 14 } : false}
-              animate={{ opacity: 1, y: 0 }}
-              transition={animate ? { duration: 0.5, delay: 0.1, ease } : { duration: 0 }}
-            >
-              AI video intelligence for plants, campuses, and critical sites — tailored to how each
-              sector actually operates, without replacing the cameras you already have.
-            </motion.p>
+              <motion.span
+                aria-hidden
+                className="mt-5 block h-px origin-left bg-gradient-to-r from-cyan via-blue/80 to-transparent"
+                initial={animate ? { scaleX: 0 } : false}
+                animate={{ scaleX: 1 }}
+                transition={animate ? { duration: 0.8, delay: 0.28, ease } : { duration: 0 }}
+              />
+
+              <motion.h1
+                className="mt-5 max-w-xl font-display text-[clamp(1.25rem,2.2vw,1.75rem)] font-medium normal-case leading-[1.3] text-white/90"
+                initial={animate ? { opacity: 0, y: 22 } : false}
+                animate={{ opacity: 1, y: 0 }}
+                transition={animate ? { duration: 0.6, delay: 0.22, ease } : { duration: 0 }}
+              >
+                Modern protection for any space.
+              </motion.h1>
+
+              <motion.p
+                className="mt-5 max-w-md text-[15px] leading-relaxed text-white/65 md:text-base"
+                initial={animate ? { opacity: 0, y: 18 } : false}
+                animate={{ opacity: 1, y: 0 }}
+                transition={animate ? { duration: 0.55, delay: 0.3, ease } : { duration: 0 }}
+              >
+                AI video intelligence for plants, campuses, and critical sites — tailored to how each
+                sector actually operates, without replacing the cameras you already have.
+              </motion.p>
+            </div>
           </div>
         </div>
       </div>
 
-      <div className="relative mx-auto w-[min(100%-1.5rem,90rem)] -mt-2 pt-4 md:pt-5">
+      <div className="relative mx-auto w-[min(100%-1.5rem,90rem)] pt-8 md:pt-10">
         <motion.div
           className="relative flex flex-wrap items-center justify-center gap-2"
           initial={animate ? { opacity: 0, y: 12 } : false}
