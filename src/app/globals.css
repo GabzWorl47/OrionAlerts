@@ -24,6 +24,13 @@
   --header-h: 4.5rem;
   --container: 76rem;
 
+  /* Spacing rhythm — use across page sections for uniformity */
+  --section-y: 4rem; /* 64px */
+  --section-y-md: 6rem; /* 96px */
+  --section-y-compact: 3.5rem; /* 56px */
+  --section-y-compact-md: 4rem; /* 64px */
+  --section-heading-gap: 2.5rem; /* 40px */
+
   /* Navbar */
   --nav-bg: #0c2238;
   --nav-bg-scrolled: #071018;
@@ -89,6 +96,26 @@
 .container {
   width: min(100% - 2rem, var(--container));
   margin-inline: auto;
+}
+
+/* Standard vertical section padding (homepage, detail pages, CTAs) */
+.section-y {
+  padding-block: var(--section-y);
+}
+
+/* Tighter strips (logo marquee, footer band) */
+.section-y-compact {
+  padding-block: var(--section-y-compact);
+}
+
+@media (min-width: 768px) {
+  .section-y {
+    padding-block: var(--section-y-md);
+  }
+
+  .section-y-compact {
+    padding-block: var(--section-y-compact-md);
+  }
 }
 
 .display {

@@ -33,7 +33,7 @@ export function LogoMarquee() {
     <section
       id="customers"
       aria-labelledby="trusted-clients-heading"
-      className="relative overflow-hidden border-y border-line bg-bg py-14 md:py-16"
+      className="relative overflow-hidden border-y border-line bg-bg py-10 md:py-12"
     >
       <div className="container">
         <Reveal>

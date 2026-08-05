@@ -33,7 +33,7 @@ export function Section({
   narrow?: boolean;
 }) {
   return (
-    <section id={id} className={`py-16 md:py-24 ${className}`}>
+    <section id={id} className={`section-y ${className}`}>
       <div className={narrow ? "container max-w-3xl" : "container"}>{children}</div>
     </section>
   );
@@ -51,7 +51,9 @@ export function SectionHeading({
   align?: "left" | "center";
 }) {
   return (
-    <div className={`mb-10 max-w-3xl ${align === "center" ? "mx-auto text-center" : ""}`}>
+    <div
+      className={`mb-[var(--section-heading-gap)] max-w-3xl ${align === "center" ? "mx-auto text-center" : ""}`}
+    >
       {eyebrow ? <p className="eyebrow mb-3">{eyebrow}</p> : null}
       <h2 className="text-[clamp(1.75rem,3.5vw,2.5rem)] font-semibold leading-[1.1] tracking-[-0.03em] text-text">
         {title}

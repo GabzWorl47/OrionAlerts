@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, Sparkles } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Reveal } from "@/components/Reveal";
 import { aiUseCases, type UseCase } from "@/lib/homepage";
 
@@ -26,39 +26,39 @@ function UseCaseCard({ useCase, active }: { useCase: UseCase; active: boolean })
   return (
     <Link
       href={useCase.href}
-      className="group flex h-full w-full flex-col overflow-hidden rounded-[28px] bg-blue text-white transition hover:bg-[#0e2740]"
+      aria-label={useCase.title}
+      className={`group relative block overflow-hidden rounded-[28px] bg-[#071525] transition duration-300 ${
+        active
+          ? "shadow-[0_28px_70px_-40px_rgba(12,34,56,0.6)] ring-1 ring-cyan/35"
+          : "opacity-80 ring-1 ring-white/10 hover:opacity-100"
+      }`}
     >
-      <div className="flex items-start gap-3 px-7 pt-7 md:gap-4 md:px-9 md:pt-9">
-        <span className="mt-1 inline-flex shrink-0 text-cyan">
-          <Sparkles size={22} strokeWidth={1.6} />
-        </span>
-        <h3 className="font-display text-[clamp(1.35rem,2.4vw,1.85rem)] font-semibold leading-[1.2] tracking-[-0.02em] text-white">
-          {useCase.title}
-        </h3>
-      </div>
+      <div className="relative aspect-[16/9] w-full">
+        {useCase.previewSrc ? (
+          <video
+            ref={videoRef}
+            src={useCase.previewSrc}
+            poster={useCase.poster}
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            className="absolute inset-0 h-full w-full object-cover object-center"
+          />
+        ) : (
+          <Image
+            src={useCase.poster}
+            alt=""
+            fill
+            className="object-cover object-center"
+            sizes="(max-width: 768px) 92vw, 64rem"
+          />
+        )}
 
-      <div className="relative mx-5 mb-0 mt-6 flex-1 overflow-hidden rounded-t-[18px] bg-ink-deep md:mx-7 md:mt-8">
-        <div className="relative aspect-[16/10] w-full md:aspect-[16/9]">
-          {useCase.previewSrc ? (
-            <video
-              ref={videoRef}
-              src={useCase.previewSrc}
-              poster={useCase.poster}
-              muted
-              loop
-              playsInline
-              preload="metadata"
-              className="absolute inset-0 h-full w-full object-cover object-top transition duration-500 group-hover:scale-[1.02]"
-            />
-          ) : (
-            <Image
-              src={useCase.poster}
-              alt=""
-              fill
-              className="object-cover object-top transition duration-500 group-hover:scale-[1.02]"
-              sizes="(max-width: 768px) 92vw, 832px"
-            />
-          )}
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 via-black/25 to-transparent px-5 pb-4 pt-16 md:px-7 md:pb-5">
+          <h3 className="font-display text-[clamp(1.05rem,1.8vw,1.35rem)] font-semibold leading-snug tracking-[-0.02em] text-white">
+            {useCase.title}
+          </h3>
         </div>
       </div>
     </Link>
@@ -75,8 +75,9 @@ export function UseCasesSection() {
     const cards = Array.from(root.querySelectorAll<HTMLElement>("[data-usecase-card]"));
     const target = cards[next];
     if (!target) return;
+    const left = target.offsetLeft - (root.clientWidth - target.clientWidth) / 2;
     root.scrollTo({
-      left: target.offsetLeft - root.clientLeft,
+      left: Math.max(0, left),
       behavior: "smooth",
     });
     setIndex(next);
@@ -89,14 +90,22 @@ export function UseCasesSection() {
     const root = scrollerRef.current;
     if (!root) return;
 
+    const first = root.querySelector<HTMLElement>("[data-usecase-card]");
+    if (first) {
+      root.scrollLeft = first.offsetLeft - (root.clientWidth - first.clientWidth) / 2;
+    }
+
     const onScroll = () => {
       const cards = Array.from(root.querySelectorAll<HTMLElement>("[data-usecase-card]"));
       if (!cards.length) return;
-      const rootLeft = root.getBoundingClientRect().left;
+      const rootRect = root.getBoundingClientRect();
+      const centerX = rootRect.left + rootRect.width / 2;
       let nearest = 0;
       let best = Number.POSITIVE_INFINITY;
       cards.forEach((card, i) => {
-        const dist = Math.abs(card.getBoundingClientRect().left - rootLeft);
+        const rect = card.getBoundingClientRect();
+        const cardCenter = rect.left + rect.width / 2;
+        const dist = Math.abs(cardCenter - centerX);
         if (dist < best) {
           best = dist;
           nearest = i;
@@ -113,61 +122,84 @@ export function UseCasesSection() {
     <section
       id="ai-use-cases"
       aria-labelledby="use-cases-heading"
-      className="relative overflow-hidden bg-bg py-16 md:py-24"
+      className="relative overflow-hidden bg-bg pt-10 pb-16 md:pt-12 md:pb-24"
     >
-      <div className="container">
+      <div className="mx-auto w-[min(100%-2rem,var(--container))]">
         <Reveal>
-          <h2
-            id="use-cases-heading"
-            className="mx-auto max-w-4xl text-center text-[clamp(2rem,4.5vw,3.35rem)] font-semibold leading-[1.1] tracking-[-0.03em] text-text"
-          >
-            Proactive physical security, powered by AI
-          </h2>
+          <div className="mx-auto max-w-3xl text-center">
+            <p className="eyebrow mb-3">AI use cases</p>
+            <h2
+              id="use-cases-heading"
+              className="text-[clamp(1.85rem,4vw,2.85rem)] font-semibold leading-[1.1] tracking-[-0.03em] text-text"
+            >
+              Proactive physical security, powered by AI
+            </h2>
+            <p className="mx-auto mt-4 max-w-2xl text-[15px] leading-relaxed text-muted-strong md:text-base">
+              Detect critical events across your camera estate — then jump into the right Orion
+              solution to act on them.
+            </p>
+          </div>
         </Reveal>
+
+        <div className="mt-6 flex items-center justify-center gap-2">
+          <button
+            type="button"
+            aria-label="Previous use case"
+            onClick={goPrev}
+            disabled={index <= 0}
+            className="flex h-11 w-11 items-center justify-center rounded-full border border-line bg-white text-text transition hover:border-blue/30 hover:text-blue disabled:cursor-not-allowed disabled:opacity-35"
+          >
+            <ArrowLeft size={18} strokeWidth={1.75} />
+          </button>
+          <button
+            type="button"
+            aria-label="Next use case"
+            onClick={goNext}
+            disabled={index >= aiUseCases.length - 1}
+            className="flex h-11 w-11 items-center justify-center rounded-full border border-line bg-white text-text transition hover:border-blue/30 hover:text-blue disabled:cursor-not-allowed disabled:opacity-35"
+          >
+            <ArrowRight size={18} strokeWidth={1.75} />
+          </button>
+        </div>
       </div>
 
-      {/* Full-bleed track (left edge → right edge). Cards stay fixed rem width. */}
-      <div className="relative mt-10 w-full md:mt-14">
+      <div className="relative mt-8 min-w-0 md:mt-10">
         <div
           ref={scrollerRef}
-          className="flex gap-5 overflow-x-auto scroll-smooth px-4 pb-2 pt-1 [-ms-overflow-style:none] [scrollbar-width:none] snap-x snap-mandatory sm:px-5 [&::-webkit-scrollbar]:hidden"
+          className="flex gap-5 overflow-x-auto scroll-smooth px-[max(1rem,calc((100%-min(90vw,64rem))/2))] pb-3 pt-1 [-ms-overflow-style:none] [scrollbar-width:none] snap-x snap-mandatory [&::-webkit-scrollbar]:hidden"
         >
           {aiUseCases.map((useCase, i) => (
             <div
               key={useCase.slug}
               data-usecase-card
-              className="w-[min(92vw,42rem)] shrink-0 snap-start md:w-[48rem] lg:w-[52rem]"
+              className="w-[min(90vw,64rem)] shrink-0 snap-center"
             >
               <UseCaseCard useCase={useCase} active={i === index} />
             </div>
           ))}
-          <div className="w-2 shrink-0 sm:w-4" aria-hidden />
         </div>
+      </div>
 
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-bg to-transparent md:w-24" />
-
-        <div className="absolute right-4 top-1/2 z-10 flex -translate-y-1/2 flex-col gap-3 md:right-8">
-          {index > 0 ? (
+      <div className="mx-auto mt-6 flex w-[min(100%-2rem,var(--container))] items-center gap-3">
+        <p className="text-sm font-medium text-muted">
+          {String(index + 1).padStart(2, "0")} / {String(aiUseCases.length).padStart(2, "0")}
+        </p>
+        <div className="flex flex-1 justify-center gap-1.5" role="tablist" aria-label="Use case pages">
+          {aiUseCases.map((item, i) => (
             <button
+              key={item.slug}
               type="button"
-              aria-label="Previous use case"
-              onClick={goPrev}
-              className="pointer-events-auto flex h-12 w-12 items-center justify-center rounded-full bg-white text-text shadow-[0_10px_28px_rgba(12,34,56,0.16)] transition hover:scale-105"
-            >
-              <ArrowLeft size={18} strokeWidth={1.75} />
-            </button>
-          ) : null}
-          {index < aiUseCases.length - 1 ? (
-            <button
-              type="button"
-              aria-label="Next use case"
-              onClick={goNext}
-              className="pointer-events-auto flex h-12 w-12 items-center justify-center rounded-full bg-white text-text shadow-[0_10px_28px_rgba(12,34,56,0.16)] transition hover:scale-105"
-            >
-              <ArrowRight size={18} strokeWidth={1.75} />
-            </button>
-          ) : null}
+              role="tab"
+              aria-selected={i === index}
+              aria-label={`Show ${item.title}`}
+              onClick={() => scrollToIndex(i)}
+              className={`h-1.5 rounded-full transition-all ${
+                i === index ? "w-8 bg-blue" : "w-2.5 bg-line hover:bg-muted"
+              }`}
+            />
+          ))}
         </div>
+        <span className="w-12 shrink-0" aria-hidden />
       </div>
     </section>
   );
