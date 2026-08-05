@@ -5,11 +5,12 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { ChevronRight } from "lucide-react";
+import { LogoMarquee } from "@/components/landing/LogoMarquee";
 import { solutions } from "@/lib/site";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
-const SOLUTIONS_HERO_IMAGE = "/Images/solutions-hero-datacenter.jpg";
+const SOLUTIONS_HERO_IMAGE = "/Images/solutions-hero.png";
 
 const clusters = [
   {
@@ -64,58 +65,59 @@ export function SolutionGrid() {
   }, [activeCluster]);
 
   return (
-    <section className="relative overflow-hidden bg-bg pb-10 md:pb-14">
-      <div className="relative -mt-[var(--header-h)] min-h-[100svh] overflow-hidden bg-[#07111f]">
-        <div className="absolute inset-0">
-          <Image
-            src={SOLUTIONS_HERO_IMAGE}
-            alt=""
-            fill
-            priority
-            quality={95}
-            sizes="100vw"
-            className="object-cover object-center"
-            aria-hidden
-          />
-        </div>
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_20%_40%,rgba(43,140,255,0.18),transparent_50%),radial-gradient(ellipse_at_90%_50%,rgba(15,23,42,0.35),transparent_45%)]" />
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#07111f]/55 via-transparent to-[#07111f]/40" />
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[36%] bg-gradient-to-t from-bg via-bg/70 to-transparent" />
+    <>
+      <section className="relative overflow-hidden bg-[#07111f]">
+        <div className="relative min-h-[min(92vh,52rem)] overflow-hidden pt-[var(--header-h)]">
+          <div className="absolute inset-0">
+            <Image
+              src={SOLUTIONS_HERO_IMAGE}
+              alt=""
+              fill
+              priority
+              quality={95}
+              sizes="100vw"
+              className="object-cover object-center"
+              aria-hidden
+            />
+          </div>
+          <div className="container relative z-10 flex min-h-[min(78vh,44rem)] flex-col">
+            <div className="mt-auto max-w-2xl pb-10 pt-24 md:pb-14 md:pt-32">
+              <motion.p
+                className="font-display text-[clamp(1.05rem,2vw,1.35rem)] font-bold uppercase tracking-[0.14em] text-white"
+                initial={animate ? { opacity: 0, y: 12 } : false}
+                animate={{ opacity: 1, y: 0 }}
+                transition={animate ? { duration: 0.45, ease } : { duration: 0 }}
+              >
+                Solutions
+              </motion.p>
 
-        <div className="container relative z-10 flex min-h-[100svh] flex-col pt-[var(--header-h)]">
-          <div className="mt-auto max-w-2xl pb-14 pt-10 md:pb-16">
-            <motion.p
-              className="font-display text-[clamp(1.05rem,2vw,1.35rem)] font-bold uppercase tracking-[0.14em] text-white"
-              initial={animate ? { opacity: 0, y: 12 } : false}
-              animate={{ opacity: 1, y: 0 }}
-              transition={animate ? { duration: 0.45, ease } : { duration: 0 }}
-            >
-              Solutions
-            </motion.p>
+              <motion.h1
+                className="mt-2 font-display text-[clamp(1.65rem,3.4vw,2.5rem)] font-semibold normal-case leading-[1.1] tracking-[-0.03em] text-white"
+                initial={animate ? { opacity: 0, y: 20 } : false}
+                animate={{ opacity: 1, y: 0 }}
+                transition={animate ? { duration: 0.55, delay: 0.05, ease } : { duration: 0 }}
+              >
+                One platform. Critical capabilities.
+              </motion.h1>
 
-            <motion.h1
-              className="mt-2 font-display text-[clamp(1.65rem,3.4vw,2.5rem)] font-semibold normal-case leading-[1.1] tracking-[-0.03em] text-white"
-              initial={animate ? { opacity: 0, y: 20 } : false}
-              animate={{ opacity: 1, y: 0 }}
-              transition={animate ? { duration: 0.55, delay: 0.05, ease } : { duration: 0 }}
-            >
-              One platform. Critical capabilities.
-            </motion.h1>
-
-            <motion.p
-              className="mt-3 max-w-xl text-[15px] leading-relaxed text-white/75 md:text-base"
-              initial={animate ? { opacity: 0, y: 14 } : false}
-              animate={{ opacity: 1, y: 0 }}
-              transition={animate ? { duration: 0.5, delay: 0.1, ease } : { duration: 0 }}
-            >
-              Connect live video, AI alerts, assets, maintenance, and infrastructure health — so
-              security and operations run from a single command layer.
-            </motion.p>
+              <motion.p
+                className="mt-3 max-w-xl text-[15px] leading-relaxed text-white/75 md:text-base"
+                initial={animate ? { opacity: 0, y: 14 } : false}
+                animate={{ opacity: 1, y: 0 }}
+                transition={animate ? { duration: 0.5, delay: 0.1, ease } : { duration: 0 }}
+              >
+                Connect live video, AI alerts, assets, maintenance, and infrastructure health — so
+                security and operations run from a single command layer.
+              </motion.p>
+            </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      <div className="relative mx-auto w-[min(100%-1.5rem,90rem)] -mt-2 pt-4 md:pt-5">
+      <LogoMarquee />
+
+      <section className="relative overflow-hidden bg-bg pb-10 md:pb-14">
+      <div className="relative mx-auto w-[min(100%-1.5rem,90rem)] pt-4 md:pt-5">
         <motion.div
           className="relative flex flex-wrap items-center justify-center gap-2"
           initial={animate ? { opacity: 0, y: 12 } : false}
@@ -238,6 +240,7 @@ export function SolutionGrid() {
           })}
         </motion.div>
       </div>
-    </section>
+      </section>
+    </>
   );
 }
