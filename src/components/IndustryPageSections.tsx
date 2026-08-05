@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import {
-  ArrowLeft,
   ArrowRight,
   Cpu,
   Eye,
@@ -142,7 +141,7 @@ function UseCasesSlider({
 
   const current = useCases[index] ?? useCases[0];
   const Icon = useCaseIcons[index % useCaseIcons.length];
-  const hasVideo = Boolean(current.video);
+  const hasVideo = Boolean(current?.video);
   const durationMs = hasVideo ? 8000 : 5600;
 
   useEffect(() => {
@@ -155,7 +154,7 @@ function UseCasesSlider({
 
   useEffect(() => {
     const video = videoRef.current;
-    if (!video || !current.video) return;
+    if (!video || !current?.video) return;
     video.muted = true;
     video.currentTime = 0;
     const tryPlay = async () => {
@@ -170,48 +169,28 @@ function UseCasesSlider({
     } else {
       video.addEventListener("loadeddata", () => void tryPlay(), { once: true });
     }
-  }, [current.video, index]);
+  }, [current?.video, index]);
 
   function goTo(next: number) {
     if (next === index) return;
     setIndex(next);
   }
 
+  if (!current) return null;
+
   return (
     <section className="relative overflow-hidden bg-bg py-10 md:py-14">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_80%_10%,rgba(43,140,255,0.12),transparent_50%)]" />
-      <div className="container relative">
-        <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
-          <div className="max-w-2xl">
-            <p className="eyebrow mb-3">Key use cases</p>
-            <h2 className="display text-3xl normal-case text-steel-gradient md:text-4xl">
-              What teams actually run with OrionAlerts in {industryName}
-            </h2>
-          </div>
-          {useCases.length > 1 ? (
-            <div className="flex gap-2">
-              <button
-                type="button"
-                aria-label="Previous use case"
-                onClick={() => goTo((index - 1 + useCases.length) % useCases.length)}
-                className="flex h-11 w-11 items-center justify-center rounded-full border border-line bg-white text-text transition hover:border-blue/40 hover:text-blue"
-              >
-                <ArrowLeft size={16} />
-              </button>
-              <button
-                type="button"
-                aria-label="Next use case"
-                onClick={() => goTo((index + 1) % useCases.length)}
-                className="flex h-11 w-11 items-center justify-center rounded-full border border-line bg-white text-text transition hover:border-blue/40 hover:text-blue"
-              >
-                <ArrowRight size={16} />
-              </button>
-            </div>
-          ) : null}
+      <div className="relative mx-auto w-[min(100%-1.5rem,90rem)]">
+        <div className="mb-8 max-w-3xl">
+          <p className="eyebrow mb-3">Key use cases</p>
+          <h2 className="display text-3xl normal-case text-steel-gradient md:text-4xl">
+            What teams actually run with OrionAlerts in {industryName}
+          </h2>
         </div>
 
-        <div className="grid items-stretch gap-5 lg:grid-cols-[1.35fr_0.65fr]">
-          <div className="relative flex h-full min-h-[360px] flex-col overflow-hidden rounded-[28px] bg-[#0b1628] text-white shadow-[0_30px_80px_-40px_rgba(15,61,120,0.65)] md:min-h-[420px]">
+        <div className="grid items-stretch gap-5 lg:grid-cols-[1.4fr_0.6fr]">
+          <div className="relative flex h-full min-h-[400px] flex-col overflow-hidden rounded-[28px] bg-[#0b1628] text-white shadow-[0_30px_80px_-40px_rgba(15,61,120,0.65)] md:min-h-[480px]">
             {hasVideo && current.video ? (
               <>
                 <video
@@ -281,7 +260,7 @@ function UseCasesSlider({
             </div>
           </div>
 
-          <div className="flex h-full min-h-[360px] flex-col gap-2.5 md:min-h-[420px]">
+          <div className="flex h-full min-h-[400px] flex-col gap-2.5 md:min-h-[480px]">
             {useCases.map((item, i) => {
               const ItemIcon = useCaseIcons[i % useCaseIcons.length];
               const active = i === index;
@@ -291,7 +270,7 @@ function UseCasesSlider({
                   type="button"
                   onClick={() => goTo(i)}
                   aria-pressed={active}
-                  className={`group flex w-full flex-1 items-start gap-3 rounded-[18px] border px-4 py-3.5 text-left transition-colors ${
+                  className={`group flex w-full flex-1 items-start gap-3 rounded-[18px] border px-4 py-4 text-left transition-colors ${
                     active
                       ? "border-blue/35 bg-white shadow-[0_14px_32px_-24px_rgba(43,140,255,0.55)]"
                       : "border-transparent bg-white/50 hover:border-line hover:bg-white"
