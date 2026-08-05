@@ -65,7 +65,7 @@ export function SolutionGrid() {
 
   return (
     <section className="relative overflow-hidden bg-bg pb-10 md:pb-14">
-      <div className="relative -mt-[var(--header-h)] h-[min(52vh,28rem)] overflow-hidden bg-[#07111f] md:h-[min(48vh,32rem)]">
+      <div className="relative -mt-[var(--header-h)] min-h-[100svh] overflow-hidden bg-[#07111f]">
         <div className="absolute inset-0">
           <Image
             src={SOLUTIONS_HERO_IMAGE}
@@ -78,11 +78,12 @@ export function SolutionGrid() {
             aria-hidden
           />
         </div>
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#07111f]/70 via-[#07111f]/30 to-[#07111f]/10" />
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[40%] bg-gradient-to-t from-bg via-bg/75 to-transparent" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_20%_40%,rgba(43,140,255,0.18),transparent_50%),radial-gradient(ellipse_at_90%_50%,rgba(15,23,42,0.35),transparent_45%)]" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#07111f]/55 via-transparent to-[#07111f]/40" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[36%] bg-gradient-to-t from-bg via-bg/70 to-transparent" />
 
-        <div className="container relative z-10 flex h-full flex-col pt-[var(--header-h)]">
-          <div className="mt-auto max-w-2xl pb-10 pt-10 md:pb-12">
+        <div className="container relative z-10 flex min-h-[100svh] flex-col pt-[var(--header-h)]">
+          <div className="mt-auto max-w-2xl pb-14 pt-10 md:pb-16">
             <motion.p
               className="font-display text-[clamp(1.05rem,2vw,1.35rem)] font-bold uppercase tracking-[0.14em] text-white"
               initial={animate ? { opacity: 0, y: 12 } : false}
