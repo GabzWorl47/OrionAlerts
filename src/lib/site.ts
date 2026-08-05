@@ -372,345 +372,248 @@ export type Industry = {
   relatedSolutions: string[];
 };
 
+const defaultRelated = ["vms", "ai-analytics", "health-monitoring"] as const;
+
+function industryEntry(
+  partial: Omit<Industry, "summary" | "challenges" | "outcomes" | "relatedSolutions"> &
+    Partial<Pick<Industry, "summary" | "challenges" | "outcomes" | "relatedSolutions">>,
+): Industry {
+  const focus = partial.tagline ?? partial.name;
+  return {
+    ...partial,
+    summary:
+      partial.summary ??
+      `${partial.name} operations need continuous visibility for safety, security, and performance. Orion Alerts turns existing CCTV into AI-powered monitoring for ${focus.toLowerCase()}.`,
+    challenges: partial.challenges ?? [
+      "Limited real-time visibility across critical zones",
+      "Delayed response to safety and security events",
+      "Surveillance blind spots from offline cameras or NVRs",
+      "Slow investigation of incidents across sites",
+    ],
+    outcomes: partial.outcomes ?? [
+      "Real-time AI monitoring across key operating areas",
+      "Faster alerts for safety, access, and operational risk",
+      "Stronger multi-site visibility from a single platform",
+      "Instant event search for audits and investigations",
+    ],
+    relatedSolutions: partial.relatedSolutions ?? [...defaultRelated],
+  };
+}
+
+/** Final industry set shown on /industries cards (name + recommended description as tagline). */
 export const industries: Industry[] = [
-  {
+  industryEntry({
     slug: "manufacturing",
     name: "Manufacturing",
     cardLabel: "Manufacturing",
     image: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=1600&q=90",
     introVideo: "/Videos/industries/manufacturing.mp4",
-    tagline: "Discrete & process plants",
-    summary:
-      "Modern manufacturing demands high productivity, worker safety, and reliable operations. Orion Alerts transforms existing CCTV into an AI-powered platform that delivers real-time monitoring, proactive alerts, and actionable insights to reduce downtime, improve compliance, and optimize production.",
-    challenges: [
-      "PPE and restricted-area violations on busy floors",
-      "Production bottlenecks and process anomalies",
-      "Surveillance infrastructure failures creating blind spots",
-      "Slow incident search across large camera estates",
-    ],
-    outcomes: [
-      "AI workplace safety alerts in real time",
-      "Production monitoring for idle time and deviations",
-      "Proactive infrastructure health for cameras and NVRs",
-      "Instant event search and critical event alerts",
-    ],
-    relatedSolutions: ["vms", "ai-analytics", "asset-tracking", "amc-management", "health-monitoring"],
-  },
-  {
+    tagline: "Worker safety, PPE compliance and production-area intelligence",
+  }),
+  industryEntry({
     slug: "automotive",
-    name: "Automotive & Autoparts",
+    name: "Automotive & Auto Components",
     cardLabel: "Automotive",
     image: "https://images.unsplash.com/photo-1487754180451-c456f719a1fc?auto=format&fit=crop&w=1600&q=90",
-    tagline: "Precision engineering & assemblies",
-    summary:
-      "Automotive manufacturing requires synchronized production, consistent quality, and uninterrupted operations. Orion Alerts converts existing CCTV into an AI-powered monitoring platform that enhances safety, streamlines production, and improves operational visibility across assembly plants.",
-    challenges: [
-      "Bottlenecks and stoppages across assembly lines",
-      "PPE and restricted-area safety at scale",
-      "Limited visibility of components and finished goods",
-      "Slow investigation of quality and safety events",
-    ],
-    outcomes: [
-      "Production monitoring across assembly lines",
-      "AI workplace safety detection in real time",
-      "Material and asset visibility across plant areas",
-      "Instant event search and operational alerts",
-    ],
-    relatedSolutions: ["vms", "ai-analytics", "health-monitoring", "amc-management"],
-  },
-  {
-    slug: "metals-mining",
-    name: "Metals, Minerals & Mining",
-    cardLabel: "Metals & Mining",
-    image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?auto=format&fit=crop&w=1600&q=90",
-    introVideo: "/Videos/industries/metals-mining.mp4",
-    tagline: "Heavy industry & extraction",
-    summary:
-      "Mining operations demand continuous monitoring of worker safety, heavy equipment, and material handling. Orion Alerts enhances operational visibility with AI-driven monitoring, real-time alerts, and centralized intelligence across mines and processing facilities.",
-    challenges: [
-      "Worker safety risks in hazardous mining zones",
-      "Heavy equipment and vehicle movement blind spots",
-      "Material and process visibility gaps",
-      "Slow incident review across distributed sites",
-    ],
-    outcomes: [
-      "AI safety monitoring across mines and plants",
-      "Equipment and vehicle monitoring in real time",
-      "Material and process monitoring at scale",
-      "Instant event search and critical alerts",
-    ],
-    relatedSolutions: ["vms", "ai-analytics", "health-monitoring", "asset-tracking", "amc-management"],
-  },
-  {
+    tagline: "Assembly-line safety, restricted-zone detection and operational monitoring",
+  }),
+  industryEntry({
     slug: "cement",
     name: "Cement & Building Materials",
     cardLabel: "Cement",
     image: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=1600&q=90",
-    tagline: "Continuous plants & heavy material flow",
-    summary:
-      "Cement plants require continuous monitoring of production, material handling, and worker safety. Orion Alerts delivers AI-powered monitoring, real-time alerts, and centralized visibility to improve operational efficiency and minimize risks.",
-    challenges: [
-      "High-risk zones with PPE and access gaps",
-      "Conveyor and material handling blind spots",
-      "Vehicle and loading bay visibility gaps",
-      "Slow incident search across plant cameras",
-    ],
-    outcomes: [
-      "AI safety monitoring across the plant",
-      "Conveyor and material monitoring in real time",
-      "Vehicle and loading monitoring at dispatch",
-      "Instant event search and critical alerts",
-    ],
-    relatedSolutions: [
-      "vms",
-      "ai-analytics",
-      "asset-tracking",
-      "amc-management",
-      "health-monitoring",
-    ],
-  },
-  {
+    tagline: "Material-flow visibility, high-risk-zone monitoring and safety alerts",
+  }),
+  industryEntry({
+    slug: "metals-mining",
+    name: "Metals, Mining & Minerals",
+    cardLabel: "Metals & Mining",
+    image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?auto=format&fit=crop&w=1600&q=90",
+    introVideo: "/Videos/industries/metals-mining.mp4",
+    tagline: "Perimeter protection, worker safety and hazardous-area monitoring",
+  }),
+  industryEntry({
     slug: "oil-gas",
     name: "Oil, Gas & Petrochemicals",
     cardLabel: "Oil & Gas",
     image: "https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?auto=format&fit=crop&w=1600&q=90",
-    tagline: "Refining, upstream & midstream",
-    summary:
-      "Oil, gas, and petrochemical facilities require continuous monitoring of hazardous areas, critical assets, and site security. Orion Alerts provides AI-powered monitoring, real-time alerts, and centralized visibility to enhance safety, security, and operational reliability.",
-    challenges: [
-      "Hazardous-area safety and compliance risk",
-      "Perimeter and critical asset exposure",
-      "Vehicle and loading area blind spots",
-      "Slow investigation of security and safety events",
-    ],
-    outcomes: [
-      "AI safety monitoring in high-risk zones",
-      "Perimeter and asset protection alerts",
-      "Vehicle and loading monitoring in real time",
-      "Instant event search and critical alerts",
-    ],
-    relatedSolutions: ["vms", "ai-analytics", "health-monitoring", "amc-management"],
-  },
-  {
-    slug: "schools",
-    name: "Schools",
-    cardLabel: "Schools",
-    image: "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1600&q=90",
-    tagline: "K-12, colleges & educational campuses",
-    summary:
-      "From classrooms and playgrounds to school buses and entry gates, Orion Alerts uses AI to monitor critical campus activities, detect potential risks, and provide real-time alerts that strengthen safety and operational efficiency.",
-    challenges: [
-      "Campus perimeter and entry-point gaps",
-      "Student safety risks across buildings and grounds",
-      "Bus and traffic monitoring blind spots",
-      "Slow review of campus incidents",
-    ],
-    outcomes: [
-      "Stronger campus security monitoring",
-      "Student safety alerts in real time",
-      "Bus and traffic monitoring coverage",
-      "Instant event search and critical alerts",
-    ],
-    relatedSolutions: ["vms", "ai-analytics", "health-monitoring", "amc-management"],
-  },
-  {
+    tagline: "Critical-zone monitoring, fire detection and safety compliance",
+  }),
+  industryEntry({
     slug: "pharma",
     name: "Pharmaceuticals & Life Sciences",
     cardLabel: "Pharma",
     image: "https://images.unsplash.com/photo-1582719471384-894fbb16e074?auto=format&fit=crop&w=1600&q=90",
-    tagline: "API, formulations, biologics & CDMO",
-    summary:
-      "Maintaining compliance and product integrity requires continuous visibility across every stage of pharmaceutical manufacturing. Orion Alerts delivers AI-powered monitoring, proactive alerts, and centralized oversight to support safer, more efficient operations.",
-    challenges: [
-      "GMP and cleanroom compliance gaps",
-      "Limited visibility on production and packaging lines",
-      "Warehouse and cold storage security risk",
-      "Slow investigation of quality and access events",
-    ],
-    outcomes: [
-      "GMP and cleanroom compliance monitoring",
-      "Production and packaging visibility",
-      "Warehouse and cold storage security",
-      "Instant event search and critical alerts",
-    ],
-    relatedSolutions: ["vms", "ai-analytics", "health-monitoring", "amc-management"],
-  },
-  {
+    tagline: "Controlled-area access, process compliance and facility safety",
+  }),
+  industryEntry({
     slug: "food-fmcg",
-    name: "Food & FMCG",
+    name: "Food, Beverage & FMCG",
     cardLabel: "Food & FMCG",
     image: "https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&w=1600&q=90",
-    tagline: "Processing, bottling, packaging & personal care",
-    summary:
-      "Food and FMCG manufacturers must maintain strict hygiene, product quality, and production consistency. Orion Alerts uses AI-powered video intelligence to strengthen compliance, improve operational visibility, and support uninterrupted manufacturing.",
-    challenges: [
-      "Hygiene and PPE compliance on production floors",
-      "Process deviations affecting product quality",
-      "Warehouse and dispatch visibility gaps",
-      "Slow incident review across plants",
-    ],
-    outcomes: [
-      "Hygiene and PPE compliance monitoring",
-      "Production monitoring for quality consistency",
-      "Warehouse and dispatch monitoring",
-      "Instant event search and critical alerts",
-    ],
-    relatedSolutions: ["vms", "ai-analytics", "asset-tracking", "health-monitoring"],
-  },
-  {
-    slug: "quick-commerce",
-    name: "Quick Commerce & Micro-Fulfillment",
-    cardLabel: "Quick Commerce",
-    image: "https://images.unsplash.com/photo-1605745341112-85968b19335b?auto=format&fit=crop&w=1600&q=90",
-    tagline: "Dark stores, MFCs & hyperlocal fulfillment",
-    summary:
-      "Quick commerce platforms depend on dense networks of micro-fulfillment centers—also known as dark stores—to deliver in minutes. Orion Alerts turns existing CCTV into an AI-powered operations platform that monitors picking floors, staging zones, and multi-outlet networks with instant alerts and actionable insights for speed, safety, and loss prevention.",
-    challenges: [
-      "Pick-and-pack SLAs measured in minutes under peak load",
-      "Shrinkage and unauthorized access in high-SKU dense layouts",
-      "Blind spots when cameras or NVRs go offline across hundreds of nodes",
-      "Slow investigation of disputes, damage, and process failures",
-    ],
-    outcomes: [
-      "Floor and pick-path visibility across dark store networks",
-      "Rider staging, entry, and high-value zone monitoring",
-      "Infrastructure health for cameras, NVRs, and networks",
-      "Smart search and instant alerts for critical events",
-    ],
-    relatedSolutions: ["ai-analytics", "vms", "health-monitoring", "asset-tracking"],
-  },
-  {
+    tagline: "Hygiene monitoring, process visibility and packaging-line intelligence",
+  }),
+  industryEntry({
     slug: "logistics",
     name: "Logistics & Warehousing",
     cardLabel: "Logistics",
     image: "https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&w=1600&q=90",
-    tagline: "Transport hubs, yards & fulfillment",
-    summary:
-      "Warehouses and distribution centers require continuous visibility to ensure safe operations, inventory security, and on-time deliveries. Orion Alerts uses AI-powered video intelligence to optimize warehouse workflows, strengthen security, and improve operational efficiency.",
-    challenges: [
-      "Warehouse safety risks at scale",
-      "Loading bay and vehicle blind spots",
-      "Inventory shrinkage and custody gaps",
-      "Slow incident search across DCs",
-    ],
-    outcomes: [
-      "Warehouse safety monitoring in real time",
-      "Loading and vehicle monitoring",
-      "Stronger inventory protection",
-      "Instant event search and critical alerts",
-    ],
-    relatedSolutions: ["vms", "ai-analytics", "asset-tracking", "health-monitoring"],
-  },
-  {
-    slug: "commercial-infrastructure",
-    name: "Airports, Buildings & Commercial",
-    cardLabel: "Commercial",
+    tagline: "Loading-bay safety, vehicle movement and warehouse monitoring",
+  }),
+  industryEntry({
+    slug: "dark-stores",
+    name: "Dark Stores & Micro-Fulfilment",
+    cardLabel: "Dark Stores",
+    image: "https://images.unsplash.com/photo-1553413077-190dd305871c?auto=format&fit=crop&w=1600&q=90",
+    tagline: "Inventory security, dispatch monitoring and 24/7 operational visibility",
+  }),
+  industryEntry({
+    slug: "quick-commerce",
+    name: "Quick Commerce",
+    cardLabel: "Quick Commerce",
+    image: "https://images.unsplash.com/photo-1605745341112-85968b19335b?auto=format&fit=crop&w=1600&q=90",
+    tagline: "Order-handling visibility, staff safety and rapid-dispatch monitoring",
+  }),
+  industryEntry({
+    slug: "ecommerce-fulfilment",
+    name: "E-commerce Fulfilment Centres",
+    cardLabel: "E-commerce FC",
+    image: "https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?auto=format&fit=crop&w=1600&q=90",
+    tagline: "Package movement, dispatch verification and restricted-area monitoring",
+  }),
+  industryEntry({
+    slug: "cold-storage",
+    name: "Cold Storage & Refrigerated Warehousing",
+    cardLabel: "Cold Storage",
+    image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1600&q=90",
+    tagline: "Temperature-sensitive area monitoring, access control and operational safety",
+  }),
+  industryEntry({
+    slug: "airports-ports-railways",
+    name: "Airports, Ports & Railways",
+    cardLabel: "Airports & Ports",
     image: "https://images.unsplash.com/photo-1530521954074-e64f6810b32d?auto=format&fit=crop&w=1600&q=90",
-    tagline: "Transport hubs, retail & logistics facilities",
-    summary:
-      "Airports, commercial buildings, business parks, and public facilities require continuous visibility to manage security, visitor movement, and daily operations. Orion Alerts delivers AI-powered intelligence that helps improve safety, operational efficiency, and facility performance.",
-    challenges: [
-      "Access and perimeter security gaps",
-      "Crowd and occupancy visibility issues",
-      "Parking and traffic management blind spots",
-      "Slow review of facility incidents",
-    ],
-    outcomes: [
-      "Access and perimeter security monitoring",
-      "Crowd and occupancy monitoring",
-      "Parking and traffic management visibility",
-      "Instant event search and critical alerts",
-    ],
-    relatedSolutions: ["vms", "ai-analytics", "health-monitoring", "amc-management"],
-  },
-  {
+    tagline: "Crowd, perimeter and restricted-zone intelligence",
+  }),
+  industryEntry({
+    slug: "commercial-buildings",
+    name: "Commercial Buildings",
+    cardLabel: "Commercial",
+    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1600&q=90",
+    tagline: "Access monitoring, occupancy visibility and rapid incident response",
+  }),
+  industryEntry({
+    slug: "data-centres",
+    name: "Data Centres",
+    cardLabel: "Data Centres",
+    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1600&q=90",
+    tagline: "Critical-area protection, access intelligence and perimeter monitoring",
+  }),
+  industryEntry({
+    slug: "education-campuses",
+    name: "Education & Campuses",
+    cardLabel: "Education",
+    image: "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1600&q=90",
+    tagline: "Student safety, trespassing alerts and restricted-area monitoring",
+  }),
+  industryEntry({
+    slug: "healthcare",
+    name: "Healthcare & Hospitals",
+    cardLabel: "Healthcare",
+    image: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1600&q=90",
+    tagline: "Patient safety, fall detection and emergency-area intelligence",
+  }),
+  industryEntry({
+    slug: "retail-shopping",
+    name: "Retail & Shopping Centres",
+    cardLabel: "Retail",
+    image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1600&q=90",
+    tagline: "Crowd monitoring, queue visibility and customer-area safety",
+  }),
+  industryEntry({
+    slug: "hotels-hospitality",
+    name: "Hotels & Hospitality",
+    cardLabel: "Hospitality",
+    image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1600&q=90",
+    tagline: "Guest safety, service-area visibility and real-time incident alerts",
+  }),
+  industryEntry({
     slug: "utilities",
-    name: "Utilities & Smart Infrastructure",
+    name: "Utilities & Infrastructure",
     cardLabel: "Utilities",
     image: "https://images.unsplash.com/photo-1466611653911-95081537e5b7?auto=format&fit=crop&w=1600&q=90",
-    tagline: "Power, water, grids & industrial facilities",
-    summary:
-      "Critical infrastructure demands continuous monitoring to protect assets, maintain compliance, and minimize operational disruptions. Orion Alerts provides AI-driven insights and automated monitoring to improve security and operational continuity across remote facilities.",
-    challenges: [
-      "Perimeter and asset exposure at remote sites",
-      "Limited visibility across distributed facilities",
-      "Worker safety and compliance gaps",
-      "Slow investigation of infrastructure incidents",
-    ],
-    outcomes: [
-      "Perimeter and asset security monitoring",
-      "Remote site monitoring with centralized alerts",
-      "Worker safety and compliance detection",
-      "Instant event search and critical alerts",
-    ],
-    relatedSolutions: ["vms", "ai-analytics", "health-monitoring", "amc-management"],
-  },
-  {
+    tagline: "Remote-site monitoring, perimeter security and asset protection",
+  }),
+  industryEntry({
+    slug: "construction",
+    name: "Construction Sites",
+    cardLabel: "Construction",
+    image: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1600&q=90",
+    tagline: "PPE detection, unsafe-zone entry and after-hours intrusion",
+  }),
+  industryEntry({
     slug: "pulp-paper",
     name: "Pulp, Paper & Packaging",
     cardLabel: "Pulp & Paper",
     image: "https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&w=1600&q=90",
-    tagline: "Integrated mills & specialty packaging",
-    summary:
-      "Pulp, paper, and packaging plants rely on uninterrupted production, safe operations, and efficient material handling. Orion Alerts delivers AI-powered monitoring to improve productivity, enhance worker safety, and strengthen operational control across manufacturing facilities.",
-    challenges: [
-      "Continuous-process production blind spots",
-      "Worker safety risks on mill floors",
-      "Warehouse and dispatch visibility gaps",
-      "Slow incident review across mill sections",
-    ],
-    outcomes: [
-      "Production monitoring across mill operations",
-      "Safety monitoring in real time",
-      "Warehouse and dispatch monitoring",
-      "Instant event search and critical alerts",
-    ],
-    relatedSolutions: ["vms", "ai-analytics", "health-monitoring", "amc-management"],
-  },
-  {
+    tagline: "Production safety, material movement and process monitoring",
+  }),
+  industryEntry({
     slug: "textile",
-    name: "Textile & Garment",
-    cardLabel: "Textile",
+    name: "Textiles & Garments",
+    cardLabel: "Textiles",
     image: "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?auto=format&fit=crop&w=1600&q=90",
-    tagline: "Spinning, weaving, dyeing & finishing",
-    summary:
-      "Textile and garment manufacturers rely on synchronized production and efficient material flow to meet customer demands. Orion Alerts provides AI-driven monitoring that helps identify operational bottlenecks, improve safety, and optimize factory performance.",
-    challenges: [
-      "Production bottlenecks across sewing and finishing",
-      "Safety and compliance gaps on factory floors",
-      "Material and warehouse visibility issues",
-      "Slow investigation of operational incidents",
-    ],
-    outcomes: [
-      "Production monitoring across factory floors",
-      "Safety and compliance alerts in real time",
-      "Material and warehouse monitoring",
-      "Instant event search and critical alerts",
-    ],
-    relatedSolutions: ["vms", "ai-analytics", "asset-tracking", "health-monitoring", "amc-management"],
-  },
-  {
+    tagline: "Workforce safety, production-area visibility and fire-risk monitoring",
+  }),
+  industryEntry({
     slug: "polymers-plastics",
     name: "Polymers & Plastics",
     cardLabel: "Polymers",
     image: "https://images.unsplash.com/photo-1565793298595-6a879b1d9492?auto=format&fit=crop&w=1600&q=90",
-    tagline: "Molding, extrusion & polymer processing",
-    summary:
-      "Polymer and plastics plants need continuous monitoring of production lines, worker safety, and material flow. Orion Alerts turns existing CCTV into an AI-powered platform for real-time alerts, centralized visibility, and faster operational decisions.",
-    challenges: [
-      "Limited visibility across molding and extrusion lines",
-      "Worker safety risks in processing areas",
-      "Warehouse and dispatch blind spots",
-      "Slow incident search across plants",
-    ],
-    outcomes: [
-      "Production monitoring across polymer lines",
-      "Safety monitoring in real time",
-      "Warehouse and dispatch monitoring",
-      "Instant event search and critical alerts",
-    ],
-    relatedSolutions: ["vms", "ai-analytics", "health-monitoring", "asset-tracking"],
-  },
+    tagline: "Process-zone safety, fire alerts and equipment-area monitoring",
+  }),
+  industryEntry({
+    slug: "banking",
+    name: "Banking & Financial Institutions",
+    cardLabel: "Banking",
+    image: "https://images.unsplash.com/photo-1541354329998-f4d9a9f9297f?auto=format&fit=crop&w=1600&q=90",
+    tagline: "Branch security, restricted-area access and suspicious-activity monitoring",
+  }),
+  industryEntry({
+    slug: "residential",
+    name: "Residential Communities & Townships",
+    cardLabel: "Residential",
+    image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1600&q=90",
+    tagline: "Perimeter security, vehicle monitoring and common-area safety",
+  }),
+  industryEntry({
+    slug: "government",
+    name: "Government & Public Infrastructure",
+    cardLabel: "Government",
+    image: "https://images.unsplash.com/photo-1523293182086-7651a899d37f?auto=format&fit=crop&w=1600&q=90",
+    tagline: "Public-area monitoring, perimeter protection and incident detection",
+  }),
+  industryEntry({
+    slug: "solar-renewable",
+    name: "Solar & Renewable Energy Facilities",
+    cardLabel: "Renewables",
+    image: "https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1600&q=90",
+    tagline: "Remote-site security, perimeter intrusion and asset monitoring",
+  }),
+  industryEntry({
+    slug: "telecom-remote",
+    name: "Telecom & Remote Sites",
+    cardLabel: "Telecom",
+    image: "https://images.unsplash.com/photo-1513828583688-c52646db42da?auto=format&fit=crop&w=1600&q=90",
+    tagline: "Unauthorised access detection, equipment protection and remote monitoring",
+  }),
+  industryEntry({
+    slug: "sports-events",
+    name: "Sports & Event Venues",
+    cardLabel: "Sports & Events",
+    image: "https://images.unsplash.com/photo-1471295253337-3ceaaedca402?auto=format&fit=crop&w=1600&q=90",
+    tagline: "Crowd intelligence, restricted-area monitoring and emergency response",
+  }),
 ];
 
 export function getIndustry(slug: string) {

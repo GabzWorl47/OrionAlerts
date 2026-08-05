@@ -47,7 +47,7 @@ function TestimonialCard({ item }: { item: Testimonial }) {
   );
 }
 
-export function TestimonialsSection() {
+export function TestimonialsSection({ className }: { className?: string }) {
   const reduce = useReducedMotion();
   const labelId = useId();
   const [index, setIndex] = useState(0);
@@ -61,7 +61,7 @@ export function TestimonialsSection() {
     <section
       id="testimonials"
       aria-labelledby="testimonials-heading"
-      className="relative overflow-hidden bg-bg py-16 md:py-24"
+      className={`relative overflow-hidden bg-bg py-16 md:py-24 ${className ?? ""}`}
     >
       <div className="container relative">
         <Reveal>

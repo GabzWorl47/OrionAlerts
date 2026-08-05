@@ -295,7 +295,7 @@ const extrasBySlug: Record<string, Extras> = {
       "health-monitoring": `Monitor cameras, NVRs, servers, storage, and network health with proactive alerts.`,
     },
   },
-  schools: {
+  "education-campuses": {
     headline: `Smarter Campus Security with AI-Powered Video Intelligence`,
     summary: `From classrooms and playgrounds to school buses and entry gates, Orion Alerts uses AI to monitor critical campus activities, detect potential risks, and provide real-time alerts that strengthen safety and operational efficiency.`,
     useCases: [
@@ -551,7 +551,7 @@ const extrasBySlug: Record<string, Extras> = {
       vms: `Centralized live monitoring, playback, multi-site visibility, and incident management.`,
     },
   },
-  "commercial-infrastructure": {
+  "airports-ports-railways": {
     headline: `Intelligent Monitoring for Modern Infrastructure`,
     summary: `Airports, commercial buildings, business parks, and public facilities require continuous visibility to manage security, visitor movement, and daily operations. Orion Alerts delivers AI-powered intelligence that helps improve safety, operational efficiency, and facility performance.`,
     useCases: [
@@ -808,11 +808,65 @@ const extrasBySlug: Record<string, Extras> = {
   },
 };
 
+function fallbackExtras(industry: Industry): Extras {
+  const focus = industry.tagline ?? industry.name;
+  return {
+    headline: `AI-Powered Visibility for ${industry.name}`,
+    summary: industry.summary,
+    useCases: [
+      {
+        title: `Operational Monitoring`,
+        description: `Monitors critical areas to strengthen ${focus.toLowerCase()}.`,
+      },
+      {
+        title: `Safety & Access Intelligence`,
+        description: `Detects unsafe activity, restricted-area entry, and compliance exceptions in real time.`,
+      },
+      {
+        title: `Infrastructure Health`,
+        description: `Continuously checks cameras, NVRs, servers, and networks to avoid silent blind spots.`,
+      },
+      {
+        title: `Instant Alerts & Investigation`,
+        description: `Sends real-time notifications and enables AI-powered search to locate incidents quickly.`,
+      },
+    ],
+    processTitle: `How It Works`,
+    processFlow: `Capture → Analyze → Alert → Respond → Improve`,
+    processNarrative: [
+      `Existing cameras cover critical operating areas across the site.`,
+      `AI analyzes video streams for safety, security, and operational events.`,
+      `Real-time alerts reach the right teams for immediate action.`,
+      `Events are recorded and indexed for audits and investigations.`,
+      `Dashboards provide insights to improve performance and compliance.`,
+    ],
+    stepsTitle: `Three Steps to Ready Operations`,
+    steps: [
+      {
+        label: `Connect`,
+        description: `Integrate existing CCTV into a centralized monitoring platform.`,
+      },
+      {
+        label: `Intelligence`,
+        description: `Enable AI to detect safety, security, and operational events automatically.`,
+      },
+      {
+        label: `Improve`,
+        description: `Use alerts, search, and analytics to standardize performance across sites.`,
+      },
+    ],
+    solutionBlurbs: {
+      "ai-analytics": `Detect safety, access, and operational risks with instant alerts tailored to ${industry.name.toLowerCase()}.`,
+      vms: `Centralize live monitoring and playback across sites for faster response and clearer oversight.`,
+      "health-monitoring": `Keep cameras, NVRs, servers, and networks online with proactive health alerts.`,
+    },
+  };
+}
+
 export function getIndustryPage(slug: string): IndustryPageData | undefined {
   const industry = getIndustry(slug);
   if (!industry) return undefined;
-  const extras = extrasBySlug[slug];
-  if (!extras) return undefined;
+  const extras = extrasBySlug[slug] ?? fallbackExtras(industry);
   return {
     ...industry,
     ...extras,
