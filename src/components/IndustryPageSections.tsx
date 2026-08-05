@@ -15,8 +15,9 @@ import {
   Zap,
 } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
-import { Button, CtaBand, Section } from "@/components/ui";
+import { Button, Section } from "@/components/ui";
 import { Reveal, Stagger, StaggerItem } from "@/components/Reveal";
+import { FinalCta } from "@/components/landing/FinalCta";
 import { getSolution } from "@/lib/site";
 import type { IndustryPageData } from "@/lib/industry-pages";
 import type { Industry } from "@/lib/site";
@@ -59,18 +60,7 @@ export function IndustryPageSections({ industry, related }: Props) {
         blurbs={industry.solutionBlurbs}
       />
       <RelatedIndustries related={related} />
-      <Section className="!py-10 md:!py-14">
-        <Reveal direction="up">
-          <CtaBand
-            title={`See OrionAlerts for ${industry.name}`}
-            lede="Book a demo tailored to your sector workflows, staffing model, and camera estate."
-            primaryHref="/book-demo"
-            primaryLabel="Book a Demo"
-            secondaryHref="/contact"
-            secondaryLabel="Connect With Us"
-          />
-        </Reveal>
-      </Section>
+      <FinalCta />
     </>
   );
 }
