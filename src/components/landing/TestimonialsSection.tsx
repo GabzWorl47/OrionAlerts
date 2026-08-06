@@ -12,7 +12,7 @@ function Stars({ rating }: { rating: number }) {
         <Star
           key={i}
           size={14}
-          className={i < rating ? "fill-cyan text-cyan" : "text-line"}
+          className={i < rating ? "fill-[#f5b942] text-[#f5b942]" : "text-line"}
           aria-hidden
         />
       ))}
