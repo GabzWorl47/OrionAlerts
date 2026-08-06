@@ -87,7 +87,7 @@ function normalizeOutcomes(
   preview: PreviewKind;
   videoSrc?: string;
 }> {
-  return outcomes.slice(0, 4).map((item, index) => {
+  return outcomes.slice(0, 6).map((item, index) => {
     if (typeof item === "string") {
       return {
         title: item,

@@ -46,7 +46,13 @@ function TestimonialCard({ item }: { item: Testimonial }) {
   );
 }
 
-export function TestimonialsSection({ className }: { className?: string }) {
+export function TestimonialsSection({
+  className,
+  compact = false,
+}: {
+  className?: string;
+  compact?: boolean;
+}) {
   const reduce = useReducedMotion();
   const loop = [...testimonials, ...testimonials];
 
@@ -54,18 +60,24 @@ export function TestimonialsSection({ className }: { className?: string }) {
     <section
       id="testimonials"
       aria-labelledby="testimonials-heading"
-      className={`relative overflow-hidden bg-bg py-16 md:py-24 ${className ?? ""}`}
+      className={`relative overflow-hidden bg-bg ${
+        compact ? "py-10 md:py-14" : "py-16 md:py-24"
+      } ${className ?? ""}`}
     >
       <div className="container relative">
         <Reveal>
           <div className="mx-auto max-w-3xl text-center">
             <h2
               id="testimonials-heading"
-              className="text-[clamp(1.85rem,4vw,2.75rem)] font-semibold leading-[1.1] tracking-[-0.03em] text-text"
+              className={`font-semibold leading-[1.1] tracking-[-0.03em] text-text ${
+                compact
+                  ? "text-[clamp(1.5rem,3.2vw,2.25rem)]"
+                  : "text-[clamp(1.85rem,4vw,2.75rem)]"
+              }`}
             >
               What Our Clients Say
             </h2>
-            <p className="mt-3 text-sm text-muted md:text-base">
+            <p className="mt-2.5 text-sm text-muted md:text-[15px]">
               Security and operations leaders using Orion Alerts across plants, warehouses, campuses,
               and critical sites.
             </p>
@@ -74,7 +86,9 @@ export function TestimonialsSection({ className }: { className?: string }) {
       </div>
 
       <div
-        className="certificate-marquee relative mt-10 overflow-hidden"
+        className={`certificate-marquee relative overflow-hidden ${
+          compact ? "mt-7" : "mt-10"
+        }`}
         role="region"
         aria-roledescription="marquee"
         aria-labelledby="testimonials-heading"

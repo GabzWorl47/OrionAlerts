@@ -25,7 +25,7 @@ function CertificateItem({ certificate }: { certificate: CertificateBadge }) {
   );
 }
 
-export function LogoMarquee() {
+export function LogoMarquee({ compact = false }: { compact?: boolean } = {}) {
   const reduce = useReducedMotion();
   const loop = [...certificates, ...certificates];
 
@@ -33,24 +33,34 @@ export function LogoMarquee() {
     <section
       id="customers"
       aria-labelledby="trusted-clients-heading"
-      className="relative overflow-hidden border-y border-line bg-bg py-10 md:py-12"
+      className={`relative overflow-hidden border-y border-line bg-bg ${
+        compact ? "py-8 md:py-10" : "py-10 md:py-12"
+      }`}
     >
       <div className="container">
         <Reveal>
           <h2
             id="trusted-clients-heading"
-            className="text-center text-[clamp(1.6rem,3.5vw,2.4rem)] font-semibold leading-[1.1] tracking-[-0.03em] text-text"
+            className={`text-center font-semibold leading-[1.1] tracking-[-0.03em] text-text ${
+              compact
+                ? "text-[clamp(1.35rem,2.8vw,1.9rem)]"
+                : "text-[clamp(1.6rem,3.5vw,2.4rem)]"
+            }`}
           >
             Trusted by Leading Organizations
           </h2>
-          <p className="mx-auto mt-3 max-w-xl text-center text-sm text-muted">
+          <p className="mx-auto mt-2.5 max-w-xl text-center text-sm text-muted">
             Built to align with industry standards and security frameworks that matter for
             enterprise and government surveillance.
           </p>
         </Reveal>
       </div>
 
-      <div className="certificate-marquee relative mt-8 overflow-hidden sm:mt-10">
+      <div
+        className={`certificate-marquee relative overflow-hidden ${
+          compact ? "mt-6 sm:mt-7" : "mt-8 sm:mt-10"
+        }`}
+      >
         <div
           className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-bg to-transparent sm:w-24"
           aria-hidden

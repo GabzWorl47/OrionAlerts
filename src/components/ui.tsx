@@ -26,14 +26,19 @@ export function Section({
   children,
   className = "",
   narrow = false,
+  compact = false,
 }: {
   id?: string;
   children: ReactNode;
   className?: string;
   narrow?: boolean;
+  compact?: boolean;
 }) {
   return (
-    <section id={id} className={`section-y ${className}`}>
+    <section
+      id={id}
+      className={`${compact ? "section-y-compact" : "section-y"} ${className}`}
+    >
       <div className={narrow ? "container max-w-3xl" : "container"}>{children}</div>
     </section>
   );
@@ -44,18 +49,28 @@ export function SectionHeading({
   title,
   lede,
   align = "left",
+  compact = false,
 }: {
   eyebrow?: string;
   title: string;
   lede?: string;
   align?: "left" | "center";
+  compact?: boolean;
 }) {
   return (
     <div
-      className={`mb-[var(--section-heading-gap)] max-w-3xl ${align === "center" ? "mx-auto text-center" : ""}`}
+      className={`${
+        compact ? "mb-6" : "mb-[var(--section-heading-gap)]"
+      } max-w-3xl ${align === "center" ? "mx-auto text-center" : ""}`}
     >
-      {eyebrow ? <p className="eyebrow mb-3">{eyebrow}</p> : null}
-      <h2 className="text-[clamp(1.75rem,3.5vw,2.5rem)] font-semibold leading-[1.1] tracking-[-0.03em] text-text">
+      {eyebrow ? <p className={`eyebrow ${compact ? "mb-2" : "mb-3"}`}>{eyebrow}</p> : null}
+      <h2
+        className={`${
+          compact
+            ? "text-[clamp(1.45rem,2.8vw,2rem)]"
+            : "text-[clamp(1.75rem,3.5vw,2.5rem)]"
+        } font-semibold leading-[1.1] tracking-[-0.03em] text-text`}
+      >
         {title}
       </h2>
       {lede ? (
