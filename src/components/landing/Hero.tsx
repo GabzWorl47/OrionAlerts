@@ -1,18 +1,44 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 
 const INTRO_VIDEO = "/Videos/video/Intro%20video.mp4";
+const HERO_VIDEOS = [INTRO_VIDEO, INTRO_VIDEO, INTRO_VIDEO, INTRO_VIDEO] as const;
+
 const ease = [0.22, 1, 0.36, 1] as const;
 
 export function Hero() {
   const reduce = useReducedMotion();
   const videoRef = useRef<HTMLVideoElement>(null);
+  const advancingRef = useRef(false);
+  const [videoIndex, setVideoIndex] = useState(0);
   const [progress, setProgress] = useState(0);
-  const [seconds, setSeconds] = useState(0);
+  const [remaining, setRemaining] = useState(0);
+
+  const advance = useCallback(() => {
+    if (advancingRef.current) return;
+    advancingRef.current = true;
+
+    setVideoIndex((i) => (i + 1) % HERO_VIDEOS.length);
+    setProgress(0);
+    setRemaining(0);
+
+    const video = videoRef.current;
+    if (video) {
+      video.currentTime = 0;
+      void video.play().catch(() => {
+        // Autoplay may be blocked until interaction.
+      });
+    }
+
+    // Allow the next handoff after playback has restarted.
+    window.setTimeout(() => {
+      advancingRef.current = false;
+    }, 400);
+  }, []);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -35,15 +61,24 @@ export function Hero() {
 
     const onTime = () => {
       if (!video.duration || !Number.isFinite(video.duration)) return;
-      setProgress(video.currentTime / video.duration);
-      setSeconds(Math.floor(video.currentTime));
+      const ratio = video.currentTime / video.duration;
+      setProgress(ratio);
+      setRemaining(Math.max(0, Math.ceil(video.duration - video.currentTime)));
+      // Some encodings stall near the end without firing `ended`.
+      if (ratio >= 0.98) advance();
     };
 
-    video.addEventListener("timeupdate", onTime);
-    return () => video.removeEventListener("timeupdate", onTime);
-  }, []);
+    const onEnded = () => advance();
 
-  const ringSize = 52;
+    video.addEventListener("timeupdate", onTime);
+    video.addEventListener("ended", onEnded);
+    return () => {
+      video.removeEventListener("timeupdate", onTime);
+      video.removeEventListener("ended", onEnded);
+    };
+  }, [advance]);
+
+  const ringSize = 44;
   const stroke = 1.75;
   const radius = (ringSize - stroke) / 2;
   const circumference = 2 * Math.PI * radius;
@@ -54,10 +89,9 @@ export function Hero() {
       {/* Full-bleed video under everything */}
       <video
         ref={videoRef}
-        src={INTRO_VIDEO}
+        src={HERO_VIDEOS[videoIndex]}
         className="absolute inset-0 h-full w-full object-cover"
         muted
-        loop
         playsInline
         autoPlay
         preload="auto"
@@ -103,40 +137,57 @@ export function Hero() {
           className="pointer-events-none absolute right-5 top-1/2 z-10 hidden -translate-y-1/2 md:right-8 md:block"
           aria-hidden
         >
-          <div
-            className="relative flex items-center justify-center"
-            style={{ width: ringSize, height: ringSize }}
-          >
-            <svg
-              width={ringSize}
-              height={ringSize}
-              className="-rotate-90"
-              viewBox={`0 0 ${ringSize} ${ringSize}`}
-            >
-              <circle
-                cx={ringSize / 2}
-                cy={ringSize / 2}
-                r={radius}
-                fill="none"
-                stroke="rgba(255,255,255,0.22)"
-                strokeWidth={stroke}
-              />
-              <circle
-                cx={ringSize / 2}
-                cy={ringSize / 2}
-                r={radius}
-                fill="none"
-                stroke="rgba(255,255,255,0.95)"
-                strokeWidth={stroke}
-                strokeLinecap="round"
-                strokeDasharray={circumference}
-                strokeDashoffset={dashOffset}
-                className="transition-[stroke-dashoffset] duration-200 ease-linear"
-              />
-            </svg>
-            <span className="absolute inset-0 flex items-center justify-center text-[13px] font-semibold tabular-nums tracking-tight text-white">
-              {seconds}
-            </span>
+          <div className="flex flex-col items-center gap-3">
+            {HERO_VIDEOS.map((_, index) => {
+              const isActive = index === videoIndex;
+              if (!isActive) {
+                return (
+                  <span
+                    key={index}
+                    className="block size-1.5 rounded-full bg-white/45"
+                  />
+                );
+              }
+
+              return (
+                <div
+                  key={index}
+                  className="relative flex items-center justify-center"
+                  style={{ width: ringSize, height: ringSize }}
+                >
+                  <svg
+                    width={ringSize}
+                    height={ringSize}
+                    className="-rotate-90"
+                    viewBox={`0 0 ${ringSize} ${ringSize}`}
+                  >
+                    <circle
+                      cx={ringSize / 2}
+                      cy={ringSize / 2}
+                      r={radius}
+                      fill="none"
+                      stroke="rgba(255,255,255,0.22)"
+                      strokeWidth={stroke}
+                    />
+                    <circle
+                      cx={ringSize / 2}
+                      cy={ringSize / 2}
+                      r={radius}
+                      fill="none"
+                      stroke="rgba(255,255,255,0.95)"
+                      strokeWidth={stroke}
+                      strokeLinecap="round"
+                      strokeDasharray={circumference}
+                      strokeDashoffset={dashOffset}
+                      className="transition-[stroke-dashoffset] duration-200 ease-linear"
+                    />
+                  </svg>
+                  <span className="absolute inset-0 flex items-center justify-center text-[13px] font-semibold tabular-nums tracking-tight text-white">
+                    {remaining}
+                  </span>
+                </div>
+              );
+            })}
           </div>
         </div>
       ) : null}
