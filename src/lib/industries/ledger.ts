@@ -137,6 +137,18 @@ export const industryMigrationLedger: MigrationLedgerEntry[] = [
     notes:
       "Content migrated from README v2 §9.7. Standards C7 (FSSAI / ISO 22000). Further QA deferred.",
   },
+  {
+    slug: "dark-stores",
+    state: "reviewed",
+    schemaVersion: 2,
+    contentVersion: 2,
+    claimReview: "pending",
+    standardsReview: "pending",
+    visualQA: "pending",
+    buildQA: "pending",
+    notes:
+      "Content migrated from README v2 §9.9. Standards C7/C8/C9. Further QA deferred.",
+  },
 ];
 
 export function getLedgerEntry(slug: string) {

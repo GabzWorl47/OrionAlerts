@@ -524,7 +524,10 @@ export const industries: Industry[] = [
     name: "Dark Stores & Micro-Fulfilment",
     cardLabel: "Dark Stores",
     image: "https://images.unsplash.com/photo-1553413077-190dd305871c?auto=format&fit=crop&w=1600&q=90",
-    tagline: "Inventory security, dispatch monitoring and 24/7 operational visibility",
+    tagline:
+      "Use Vision Copilot to connect mapped camera observations with decisions about compact stockroom layout and local dispatch pressure.",
+    summary:
+      "Map cameras to the places your team manages and ask Vision Copilot about compact stockroom layout and local dispatch pressure.",
   }),
   industryEntry({
     slug: "quick-commerce",
