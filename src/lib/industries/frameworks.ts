@@ -42,6 +42,15 @@ export const frameworks: Record<string, FrameworkRecord> = {
     sourceUrl: "https://www.dgms.gov.in/",
     boundary:
       "Applicability depends on the equipment and mine environment. An ordinary surveillance device must not be described as mine-approved without evidence.",
+  C3: {
+    id: "C3",
+    name: "BIS / QCO product requirements",
+    jurisdiction: "India",
+    publicSummary:
+      "BIS product certification and quality-control orders apply where the notified cement or building-material category requires mandatory certification.",
+    sourceUrl: "https://www.bis.gov.in/",
+    boundary:
+      "Confirm the specific product category, applicable order and current scope. Camera monitoring does not certify product quality.",
   },
   C6: {
     id: "C6",
@@ -79,6 +88,26 @@ export const frameworks: Record<string, FrameworkRecord> = {
       "India's digital personal data protection framework governs purpose, access and retention for personal data, including video where applicable.",
     boundary:
       "Define monitoring purpose, authorised users and retention with legal/privacy owners before deployment.",
+  },
+  C21: {
+    id: "C21",
+    name: "NDMA crowd-management guidance",
+    jurisdiction: "India",
+    publicSummary:
+      "NDMA crowd-management guidance supports organised planning and coordinated response for events and public gatherings.",
+    sourceUrl: "https://www.pib.gov.in/newsite/printrelease.aspx?lang=2&reg=48&relid=151549",
+    boundary:
+      "It is not a product certificate or a guarantee that an estimated crowd count defines a safe condition.",
+  C20: {
+    id: "C20",
+    name: "TEC / MTCTE",
+    jurisdiction: "India",
+    publicSummary:
+      "TEC Mandatory Testing and Certification of Telecom Equipment (MTCTE) covers testing and certification for applicable notified telecom equipment.",
+    sourceUrl:
+      "https://www.tec.gov.in/mandatory-testing-and-certification-of-telecom-equipments-mtcte",
+    boundary:
+      "Verify equipment category, phase, exemptions and current procedure. A telecom customer does not make all associated software MTCTE certified.",
   },
 };
 

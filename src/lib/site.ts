@@ -463,7 +463,10 @@ export const industries: Industry[] = [
     name: "Cement & Building Materials",
     cardLabel: "Cement",
     image: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=1600&q=90",
-    tagline: "Material-flow visibility, high-risk-zone monitoring and safety alerts",
+    tagline:
+      "Use Vision Copilot to connect mapped camera observations with decisions about truck staging and material-transfer visibility.",
+    summary:
+      "Map cameras to the places your team manages and ask Vision Copilot about truck staging and material-transfer visibility.",
   }),
   industryEntry({
     slug: "metals-mining",
@@ -655,14 +658,20 @@ export const industries: Industry[] = [
     name: "Telecom & Remote Sites",
     cardLabel: "Telecom",
     image: "https://images.unsplash.com/photo-1513828583688-c52646db42da?auto=format&fit=crop&w=1600&q=90",
-    tagline: "Unauthorised access detection, equipment protection and remote monitoring",
+    tagline:
+      "Use Vision Copilot to connect mapped camera observations with decisions about shelter events and remote maintenance coordination.",
+    summary:
+      "Map cameras to the places your team manages and ask Vision Copilot about shelter events and remote maintenance coordination.",
   }),
   industryEntry({
     slug: "sports-events",
     name: "Sports & Event Venues",
     cardLabel: "Sports & Events",
     image: "https://images.unsplash.com/photo-1471295253337-3ceaaedca402?auto=format&fit=crop&w=1600&q=90",
-    tagline: "Crowd intelligence, restricted-area monitoring and emergency response",
+    tagline:
+      "Use Vision Copilot to connect mapped camera observations with decisions about event-phase congestion and stewarding decisions.",
+    summary:
+      "Map cameras to the places your team manages and ask Vision Copilot about event-phase congestion and stewarding decisions.",
   }),
 ];
 
