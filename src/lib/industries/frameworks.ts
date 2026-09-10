@@ -33,6 +33,15 @@ export const frameworks: Record<string, FrameworkRecord> = {
     boundary:
       "It is not an AI or software certificate, and video does not establish that a photographed component meets specification or deliver IATF certification.",
   },
+  C4: {
+    id: "C4",
+    name: "DGMS equipment approvals",
+    jurisdiction: "India",
+    publicSummary:
+      "DGMS maintains approval requirements for specified equipment used in relevant mining environments.",
+    sourceUrl: "https://www.dgms.gov.in/",
+    boundary:
+      "Applicability depends on the equipment and mine environment. An ordinary surveillance device must not be described as mine-approved without evidence.",
   C3: {
     id: "C3",
     name: "BIS / QCO product requirements",
