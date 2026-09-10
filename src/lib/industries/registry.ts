@@ -1,5 +1,6 @@
 import { automotiveIndustryPage } from "@/lib/industries/content/automotive";
 import { commercialBuildingsIndustryPage } from "@/lib/industries/content/commercial-buildings";
+import { darkStoresIndustryPage } from "@/lib/industries/content/dark-stores";
 import { logisticsIndustryPage } from "@/lib/industries/content/logistics";
 import { manufacturingIndustryPage } from "@/lib/industries/content/manufacturing";
 import type { IndustryPageRecord, IndustryPublicationStatus } from "@/lib/industries/types";
@@ -10,6 +11,7 @@ const industryPageRecords: IndustryPageRecord[] = [
   logisticsIndustryPage,
   automotiveIndustryPage,
   commercialBuildingsIndustryPage,
+  darkStoresIndustryPage,
 ];
 
 const bySlug = new Map(industryPageRecords.map((record) => [record.slug, record]));
