@@ -3,6 +3,7 @@ import { cementIndustryPage } from "@/lib/industries/content/cement";
 import { commercialBuildingsIndustryPage } from "@/lib/industries/content/commercial-buildings";
 import { logisticsIndustryPage } from "@/lib/industries/content/logistics";
 import { manufacturingIndustryPage } from "@/lib/industries/content/manufacturing";
+import { pharmaIndustryPage } from "@/lib/industries/content/pharma";
 import { oilGasIndustryPage } from "@/lib/industries/content/oil-gas";
 import { metalsMiningIndustryPage } from "@/lib/industries/content/metals-mining";
 import { sportsEventsIndustryPage } from "@/lib/industries/content/sports-events";
@@ -15,6 +16,7 @@ const industryPageRecords: IndustryPageRecord[] = [
   logisticsIndustryPage,
   automotiveIndustryPage,
   commercialBuildingsIndustryPage,
+  pharmaIndustryPage,
   oilGasIndustryPage,
   metalsMiningIndustryPage,
   cementIndustryPage,
