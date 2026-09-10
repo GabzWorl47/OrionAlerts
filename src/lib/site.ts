@@ -492,7 +492,10 @@ export const industries: Industry[] = [
     name: "Food, Beverage & FMCG",
     cardLabel: "Food & FMCG",
     image: "https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&w=1600&q=90",
-    tagline: "Hygiene monitoring, process visibility and packaging-line intelligence",
+    tagline:
+      "Use Vision Copilot to connect mapped camera observations with decisions about visible hygiene practices and packaging-flow observations.",
+    summary:
+      "Map cameras to the places your team manages and ask Vision Copilot about visible hygiene practices and packaging-flow observations.",
   }),
   industryEntry({
     slug: "logistics",
