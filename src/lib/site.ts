@@ -484,7 +484,10 @@ export const industries: Industry[] = [
     name: "Oil, Gas & Petrochemicals",
     cardLabel: "Oil & Gas",
     image: "https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?auto=format&fit=crop&w=1600&q=90",
-    tagline: "Critical-zone monitoring, fire detection and safety compliance",
+    tagline:
+      "Use Vision Copilot to connect mapped camera observations with decisions about tanker-area activity and controlled operational access.",
+    summary:
+      "Map cameras to the places your team manages and ask Vision Copilot about tanker-area activity and controlled operational access.",
   }),
   industryEntry({
     slug: "pharma",

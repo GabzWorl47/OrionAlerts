@@ -101,6 +101,18 @@ export const industryMigrationLedger: MigrationLedgerEntry[] = [
     notes:
       "Content migrated from README v2 §9.4. Standards C4 (DGMS). Further QA deferred.",
   },
+  {
+    slug: "oil-gas",
+    state: "reviewed",
+    schemaVersion: 2,
+    contentVersion: 2,
+    claimReview: "pending",
+    standardsReview: "pending",
+    visualQA: "pending",
+    buildQA: "pending",
+    notes:
+      "Content migrated from README v2 §9.5. Standards C5 (PESO/IECEx/ATEX). Further QA deferred.",
+  },
 ];
 
 export function getLedgerEntry(slug: string) {

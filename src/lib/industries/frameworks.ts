@@ -33,6 +33,15 @@ export const frameworks: Record<string, FrameworkRecord> = {
     boundary:
       "It is not an AI or software certificate, and video does not establish that a photographed component meets specification or deliver IATF certification.",
   },
+  C5: {
+    id: "C5",
+    name: "PESO / IECEx / ATEX hazardous-area schemes",
+    jurisdiction: "India (PESO); international (IECEx); EU (ATEX)",
+    publicSummary:
+      "PESO, IECEx and ATEX are distinct hazardous-area equipment and installation schemes with different jurisdictional scopes.",
+    sourceUrl: "https://peso.gov.in/",
+    boundary:
+      "Schemes are distinct; confirm Indian acceptance and approval rather than treating certificates as interchangeable. Verify the exact model and installation conditions.",
   C4: {
     id: "C4",
     name: "DGMS equipment approvals",
