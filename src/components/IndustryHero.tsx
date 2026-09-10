@@ -1,10 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import { Button } from "@/components/ui";
 import type { IndustryPageData } from "@/lib/industry-pages";
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -100,14 +98,6 @@ export function IndustryHero({ industry }: IndustryHeroProps) {
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink-deep/55 via-transparent to-blue/15" />
 
       <div className="container relative z-10 flex min-h-[min(78vh,44rem)] flex-col">
-        <nav aria-label="Breadcrumb" className="pt-6 text-sm text-white/55 md:pt-8">
-          <Link href="/industries" className="transition hover:text-white">
-            Industries
-          </Link>
-          <span className="mx-2 text-white/30">/</span>
-          <span className="text-white/85">{industry.name}</span>
-        </nav>
-
         <motion.div
           className="mt-auto max-w-xl pb-10 pt-24 md:pb-14 md:pt-32"
           style={animate ? { y: contentY } : undefined}
@@ -147,15 +137,6 @@ export function IndustryHero({ industry }: IndustryHeroProps) {
           >
             {shortLede(industry.summary)}
           </motion.p>
-
-          <motion.div
-            initial={animate ? { opacity: 0, y: 12 } : false}
-            animate={{ opacity: 1, y: 0 }}
-            transition={animate ? { duration: 0.5, delay: 0.22, ease } : { duration: 0 }}
-            className="mt-6"
-          >
-            <Button href="/book-demo">Book a Demo</Button>
-          </motion.div>
         </motion.div>
       </div>
     </section>

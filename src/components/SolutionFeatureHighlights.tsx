@@ -17,6 +17,7 @@ import {
   UserCheck,
   type LucideIcon,
 } from "lucide-react";
+import { featureAnchorId } from "@/lib/feature-anchors";
 
 type Feature = {
   title: string;
@@ -43,10 +44,6 @@ function featurePreviewText(feature: Feature) {
   const custom: Record<string, string> = {
     "Audit Trail & Compliance Reports":
       "Export ownership changes, location history, custody chain, and document access into compliance-ready reports — so audits take minutes, not days.",
-    "Utilization & Performance Reports":
-      "See which assets are overused, idle, or underperforming across sites. Use utilization trends to rebalance inventory and plan replacements with confidence.",
-    "Dashboard & Analytics":
-      "One command view of total assets, in-transit items, warranty due dates, and utilization KPIs — so security and ops share the same estate picture.",
   };
 
   return (
@@ -68,7 +65,8 @@ export function SolutionFeatureHighlights({ features }: { features: Feature[] })
         return (
           <div
             key={feature.title}
-            className={`group relative overflow-hidden rounded-[24px] border bg-white transition duration-300 hover:-translate-y-1 hover:border-blue/35 hover:shadow-[0_24px_50px_-30px_rgba(43,140,255,0.5)] ${
+            id={featureAnchorId(feature.title)}
+            className={`group relative scroll-mt-[calc(var(--header-h)+1.25rem)] overflow-hidden rounded-[24px] border bg-white transition duration-300 hover:-translate-y-1 hover:border-blue/35 hover:shadow-[0_24px_50px_-30px_rgba(43,140,255,0.5)] ${
               open
                 ? "border-blue/35 shadow-[0_24px_50px_-30px_rgba(43,140,255,0.5)]"
                 : "border-line"

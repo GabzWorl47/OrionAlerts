@@ -8,7 +8,7 @@ export function FinalCta() {
     <section
       id="final-cta"
       aria-labelledby="final-cta-heading"
-      className="relative overflow-hidden bg-blue py-20 md:py-28"
+      className="relative overflow-hidden bg-blue py-10 md:py-14"
     >
       <div className="container relative text-center">
         <motion.h2

@@ -18,7 +18,6 @@ import {
   X,
   Zap,
 } from "lucide-react";
-import { SolutionVideo } from "@/components/SolutionVideo";
 
 const DEFAULT_OUTCOMES = [
   "Multi-site visibility from one command view",
@@ -72,40 +71,6 @@ const OUTCOME_PREVIEW_FALLBACK: PreviewKind[] = [
   "multisite",
 ];
 
-export type OutcomeItem = {
-  title: string;
-  description?: string;
-  preview?: PreviewKind;
-  videoSrc?: string;
-};
-
-function normalizeOutcomes(
-  outcomes: Array<string | OutcomeItem>,
-): Array<{
-  title: string;
-  description: string;
-  preview: PreviewKind;
-  videoSrc?: string;
-}> {
-  return outcomes.slice(0, 6).map((item, index) => {
-    if (typeof item === "string") {
-      return {
-        title: item,
-        description: OUTCOME_CAPTIONS[index % OUTCOME_CAPTIONS.length],
-        preview: OUTCOME_PREVIEW_FALLBACK[index % OUTCOME_PREVIEW_FALLBACK.length],
-      };
-    }
-    return {
-      title: item.title,
-      description:
-        item.description ?? OUTCOME_CAPTIONS[index % OUTCOME_CAPTIONS.length],
-      preview:
-        item.preview ?? OUTCOME_PREVIEW_FALLBACK[index % OUTCOME_PREVIEW_FALLBACK.length],
-      videoSrc: item.videoSrc,
-    };
-  });
-}
-
 const FEED_STILLS = [
   {
     src: "https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=900&q=80",
@@ -124,6 +89,44 @@ const FEED_STILLS = [
     label: "Cam 18 · Lobby",
   },
 ];
+
+export type OutcomeItem = {
+  title: string;
+  description?: string;
+  preview?: PreviewKind;
+  videoSrc?: string;
+  image?: string;
+};
+
+function normalizeOutcomes(
+  outcomes: Array<string | OutcomeItem>,
+): Array<{
+  title: string;
+  description: string;
+  preview: PreviewKind;
+  videoSrc?: string;
+  image?: string;
+}> {
+  return outcomes.slice(0, 6).map((item, index) => {
+    if (typeof item === "string") {
+      return {
+        title: item,
+        description: OUTCOME_CAPTIONS[index % OUTCOME_CAPTIONS.length],
+        preview: OUTCOME_PREVIEW_FALLBACK[index % OUTCOME_PREVIEW_FALLBACK.length],
+        image: FEED_STILLS[index % FEED_STILLS.length].src,
+      };
+    }
+    return {
+      title: item.title,
+      description:
+        item.description ?? OUTCOME_CAPTIONS[index % OUTCOME_CAPTIONS.length],
+      preview:
+        item.preview ?? OUTCOME_PREVIEW_FALLBACK[index % OUTCOME_PREVIEW_FALLBACK.length],
+      videoSrc: item.videoSrc,
+      image: item.image ?? FEED_STILLS[index % FEED_STILLS.length].src,
+    };
+  });
+}
 
 const SEARCH_CLIPS = [
   {
@@ -458,7 +461,6 @@ export function SolutionVideoSection({
   const reduce = useReducedMotion();
   const sectionRef = useRef<HTMLElement>(null);
   const enteredView = useInView(sectionRef, { once: true, amount: 0.35 });
-  const sectionVisible = useInView(sectionRef, { once: false, amount: 0.35 });
   const useCinematic = cinematicEntrance && !reduce;
   const [expanded, setExpanded] = useState(useCinematic);
 
@@ -482,12 +484,11 @@ export function SolutionVideoSection({
   const [preview, setPreview] = useState<PreviewTarget>(null);
   const [autoPlay, setAutoPlay] = useState(true);
   const [outcomeIndex, setOutcomeIndex] = useState(0);
-  const outcomeVideoRef = useRef<HTMLVideoElement>(null);
 
   const currentOutcome = outcomeItems[outcomeIndex] ?? outcomeItems[0];
-  const activeOutcomeVideo = currentOutcome?.videoSrc ?? src;
+  const activeImage = currentOutcome?.image ?? poster;
   const OutcomeIcon = outcomeIcons[outcomeIndex % outcomeIcons.length];
-  const outcomeDurationMs = activeOutcomeVideo ? 8000 : 5600;
+  const outcomeDurationMs = 5500;
 
   useEffect(() => {
     if (reduce || !autoPlay || preview || steps.length < 2 || expanded) return;
@@ -498,12 +499,13 @@ export function SolutionVideoSection({
   }, [autoPlay, expanded, preview, reduce, steps.length]);
 
   useEffect(() => {
-    if (!cinematicEntrance || reduce || outcomeItems.length <= 1) return;
+    if (!cinematicEntrance || reduce || !autoPlay || outcomeItems.length <= 1) return;
     const timer = window.setInterval(() => {
       setOutcomeIndex((value) => (value + 1) % outcomeItems.length);
     }, outcomeDurationMs);
     return () => window.clearInterval(timer);
   }, [
+    autoPlay,
     cinematicEntrance,
     outcomeDurationMs,
     outcomeIndex,
@@ -511,29 +513,10 @@ export function SolutionVideoSection({
     reduce,
   ]);
 
-  useEffect(() => {
-    if (!cinematicEntrance) return;
-    const video = outcomeVideoRef.current;
-    if (!video || !activeOutcomeVideo) return;
-    video.muted = true;
-    video.currentTime = 0;
-    const tryPlay = async () => {
-      try {
-        await video.play();
-      } catch {
-        // Autoplay may be blocked until user interaction.
-      }
-    };
-    if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
-      void tryPlay();
-    } else {
-      video.addEventListener("loadeddata", () => void tryPlay(), { once: true });
-    }
-  }, [activeOutcomeVideo, cinematicEntrance, outcomeIndex]);
-
   function goToOutcome(next: number) {
     if (next === outcomeIndex) return;
     setOutcomeIndex(next);
+    setAutoPlay(true);
   }
 
   const openWorkflowPreview = (index: number) => {
@@ -674,7 +657,7 @@ export function SolutionVideoSection({
                   className="absolute right-4 top-4 z-10 inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-black/55 px-3 py-1.5 text-[11px] font-semibold text-white backdrop-blur-sm transition hover:bg-black/70"
                 >
                   <Play size={12} />
-                  Back to video
+                  Back
                   <X size={12} className="opacity-70" />
                 </button>
               </motion.div>
@@ -687,13 +670,14 @@ export function SolutionVideoSection({
                 exit={reduce ? undefined : { opacity: 0 }}
                 transition={{ duration: 0.3 }}
               >
-                {src ? (
-                  <SolutionVideo
-                    src={src}
-                    label={label}
-                    poster={poster}
-                    fit="contain"
-                    playing={sectionVisible && !activePreview}
+                {poster ? (
+                  <Image
+                    src={poster}
+                    alt={label}
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 70vw"
+                    className="object-cover object-center"
+                    unoptimized
                   />
                 ) : (
                   <div className="flex h-full items-center justify-center bg-gradient-to-br from-[#15233a] to-[#0d1626] px-6 text-center">
@@ -715,7 +699,7 @@ export function SolutionVideoSection({
       ) : null}
       {!activePreview ? (
         <p className="mt-3 text-center text-xs text-muted lg:hidden">
-          Tap an outcome to open a live video-style preview.
+          Tap an outcome to open a preview.
         </p>
       ) : null}
     </div>
@@ -764,26 +748,30 @@ export function SolutionVideoSection({
 
           <div className="grid items-stretch gap-5 lg:grid-cols-[1.35fr_0.65fr]">
             <div className="relative flex h-full min-h-[360px] flex-col overflow-hidden rounded-[28px] bg-[#0b1628] text-white shadow-[0_30px_80px_-40px_rgba(15,61,120,0.65)] md:min-h-[420px]">
-              {activeOutcomeVideo ? (
-                <>
-                  <video
-                    key={activeOutcomeVideo}
-                    ref={outcomeVideoRef}
-                    src={activeOutcomeVideo}
-                    poster={poster}
-                    className="absolute inset-0 h-full w-full object-cover brightness-[1.16] contrast-[1.05] saturate-[1.04]"
-                    muted
-                    loop
-                    playsInline
-                    autoPlay
-                    preload="auto"
-                    aria-hidden
-                  />
-                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#07111f]/75 via-[#07111f]/15 to-transparent" />
-                </>
-              ) : (
-                <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_20%_0%,rgba(43,140,255,0.35),transparent_45%),radial-gradient(ellipse_at_100%_100%,rgba(48,227,255,0.18),transparent_40%)]" />
-              )}
+              <AnimatePresence mode="wait">
+                {activeImage ? (
+                  <motion.div
+                    key={activeImage}
+                    className="absolute inset-0"
+                    initial={reduce ? false : { opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={reduce ? undefined : { opacity: 0 }}
+                    transition={{ duration: 0.45, ease: "easeOut" }}
+                  >
+                    <Image
+                      src={activeImage}
+                      alt={currentOutcome?.title ?? label}
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 65vw"
+                      className="object-cover object-center"
+                      unoptimized
+                    />
+                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#07111f]/80 via-[#07111f]/20 to-transparent" />
+                  </motion.div>
+                ) : (
+                  <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_20%_0%,rgba(43,140,255,0.35),transparent_45%),radial-gradient(ellipse_at_100%_100%,rgba(48,227,255,0.18),transparent_40%)]" />
+                )}
+              </AnimatePresence>
 
               <div className="relative z-10 flex flex-1 flex-col justify-end p-8 md:p-10">
                 <div className="flex items-center gap-3">
@@ -929,7 +917,7 @@ export function SolutionVideoSection({
                     How operators use it
                   </h3>
                   <p className="mt-2 text-xs text-muted">
-                    Tap a step to open a live video preview.
+                    Tap a step to open a preview.
                   </p>
 
                   <ol className="relative mt-5 space-y-3">

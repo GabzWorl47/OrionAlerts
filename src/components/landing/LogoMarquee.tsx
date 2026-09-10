@@ -3,31 +3,34 @@
 import Image from "next/image";
 import { useReducedMotion } from "framer-motion";
 import { Reveal } from "@/components/Reveal";
-import { certificates, type CertificateBadge } from "@/lib/homepage";
+import { clients, type ClientLogo } from "@/lib/homepage";
 
-function CertificateItem({ certificate }: { certificate: CertificateBadge }) {
+function ClientItem({ client }: { client: ClientLogo }) {
   return (
-    <div className="flex w-[9.75rem] shrink-0 flex-col items-center gap-2 sm:w-[10.75rem] md:w-[11.5rem]">
-      <div className="flex h-[4.5rem] w-full items-center justify-center rounded-[16px] border border-line bg-white px-3 py-2 shadow-[0_10px_28px_rgba(12,34,56,0.06)]">
-        <Image
-          src={certificate.logoSrc}
-          alt={certificate.name}
-          width={160}
-          height={64}
-          unoptimized
-          className="h-11 w-auto max-w-full object-contain"
-        />
+    <div className="flex w-[7.5rem] shrink-0 items-center justify-center sm:w-[8.25rem] md:w-[8.75rem]">
+      <div className="flex h-14 w-full items-center justify-center rounded-[12px] border border-line bg-white px-2.5 py-1.5 shadow-[0_8px_20px_rgba(12,34,56,0.05)]">
+        {client.logoSrc ? (
+          <Image
+            src={client.logoSrc}
+            alt={client.name}
+            width={140}
+            height={48}
+            unoptimized
+            className="h-8 w-auto max-w-full object-contain"
+          />
+        ) : (
+          <span className="text-center text-xs font-semibold text-muted-strong">
+            {client.name}
+          </span>
+        )}
       </div>
-      <p className="text-center text-[11px] font-semibold leading-snug text-muted-strong sm:text-xs">
-        {certificate.label}
-      </p>
     </div>
   );
 }
 
 export function LogoMarquee({ compact = false }: { compact?: boolean } = {}) {
   const reduce = useReducedMotion();
-  const loop = [...certificates, ...certificates];
+  const loop = [...clients, ...clients];
 
   return (
     <section
@@ -50,8 +53,8 @@ export function LogoMarquee({ compact = false }: { compact?: boolean } = {}) {
             Trusted by Leading Organizations
           </h2>
           <p className="mx-auto mt-2.5 max-w-xl text-center text-sm text-muted">
-            Built to align with industry standards and security frameworks that matter for
-            enterprise and government surveillance.
+            Trusted technology for smarter, faster, and more connected security
+            operations.
           </p>
         </Reveal>
       </div>
@@ -71,10 +74,10 @@ export function LogoMarquee({ compact = false }: { compact?: boolean } = {}) {
         />
 
         {reduce ? (
-          <ul className="flex flex-wrap items-start justify-center gap-x-4 gap-y-6 px-4 sm:gap-x-6 md:gap-x-7">
-            {certificates.map((certificate) => (
-              <li key={certificate.id}>
-                <CertificateItem certificate={certificate} />
+          <ul className="flex flex-wrap items-center justify-center gap-x-4 gap-y-4 px-4 sm:gap-x-6 md:gap-x-7">
+            {clients.map((client) => (
+              <li key={client.id}>
+                <ClientItem client={client} />
               </li>
             ))}
           </ul>
@@ -82,11 +85,11 @@ export function LogoMarquee({ compact = false }: { compact?: boolean } = {}) {
           <div
             className="certificate-marquee-track gap-4 px-2 sm:gap-5"
             role="list"
-            aria-label="Compliance and security certifications"
+            aria-label="Trusted client organizations"
           >
-            {loop.map((certificate, index) => (
-              <div key={`${certificate.id}-${index}`} role="listitem">
-                <CertificateItem certificate={certificate} />
+            {loop.map((client, index) => (
+              <div key={`${client.id}-${index}`} role="listitem">
+                <ClientItem client={client} />
               </div>
             ))}
           </div>

@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { verifyRecaptchaToken } from "@/lib/recaptcha";
 
 type LeadPayload = {
   kind?: string;
@@ -9,6 +10,7 @@ type LeadPayload = {
   message?: string;
   interest?: string;
   topic?: string;
+  recaptchaToken?: string;
 };
 
 const rateMap = new Map<string, { count: number; resetAt: number }>();
@@ -60,6 +62,13 @@ export async function POST(request: Request) {
 
   if (!body.name?.trim() || !body.email?.trim() || !body.company?.trim() || !body.message?.trim()) {
     return NextResponse.json({ ok: false, error: "Missing required fields." }, { status: 400 });
+  }
+
+  if (kind === "demo") {
+    const captcha = await verifyRecaptchaToken(body.recaptchaToken, ip);
+    if (!captcha.ok) {
+      return NextResponse.json({ ok: false, error: captcha.error }, { status: captcha.status });
+    }
   }
 
   // Placeholder for ERP write: demo leads and contact leads stay in separate streams.

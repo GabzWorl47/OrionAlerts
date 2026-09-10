@@ -81,7 +81,7 @@ export const universalSolutionVideos: UniversalVideoCard[] = [
       "Detect camera, NVR, storage, and network issues before they create operational blind spots.",
     src: "/Videos/video/health-monitoring.mp4",
     poster:
-      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=80",
+      "/Images/ChatGPT%20Image%20Sep%208%2C%202026%2C%2012_54_34%20PM.png",
   },
   {
     id: "estate-ops",
@@ -89,27 +89,36 @@ export const universalSolutionVideos: UniversalVideoCard[] = [
     description:
       "Track assets, maintenance contracts, and infrastructure health so operations stay ready.",
     src: "/Videos/video/Asset%20tracking.mp4",
-    poster: "/visuals/solutions/asset-tracking.png",
+    poster: "/Images/ChatGPT%20Image%20Sep%208%2C%202026%2C%2012_29_40%20PM.png",
   },
 ];
 
-/**
- * Trust marquee entries reused from existing landing trust/partner naming patterns.
- * Replace with approved logo assets (`logoSrc`) when marketing supplies them.
- */
+/** Client logos for the trusted-organizations marquee. */
 export const clients: ClientLogo[] = [
-  { id: "manufacturing", name: "Manufacturing" },
-  { id: "logistics", name: "Logistics & Warehousing" },
-  { id: "corporate", name: "Corporate Campuses" },
-  { id: "critical", name: "Critical Infrastructure" },
-  { id: "pharma", name: "Pharma & Life Sciences" },
-  { id: "energy", name: "Energy & Utilities" },
-  { id: "retail", name: "Retail Operations" },
-  { id: "smart-cities", name: "Smart Cities" },
-  { id: "camera-oem", name: "Camera OEM" },
-  { id: "access", name: "Access Control" },
-  { id: "cloud", name: "Cloud Infra" },
-  { id: "network", name: "Network" },
+  { id: "axis", name: "Axis Bank", logoSrc: "/Images/clients/axis.png" },
+  { id: "icici", name: "ICICI Bank", logoSrc: "/Images/clients/icici.png" },
+  { id: "kotak", name: "Kotak Mahindra Bank", logoSrc: "/Images/clients/kotak.png" },
+  { id: "bob", name: "Bank of Baroda", logoSrc: "/Images/clients/bob.png" },
+  { id: "boi", name: "Bank of India", logoSrc: "/Images/clients/boi.png" },
+  { id: "pnb", name: "Punjab National Bank", logoSrc: "/Images/clients/pnb.png" },
+  { id: "idbi", name: "IDBI Bank", logoSrc: "/Images/clients/idbi.png" },
+  { id: "idfc", name: "IDFC First Bank", logoSrc: "/Images/clients/idfc.png" },
+  { id: "yes-bank", name: "Yes Bank", logoSrc: "/Images/clients/yes-bank.png" },
+  { id: "union-bank", name: "Union Bank of India", logoSrc: "/Images/clients/union-bank.png" },
+  { id: "south-indian-bank", name: "South Indian Bank", logoSrc: "/Images/clients/south-indian-bank.png" },
+  { id: "indian-oil", name: "Indian Oil", logoSrc: "/Images/clients/indian-oil.png" },
+  { id: "starbucks", name: "Starbucks", logoSrc: "/Images/clients/starbucks.png" },
+  { id: "dominos", name: "Domino's", logoSrc: "/Images/clients/dominos.png" },
+  { id: "pizzahut", name: "Pizza Hut", logoSrc: "/Images/clients/pizzahut.png" },
+  { id: "rustomjee", name: "Rustomjee", logoSrc: "/Images/clients/rustomjee.png" },
+  { id: "inox", name: "INOX", logoSrc: "/Images/clients/inox.png" },
+  { id: "shoppers-stop", name: "Shoppers Stop", logoSrc: "/Images/clients/shoppers-stop.png" },
+  { id: "stanza", name: "Stanza Living", logoSrc: "/Images/clients/stanza.png" },
+  { id: "yrf", name: "Yash Raj Films", logoSrc: "/Images/clients/yrf.png" },
+  { id: "tseries", name: "T-Series", logoSrc: "/Images/clients/tseries.png" },
+  { id: "navy", name: "Indian Navy", logoSrc: "/Images/clients/navy.png" },
+  { id: "police", name: "Police", logoSrc: "/Images/clients/police.png" },
+  { id: "mcd", name: "Municipal Corporation of Delhi", logoSrc: "/Images/clients/mcd.png" },
 ];
 
 /** Colored compliance / trust marks for the #customers section. */
@@ -148,13 +157,13 @@ export const certificates: CertificateBadge[] = [
     id: "soc-2",
     name: "SOC 2",
     label: "SOC 2 Type II",
-    logoSrc: "/Images/certificates/soc-2.svg",
+    logoSrc: "/Images/certificates/soc2.png",
   },
   {
     id: "iso-27001",
     name: "ISO 27001",
     label: "ISO 27001 Certified",
-    logoSrc: "/Images/certificates/iso-27001.svg",
+    logoSrc: "/Images/certificates/iso-27001.png",
   },
   {
     id: "iso-27017",

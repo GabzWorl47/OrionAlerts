@@ -1,9 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
 
 const INTRO_VIDEO = "/Videos/video/Intro%20video.mp4";
 const HERO_VIDEOS = [INTRO_VIDEO, INTRO_VIDEO, INTRO_VIDEO, INTRO_VIDEO] as const;
@@ -204,24 +202,7 @@ export function Hero() {
             <p className="text-[clamp(1.15rem,1.8vw,1.45rem)] font-semibold leading-[1.2] tracking-[-0.02em] text-white">
               Intelligent alerts for smarter, safer operations.
             </p>
-            <Link
-              href="/book-demo"
-              className="mt-2.5 inline-flex items-center gap-2 text-sm font-semibold text-cyan transition hover:text-white"
-            >
-              Book a demo
-              <ArrowRight size={15} />
-            </Link>
           </motion.div>
-
-          <motion.p
-            initial={reduce ? false : { opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.55, delay: 0.2, ease }}
-            className="max-w-lg text-[13px] leading-relaxed text-white/75 md:text-right md:text-sm"
-          >
-            Monitor sites in real time, detect exceptions earlier, and notify the right teams
-            fast — with Orion Alerts as the operational command layer.
-          </motion.p>
         </div>
       </div>
     </section>

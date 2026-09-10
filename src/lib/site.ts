@@ -31,7 +31,7 @@ const solutionsSource: Solution[] = [
     slug: "vms",
     name: "Video Management System (VMS)",
     shortName: "VMS",
-    image: "/Images/VMS.jpeg",
+    image: "/Images/ChatGPT%20Image%20Sep%208%2C%202026%2C%2001_25_29%20PM.png",
     tagline: "Live monitoring & control",
     headline:
       "Unify cameras, sites, and operators in one enterprise VMS for live monitoring, playback, and control.",
@@ -43,29 +43,33 @@ const solutionsSource: Solution[] = [
     features: [
       {
         title: "Centralized Live Monitoring & Playback",
-        description: "View live video and recorded footage from one unified operations interface.",
+        description:
+          "View live camera streams and recorded footage from one unified operations interface—so control-room teams monitor events, review incidents, and coordinate response without switching between disconnected systems.",
       },
       {
         title: "Multi-Site Surveillance Management",
-        description: "Oversee cameras, recorders, and sites across locations from a single platform.",
+        description:
+          "Oversee cameras, recorders, and sites across campuses and facilities from a single VMS platform, giving security leaders consistent visibility and control as the estate scales.",
       },
       {
         title: "Video Search & Incident Investigation",
-        description: "Find footage quickly and accelerate investigations with searchable video workflows.",
+        description:
+          "Find relevant footage quickly with searchable video workflows that accelerate incident investigation, evidence export, and post-event review for security and compliance teams.",
       },
       {
         title: "Secure Remote Access",
         description:
-          "Give authorized teams secure remote access to live video, playback, and controls without exposing the estate.",
+          "Give authorized operators and managers secure remote access to live video, playback, and controls—without exposing the broader camera estate to unmanaged access risk.",
       },
       {
         title: "Event & Alarm Management",
         description:
-          "Centralize events and alarms so operators can acknowledge, escalate, and clear incidents from one queue.",
+          "Centralize events and alarms so operators can acknowledge, escalate, and clear incidents from one shared queue with clearer ownership and faster on-floor response.",
       },
       {
         title: "Open Integration with IP Cameras & Third-Party Systems",
-        description: "Connect IP cameras and third-party systems for a flexible, open architecture.",
+        description:
+          "Connect IP cameras and third-party systems through an open architecture so organizations can expand coverage, protect existing investments, and avoid closed hardware lock-in.",
       },
     ],
     architecture: [
@@ -92,7 +96,7 @@ const solutionsSource: Solution[] = [
     slug: "ai-analytics",
     name: "AI Vision & Real-Time Alerts",
     shortName: "AI Vision",
-    image: "/visuals/solutions/ai-vision.png",
+    image: "/Images/ChatGPT%20Image%20Sep%208%2C%202026%2C%2001_21_20%20PM.png",
     tagline: "Intelligent video analytics",
     headline:
       "Turn live video into real-time AI alerts for safety, intrusion, PPE, and operational events.",
@@ -104,29 +108,33 @@ const solutionsSource: Solution[] = [
     features: [
       {
         title: "Real-Time AI Video Analytics",
-        description: "Continuously analyze live video streams for security, safety, and operational events.",
+        description:
+          "Continuously analyze live video streams for security, safety, and operational events—so surveillance moves from passive recording to proactive detection that operators can act on immediately.",
       },
       {
         title: "Instant Event Detection & Smart Alerts",
-        description: "Detect events as they happen and notify the right teams without delay.",
+        description:
+          "Detect events as they happen and route smart alerts to the right teams without delay, improving response time while reducing alert fatigue from low-value noise.",
       },
       {
         title: "Intrusion, PPE & Safety Monitoring",
-        description: "Monitor intrusion, PPE compliance, and safety conditions across sites.",
+        description:
+          "Monitor intrusion risk, PPE compliance, and unsafe site conditions across facilities so EHS and security teams can intervene before incidents escalate.",
       },
       {
         title: "People, Vehicle & Occupancy Analytics",
-        description: "Track people, vehicles, and occupancy for operations and security insight.",
+        description:
+          "Track people, vehicles, and occupancy patterns for security and operations insight—supporting crowd awareness, traffic flow, and site utilization decisions in real time.",
       },
       {
         title: "Intrusion Detection",
         description:
-          "Detect unauthorized entry and perimeter breaches in real time so teams can respond before incidents escalate.",
+          "Detect unauthorized entry and perimeter breaches in real time so response teams can act before incidents spread across the site or create larger security exposure.",
       },
       {
         title: "Restricted Area Monitoring",
         description:
-          "Watch restricted zones continuously and alert when people enter areas they should not access.",
+          "Watch restricted zones continuously and alert when people enter areas they should not access—protecting sensitive spaces, hazardous zones, and controlled operational areas.",
       },
     ],
     architecture: [
@@ -153,7 +161,7 @@ const solutionsSource: Solution[] = [
     slug: "asset-tracking",
     name: "Asset Tracking",
     shortName: "Asset Tracking",
-    image: "/visuals/solutions/asset-tracking.png",
+    image: "/Images/ChatGPT%20Image%20Sep%208%2C%202026%2C%2012_29_40%20PM.png",
     tagline: "Inventory & lifecycle visibility",
     headline:
       "Track surveillance and IT assets across locations with clear ownership and lifecycle visibility.",
@@ -165,43 +173,38 @@ const solutionsSource: Solution[] = [
     features: [
       {
         title: "Centralized Asset Inventory",
-        description: "Maintain a single inventory of organizational assets with clear operational context.",
+        description:
+          "Build a single source of truth for IT, surveillance, and operational assets—type, status, serial details, and utilization—so every team works from the same live inventory instead of fragmented spreadsheets.",
       },
       {
         title: "Asset Lifecycle Management",
-        description: "Track assets from procurement and deployment through transfer, maintenance, and retirement.",
+        description:
+          "Track each asset end to end from procurement and deployment through transfer, maintenance, and retirement, with status history that supports planning, budgeting, and replacement decisions.",
       },
       {
         title: "Serial Number Tracking",
         description:
-          "Identify and look up assets quickly with serial numbers, plus QR and barcode support when needed.",
+          "Identify and retrieve assets instantly using serial numbers, with QR and barcode support for field lookups, handovers, and multi-site verification when devices move between locations.",
       },
       {
         title: "Location & Department Mapping",
-        description: "Map assets to sites, locations, and departments for clear operational visibility.",
+        description:
+          "Map assets to sites, floors, zones, and departments so operations leaders can see deployment density, plan moves, and answer “where is this asset?” without manual chasing.",
       },
       {
         title: "Asset Assignment & Ownership",
-        description: "Assign ownership and accountability so every asset has a clear responsible party.",
+        description:
+          "Assign clear custodians and responsible owners for every asset, so accountability stays visible during transfers, audits, and investigations when equipment is missing or reassigned.",
       },
       {
         title: "Warranty & Documentation Management",
-        description: "Keep warranty coverage and supporting documents attached to each asset.",
+        description:
+          "Store warranty coverage, invoices, manuals, and supporting files against each asset record—so claims, renewals, and vendor conversations start with the right documents already attached.",
       },
       {
         title: "Audit Trail & Compliance Reports",
         description:
-          "Generate a complete audit trail of ownership, transfers, and document access with compliance-ready reports for regulated reviews.",
-      },
-      {
-        title: "Utilization & Performance Reports",
-        description:
-          "Measure utilization and performance across assets to cut idle inventory and guide smarter procurement and deployment decisions.",
-      },
-      {
-        title: "Dashboard & Analytics",
-        description:
-          "Track estate health, warranty risk, movement, and KPIs from a centralized asset analytics dashboard.",
+          "Generate a complete custody and change history—ownership, transfers, and document access—with exportable reports that simplify regulated reviews and internal compliance checks.",
       },
     ],
     architecture: [
@@ -230,7 +233,7 @@ const solutionsSource: Solution[] = [
     slug: "amc-management",
     name: "AMC Management",
     shortName: "AMC Management",
-    image: "/visuals/solutions/amc-management.png",
+    image: "/Images/ChatGPT%20Image%20Sep%208%2C%202026%2C%2012_48_49%20PM.png",
     tagline: "Maintenance & warranties",
     headline:
       "Keep AMC, warranties, vendors, and preventive maintenance on schedule from one workspace.",
@@ -242,43 +245,43 @@ const solutionsSource: Solution[] = [
     features: [
       {
         title: "AMC & Warranty Management",
-        description: "Manage AMC and warranty coverage alongside the assets they protect.",
+        description:
+          "Centralize annual maintenance contracts and warranty coverage against each protected asset—vendor terms, start and end dates, and claim context—so operations never lose track of what is covered where.",
       },
       {
         title: "Preventive Maintenance Scheduling",
-        description: "Automate preventive maintenance so assets stay available and productive.",
+        description:
+          "Automate preventive maintenance calendars across sites and asset classes so cameras, NVRs, and critical equipment stay serviceable before failures interrupt monitoring or operations.",
       },
       {
         title: "Service Request Management",
-        description: "Monitor service requests from intake through resolution.",
+        description:
+          "Capture, assign, and close service requests in one workflow—from intake and vendor dispatch through resolution notes—so every ticket stays visible until it is completed.",
       },
       {
         title: "Vendor Performance Monitoring",
-        description: "Track vendor performance across maintenance jobs and service visits.",
+        description:
+          "Measure vendor response time, completion quality, and repeat issues across maintenance jobs so procurement and facilities teams can hold partners accountable with evidence.",
       },
       {
         title: "SLA Compliance Tracking",
-        description: "Monitor SLA commitments and catch breaches before they escalate.",
+        description:
+          "Monitor SLA commitments against real service activity, flag at-risk tickets early, and document breaches so uptime agreements stay enforceable—not theoretical.",
       },
       {
         title: "Renewal Alerts & Notifications",
-        description: "Stay ahead of contract and warranty renewals with timely alerts.",
+        description:
+          "Get timely alerts for upcoming AMC, warranty, and contract renewals so coverage gaps are prevented and budget owners can act before expiry dates arrive.",
       },
       {
         title: "Maintenance History",
-        description: "Keep a complete history of maintenance activity on every asset.",
-      },
-      {
-        title: "Work Order Management",
-        description: "Create, assign, and close work orders from one maintenance workspace.",
-      },
-      {
-        title: "Dashboard & Maintenance Reports",
-        description: "Review estate maintenance health and performance from clear reports.",
+        description:
+          "Maintain a complete service history on every asset—visits, parts, outcomes, and vendor notes—to support audits, warranty claims, and smarter replacement decisions.",
       },
       {
         title: "Automated Reminders",
-        description: "Trigger reminders for upcoming maintenance, renewals, and open tickets.",
+        description:
+          "Trigger automated reminders for upcoming preventive maintenance, contract renewals, and open tickets so teams act on schedule without relying on manual follow-ups.",
       },
     ],
     architecture: [
@@ -309,8 +312,7 @@ const solutionsSource: Solution[] = [
     slug: "health-monitoring",
     name: "Health Monitoring",
     shortName: "Health Monitoring",
-    image:
-      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=80",
+    image: "/Images/ChatGPT%20Image%20Sep%208%2C%202026%2C%2012_54_34%20PM.png",
     tagline: "Infrastructure uptime",
     headline:
       "Spot camera, NVR, storage, and network issues before they create operational blind spots.",
@@ -322,28 +324,33 @@ const solutionsSource: Solution[] = [
     features: [
       {
         title: "Real-Time Device Health Monitoring",
-        description: "Continuously track the status and performance of your security infrastructure.",
+        description:
+          "Continuously track the operational health and performance of your security infrastructure—so cameras, recorders, and supporting systems stay visible before failures create monitoring blind spots.",
       },
       {
         title: "Camera, NVR & Server Status",
-        description: "See the health of cameras, NVRs, and servers from one centralized view.",
+        description:
+          "Monitor live status for cameras, NVRs, and servers from one centralized view across sites—making estate-wide health checks faster for control-room and IT teams.",
       },
       {
         title: "Recording & Storage Health Monitoring",
-        description: "Detect recording interruptions and storage issues before they create blind spots.",
+        description:
+          "Detect recording interruptions, storage capacity risk, and retention issues early so critical video evidence remains available when investigations and audits need it.",
       },
       {
         title: "Network & Connectivity Monitoring",
-        description: "Identify network outages and connectivity problems that affect surveillance uptime.",
+        description:
+          "Identify network outages, link failures, and connectivity problems that take devices offline—helping teams restore surveillance uptime before operations are impacted.",
       },
       {
         title: "Instant Alerts & Notifications",
-        description: "Get notified immediately when devices or services fall out of healthy status.",
+        description:
+          "Notify the right responders immediately when devices or services leave healthy status, so issues are escalated and resolved while coverage can still be protected.",
       },
       {
         title: "Uptime & Availability Reports",
         description:
-          "Review uptime and availability trends across cameras, NVRs, and network nodes to prove reliability and prioritize fixes.",
+          "Review uptime and availability trends across cameras, NVRs, and network nodes to prove reliability, prioritize fixes, and brief leadership with clear infrastructure health evidence.",
       },
     ],
     architecture: [
@@ -436,14 +443,20 @@ export const industries: Industry[] = [
     cardLabel: "Manufacturing",
     image: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=1600&q=90",
     introVideo: "/Videos/industries/manufacturing.mp4",
-    tagline: "Worker safety, PPE compliance and production-area intelligence",
+    tagline:
+      "Use Vision Copilot to connect mapped camera observations with decisions about shift handovers, PPE observations and recurring material build-up.",
+    summary:
+      "Map cameras to the places your team manages and ask Vision Copilot about shift handovers, PPE observations and recurring material build-up.",
   }),
   industryEntry({
     slug: "automotive",
     name: "Automotive & Auto Components",
     cardLabel: "Automotive",
     image: "https://images.unsplash.com/photo-1487754180451-c456f719a1fc?auto=format&fit=crop&w=1600&q=90",
-    tagline: "Assembly-line safety, restricted-zone detection and operational monitoring",
+    tagline:
+      "Use Vision Copilot to connect mapped camera observations with decisions about assembly-cell events and line-side replenishment.",
+    summary:
+      "Map cameras to the places your team manages and ask Vision Copilot about assembly-cell events and line-side replenishment.",
   }),
   industryEntry({
     slug: "cement",
@@ -486,7 +499,10 @@ export const industries: Industry[] = [
     name: "Logistics & Warehousing",
     cardLabel: "Logistics",
     image: "https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&w=1600&q=90",
-    tagline: "Loading-bay safety, vehicle movement and warehouse monitoring",
+    tagline:
+      "Use Vision Copilot to connect mapped camera observations with decisions about cross-aisle obstructions and loading-bay handoffs.",
+    summary:
+      "Map cameras to the places your team manages and ask Vision Copilot about cross-aisle obstructions and loading-bay handoffs.",
   }),
   industryEntry({
     slug: "dark-stores",
@@ -528,7 +544,10 @@ export const industries: Industry[] = [
     name: "Commercial Buildings",
     cardLabel: "Commercial",
     image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1600&q=90",
-    tagline: "Access monitoring, occupancy visibility and rapid incident response",
+    tagline:
+      "Use Vision Copilot to connect mapped camera observations with decisions about tenant-facing common areas and recurring service pressure.",
+    summary:
+      "Map cameras to the places your team manages and ask Vision Copilot about tenant-facing common areas and recurring service pressure.",
   }),
   industryEntry({
     slug: "data-centres",

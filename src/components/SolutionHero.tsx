@@ -1,10 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import { Button } from "@/components/ui";
 import type { Solution } from "@/lib/site";
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -33,6 +31,35 @@ export function SolutionHero({ solution }: SolutionHeroProps) {
   useEffect(() => setReady(true), []);
 
   const animate = ready && !reduce;
+  const isBright =
+    solution.slug === "asset-tracking" ||
+    solution.slug === "amc-management" ||
+    solution.slug === "health-monitoring" ||
+    solution.slug === "ai-analytics" ||
+    solution.slug === "vms";
+
+  if (isBright) {
+    return (
+      <section
+        ref={ref}
+        className="relative overflow-hidden bg-white text-text"
+      >
+        <h1 className="sr-only">{solution.name}</h1>
+        <div className="relative w-full">
+          <Image
+            src={solution.image}
+            alt={`${solution.shortName} overview`}
+            width={1920}
+            height={1080}
+            priority
+            quality={95}
+            sizes="100vw"
+            className="h-auto w-full object-cover object-center"
+          />
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section
@@ -48,6 +75,7 @@ export function SolutionHero({ solution }: SolutionHeroProps) {
           alt={`${solution.shortName} overview`}
           fill
           priority
+          quality={95}
           sizes="100vw"
           className="object-cover object-center"
         />
@@ -57,14 +85,6 @@ export function SolutionHero({ solution }: SolutionHeroProps) {
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink-deep/55 via-transparent to-blue/15" />
 
       <div className="container relative z-10 flex min-h-[min(78vh,44rem)] flex-col">
-        <nav aria-label="Breadcrumb" className="pt-6 text-sm text-white/55 md:pt-8">
-          <Link href="/solutions" className="transition hover:text-white">
-            Solutions
-          </Link>
-          <span className="mx-2 text-white/30">/</span>
-          <span className="text-white/85">{solution.shortName}</span>
-        </nav>
-
         <motion.div
           className="mt-auto max-w-xl pb-10 pt-24 md:pb-14 md:pt-32"
           style={animate ? { y: contentY } : undefined}
@@ -104,15 +124,6 @@ export function SolutionHero({ solution }: SolutionHeroProps) {
           >
             {shortLede(solution.summary)}
           </motion.p>
-
-          <motion.div
-            initial={animate ? { opacity: 0, y: 12 } : false}
-            animate={{ opacity: 1, y: 0 }}
-            transition={animate ? { duration: 0.5, delay: 0.22, ease } : { duration: 0 }}
-            className="mt-6"
-          >
-            <Button href="/book-demo">Book a Demo</Button>
-          </motion.div>
         </motion.div>
       </div>
     </section>

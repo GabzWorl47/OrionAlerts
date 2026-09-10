@@ -63,9 +63,6 @@ export default function PartnersPage() {
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
           <Button href="/contact">Apply to partner</Button>
-          <Button href="/book-demo" variant="outline">
-            Request partner briefing
-          </Button>
         </div>
       </Section>
 

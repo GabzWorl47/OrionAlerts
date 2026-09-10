@@ -1,10 +1,8 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { createPortal } from "react-dom";
 import Image from "next/image";
 import Link from "next/link";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   Activity,
   Bell,
@@ -15,7 +13,6 @@ import {
   ShieldCheck,
   Video,
   Wrench,
-  X,
   type LucideIcon,
 } from "lucide-react";
 import {
@@ -47,143 +44,27 @@ type SolutionsMegaMenuProps = {
 
 function FeatureCard({
   feature,
-  open,
-  onToggle,
+  onClose,
 }: {
   feature: FeatureItem;
-  open: boolean;
-  onToggle: () => void;
+  onClose: () => void;
 }) {
   const Icon = feature.icon;
-  const rootRef = useRef<HTMLDivElement>(null);
-  const popoverRef = useRef<HTMLDivElement>(null);
-  const [mounted, setMounted] = useState(false);
-  const [coords, setCoords] = useState({ top: 0, left: 0, placeLeft: false });
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  useLayoutEffect(() => {
-    if (!open || !rootRef.current) return;
-
-    const updatePosition = () => {
-      const rect = rootRef.current!.getBoundingClientRect();
-      const popoverWidth = 280;
-      const gap = 10;
-      const spaceRight = window.innerWidth - rect.right;
-      const placeLeft = spaceRight < popoverWidth + gap + 16;
-      const left = placeLeft
-        ? Math.max(16, rect.left - popoverWidth - gap)
-        : Math.min(rect.right + gap, window.innerWidth - popoverWidth - 16);
-      const top = Math.min(
-        Math.max(12, rect.top),
-        window.innerHeight - 180,
-      );
-      setCoords({ top, left, placeLeft });
-    };
-
-    updatePosition();
-    window.addEventListener("resize", updatePosition);
-    window.addEventListener("scroll", updatePosition, true);
-    return () => {
-      window.removeEventListener("resize", updatePosition);
-      window.removeEventListener("scroll", updatePosition, true);
-    };
-  }, [open]);
-
-  useEffect(() => {
-    if (!open) return;
-
-    const onPointerDown = (event: MouseEvent | TouchEvent) => {
-      const target = event.target as Node;
-      const inTrigger = rootRef.current?.contains(target);
-      const inPopover = popoverRef.current?.contains(target);
-      if (!inTrigger && !inPopover) onToggle();
-    };
-
-    document.addEventListener("mousedown", onPointerDown);
-    document.addEventListener("touchstart", onPointerDown);
-    return () => {
-      document.removeEventListener("mousedown", onPointerDown);
-      document.removeEventListener("touchstart", onPointerDown);
-    };
-  }, [open, onToggle]);
-
-  const popover = mounted
-    ? createPortal(
-        <AnimatePresence>
-          {open ? (
-            <motion.div
-              key="feature-popover"
-              ref={popoverRef}
-              role="dialog"
-              aria-label={`${feature.label} preview`}
-              initial={{ opacity: 0, x: coords.placeLeft ? 10 : -10, scale: 0.96 }}
-              animate={{ opacity: 1, x: 0, scale: 1 }}
-              exit={{ opacity: 0, x: coords.placeLeft ? 8 : -8, scale: 0.97 }}
-              transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-              style={{ top: coords.top, left: coords.left }}
-              className="fixed z-[80] w-[270px] rounded-[14px] border border-cyan/25 bg-white p-3.5 shadow-[0_18px_44px_rgba(0,0,0,0.28)]"
-            >
-              <span
-                aria-hidden
-                className={`absolute top-4 h-2.5 w-2.5 rotate-45 border-cyan/25 bg-white ${
-                  coords.placeLeft
-                    ? "-right-[5px] border-r border-t"
-                    : "-left-[5px] border-b border-l"
-                }`}
-              />
-
-              <div className="flex items-start justify-between gap-2">
-                <p className="min-w-0 text-sm font-bold leading-snug text-[#0f172a]">
-                  {feature.label}
-                </p>
-                <button
-                  type="button"
-                  onClick={onToggle}
-                  className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#f3f7fc] text-muted transition hover:bg-blue/10 hover:text-blue"
-                  aria-label="Close preview"
-                >
-                  <X size={13} />
-                </button>
-              </div>
-
-              <p className="mt-2.5 text-[13px] leading-relaxed text-muted-strong">
-                {feature.preview}
-              </p>
-            </motion.div>
-          ) : null}
-        </AnimatePresence>,
-        document.body,
-      )
-    : null;
 
   return (
-    <div ref={rootRef} className="relative">
-      <button
-        type="button"
-        onClick={onToggle}
-        aria-expanded={open}
-        className={`group flex w-full items-center justify-between gap-3 rounded-[12px] border bg-white px-3.5 py-3 text-left transition ${
-          open
-            ? "border-cyan/50 shadow-[0_12px_28px_rgba(0,0,0,0.2)]"
-            : "border-white/80 hover:border-cyan/50 hover:shadow-[0_10px_28px_rgba(0,0,0,0.18)]"
-        }`}
-      >
-        <span className="min-w-0 text-sm font-semibold leading-snug text-[#0f172a] group-hover:text-blue">
-          {feature.label}
-        </span>
-        <span
-          className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-[10px] transition ${
-            open ? "bg-blue text-white" : "bg-[#e8f4ff] text-blue group-hover:bg-blue/15"
-          }`}
-        >
-          <Icon size={16} />
-        </span>
-      </button>
-      {popover}
-    </div>
+    <Link
+      href={feature.href}
+      prefetch
+      onClick={onClose}
+      className="group flex w-full items-center justify-between gap-3 rounded-[12px] border border-white/80 bg-white px-3 py-2.5 text-left transition hover:border-cyan/50 hover:shadow-[0_10px_28px_rgba(0,0,0,0.18)]"
+    >
+      <span className="min-w-0 text-[13px] font-semibold leading-snug text-[#0f172a] group-hover:text-blue">
+        {feature.label}
+      </span>
+      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-[10px] bg-[#e8f4ff] text-blue transition group-hover:bg-blue/15">
+        <Icon size={15} />
+      </span>
+    </Link>
   );
 }
 
@@ -200,23 +81,18 @@ function OverviewCard({
   href: string;
   image?: string;
   onClose: () => void;
-  showPlatformTiles: boolean;
+  showPlatformTiles?: boolean;
 }) {
   return (
     <Link
       href={href}
       onClick={onClose}
-      className="group flex h-full min-h-[240px] flex-col overflow-hidden rounded-[16px] border border-white/80 bg-white p-4 transition hover:border-cyan/50 hover:shadow-[0_12px_32px_rgba(0,0,0,0.2)]"
+      className="group flex h-full flex-col rounded-[16px] border border-white/10 bg-white/95 p-3.5 transition hover:border-cyan/40"
     >
-      <p className="text-sm font-semibold text-[#0f172a] group-hover:text-blue">{title}</p>
-
-      <div className="relative mt-3 min-h-[140px] flex-1 overflow-hidden rounded-[12px] border border-line bg-[#f3f7fc]">
+      <div className="relative aspect-[16/10] overflow-hidden rounded-[12px] bg-[#0b1628]">
         {showPlatformTiles ? (
-          <div className="flex h-full flex-col p-3">
-            <div className="mb-3 h-7 rounded-[8px] bg-white px-3 text-[10px] leading-7 text-muted">
-              Search sites, cameras, alerts…
-            </div>
-            <div className="grid flex-1 grid-cols-4 gap-2">
+          <div className="absolute inset-0 flex items-center justify-center bg-[radial-gradient(ellipse_at_50%_30%,rgba(126,200,255,0.18),transparent_60%)] p-3">
+            <div className="grid w-full grid-cols-4 gap-1.5">
               {overviewTiles.map(({ label, icon: Icon }) => (
                 <div
                   key={label}
@@ -260,11 +136,6 @@ export function SolutionsMegaMenu({
   const overview = getOverviewCopy(activeId);
   const features = getFeatureCards(activeId);
   const isPlatformOverview = activeId === PLATFORM_OVERVIEW_ID;
-  const [openFeature, setOpenFeature] = useState<string | null>(null);
-
-  useEffect(() => {
-    setOpenFeature(null);
-  }, [activeId]);
 
   return (
     <div className="relative min-h-0 overflow-visible pl-4 pr-2 xl:pr-4">
@@ -313,13 +184,13 @@ export function SolutionsMegaMenu({
           </ul>
         </aside>
 
-        <div className="flex-1 overflow-visible bg-[#0f1c2e] px-5 py-5 xl:px-6">
+        <div className="flex-1 overflow-y-auto bg-[#0f1c2e] px-5 py-5 xl:px-6">
           <motion.div
             key={activeId}
             initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.2 }}
-            className="flex flex-col gap-3 lg:flex-row lg:items-stretch"
+            className="flex flex-col gap-3 lg:flex-row lg:items-start"
           >
             <div className="lg:w-[min(100%,320px)] lg:shrink-0">
               <OverviewCard
@@ -329,17 +200,12 @@ export function SolutionsMegaMenu({
               />
             </div>
 
-            <div className="grid min-w-0 flex-1 grid-cols-1 content-start gap-2 overflow-visible sm:grid-cols-2">
+            <div className="grid max-h-[min(70vh,560px)] min-w-0 flex-1 grid-cols-1 content-start gap-2 overflow-y-auto sm:grid-cols-2">
               {features.map((feature) => (
                 <FeatureCard
                   key={`${activeId}-${feature.label}`}
                   feature={feature}
-                  open={openFeature === feature.label}
-                  onToggle={() =>
-                    setOpenFeature((current) =>
-                      current === feature.label ? null : feature.label,
-                    )
-                  }
+                  onClose={onClose}
                 />
               ))}
             </div>

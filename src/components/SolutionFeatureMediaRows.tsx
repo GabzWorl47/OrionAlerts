@@ -1,28 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
-import {
-  ArrowRight,
-  Boxes,
-  FileText,
-  MapPinned,
-  Package,
-  ShieldCheck,
-  UserCheck,
-  type LucideIcon,
-} from "lucide-react";
 import { Reveal } from "@/components/Reveal";
 import type { Solution } from "@/lib/site";
-
-const ICONS: LucideIcon[] = [
-  Package,
-  Boxes,
-  ShieldCheck,
-  MapPinned,
-  UserCheck,
-  FileText,
-];
+import { featureAnchorId } from "@/lib/feature-anchors";
 
 type FeatureMediaRow = {
   title: string;
@@ -35,83 +16,172 @@ type SolutionFeatureMediaRowsProps = {
   features?: FeatureMediaRow[];
 };
 
-const ASSET_TRACKING_RESULTS: Record<string, string> = {
+const SECTION_COPY: Record<
+  string,
+  { eyebrow: string; title: string; description: string }
+> = {
+  "asset-tracking": {
+    eyebrow: "Asset tracking capabilities",
+    title: "Enterprise asset tracking built for multi-site visibility",
+    description:
+      "Centralize inventory, ownership, location, warranty, and audit history so security and operations teams can manage every asset across sites—from registration to retirement—without spreadsheets.",
+  },
+  "amc-management": {
+    eyebrow: "AMC management capabilities",
+    title: "AMC and warranty operations built for multi-site uptime",
+    description:
+      "Manage AMC coverage, warranties, preventive maintenance, vendors, and SLAs in one workspace—so maintenance teams protect asset availability and catch renewals before coverage gaps appear.",
+  },
+  vms: {
+    eyebrow: "VMS capabilities",
+    title: "Enterprise VMS built for unified live monitoring and control",
+    description:
+      "Bring cameras, sites, and operators into one video management system—so security teams monitor live video, investigate incidents faster, and run multi-site surveillance without fragmented NVR workflows.",
+  },
+  "ai-analytics": {
+    eyebrow: "AI Vision capabilities",
+    title: "AI video analytics built for real-time security and operations",
+    description:
+      "Turn live camera streams into actionable detections for intrusion, PPE, occupancy, and operational events—so teams respond faster with higher signal and less manual monitoring.",
+  },
+  "health-monitoring": {
+    eyebrow: "Health monitoring capabilities",
+    title: "Surveillance infrastructure health built for always-on estates",
+    description:
+      "Monitor cameras, NVRs, servers, storage, and network connectivity in real time—so security teams detect failures early, protect recording continuity, and keep multi-site surveillance operational.",
+  },
+};
+
+const FEATURE_IMAGES: Record<string, string> = {
+  "Centralized Asset Inventory": "/Images/solutions/centralised.png",
+};
+
+const FEATURE_RESULTS: Record<string, string> = {
   "Centralized Asset Inventory":
-    "Replace spreadsheet chaos with one estate-wide inventory operators can trust.",
+    "Outcome: one trusted estate-wide asset register—so operators stop chasing outdated spreadsheets and start working from live inventory data.",
   "Asset Lifecycle Management":
-    "Follow every asset from procurement to retirement without losing the trail.",
+    "Outcome: complete lifecycle visibility from procurement to retirement, with every transfer and status change recorded for operations and finance.",
   "Serial Number Tracking":
-    "Find the exact device in seconds — even across multi-site handoffs.",
+    "Outcome: locate the exact device in seconds using serial, QR, or barcode—even after multi-site handoffs and ownership changes.",
   "Location & Department Mapping":
-    "See what’s deployed where, by site and department, in one view.",
+    "Outcome: know what is deployed where by site, floor, and department—so audits, moves, and capacity planning stay accurate.",
   "Asset Assignment & Ownership":
-    "Know who is accountable the moment an asset moves or goes missing.",
+    "Outcome: clear accountability on every asset, so missing equipment, transfers, and handovers never leave ownership in doubt.",
   "Warranty & Documentation Management":
-    "Pull warranty and supporting docs in audit moments, not after.",
+    "Outcome: warranty terms and supporting documents stay attached to each asset—ready for claims, renewals, and vendor reviews.",
+  "Audit Trail & Compliance Reports":
+    "Outcome: compliance-ready custody and access history you can export for audits without last-minute reconstruction.",
+  "AMC & Warranty Management":
+    "Outcome: every asset carries live AMC and warranty coverage—so renewals, claims, and vendor handoffs start from accurate contract data.",
+  "Preventive Maintenance Scheduling":
+    "Outcome: planned maintenance runs on schedule across sites, reducing unplanned downtime before it hits operations.",
+  "Service Request Management":
+    "Outcome: every ticket has a clear path from intake to close—no lost requests or endless vendor follow-ups.",
+  "Vendor Performance Monitoring":
+    "Outcome: compare partners on response time and completion quality so you renew the vendors who actually deliver.",
+  "SLA Compliance Tracking":
+    "Outcome: see SLA risk early enough to escalate, recover, and protect uptime commitments.",
+  "Renewal Alerts & Notifications":
+    "Outcome: contract and warranty renewals surface before expiry—so coverage never lapses unnoticed.",
+  "Maintenance History":
+    "Outcome: open a complete service timeline on any asset for audits, claims, and replacement planning.",
+  "Automated Reminders":
+    "Outcome: PM windows, renewals, and open tickets get proactive reminders before they become failures.",
+  "Centralized Live Monitoring & Playback":
+    "Outcome: operators watch live and recorded video from every site in one console—without hopping between tools.",
+  "Multi-Site Surveillance Management":
+    "Outcome: campuses, plants, and branches run from a single operator view with consistent control across locations.",
+  "Video Search & Incident Investigation":
+    "Outcome: evidence is found in minutes, not hours—so investigations move from footage search to action faster.",
+  "Secure Remote Access":
+    "Outcome: authorized teams get secure remote live and playback access without exposing the camera estate.",
+  "Event & Alarm Management":
+    "Outcome: alarms are acknowledged, escalated, and cleared from one shared queue with clear operator ownership.",
+  "Open Integration with IP Cameras & Third-Party Systems":
+    "Outcome: keep your camera mix flexible as the estate grows, without locking into a closed hardware stack.",
+  "Real-Time AI Video Analytics":
+    "Outcome: continuous video becomes actionable detections—so operators respond to real events, not endless live walls.",
+  "Instant Event Detection & Smart Alerts":
+    "Outcome: the right team is notified the moment a threshold is crossed, with less noise and faster response.",
+  "Intrusion, PPE & Safety Monitoring":
+    "Outcome: unsafe conditions and compliance gaps are caught early—before they become incidents or audit failures.",
+  "People, Vehicle & Occupancy Analytics":
+    "Outcome: movement and occupancy patterns across sites become operational insight, not just recorded footage.",
+  "Intrusion Detection":
+    "Outcome: perimeter and unauthorized-entry events trigger response before incidents escalate on site.",
+  "Restricted Area Monitoring":
+    "Outcome: know the moment someone enters a restricted zone—and escalate while intervention is still possible.",
+  "Real-Time Device Health Monitoring":
+    "Outcome: continuous infrastructure health visibility—so teams act on device risk before operators lose live coverage.",
+  "Camera, NVR & Server Status":
+    "Outcome: one live status board for cameras, NVRs, and servers across every site in the estate.",
+  "Recording & Storage Health Monitoring":
+    "Outcome: catch recording gaps and storage pressure early—before evidence windows are lost.",
+  "Network & Connectivity Monitoring":
+    "Outcome: spot link and network failures that take cameras offline, with faster path to restore uptime.",
+  "Instant Alerts & Notifications":
+    "Outcome: the right team is notified the moment a device or service leaves healthy status.",
+  "Uptime & Availability Reports":
+    "Outcome: prove reliability with clear uptime trends and prioritize fixes where downtime risk is highest.",
 };
 
 export function SolutionFeatureMediaRows({
   solution,
   features,
 }: SolutionFeatureMediaRowsProps) {
+  const copy = SECTION_COPY[solution.slug] ?? {
+    eyebrow: "Key capabilities",
+    title: `Built for ${solution.shortName}`,
+    description: solution.headline,
+  };
+
   const rows =
     features ??
-    solution.features.slice(0, 6).map((feature) => ({
+    solution.features.map((feature) => ({
       ...feature,
-      result: ASSET_TRACKING_RESULTS[feature.title],
+      result: FEATURE_RESULTS[feature.title],
     }));
 
   return (
-    <section className="relative overflow-hidden bg-bg py-10 md:py-14">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_20%_0%,rgba(43,140,255,0.08),transparent_45%)]" />
+    <section
+      id="key-capabilities"
+      className="relative overflow-hidden bg-white py-10 md:py-14"
+    >
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_20%_0%,rgba(43,140,255,0.05),transparent_45%)]" />
       <div className="container relative">
         <Reveal>
           <div className="mx-auto max-w-3xl text-center">
-            <p className="eyebrow mb-2">Key capabilities</p>
+            <p className="eyebrow mb-2">{copy.eyebrow}</p>
             <h2 className="text-[clamp(1.6rem,3.2vw,2.35rem)] font-semibold leading-[1.12] tracking-[-0.03em] text-text">
-              Built for complete asset lifecycle visibility
+              {copy.title}
             </h2>
             <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-muted-strong md:text-[15px]">
-              From inventory and ownership to warranty and audits — one platform for
-              security and operations teams running multi-site estates.
+              {copy.description}
             </p>
           </div>
         </Reveal>
 
         <div className="mt-8 space-y-10 md:mt-10 md:space-y-14">
           {rows.map((feature, index) => {
-            const Icon = ICONS[index % ICONS.length];
             const mediaFirst = index % 2 === 0;
 
             return (
               <Reveal key={feature.title} delay={0.04}>
                 <div
-                  className={`grid items-center gap-6 lg:grid-cols-2 lg:gap-10 ${
+                  id={featureAnchorId(feature.title)}
+                  className={`scroll-mt-[calc(var(--header-h)+1.25rem)] grid items-center gap-6 lg:grid-cols-2 lg:gap-10 ${
                     mediaFirst ? "" : "lg:[&>*:first-child]:order-2"
                   }`}
                 >
                   <div className="relative aspect-[16/10] overflow-hidden rounded-[22px] bg-[#0b1628] shadow-[0_24px_60px_-40px_rgba(15,61,120,0.5)]">
                     <Image
-                      src={solution.image}
+                      src={FEATURE_IMAGES[feature.title] ?? solution.image}
                       alt=""
                       fill
                       sizes="(max-width: 1024px) 100vw, 50vw"
                       className="object-cover opacity-90"
                       aria-hidden
                     />
-                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#07111f]/80 via-[#07111f]/25 to-transparent" />
-                    <div className="absolute inset-x-0 bottom-0 p-5 md:p-6">
-                      <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 text-cyan backdrop-blur">
-                        <Icon size={18} />
-                      </span>
-                      <p className="mt-3 text-[11px] font-semibold uppercase tracking-[0.16em] text-cyan">
-                        Capability {String(index + 1).padStart(2, "0")} /{" "}
-                        {String(rows.length).padStart(2, "0")}
-                      </p>
-                      <p className="mt-1.5 max-w-md font-display text-lg font-semibold text-white md:text-xl">
-                        {feature.title}
-                      </p>
-                    </div>
                   </div>
 
                   <div className="max-w-xl">
@@ -129,13 +199,6 @@ export function SolutionFeatureMediaRows({
                         {feature.result}
                       </p>
                     ) : null}
-                    <Link
-                      href="/book-demo"
-                      className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-blue transition hover:gap-2.5"
-                    >
-                      See it in a demo
-                      <ArrowRight size={15} />
-                    </Link>
                   </div>
                 </div>
               </Reveal>

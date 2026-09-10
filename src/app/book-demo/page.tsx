@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-import { BookDemoPanel } from "@/components/BookDemoPanel";
-import { PageShell } from "@/components/PageShell";
 
 export const metadata: Metadata = {
   title: "Book a Demo",
@@ -8,10 +6,7 @@ export const metadata: Metadata = {
     "Request a guided OrionAlerts demo. Demo leads are stored separately from contact inquiries.",
 };
 
+/** Direct visits open the site modal via BookDemoModalProvider and return home. */
 export default function BookDemoPage() {
-  return (
-    <PageShell>
-      <BookDemoPanel />
-    </PageShell>
-  );
+  return null;
 }

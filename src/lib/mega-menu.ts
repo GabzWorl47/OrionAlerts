@@ -1,6 +1,7 @@
 import { Activity, Cpu, LayoutGrid, Package, Search, Shield, Video, Wrench, type LucideIcon } from "lucide-react";
 import type { Solution } from "@/lib/site";
 import { solutions, site } from "@/lib/site";
+import { featureDeepLink } from "@/lib/feature-anchors";
 
 export const PLATFORM_OVERVIEW_ID = "overview";
 
@@ -30,49 +31,6 @@ type FeatureCard = {
   preview: string;
   href: string;
   icon: LucideIcon;
-};
-
-/** Short labels that fit mega-menu cards without truncation. */
-const featureShortLabels: Record<string, string[]> = {
-  vms: [
-    "Live Monitoring",
-    "Multi-Site Ops",
-    "Video Search",
-    "Secure Remote Access",
-    "Event & Alarm Management",
-    "Open Integration",
-  ],
-  "ai-analytics": [
-    "AI Analytics",
-    "Smart Alerts",
-    "Safety Monitoring",
-    "Occupancy Insights",
-    "Intrusion Detection",
-    "Restricted Area Monitoring",
-  ],
-  "asset-tracking": [
-    "Asset Inventory",
-    "Lifecycle Tracking",
-    "Serial Number Tracking",
-    "Location Mapping",
-    "Ownership",
-    "Warranty Docs",
-  ],
-  "amc-management": [
-    "AMC & Warranty",
-    "Preventive Plans",
-    "Service Requests",
-    "Vendor Performance",
-    "SLA Tracking",
-  ],
-  "health-monitoring": [
-    "Device Health",
-    "Camera & NVR Status",
-    "Recording Health",
-    "Network Status",
-    "Instant Alerts",
-    "Uptime & Availability Reports",
-  ],
 };
 
 const overviewLeads: Record<string, string> = {
@@ -121,17 +79,13 @@ export function getFeatureCards(activeId: string): FeatureCard[] {
   const item = getMegaMenuItem(activeId);
   if (!item.solution) return platformFeatureCards;
 
-  const icons = [Search, Cpu, Video, Shield, Activity, LayoutGrid];
-  const shorts = featureShortLabels[item.solution.slug];
-  const solutionName = item.solution.shortName;
+  const icons = [Search, Cpu, Video, Shield, Activity, LayoutGrid, Wrench, Package];
 
-  return item.solution.features.slice(0, 6).map((feature, index) => ({
-    label:
-      shorts?.[index] ??
-      feature.title.split(" & ")[0].split(" — ")[0].replace(/\s+with\s+.*/i, ""),
+  return item.solution.features.map((feature, index) => ({
+    label: feature.title,
     description: feature.description,
-    preview: `${feature.description} This ${solutionName} capability helps teams act faster with clearer context, less manual review, and smoother day-to-day operations.`,
-    href: `/solutions/${item.solution!.slug}`,
+    preview: feature.description,
+    href: featureDeepLink(item.solution!.slug, feature.title),
     icon: icons[index % icons.length],
   }));
 }
