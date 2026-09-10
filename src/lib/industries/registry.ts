@@ -2,6 +2,7 @@ import { automotiveIndustryPage } from "@/lib/industries/content/automotive";
 import { commercialBuildingsIndustryPage } from "@/lib/industries/content/commercial-buildings";
 import { logisticsIndustryPage } from "@/lib/industries/content/logistics";
 import { manufacturingIndustryPage } from "@/lib/industries/content/manufacturing";
+import { telecomRemoteIndustryPage } from "@/lib/industries/content/telecom-remote";
 import type { IndustryPageRecord, IndustryPublicationStatus } from "@/lib/industries/types";
 
 /** Only reviewed/published records render on the migrated path. */
@@ -10,6 +11,7 @@ const industryPageRecords: IndustryPageRecord[] = [
   logisticsIndustryPage,
   automotiveIndustryPage,
   commercialBuildingsIndustryPage,
+  telecomRemoteIndustryPage,
 ];
 
 const bySlug = new Map(industryPageRecords.map((record) => [record.slug, record]));

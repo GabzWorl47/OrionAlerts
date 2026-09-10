@@ -70,6 +70,17 @@ export const frameworks: Record<string, FrameworkRecord> = {
     boundary:
       "Define monitoring purpose, authorised users and retention with legal/privacy owners before deployment.",
   },
+  C20: {
+    id: "C20",
+    name: "TEC / MTCTE",
+    jurisdiction: "India",
+    publicSummary:
+      "TEC Mandatory Testing and Certification of Telecom Equipment (MTCTE) covers testing and certification for applicable notified telecom equipment.",
+    sourceUrl:
+      "https://www.tec.gov.in/mandatory-testing-and-certification-of-telecom-equipments-mtcte",
+    boundary:
+      "Verify equipment category, phase, exemptions and current procedure. A telecom customer does not make all associated software MTCTE certified.",
+  },
 };
 
 export function getFramework(id: string) {
