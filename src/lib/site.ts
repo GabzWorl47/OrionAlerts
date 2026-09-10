@@ -662,7 +662,10 @@ export const industries: Industry[] = [
     name: "Sports & Event Venues",
     cardLabel: "Sports & Events",
     image: "https://images.unsplash.com/photo-1471295253337-3ceaaedca402?auto=format&fit=crop&w=1600&q=90",
-    tagline: "Crowd intelligence, restricted-area monitoring and emergency response",
+    tagline:
+      "Use Vision Copilot to connect mapped camera observations with decisions about event-phase congestion and stewarding decisions.",
+    summary:
+      "Map cameras to the places your team manages and ask Vision Copilot about event-phase congestion and stewarding decisions.",
   }),
 ];
 

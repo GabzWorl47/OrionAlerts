@@ -54,6 +54,18 @@ export const industryMigrationLedger: MigrationLedgerEntry[] = [
       "Migrated from README v2 §9.14 onto shared Vision Copilot renderer. Standards C8/C9. QA pending.",
   },
   {
+    slug: "sports-events",
+    state: "reviewed",
+    schemaVersion: 2,
+    contentVersion: 2,
+    claimReview: "pending",
+    standardsReview: "pending",
+    visualQA: "pending",
+    buildQA: "pending",
+    notes:
+      "Content migrated from README v2 §9.30. Standards C21/C8. Further QA deferred.",
+  },
+  {
     slug: "telecom-remote",
     state: "reviewed",
     schemaVersion: 2,
@@ -66,7 +78,3 @@ export const industryMigrationLedger: MigrationLedgerEntry[] = [
       "Migrated from README v2 §9.29 onto shared Vision Copilot renderer. Standards C20 (TEC/MTCTE). Build passed; visual/claim QA pending.",
   },
 ];
-
-export function getLedgerEntry(slug: string) {
-  return industryMigrationLedger.find((entry) => entry.slug === slug);
-}

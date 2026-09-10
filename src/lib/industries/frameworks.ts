@@ -70,6 +70,15 @@ export const frameworks: Record<string, FrameworkRecord> = {
     boundary:
       "Define monitoring purpose, authorised users and retention with legal/privacy owners before deployment.",
   },
+  C21: {
+    id: "C21",
+    name: "NDMA crowd-management guidance",
+    jurisdiction: "India",
+    publicSummary:
+      "NDMA crowd-management guidance supports organised planning and coordinated response for events and public gatherings.",
+    sourceUrl: "https://www.pib.gov.in/newsite/printrelease.aspx?lang=2&reg=48&relid=151549",
+    boundary:
+      "It is not a product certificate or a guarantee that an estimated crowd count defines a safe condition.",
   C20: {
     id: "C20",
     name: "TEC / MTCTE",

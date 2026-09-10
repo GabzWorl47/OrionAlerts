@@ -2,6 +2,7 @@ import { automotiveIndustryPage } from "@/lib/industries/content/automotive";
 import { commercialBuildingsIndustryPage } from "@/lib/industries/content/commercial-buildings";
 import { logisticsIndustryPage } from "@/lib/industries/content/logistics";
 import { manufacturingIndustryPage } from "@/lib/industries/content/manufacturing";
+import { sportsEventsIndustryPage } from "@/lib/industries/content/sports-events";
 import { telecomRemoteIndustryPage } from "@/lib/industries/content/telecom-remote";
 import type { IndustryPageRecord, IndustryPublicationStatus } from "@/lib/industries/types";
 
@@ -11,6 +12,7 @@ const industryPageRecords: IndustryPageRecord[] = [
   logisticsIndustryPage,
   automotiveIndustryPage,
   commercialBuildingsIndustryPage,
+  sportsEventsIndustryPage,
   telecomRemoteIndustryPage,
 ];
 
