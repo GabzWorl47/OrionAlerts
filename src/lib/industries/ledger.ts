@@ -53,6 +53,18 @@ export const industryMigrationLedger: MigrationLedgerEntry[] = [
     notes:
       "Migrated from README v2 §9.14 onto shared Vision Copilot renderer. Standards C8/C9. QA pending.",
   },
+  {
+    slug: "metals-mining",
+    state: "reviewed",
+    schemaVersion: 2,
+    contentVersion: 2,
+    claimReview: "pending",
+    standardsReview: "pending",
+    visualQA: "pending",
+    buildQA: "pending",
+    notes:
+      "Content migrated from README v2 §9.4. Standards C4 (DGMS). Further QA deferred.",
+  },
 ];
 
 export function getLedgerEntry(slug: string) {

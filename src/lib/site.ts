@@ -471,7 +471,10 @@ export const industries: Industry[] = [
     cardLabel: "Metals & Mining",
     image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?auto=format&fit=crop&w=1600&q=90",
     introVideo: "/Videos/industries/metals-mining.mp4",
-    tagline: "Perimeter protection, worker safety and hazardous-area monitoring",
+    tagline:
+      "Use Vision Copilot to connect mapped camera observations with decisions about remote work-zone review and heavy-equipment interfaces.",
+    summary:
+      "Map cameras to the places your team manages and ask Vision Copilot about remote work-zone review and heavy-equipment interfaces.",
   }),
   industryEntry({
     slug: "oil-gas",
