@@ -61,9 +61,9 @@ export const industryMigrationLedger: MigrationLedgerEntry[] = [
     claimReview: "pending",
     standardsReview: "pending",
     visualQA: "pending",
-    buildQA: "pending",
+    buildQA: "passed",
     notes:
-      "Migrated from README v2 §9.29 onto shared Vision Copilot renderer. Standards C20 (TEC/MTCTE). QA pending.",
+      "Migrated from README v2 §9.29 onto shared Vision Copilot renderer. Standards C20 (TEC/MTCTE). Build passed; visual/claim QA pending.",
   },
 ];
 
