@@ -125,6 +125,18 @@ export const industryMigrationLedger: MigrationLedgerEntry[] = [
     notes:
       "Content migrated from README v2 §9.6. Standards C6 (Schedule M / Part 11). Further QA deferred.",
   },
+  {
+    slug: "food-fmcg",
+    state: "reviewed",
+    schemaVersion: 2,
+    contentVersion: 2,
+    claimReview: "pending",
+    standardsReview: "pending",
+    visualQA: "pending",
+    buildQA: "pending",
+    notes:
+      "Content migrated from README v2 §9.7. Standards C7 (FSSAI / ISO 22000). Further QA deferred.",
+  },
 ];
 
 export function getLedgerEntry(slug: string) {
