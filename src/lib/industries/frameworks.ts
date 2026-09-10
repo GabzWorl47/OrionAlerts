@@ -79,6 +79,16 @@ export const frameworks: Record<string, FrameworkRecord> = {
     sourceUrl: "https://www.pib.gov.in/newsite/printrelease.aspx?lang=2&reg=48&relid=151549",
     boundary:
       "It is not a product certificate or a guarantee that an estimated crowd count defines a safe condition.",
+  C20: {
+    id: "C20",
+    name: "TEC / MTCTE",
+    jurisdiction: "India",
+    publicSummary:
+      "TEC Mandatory Testing and Certification of Telecom Equipment (MTCTE) covers testing and certification for applicable notified telecom equipment.",
+    sourceUrl:
+      "https://www.tec.gov.in/mandatory-testing-and-certification-of-telecom-equipments-mtcte",
+    boundary:
+      "Verify equipment category, phase, exemptions and current procedure. A telecom customer does not make all associated software MTCTE certified.",
   },
 };
 

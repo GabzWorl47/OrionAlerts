@@ -652,7 +652,10 @@ export const industries: Industry[] = [
     name: "Telecom & Remote Sites",
     cardLabel: "Telecom",
     image: "https://images.unsplash.com/photo-1513828583688-c52646db42da?auto=format&fit=crop&w=1600&q=90",
-    tagline: "Unauthorised access detection, equipment protection and remote monitoring",
+    tagline:
+      "Use Vision Copilot to connect mapped camera observations with decisions about shelter events and remote maintenance coordination.",
+    summary:
+      "Map cameras to the places your team manages and ask Vision Copilot about shelter events and remote maintenance coordination.",
   }),
   industryEntry({
     slug: "sports-events",
