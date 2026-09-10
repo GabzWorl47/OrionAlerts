@@ -463,7 +463,10 @@ export const industries: Industry[] = [
     name: "Cement & Building Materials",
     cardLabel: "Cement",
     image: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=1600&q=90",
-    tagline: "Material-flow visibility, high-risk-zone monitoring and safety alerts",
+    tagline:
+      "Use Vision Copilot to connect mapped camera observations with decisions about truck staging and material-transfer visibility.",
+    summary:
+      "Map cameras to the places your team manages and ask Vision Copilot about truck staging and material-transfer visibility.",
   }),
   industryEntry({
     slug: "metals-mining",

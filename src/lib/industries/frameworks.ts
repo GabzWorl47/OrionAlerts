@@ -33,6 +33,16 @@ export const frameworks: Record<string, FrameworkRecord> = {
     boundary:
       "It is not an AI or software certificate, and video does not establish that a photographed component meets specification or deliver IATF certification.",
   },
+  C3: {
+    id: "C3",
+    name: "BIS / QCO product requirements",
+    jurisdiction: "India",
+    publicSummary:
+      "BIS product certification and quality-control orders apply where the notified cement or building-material category requires mandatory certification.",
+    sourceUrl: "https://www.bis.gov.in/",
+    boundary:
+      "Confirm the specific product category, applicable order and current scope. Camera monitoring does not certify product quality.",
+  },
   C6: {
     id: "C6",
     name: "Revised Schedule M / GMP record controls",

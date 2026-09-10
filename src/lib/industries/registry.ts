@@ -1,4 +1,5 @@
 import { automotiveIndustryPage } from "@/lib/industries/content/automotive";
+import { cementIndustryPage } from "@/lib/industries/content/cement";
 import { commercialBuildingsIndustryPage } from "@/lib/industries/content/commercial-buildings";
 import { logisticsIndustryPage } from "@/lib/industries/content/logistics";
 import { manufacturingIndustryPage } from "@/lib/industries/content/manufacturing";
@@ -12,6 +13,7 @@ const industryPageRecords: IndustryPageRecord[] = [
   logisticsIndustryPage,
   automotiveIndustryPage,
   commercialBuildingsIndustryPage,
+  cementIndustryPage,
   sportsEventsIndustryPage,
   telecomRemoteIndustryPage,
 ];
