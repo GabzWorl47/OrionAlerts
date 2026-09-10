@@ -213,6 +213,29 @@ export default async function SolutionDetailPage({
           </p>
         </Section>
 
+      <Section>
+        <p className="mb-4 text-sm text-muted">
+          Explore other solutions:{" "}
+          {solutions
+            .filter((s) => s.slug !== solution.slug)
+            .map((s, i, arr) => (
+              <span key={s.slug}>
+                <Link href={`/solutions/${s.slug}`} className="font-medium text-blue hover:underline">
+                  {s.shortName}
+                </Link>
+                {i < arr.length - 1 ? " · " : ""}
+              </span>
+            ))}
+        </p>
+        <CtaBand
+          title={`See ${solution.shortName} in action`}
+          lede="Book a demo for a guided walkthrough tailored to your sites and operators."
+          primaryHref="/book-demo"
+          primaryLabel="Book a Demo"
+          secondaryHref="/contact"
+          secondaryLabel="Contact Us"
+        />
+      </Section>
         <FinalCta />
       </>
     </PageShell>

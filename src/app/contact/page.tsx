@@ -6,7 +6,7 @@ import { PageShell } from "@/components/PageShell";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Connect With Us",
+  title: "Contact Us",
   description:
     "Reach the OrionAlerts team for sales, support, partnerships, and introductions. Contact leads are stored separately from demo requests.",
 };
@@ -17,7 +17,7 @@ export default function ContactPage() {
       <Section className="pt-14">
       <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
         <div>
-          <p className="eyebrow">Connect With Us</p>
+          <p className="eyebrow">Contact Us</p>
           <h1 className="display mt-3 text-4xl text-text md:text-5xl">Meet the team behind the reply</h1>
           <p className="lede mt-4">
             Prefer a human path over a demo form? Send a message and we’ll route you to the right

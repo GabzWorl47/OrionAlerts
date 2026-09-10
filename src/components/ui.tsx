@@ -145,6 +145,9 @@ export function CtaBand({
   lede,
   primaryHref,
   primaryLabel,
+  primaryClassName = "",
+  className = "",
+  actionsClassName = "",
   secondaryHref,
   secondaryLabel,
 }: {
@@ -152,11 +155,14 @@ export function CtaBand({
   lede: string;
   primaryHref: string;
   primaryLabel: string;
+  primaryClassName?: string;
+  className?: string;
+  actionsClassName?: string;
   secondaryHref?: string;
   secondaryLabel?: string;
 }) {
   return (
-    <div className="overflow-hidden rounded-[28px] bg-blue px-8 py-10 text-white md:px-12 md:py-12">
+    <div className={`overflow-hidden rounded-[28px] bg-blue px-8 py-10 text-white md:px-12 md:py-12 ${className}`}>
       <div className="grid gap-8 md:grid-cols-[1.4fr_auto] md:items-end">
         <div>
           <h2 className="text-[clamp(1.75rem,3.5vw,2.5rem)] font-semibold leading-[1.1] tracking-[-0.03em] text-white">
@@ -164,8 +170,10 @@ export function CtaBand({
           </h2>
           <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-white/70">{lede}</p>
         </div>
-        <div className="flex flex-wrap gap-3">
-          <MagneticButton href={primaryHref}>{primaryLabel}</MagneticButton>
+        <div className={`flex flex-wrap gap-3 ${actionsClassName}`}>
+          <MagneticButton href={primaryHref} className={primaryClassName}>
+            {primaryLabel}
+          </MagneticButton>
           {secondaryHref && secondaryLabel ? (
             <MagneticButton
               href={secondaryHref}

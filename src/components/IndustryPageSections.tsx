@@ -59,6 +59,18 @@ export function IndustryPageSections({ industry, related }: Props) {
         blurbs={industry.solutionBlurbs}
       />
       <RelatedIndustries related={related} />
+      <Section>
+        <Reveal direction="up">
+          <CtaBand
+            title={`See OrionAlerts for ${industry.name}`}
+            lede="Book a demo tailored to your sector workflows, staffing model, and camera estate."
+            primaryHref="/book-demo"
+            primaryLabel="Book a Demo"
+            secondaryHref="/contact"
+            secondaryLabel="Contact Us"
+          />
+        </Reveal>
+      </Section>
       <FinalCta />
     </>
   );
