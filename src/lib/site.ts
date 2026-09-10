@@ -485,7 +485,10 @@ export const industries: Industry[] = [
     name: "Pharmaceuticals & Life Sciences",
     cardLabel: "Pharma",
     image: "https://images.unsplash.com/photo-1582719471384-894fbb16e074?auto=format&fit=crop&w=1600&q=90",
-    tagline: "Controlled-area access, process compliance and facility safety",
+    tagline:
+      "Use Vision Copilot to connect mapped camera observations with decisions about controlled-area observations and QA investigation context.",
+    summary:
+      "Map cameras to the places your team manages and ask Vision Copilot about controlled-area observations and QA investigation context.",
   }),
   industryEntry({
     slug: "food-fmcg",
