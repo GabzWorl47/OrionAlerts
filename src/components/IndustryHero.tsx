@@ -1,11 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import { Button } from "@/components/ui";
-import { SolutionVideo } from "@/components/SolutionVideo";
 import type { IndustryPageData } from "@/lib/industry-pages";
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -17,43 +14,66 @@ type IndustryHeroProps = {
 function shortLede(summary: string) {
   const first = summary.split(/(?<=[.!?])\s+/)[0]?.trim();
   if (!first) return summary;
-  return first.length > 180 ? `${first.slice(0, 177)}…` : first;
+  return first.length > 140 ? `${first.slice(0, 137)}…` : first;
 }
 
 export function IndustryHero({ industry }: IndustryHeroProps) {
   const reduce = useReducedMotion();
   const [ready, setReady] = useState(false);
   const hasVideo = Boolean(industry.introVideo);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end start"],
   });
   const imageY = useTransform(scrollYProgress, [0, 1], ["0%", "18%"]);
-  const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "12%"]);
-  const overlayOpacity = useTransform(scrollYProgress, [0, 1], [0.72, 0.92]);
+  const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "10%"]);
 
   useEffect(() => setReady(true), []);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video || !industry.introVideo) return;
+    video.muted = true;
+    const tryPlay = async () => {
+      try {
+        await video.play();
+      } catch {
+        // Autoplay may be blocked until user interaction.
+      }
+    };
+    if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
+      void tryPlay();
+    } else {
+      video.addEventListener("loadeddata", () => void tryPlay(), { once: true });
+    }
+  }, [industry.introVideo]);
 
   const animate = ready && !reduce;
 
   return (
     <section
       ref={ref}
-      className="relative min-h-[min(92vh,52rem)] overflow-hidden bg-[#07111f] pt-[var(--header-h)] text-white"
+      className="relative min-h-[min(92vh,52rem)] overflow-hidden bg-blue pt-[var(--header-h)] text-white"
     >
       <motion.div
         className="absolute inset-0"
         style={animate ? { y: imageY } : undefined}
       >
         {hasVideo && industry.introVideo ? (
-          <div className="absolute inset-0">
-            <SolutionVideo
-              src={industry.introVideo}
-              label={`${industry.name} overview`}
-              poster={industry.introVideoPoster ?? industry.image}
-            />
-          </div>
+          <video
+            ref={videoRef}
+            src={industry.introVideo}
+            poster={industry.introVideoPoster ?? industry.image}
+            className="absolute inset-0 h-full w-full object-cover brightness-[1.18] contrast-[1.06] saturate-[1.05]"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            aria-hidden
+          />
         ) : (
           <Image
             src={industry.image}
@@ -67,83 +87,58 @@ export function IndustryHero({ industry }: IndustryHeroProps) {
         )}
       </motion.div>
 
-      <motion.div
-        className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#07111f] via-[#07111f]/78 to-[#07111f]/35"
-        style={animate ? { opacity: overlayOpacity } : { opacity: 0.72 }}
+      {/* Soft overlays — same navy as homepage cards */}
+      <div
+        className={`pointer-events-none absolute inset-0 ${
+          hasVideo
+            ? "bg-gradient-to-t from-blue/85 via-blue/25 to-transparent"
+            : "bg-gradient-to-r from-blue/88 via-blue/55 to-blue/25"
+        }`}
       />
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#07111f] via-transparent to-[#07111f]/45" />
-      <div className="pointer-events-none absolute inset-0 grid-texture opacity-20 mix-blend-soft-light" />
-      {animate ? (
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink-deep/55 via-transparent to-blue/15" />
+
+      <div className="container relative z-10 flex min-h-[min(78vh,44rem)] flex-col">
         <motion.div
-          className="pointer-events-none absolute inset-x-0 top-1/3 h-px bg-gradient-to-r from-transparent via-cyan/50 to-transparent"
-          animate={{ opacity: [0.15, 0.55, 0.15], scaleX: [0.7, 1, 0.7] }}
-          transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut" }}
-        />
-      ) : null}
-
-      <motion.div
-        className="container relative z-10 flex min-h-[min(78vh,44rem)] flex-col justify-end pb-14 pt-10 md:pb-20 md:pt-16"
-        style={animate ? { y: contentY } : undefined}
-      >
-        <nav aria-label="Breadcrumb" className="mb-8 text-sm text-white/55">
-          <Link href="/industries" className="transition hover:text-white">
-            Industries
-          </Link>
-          <span className="mx-2 text-white/30">/</span>
-          <span className="text-white/85">{industry.name}</span>
-        </nav>
-
-        <motion.p
-          initial={animate ? { opacity: 0, x: -40 } : false}
-          animate={{ opacity: 1, x: 0 }}
-          transition={animate ? { duration: 0.55, ease } : { duration: 0 }}
-          className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan"
+          className="mt-auto max-w-xl pb-10 pt-24 md:pb-14 md:pt-32"
+          style={animate ? { y: contentY } : undefined}
         >
-          {industry.tagline}
-        </motion.p>
-
-        <motion.p
-          initial={animate ? { opacity: 0, x: -56 } : false}
-          animate={{ opacity: 1, x: 0 }}
-          transition={animate ? { duration: 0.65, delay: 0.07, ease } : { duration: 0 }}
-          className="mt-4 font-display text-[clamp(2.4rem,7vw,5.2rem)] font-semibold uppercase leading-[0.92] tracking-[-0.04em] text-white"
-        >
-          {industry.name}
-        </motion.p>
-
-        <motion.h1
-          initial={animate ? { opacity: 0, x: -48 } : false}
-          animate={{ opacity: 1, x: 0 }}
-          transition={animate ? { duration: 0.7, delay: 0.14, ease } : { duration: 0 }}
-          className="mt-5 max-w-3xl font-display text-[clamp(1.35rem,2.6vw,2rem)] font-medium normal-case leading-[1.25] text-white/90"
-        >
-          {industry.headline}
-        </motion.h1>
-
-        <motion.p
-          initial={animate ? { opacity: 0, x: -36 } : false}
-          animate={{ opacity: 1, x: 0 }}
-          transition={animate ? { duration: 0.6, delay: 0.22, ease } : { duration: 0 }}
-          className="mt-5 max-w-xl text-[15px] leading-relaxed text-white/65 md:text-base"
-        >
-          {shortLede(industry.summary)}
-        </motion.p>
-
-        <motion.div
-          initial={animate ? { opacity: 0, x: -28 } : false}
-          animate={{ opacity: 1, x: 0 }}
-          transition={animate ? { duration: 0.55, delay: 0.3, ease } : { duration: 0 }}
-          className="mt-9 flex flex-wrap gap-3"
-        >
-          <Button href="/book-demo">Book a Demo</Button>
-          <Link
-            href="/contact"
-            className="inline-flex items-center justify-center rounded-full border border-white/25 bg-white/5 px-6 py-3 text-sm font-semibold text-white backdrop-blur-sm transition hover:border-white/45 hover:bg-white/10"
+          <motion.p
+            initial={animate ? { opacity: 0, y: 14 } : false}
+            animate={{ opacity: 1, y: 0 }}
+            transition={animate ? { duration: 0.5, ease } : { duration: 0 }}
+            className="text-[11px] font-semibold uppercase tracking-[0.18em] text-cyan"
           >
-            Talk to sales
-          </Link>
+            {industry.tagline}
+          </motion.p>
+
+          <motion.p
+            initial={animate ? { opacity: 0, y: 16 } : false}
+            animate={{ opacity: 1, y: 0 }}
+            transition={animate ? { duration: 0.55, delay: 0.05, ease } : { duration: 0 }}
+            className="mt-2.5 font-display text-[clamp(1.7rem,3.8vw,2.75rem)] font-semibold uppercase leading-[0.95] tracking-[-0.03em] text-white"
+          >
+            {industry.name}
+          </motion.p>
+
+          <motion.h1
+            initial={animate ? { opacity: 0, y: 16 } : false}
+            animate={{ opacity: 1, y: 0 }}
+            transition={animate ? { duration: 0.55, delay: 0.1, ease } : { duration: 0 }}
+            className="mt-3 max-w-lg font-display text-[clamp(1.05rem,1.8vw,1.35rem)] font-medium normal-case leading-[1.3] text-white/88"
+          >
+            {industry.headline}
+          </motion.h1>
+
+          <motion.p
+            initial={animate ? { opacity: 0, y: 14 } : false}
+            animate={{ opacity: 1, y: 0 }}
+            transition={animate ? { duration: 0.5, delay: 0.16, ease } : { duration: 0 }}
+            className="mt-3 max-w-md text-sm leading-relaxed text-white/65"
+          >
+            {shortLede(industry.summary)}
+          </motion.p>
         </motion.div>
-      </motion.div>
+      </div>
     </section>
   );
 }

@@ -12,16 +12,20 @@ import { ChevronDown, Menu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { solutions, industries, resourceNavItems } from "@/lib/site";
+import { featureDeepLink } from "@/lib/feature-anchors";
 import { SolutionsMegaMenu } from "@/components/SolutionsMegaMenu";
 import { IndustriesMegaMenu } from "@/components/IndustriesMegaMenu";
 import { ResourcesMenu } from "@/components/ResourcesMenu";
 
 type MegaKey = "solutions" | "industries" | "resources";
 
+const defaultSolutionsMegaId = solutions[0]?.slug ?? "vms";
+
 const navLinks = [
   { label: "Home", href: "/" },
   { label: "Solutions", href: "/solutions", mega: "solutions" as const },
   { label: "Industries", href: "/industries", mega: "industries" as const },
+  { label: "Nebula OS", href: "/nebula-os" },
   { label: "Partners", href: "/partners" },
   { label: "Resources", href: "#", mega: "resources" as const },
   { label: "About Us", href: "/about" },
@@ -51,10 +55,11 @@ export function Header() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [openMega, setOpenMega] = useState<MegaKey | null>(null);
-  const [activeMegaId, setActiveMegaId] = useState(solutions[0]?.slug ?? "vms");
+  const [activeMegaId, setActiveMegaId] = useState(defaultSolutionsMegaId);
   const [mobileProductsOpen, setMobileProductsOpen] = useState(false);
   const [mobileIndustriesOpen, setMobileIndustriesOpen] = useState(false);
   const [mobileResourcesOpen, setMobileResourcesOpen] = useState(false);
+  const [mobileSolutionSlug, setMobileSolutionSlug] = useState<string | null>(null);
   const { scrollY } = useScroll();
 
   useMotionValueEvent(scrollY, "change", (v) => {
@@ -67,14 +72,17 @@ export function Header() {
     setMobileProductsOpen(false);
     setMobileIndustriesOpen(false);
     setMobileResourcesOpen(false);
+    setMobileSolutionSlug(null);
   }, [pathname]);
 
   useEffect(() => {
-    document.body.style.overflow = open || openMega ? "hidden" : "";
+    // Only lock scroll for the mobile drawer. Locking for mega menus
+    // removes the scrollbar and can fire header mouseleave (menu flashes closed).
+    document.body.style.overflow = open ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
     };
-  }, [open, openMega]);
+  }, [open]);
 
   return (
     <header
@@ -100,26 +108,36 @@ export function Header() {
             {navLinks.map((link) => (
               <li key={link.label} className="flex shrink-0">
                 {link.mega === "solutions" ? (
-                  <button
-                    type="button"
-                    className={`${navItemClass(
+                  <Link
+                    href={link.href}
+                    className={navItemClass(
                       openMega === "solutions" || pathname.startsWith("/solutions"),
-                    )} m-0 cursor-pointer border-0 bg-transparent text-[inherit]`}
+                    )}
                     aria-expanded={openMega === "solutions"}
+                    aria-haspopup="true"
                     onMouseEnter={() => {
-                      setActiveMegaId(solutions[0]?.slug ?? "vms");
+                      setActiveMegaId(defaultSolutionsMegaId);
                       setOpenMega("solutions");
                     }}
-                    onClick={() =>
-                      setOpenMega((current) => (current === "solutions" ? null : "solutions"))
-                    }
+                    onFocus={() => {
+                      setActiveMegaId(defaultSolutionsMegaId);
+                      setOpenMega("solutions");
+                    }}
+                    onClick={(e) => {
+                      // First click opens the submenu; second click (while open) navigates.
+                      if (openMega !== "solutions") {
+                        e.preventDefault();
+                        setActiveMegaId(defaultSolutionsMegaId);
+                        setOpenMega("solutions");
+                      }
+                    }}
                   >
                     {link.label}
                     <ChevronDown
                       size={14}
                       className={`transition-transform duration-200 ${openMega === "solutions" ? "rotate-180" : ""}`}
                     />
-                  </button>
+                  </Link>
                 ) : link.mega === "industries" ? (
                   <Link
                     href={link.href}
@@ -127,7 +145,15 @@ export function Header() {
                       openMega === "industries" || pathname.startsWith("/industries"),
                     )}
                     aria-expanded={openMega === "industries"}
+                    aria-haspopup="true"
                     onMouseEnter={() => setOpenMega("industries")}
+                    onFocus={() => setOpenMega("industries")}
+                    onClick={(e) => {
+                      if (openMega !== "industries") {
+                        e.preventDefault();
+                        setOpenMega("industries");
+                      }
+                    }}
                   >
                     {link.label}
                     <ChevronDown
@@ -170,14 +196,8 @@ export function Header() {
 
         <div className="ml-auto hidden items-center gap-5 lg:flex">
           <Link
-            href="/contact"
-            className="nav-link rounded-[12px] px-3 py-2 text-sm font-medium"
-          >
-            Log in
-          </Link>
-          <Link
             href="/book-demo"
-            className="inline-flex items-center justify-center rounded-[8px] border border-cyan/40 bg-cyan px-4 py-2.5 text-sm font-semibold text-[#0c2238] shadow-[0_0_24px_rgba(48,227,255,0.28)] transition-colors hover:bg-white"
+            className="inline-flex items-center justify-center rounded-[8px] border border-cyan/40 bg-cyan px-4 py-2.5 text-sm font-semibold !text-[#0c2238] shadow-[0_0_24px_rgba(48,227,255,0.28)] transition-colors hover:bg-white hover:!text-[#0c2238]"
           >
             Book a Demo
           </Link>
@@ -201,17 +221,16 @@ export function Header() {
             initial={
               reduce
                 ? false
-                : { opacity: 0, y: -18, clipPath: "inset(0 0 100% 0)" }
+                : { opacity: 0, y: -18 }
             }
-            animate={{ opacity: 1, y: 0, clipPath: "inset(0 0 0% 0)" }}
-            exit={{ opacity: 0, y: -12, clipPath: "inset(0 0 100% 0)" }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -12 }}
             transition={{
               duration: 0.42,
               ease: menuEase,
               opacity: { duration: 0.3, ease: menuEase },
-              clipPath: { duration: 0.42, ease: menuEase },
             }}
-            className="absolute inset-x-0 top-full hidden origin-top border-b border-line bg-white shadow-[0_20px_50px_rgba(15,23,42,0.08)] lg:block"
+            className="absolute inset-x-0 top-full hidden origin-top overflow-visible border-b border-white/10 bg-[#0f1c2e] shadow-[0_28px_70px_rgba(0,0,0,0.4)] lg:block"
             onMouseEnter={() => setOpenMega(openMega)}
           >
             <div className="container py-2">
@@ -278,21 +297,71 @@ export function Header() {
                       exit={{ height: 0, opacity: 0 }}
                       className="overflow-hidden pl-3"
                     >
-                      {solutions.map((solution) => (
-                        <Link
-                          key={solution.slug}
-                          href={`/solutions/${solution.slug}`}
-                          prefetch
-                          className="block rounded-[10px] px-2 py-2.5 text-sm font-medium text-text hover:bg-surface-2 hover:text-blue"
-                          onClick={() => {
-                            document.body.style.overflow = "";
-                            setOpen(false);
-                            setMobileProductsOpen(false);
-                          }}
-                        >
-                          {solution.shortName}
-                        </Link>
-                      ))}
+                      {solutions.map((solution) => {
+                        const expanded = mobileSolutionSlug === solution.slug;
+                        return (
+                          <div key={solution.slug} className="border-b border-line/60 last:border-b-0">
+                            <div className="flex items-center gap-1">
+                              <Link
+                                href={`/solutions/${solution.slug}`}
+                                prefetch
+                                className="min-w-0 flex-1 rounded-[10px] px-2 py-2.5 text-sm font-medium text-text hover:bg-surface-2 hover:text-blue"
+                                onClick={() => {
+                                  document.body.style.overflow = "";
+                                  setOpen(false);
+                                  setMobileProductsOpen(false);
+                                  setMobileSolutionSlug(null);
+                                }}
+                              >
+                                {solution.shortName}
+                              </Link>
+                              <button
+                                type="button"
+                                aria-expanded={expanded}
+                                aria-label={`${expanded ? "Hide" : "Show"} ${solution.shortName} capabilities`}
+                                className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-[10px] text-muted hover:bg-surface-2 hover:text-blue"
+                                onClick={() =>
+                                  setMobileSolutionSlug((current) =>
+                                    current === solution.slug ? null : solution.slug,
+                                  )
+                                }
+                              >
+                                <ChevronDown
+                                  size={16}
+                                  className={`transition-transform ${expanded ? "rotate-180" : ""}`}
+                                />
+                              </button>
+                            </div>
+                            <AnimatePresence>
+                              {expanded ? (
+                                <motion.div
+                                  initial={{ height: 0, opacity: 0 }}
+                                  animate={{ height: "auto", opacity: 1 }}
+                                  exit={{ height: 0, opacity: 0 }}
+                                  className="overflow-hidden pb-2 pl-2"
+                                >
+                                  {solution.features.map((feature) => (
+                                    <Link
+                                      key={feature.title}
+                                      href={featureDeepLink(solution.slug, feature.title)}
+                                      prefetch
+                                      className="block rounded-[10px] px-2 py-2 text-[13px] font-medium leading-snug text-muted-strong hover:bg-surface-2 hover:text-blue"
+                                      onClick={() => {
+                                        document.body.style.overflow = "";
+                                        setOpen(false);
+                                        setMobileProductsOpen(false);
+                                        setMobileSolutionSlug(null);
+                                      }}
+                                    >
+                                      {feature.title}
+                                    </Link>
+                                  ))}
+                                </motion.div>
+                              ) : null}
+                            </AnimatePresence>
+                          </div>
+                        );
+                      })}
                       <Link
                         href="/solutions"
                         prefetch
@@ -301,6 +370,7 @@ export function Header() {
                           document.body.style.overflow = "";
                           setOpen(false);
                           setMobileProductsOpen(false);
+                          setMobileSolutionSlug(null);
                         }}
                       >
                         View all solutions
@@ -328,7 +398,7 @@ export function Header() {
                       exit={{ height: 0, opacity: 0 }}
                       className="overflow-hidden pl-3"
                     >
-                      {industries.map((industry) => (
+                      {industries.slice(0, 5).map((industry) => (
                         <Link
                           key={industry.slug}
                           href={`/industries/${industry.slug}`}
@@ -401,15 +471,8 @@ export function Header() {
 
             <div className="border-t border-line px-4 py-5">
               <Link
-                href="/contact"
-                className="block py-2 text-center text-sm font-medium text-muted-strong"
-                onClick={() => setOpen(false)}
-              >
-                Log in
-              </Link>
-              <Link
                 href="/book-demo"
-                className="mt-2 flex w-full items-center justify-center rounded-[8px] border border-blue bg-blue py-3 text-sm font-semibold text-white shadow-[0_0_28px_rgba(43,140,255,0.35)] transition-colors hover:bg-[#1f7aef]"
+                className="flex w-full items-center justify-center rounded-[8px] border border-cyan/40 bg-cyan py-3 text-sm font-semibold !text-[#0c2238] shadow-[0_0_24px_rgba(48,227,255,0.28)] transition-colors hover:bg-white hover:!text-[#0c2238]"
                 onClick={() => setOpen(false)}
               >
                 Book a Demo

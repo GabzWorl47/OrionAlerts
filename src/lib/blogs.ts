@@ -1,16 +1,14 @@
-export type BlogCategory = "Video Intelligence" | "Vision Intelligence" | "Operations";
-
 export type BlogSection =
   | { type: "paragraph"; text: string }
-  | { type: "heading"; text: string }
+  | { type: "heading"; text: string; level?: 2 | 3 }
   | { type: "quote"; text: string }
-  | { type: "list"; items: string[] };
+  | { type: "list"; items: string[]; ordered?: boolean };
 
 export type BlogPost = {
   slug: string;
   title: string;
   excerpt: string;
-  category: BlogCategory;
+  category: string;
   date: string;
   dateLabel: string;
   readTime: string;
@@ -19,234 +17,266 @@ export type BlogPost = {
   image: string;
   takeaways: string[];
   sections: BlogSection[];
+  published: boolean;
+  updatedAt?: string | null;
+  /** ISO datetime used for relative "posted X ago" labels */
+  publishedAt?: string | null;
 };
 
-export const blogPosts: BlogPost[] = [
-  {
-    slug: "why-traditional-cctv-monitoring-is-no-longer-enough",
-    title: "Why Traditional CCTV Monitoring Is No Longer Enough",
-    excerpt:
-      "Passive recording and manual footage review cannot keep up with modern security and operational demands. AI video analytics turns existing cameras into real-time intelligent sensors.",
-    category: "Video Intelligence",
-    date: "2026-06-15",
-    dateLabel: "June 15, 2026",
-    readTime: "6 min read",
-    author: "Ayushi",
-    authorRole: "Senior Finance Manager",
-    image:
-      "https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=1400&q=80",
-    takeaways: [
-      "Passive CCTV creates evidence after the fact — not decisions in the moment.",
-      "Operator bandwidth does not scale linearly with camera count.",
-      "AI Vision turns existing cameras into prioritized exception sensors.",
-    ],
-    sections: [
-      {
-        type: "paragraph",
-        text: "For years, enterprise security teams treated CCTV as a recording system: install cameras, store footage, review clips after something goes wrong. That model still has value for investigations — but it no longer matches how modern plants, campuses, and logistics sites actually operate.",
-      },
-      {
-        type: "heading",
-        text: "The hidden cost of passive monitoring",
-      },
-      {
-        type: "paragraph",
-        text: "As camera estates grow, the gap between visibility and action widens. A site may have hundreds of feeds, yet only a handful of operators. Most events are missed in real time, then reconstructed later under pressure. The result is slow response, incomplete context, and fatigue.",
-      },
-      {
-        type: "list",
-        items: [
-          "Manual monitoring cannot watch every zone continuously",
-          "Incident review becomes a scrubbing exercise across NVRs",
-          "Low-signal noise competes with true operational exceptions",
-          "Multi-site estates lose a shared operating picture",
-        ],
-      },
-      {
-        type: "quote",
-        text: "More cameras without smarter triage does not create safer operations — it creates more footage to ignore.",
-      },
-      {
-        type: "heading",
-        text: "From recording to real-time intelligence",
-      },
-      {
-        type: "paragraph",
-        text: "AI video analytics changes the job. Instead of asking operators to stare at walls of video, the system continuously evaluates streams for intrusion, PPE exceptions, crowding, restricted-zone entry, and other policy events — then routes high-confidence alerts with evidence context.",
-      },
-      {
-        type: "paragraph",
-        text: "That shift is what turns CCTV from a passive archive into an operational sensor network. Existing cameras stay in place. The upgrade is the intelligence layer on top: prioritized alerts, searchable video, and multi-site command.",
-      },
-      {
-        type: "heading",
-        text: "What good looks like for enterprise teams",
-      },
-      {
-        type: "paragraph",
-        text: "High-performing teams do not eliminate human judgment — they protect it. They give operators fewer, better signals; they shorten investigation cycles with smart search; and they keep camera estates healthy so blind spots do not appear silently overnight.",
-      },
-      {
-        type: "paragraph",
-        text: "If your current model depends on someone noticing the right feed at the right second, it is already behind the operational reality of modern facilities. The next standard is simple: detect early, notify the right role, and investigate with evidence that is already organized.",
-      },
-    ],
-  },
-  {
-    slug: "what-is-a-vision-intelligence-platform",
-    title: "What Is a Vision Intelligence Platform?",
-    excerpt:
-      "How AI-powered video analytics, computer vision, and intelligent copilots turn CCTV feeds into real-time operational intelligence — beyond security monitoring.",
-    category: "Vision Intelligence",
-    date: "2026-06-22",
-    dateLabel: "June 22, 2026",
-    readTime: "5 min read",
-    author: "Kawaljeet",
-    authorRole: "Head of Growth Marketing",
-    image:
-      "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=1400&q=80",
-    takeaways: [
-      "Vision intelligence is broader than security deterrence alone.",
-      "The platform connects detection, search, operations, and reliability.",
-      "Value shows up when video becomes actionable workflow — not just footage.",
-    ],
-    sections: [
-      {
-        type: "paragraph",
-        text: "A vision intelligence platform is the operating layer that turns cameras into a decision system. It sits above hardware, applies computer vision and policy logic in real time, and helps teams monitor, detect, notify, and analyze events across sites.",
-      },
-      {
-        type: "heading",
-        text: "More than a camera product",
-      },
-      {
-        type: "paragraph",
-        text: "Many buyers still evaluate video as a device purchase. A vision intelligence platform reframes the problem: how do we convert continuous visual data into prioritized actions for security, safety, and operations teams?",
-      },
-      {
-        type: "list",
-        items: [
-          "Live video command across buildings and facilities",
-          "AI detection for safety, intrusion, and operational exceptions",
-          "Searchable evidence for investigations and audits",
-          "Health and maintenance visibility for the camera estate",
-        ],
-      },
-      {
-        type: "heading",
-        text: "Security is the entry point — operations is the expansion",
-      },
-      {
-        type: "paragraph",
-        text: "Most deployments begin with security outcomes: perimeter awareness, after-hours intrusion, restricted zones. But the same visual intelligence quickly supports production floors, logistics docks, campuses, and regulated environments where process exceptions matter as much as trespassing.",
-      },
-      {
-        type: "quote",
-        text: "The strongest platforms do not just show video. They help the right person act on the right moment.",
-      },
-      {
-        type: "heading",
-        text: "What to look for when evaluating vendors",
-      },
-      {
-        type: "paragraph",
-        text: "Ask whether the system reduces operator load, works with existing cameras, supports multi-site policy, and keeps the estate online. Feature lists are easy. Workflow fit — from alert to investigation to maintenance — is what separates a dashboard from a platform.",
-      },
-      {
-        type: "paragraph",
-        text: "OrionAlerts is built around that workflow: AI Vision for detection, VMS for command, Smart Search for investigations, and health/AMC layers so uptime remains part of the operating model.",
-      },
-    ],
-  },
-  {
-    slug: "alert-fatigue-is-an-ops-problem",
-    title: "Alert Fatigue Is an Ops Problem",
-    excerpt:
-      "More cameras do not equal better coverage. Prioritized AI alerts help operators respond faster without drowning in low-signal noise.",
-    category: "Operations",
-    date: "2026-07-02",
-    dateLabel: "July 2, 2026",
-    readTime: "4 min read",
-    author: "OrionAlerts Team",
-    authorRole: "Product & Operations",
-    image:
-      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1400&q=80",
-    takeaways: [
-      "Alert volume without triage becomes operational debt.",
-      "Confidence, context, and routing matter more than raw detections.",
-      "Healthy camera estates reduce false gaps and noisy blind spots.",
-    ],
-    sections: [
-      {
-        type: "paragraph",
-        text: "Security operations teams rarely fail because they lack cameras. They fail because signal quality collapses under volume. When every motion event competes for attention, true exceptions arrive late — or not at all.",
-      },
-      {
-        type: "heading",
-        text: "Why more alerts can make sites less safe",
-      },
-      {
-        type: "paragraph",
-        text: "Unfiltered detections create a false sense of coverage. Operators learn to ignore queues. Night shifts inherit noisy policies. Incidents still occur, but the system that was supposed to accelerate response becomes the reason response slows down.",
-      },
-      {
-        type: "list",
-        items: [
-          "Low-confidence events crowd out critical exceptions",
-          "Missing context forces operators to open multiple feeds manually",
-          "No role-based routing means everyone sees everything",
-          "Camera downtime adds silent gaps that look like quiet sites",
-        ],
-      },
-      {
-        type: "quote",
-        text: "Alert fatigue is not a people problem. It is a systems design problem.",
-      },
-      {
-        type: "heading",
-        text: "Design for prioritized action",
-      },
-      {
-        type: "paragraph",
-        text: "Effective video operations platforms emphasize triage: higher-confidence events first, evidence attached, and clear ownership. The goal is not infinite detection. The goal is fewer interruptions with higher decision value.",
-      },
-      {
-        type: "paragraph",
-        text: "Pair that with searchable video for after-action review and estate health monitoring so operators are not fighting both noisy alerts and broken cameras. That combination is how multi-site teams stay responsive without scaling headcount one-for-one with camera count.",
-      },
-    ],
-  },
-];
-
-export const blogCategories = [
-  "All",
+/** Suggested starter categories — admins can add any custom name. */
+export const DEFAULT_BLOG_CATEGORIES = [
   "Video Intelligence",
   "Vision Intelligence",
   "Operations",
+  "Security",
+  "Industry Insights",
+  "Product Updates",
 ] as const;
 
-export type BlogCategoryFilter = (typeof blogCategories)[number];
+/** @deprecated Use DEFAULT_BLOG_CATEGORIES — kept for compatibility */
+export type BlogCategory = string;
 
-export function getBlog(slug: string) {
-  return blogPosts.find((post) => post.slug === slug);
+export const blogCategoryOptions: string[] = [...DEFAULT_BLOG_CATEGORIES];
+
+export type BlogCategoryFilter = string;
+
+export function normalizeCategory(value: string) {
+  return value.replace(/\s+/g, " ").trim();
 }
 
-export function getBlogCategoryCounts() {
-  const counts: Record<string, number> = { All: blogPosts.length };
-  for (const post of blogPosts) {
+export function isValidCategory(value: string) {
+  const normalized = normalizeCategory(value);
+  return normalized.length >= 2 && normalized.length <= 48;
+}
+
+export function getFilterCategories(posts: BlogPost[], extras: string[] = []) {
+  const set = new Set<string>();
+  for (const category of DEFAULT_BLOG_CATEGORIES) set.add(category);
+  for (const category of extras) {
+    const normalized = normalizeCategory(category);
+    if (normalized) set.add(normalized);
+  }
+  for (const post of posts) {
+    const normalized = normalizeCategory(post.category);
+    if (normalized) set.add(normalized);
+  }
+  return ["All", ...Array.from(set).sort((a, b) => a.localeCompare(b))];
+}
+
+export function getCategorySuggestions(posts: BlogPost[], extras: string[] = []) {
+  return getFilterCategories(posts, extras).filter((item) => item !== "All");
+}
+
+export function slugifyTitle(title: string) {
+  return title
+    .toLowerCase()
+    .trim()
+    .replace(/['’]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 80);
+}
+
+export function parseBlogDate(dateInput: string) {
+  if (!dateInput) return null;
+  if (/^\d{4}-\d{2}-\d{2}$/.test(dateInput)) {
+    const parsed = new Date(`${dateInput}T12:00:00`);
+    return Number.isNaN(parsed.getTime()) ? null : parsed;
+  }
+  const parsed = new Date(dateInput);
+  return Number.isNaN(parsed.getTime()) ? null : parsed;
+}
+
+export function formatBlogDateLabel(date: string) {
+  const parsed = parseBlogDate(date);
+  if (!parsed) return date;
+  return parsed.toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
+}
+
+/** Build a publishedAt ISO from a calendar date (YYYY-MM-DD). */
+export function publishedAtFromDate(date: string, existing?: string | null) {
+  if (existing) {
+    const existingDate = existing.slice(0, 10);
+    if (existingDate === date) return existing;
+  }
+  const today = new Date().toISOString().slice(0, 10);
+  if (date === today) return new Date().toISOString();
+  const parsed = parseBlogDate(date);
+  return parsed ? parsed.toISOString() : new Date().toISOString();
+}
+
+export function formatRelativeTime(dateInput: string, now = new Date()) {
+  const parsed = parseBlogDate(dateInput);
+  if (!parsed) return "";
+
+  const diffMs = now.getTime() - parsed.getTime();
+  if (diffMs < 0) {
+    return formatBlogDateLabel(dateInput.slice(0, 10));
+  }
+
+  const minutes = Math.floor(diffMs / 60000);
+  if (minutes < 1) return "Just now";
+  if (minutes < 60) return `${minutes} min ago`;
+
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `${hours} hr${hours === 1 ? "" : "s"} ago`;
+
+  const days = Math.floor(hours / 24);
+  if (days === 1) return "Yesterday";
+  if (days < 30) return `${days} days ago`;
+
+  const months = Math.floor(days / 30);
+  if (months < 12) return `${months} mo${months === 1 ? "" : "s"} ago`;
+
+  const years = Math.floor(days / 365);
+  return `${years} yr${years === 1 ? "" : "s"} ago`;
+}
+
+export function estimateReadTime(sections: BlogSection[], takeaways: string[] = []) {
+  const words = [
+    ...takeaways,
+    ...sections.flatMap((section) => {
+      if (section.type === "list") return section.items;
+      return [section.text];
+    }),
+  ]
+    .join(" ")
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean).length;
+
+  const minutes = Math.max(1, Math.round(words / 200) || 1);
+  return `${minutes} min read`;
+}
+
+export function parseTakeaways(text: string) {
+  return text
+    .split(/\r?\n/)
+    .map((line) => line.replace(/^[-*•]\s*/, "").trim())
+    .filter(Boolean);
+}
+
+export function serializeTakeaways(takeaways: string[]) {
+  return takeaways.join("\n");
+}
+
+/** Convert structured sections to an editable plain-text body. */
+export function serializeBlogBody(sections: BlogSection[]) {
+  return sections
+    .map((section) => {
+      if (section.type === "heading") {
+        const marks = section.level === 3 ? "###" : "##";
+        return `${marks} ${section.text}`;
+      }
+      if (section.type === "quote") return `> ${section.text}`;
+      if (section.type === "list") {
+        return section.items
+          .map((item, index) =>
+            section.ordered ? `${index + 1}. ${item}` : `- ${item}`,
+          )
+          .join("\n");
+      }
+      return section.text;
+    })
+    .join("\n\n");
+}
+
+/** Parse plain-text body into structured blog sections. */
+export function parseBlogBody(text: string): BlogSection[] {
+  const blocks = text
+    .replace(/\r\n/g, "\n")
+    .split(/\n{2,}/)
+    .map((block) => block.trim())
+    .filter(Boolean);
+
+  return blocks.map((block): BlogSection => {
+    if (/^###\s+\S/.test(block)) {
+      return {
+        type: "heading",
+        level: 3,
+        text: block.replace(/^###\s+/, "").trim(),
+      };
+    }
+
+    if (/^##\s+\S/.test(block) || /^#\s+\S/.test(block)) {
+      return {
+        type: "heading",
+        level: 2,
+        text: block.replace(/^#{1,2}\s+/, "").trim(),
+      };
+    }
+
+    if (block.startsWith(">")) {
+      return {
+        type: "quote",
+        text: block
+          .split("\n")
+          .map((line) => line.replace(/^>\s?/, "").trim())
+          .join(" ")
+          .trim(),
+      };
+    }
+
+    const lines = block.split("\n").map((line) => line.trim()).filter(Boolean);
+    if (lines.length > 0 && lines.every((line) => /^[-*•]\s+/.test(line))) {
+      return {
+        type: "list",
+        items: lines.map((line) => line.replace(/^[-*•]\s+/, "").trim()),
+      };
+    }
+
+    if (lines.length > 0 && lines.every((line) => /^\d+[.)]\s+/.test(line))) {
+      return {
+        type: "list",
+        ordered: true,
+        items: lines.map((line) => line.replace(/^\d+[.)]\s+/, "").trim()),
+      };
+    }
+
+    // Short single-line title-like blocks without terminal punctuation → subheading
+    if (
+      lines.length === 1 &&
+      lines[0].length >= 18 &&
+      lines[0].length <= 70 &&
+      !/[.!?]$/.test(lines[0]) &&
+      !/[,;:]$/.test(lines[0]) &&
+      /^[A-Z0-9]/.test(lines[0])
+    ) {
+      return { type: "heading", level: 3, text: lines[0] };
+    }
+
+    return { type: "paragraph", text: lines.join(" ") };
+  });
+}
+
+export function sortBlogPosts(posts: BlogPost[]) {
+  return [...posts].sort((a, b) => (a.date < b.date ? 1 : -1));
+}
+
+export function getBlogCategoryCounts(posts: BlogPost[]) {
+  const counts: Record<string, number> = { All: posts.length };
+  for (const post of posts) {
     counts[post.category] = (counts[post.category] ?? 0) + 1;
   }
   return counts;
 }
 
-export function getRelatedPosts(slug: string, limit = 2) {
-  const current = getBlog(slug);
-  if (!current) return blogPosts.slice(0, limit);
+export function findBlog(posts: BlogPost[], slug: string) {
+  return posts.find((post) => post.slug === slug);
+}
 
-  const sameCategory = blogPosts.filter(
+export function getRelatedPosts(posts: BlogPost[], slug: string, limit = 2) {
+  const current = findBlog(posts, slug);
+  if (!current) return posts.slice(0, limit);
+
+  const sameCategory = posts.filter(
     (post) => post.slug !== slug && post.category === current.category,
   );
-  const others = blogPosts.filter(
+  const others = posts.filter(
     (post) => post.slug !== slug && post.category !== current.category,
   );
 

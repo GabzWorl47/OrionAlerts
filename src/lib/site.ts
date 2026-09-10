@@ -12,6 +12,9 @@ export type Solution = {
   slug: string;
   name: string;
   shortName: string;
+  image: string;
+  tagline: string;
+  headline: string;
   summary: string;
   overview: string;
   introVideo?: string;
@@ -23,11 +26,15 @@ export type Solution = {
   screenshotLabels: string[];
 };
 
-export const solutions: Solution[] = [
+const solutionsSource: Solution[] = [
   {
     slug: "vms",
     name: "Video Management System (VMS)",
     shortName: "VMS",
+    image: "/Images/ChatGPT%20Image%20Sep%208%2C%202026%2C%2001_25_29%20PM.png",
+    tagline: "Live monitoring & control",
+    headline:
+      "Unify cameras, sites, and operators in one enterprise VMS for live monitoring, playback, and control.",
     introVideo: "/Videos/VMS.mp4",
     summary:
       "Unify your surveillance operations with an enterprise-grade platform designed for seamless visibility and control. Orion Alerts enables security teams to collaborate more effectively, improve operational efficiency, and manage surveillance ecosystems with greater confidence.",
@@ -36,23 +43,33 @@ export const solutions: Solution[] = [
     features: [
       {
         title: "Centralized Live Monitoring & Playback",
-        description: "View live video and recorded footage from one unified operations interface.",
+        description:
+          "View live camera streams and recorded footage from one unified operations interface—so control-room teams monitor events, review incidents, and coordinate response without switching between disconnected systems.",
       },
       {
         title: "Multi-Site Surveillance Management",
-        description: "Oversee cameras, recorders, and sites across locations from a single platform.",
+        description:
+          "Oversee cameras, recorders, and sites across campuses and facilities from a single VMS platform, giving security leaders consistent visibility and control as the estate scales.",
       },
       {
         title: "Video Search & Incident Investigation",
-        description: "Find footage quickly and accelerate investigations with searchable video workflows.",
+        description:
+          "Find relevant footage quickly with searchable video workflows that accelerate incident investigation, evidence export, and post-event review for security and compliance teams.",
       },
       {
-        title: "User & Role-Based Access Control",
-        description: "Manage users and permissions so the right teams see the right cameras and tools.",
+        title: "Secure Remote Access",
+        description:
+          "Give authorized operators and managers secure remote access to live video, playback, and controls—without exposing the broader camera estate to unmanaged access risk.",
+      },
+      {
+        title: "Event & Alarm Management",
+        description:
+          "Centralize events and alarms so operators can acknowledge, escalate, and clear incidents from one shared queue with clearer ownership and faster on-floor response.",
       },
       {
         title: "Open Integration with IP Cameras & Third-Party Systems",
-        description: "Connect IP cameras and third-party systems for a flexible, open architecture.",
+        description:
+          "Connect IP cameras and third-party systems through an open architecture so organizations can expand coverage, protect existing investments, and avoid closed hardware lock-in.",
       },
     ],
     architecture: [
@@ -79,6 +96,11 @@ export const solutions: Solution[] = [
     slug: "ai-analytics",
     name: "AI Vision & Real-Time Alerts",
     shortName: "AI Vision",
+    image: "/Images/ChatGPT%20Image%20Sep%208%2C%202026%2C%2001_21_20%20PM.png",
+    tagline: "Intelligent video analytics",
+    headline:
+      "Turn live video into real-time AI alerts for safety, intrusion, PPE, and operational events.",
+    introVideo: "/Videos/video/AI_video_analytics_real-time_alerts_202607281709.mp4",
     summary:
       "Empower your organization with intelligent visual insights that enhance security, improve operational awareness, and support faster decision-making. Orion Alerts helps businesses move beyond traditional surveillance by turning video into meaningful actions and measurable outcomes.",
     overview:
@@ -86,23 +108,33 @@ export const solutions: Solution[] = [
     features: [
       {
         title: "Real-Time AI Video Analytics",
-        description: "Continuously analyze live video streams for security, safety, and operational events.",
+        description:
+          "Continuously analyze live video streams for security, safety, and operational events—so surveillance moves from passive recording to proactive detection that operators can act on immediately.",
       },
       {
         title: "Instant Event Detection & Smart Alerts",
-        description: "Detect events as they happen and notify the right teams without delay.",
+        description:
+          "Detect events as they happen and route smart alerts to the right teams without delay, improving response time while reducing alert fatigue from low-value noise.",
       },
       {
         title: "Intrusion, PPE & Safety Monitoring",
-        description: "Monitor intrusion, PPE compliance, and safety conditions across sites.",
+        description:
+          "Monitor intrusion risk, PPE compliance, and unsafe site conditions across facilities so EHS and security teams can intervene before incidents escalate.",
       },
       {
         title: "People, Vehicle & Occupancy Analytics",
-        description: "Track people, vehicles, and occupancy for operations and security insight.",
+        description:
+          "Track people, vehicles, and occupancy patterns for security and operations insight—supporting crowd awareness, traffic flow, and site utilization decisions in real time.",
       },
       {
-        title: "Custom AI Rules & Workflows",
-        description: "Configure custom AI use cases and response workflows for your environment.",
+        title: "Intrusion Detection",
+        description:
+          "Detect unauthorized entry and perimeter breaches in real time so response teams can act before incidents spread across the site or create larger security exposure.",
+      },
+      {
+        title: "Restricted Area Monitoring",
+        description:
+          "Watch restricted zones continuously and alert when people enter areas they should not access—protecting sensitive spaces, hazardous zones, and controlled operational areas.",
       },
     ],
     architecture: [
@@ -126,83 +158,53 @@ export const solutions: Solution[] = [
     screenshotLabels: ["Alert inbox", "Zone configuration", "Forensic search"],
   },
   {
-    slug: "smart-search",
-    name: "Smart Search",
-    shortName: "Smart Search",
-    summary:
-      "Instantly retrieve relevant clips, events, and alerts — without manually reviewing hours of footage.\n\nQuery events like \"Show all crowding incidents at Gate 1\" and get relevant clips and alerts in seconds — faster investigations with less storage dependency.",
-    overview:
-      "Finding a specific person, vehicle, or event across dozens of cameras used to require hours of manual footage review. Smart Search uses AI to index every frame and return matching clips in seconds — ranked by relevance and filterable by site, time, or camera. Operators get faster investigations without scrubbing through recordings.",
-    features: [
-      {
-        title: "Natural-Language & Filter-Based Retrieval",
-        description: "Search events with plain language or filters to find the clips that matter.",
-      },
-      {
-        title: "Cross-Site Camera Search",
-        description: "Search across cameras, zones, and time ranges simultaneously.",
-      },
-      {
-        title: "Ranked Results in Seconds",
-        description: "Return relevance-ranked clips and alerts without manual footage scrubbing.",
-      },
-      {
-        title: "Filter by Site, Time, Camera & Event",
-        description: "Narrow results by site, time range, camera, or event type for precise investigations.",
-      },
-      {
-        title: "Faster Investigations, Lower Review Cost",
-        description: "Dramatically reduce investigation time and the cost of manual video review.",
-      },
-    ],
-    architecture: [
-      "AI frame & event indexing",
-      "Natural-language search engine",
-      "Cross-site filter layer",
-      "Ranked clip & alert results",
-    ],
-    workflow: [
-      "Index cameras, events, and alert history",
-      "Query by language or filters across sites",
-      "Review ranked clips and related alerts",
-      "Export evidence and close investigations faster",
-    ],
-    benefits: [
-      "Seconds instead of hours for footage review",
-      "Search across all cameras and sites at once",
-      "Less storage dependency for investigations",
-      "Higher operator productivity on every incident",
-    ],
-    screenshotLabels: ["Smart Search results", "Cross-site filters", "Clip evidence timeline"],
-  },
-  {
     slug: "asset-tracking",
     name: "Asset Tracking",
     shortName: "Asset Tracking",
+    image: "/Images/ChatGPT%20Image%20Sep%208%2C%202026%2C%2012_29_40%20PM.png",
+    tagline: "Inventory & lifecycle visibility",
+    headline:
+      "Track surveillance and IT assets across locations with clear ownership and lifecycle visibility.",
+    introVideo: "/Videos/video/Asset%20tracking.mp4",
     summary:
       "Gain complete visibility and control over your organization's assets through a centralized platform. Track asset inventory, location, ownership, warranty, lifecycle, and movement in real time to improve utilization, simplify audits, and support informed business decisions.",
     overview:
-      "Gain complete visibility and control over your organization's assets through a centralized platform. Track asset inventory, location, ownership, warranty, lifecycle, and movement in real time to improve utilization, simplify audits, and support informed business decisions.",
+      "Orion Alerts Asset Tracking provides a centralized platform to manage and monitor your organization's physical assets throughout their entire lifecycle. From procurement and deployment to transfer, maintenance, and retirement, every asset is digitally tracked with complete ownership, warranty, location, and utilization visibility. This eliminates manual spreadsheets, improves accountability, reduces asset loss, and enables smarter operational planning.",
     features: [
       {
         title: "Centralized Asset Inventory",
-        description: "Maintain a single inventory of organizational assets with clear operational context.",
+        description:
+          "Build a single source of truth for IT, surveillance, and operational assets—type, status, serial details, and utilization—so every team works from the same live inventory instead of fragmented spreadsheets.",
       },
       {
-        title: "Lifecycle & Warranty Management",
-        description: "Track asset lifecycle stages and warranty coverage in one place.",
+        title: "Asset Lifecycle Management",
+        description:
+          "Track each asset end to end from procurement and deployment through transfer, maintenance, and retirement, with status history that supports planning, budgeting, and replacement decisions.",
       },
       {
-        title: "Asset Location & Ownership Tracking",
-        description: "Know where assets are and who owns them to improve utilization and accountability.",
+        title: "Serial Number Tracking",
+        description:
+          "Identify and retrieve assets instantly using serial numbers, with QR and barcode support for field lookups, handovers, and multi-site verification when devices move between locations.",
       },
       {
-        title: "Asset Transfer History",
-        description: "Follow asset movement and transfers with a clear historical record.",
+        title: "Location & Department Mapping",
+        description:
+          "Map assets to sites, floors, zones, and departments so operations leaders can see deployment density, plan moves, and answer “where is this asset?” without manual chasing.",
       },
       {
-        title: "Reports & Audit Trail",
-        description: "Simplify audits with reports and a reliable trail of asset activity.",
+        title: "Asset Assignment & Ownership",
+        description:
+          "Assign clear custodians and responsible owners for every asset, so accountability stays visible during transfers, audits, and investigations when equipment is missing or reassigned.",
+      },
+      {
+        title: "Warranty & Documentation Management",
+        description:
+          "Store warranty coverage, invoices, manuals, and supporting files against each asset record—so claims, renewals, and vendor conversations start with the right documents already attached.",
+      },
+      {
+        title: "Audit Trail & Compliance Reports",
+        description:
+          "Generate a complete custody and change history—ownership, transfers, and document access—with exportable reports that simplify regulated reviews and internal compliance checks.",
       },
     ],
     architecture: [
@@ -212,10 +214,12 @@ export const solutions: Solution[] = [
       "Maps, alerts & ERP sync",
     ],
     workflow: [
-      "Register assets and attach tags",
-      "Map sites and geofences",
-      "Monitor movement and exceptions",
-      "Reconcile with ops systems",
+      "Asset Procurement",
+      "Asset Registration",
+      "Location & Ownership Mapping",
+      "Transfer / Movement Tracking",
+      "Lifecycle & Warranty Monitoring",
+      "Dashboard • Reports • Analytics",
     ],
     benefits: [
       "Reduce loss and search time",
@@ -229,43 +233,72 @@ export const solutions: Solution[] = [
     slug: "amc-management",
     name: "AMC Management",
     shortName: "AMC Management",
+    image: "/Images/ChatGPT%20Image%20Sep%208%2C%202026%2C%2012_48_49%20PM.png",
+    tagline: "Maintenance & warranties",
+    headline:
+      "Keep AMC, warranties, vendors, and preventive maintenance on schedule from one workspace.",
+    introVideo: "/Videos/video/AMC_Management_video_202607281648.mp4",
     summary:
       "Streamline maintenance operations with intelligent AMC and warranty management. Automate preventive maintenance, monitor service requests, track vendor performance, and manage SLA compliance to maximize asset uptime and reduce maintenance costs.",
     overview:
-      "Streamline maintenance operations with intelligent AMC and warranty management. Automate preventive maintenance, monitor service requests, track vendor performance, and manage SLA compliance to maximize asset uptime and reduce maintenance costs.",
+      "Orion Alerts AMC Management digitizes maintenance operations by automating preventive maintenance schedules, warranty tracking, service requests, vendor management, and SLA monitoring. The platform helps organizations reduce equipment downtime, extend asset life, improve vendor accountability, and ensure maintenance activities are completed on time.",
     features: [
       {
-        title: "AMC & Warranty Tracking",
-        description: "Manage AMC and warranty coverage alongside the assets they protect.",
+        title: "AMC & Warranty Management",
+        description:
+          "Centralize annual maintenance contracts and warranty coverage against each protected asset—vendor terms, start and end dates, and claim context—so operations never lose track of what is covered where.",
       },
       {
         title: "Preventive Maintenance Scheduling",
-        description: "Automate preventive maintenance so assets stay available and productive.",
+        description:
+          "Automate preventive maintenance calendars across sites and asset classes so cameras, NVRs, and critical equipment stay serviceable before failures interrupt monitoring or operations.",
       },
       {
         title: "Service Request Management",
-        description: "Monitor service requests from intake through resolution.",
+        description:
+          "Capture, assign, and close service requests in one workflow—from intake and vendor dispatch through resolution notes—so every ticket stays visible until it is completed.",
       },
       {
-        title: "Vendor & SLA Management",
-        description: "Track vendor performance and SLA compliance across maintenance operations.",
+        title: "Vendor Performance Monitoring",
+        description:
+          "Measure vendor response time, completion quality, and repeat issues across maintenance jobs so procurement and facilities teams can hold partners accountable with evidence.",
       },
       {
-        title: "Renewal Alerts & Performance Reports",
-        description: "Stay ahead of renewals and review maintenance performance with clear reports.",
+        title: "SLA Compliance Tracking",
+        description:
+          "Monitor SLA commitments against real service activity, flag at-risk tickets early, and document breaches so uptime agreements stay enforceable—not theoretical.",
+      },
+      {
+        title: "Renewal Alerts & Notifications",
+        description:
+          "Get timely alerts for upcoming AMC, warranty, and contract renewals so coverage gaps are prevented and budget owners can act before expiry dates arrive.",
+      },
+      {
+        title: "Maintenance History",
+        description:
+          "Maintain a complete service history on every asset—visits, parts, outcomes, and vendor notes—to support audits, warranty claims, and smarter replacement decisions.",
+      },
+      {
+        title: "Automated Reminders",
+        description:
+          "Trigger automated reminders for upcoming preventive maintenance, contract renewals, and open tickets so teams act on schedule without relying on manual follow-ups.",
       },
     ],
     architecture: [
-      "Asset & contract registry",
-      "Scheduling engine",
-      "Partner / technician portal",
-      "SLA & reporting layer",
+      "Asset Added",
+      "AMC/Warranty Assigned",
+      "Preventive Maintenance Scheduled",
+      "Service Requests Managed",
+      "Vendor & SLA Tracking",
+      "Performance Reports",
     ],
     workflow: [
-      "Import assets and active AMCs",
-      "Define SLA and preventive plans",
-      "Dispatch tickets to partners",
-      "Review performance and renewals",
+      "Asset Added",
+      "AMC/Warranty Assigned",
+      "Preventive Maintenance Scheduled",
+      "Service Requests Managed",
+      "Vendor & SLA Tracking",
+      "Performance Reports",
     ],
     benefits: [
       "Fewer prolonged camera outages",
@@ -279,6 +312,11 @@ export const solutions: Solution[] = [
     slug: "health-monitoring",
     name: "Health Monitoring",
     shortName: "Health Monitoring",
+    image: "/Images/ChatGPT%20Image%20Sep%208%2C%202026%2C%2012_54_34%20PM.png",
+    tagline: "Infrastructure uptime",
+    headline:
+      "Spot camera, NVR, storage, and network issues before they create operational blind spots.",
+    introVideo: "/Videos/video/health-monitoring.mp4",
     summary:
       "Maintain complete confidence in your surveillance ecosystem with intelligent infrastructure oversight. Orion Alerts provides continuous operational visibility, helping organizations improve system reliability, streamline maintenance efforts, and ensure business-critical security systems are always performing at their best.",
     overview:
@@ -286,23 +324,33 @@ export const solutions: Solution[] = [
     features: [
       {
         title: "Real-Time Device Health Monitoring",
-        description: "Continuously track the status and performance of your security infrastructure.",
+        description:
+          "Continuously track the operational health and performance of your security infrastructure—so cameras, recorders, and supporting systems stay visible before failures create monitoring blind spots.",
       },
       {
         title: "Camera, NVR & Server Status",
-        description: "See the health of cameras, NVRs, and servers from one centralized view.",
+        description:
+          "Monitor live status for cameras, NVRs, and servers from one centralized view across sites—making estate-wide health checks faster for control-room and IT teams.",
       },
       {
         title: "Recording & Storage Health Monitoring",
-        description: "Detect recording interruptions and storage issues before they create blind spots.",
+        description:
+          "Detect recording interruptions, storage capacity risk, and retention issues early so critical video evidence remains available when investigations and audits need it.",
       },
       {
         title: "Network & Connectivity Monitoring",
-        description: "Identify network outages and connectivity problems that affect surveillance uptime.",
+        description:
+          "Identify network outages, link failures, and connectivity problems that take devices offline—helping teams restore surveillance uptime before operations are impacted.",
       },
       {
         title: "Instant Alerts & Notifications",
-        description: "Get notified immediately when devices or services fall out of healthy status.",
+        description:
+          "Notify the right responders immediately when devices or services leave healthy status, so issues are escalated and resolved while coverage can still be protected.",
+      },
+      {
+        title: "Uptime & Availability Reports",
+        description:
+          "Review uptime and availability trends across cameras, NVRs, and network nodes to prove reliability, prioritize fixes, and brief leadership with clear infrastructure health evidence.",
       },
     ],
     architecture: [
@@ -327,6 +375,20 @@ export const solutions: Solution[] = [
   },
 ];
 
+const SOLUTION_ORDER = [
+  "asset-tracking",
+  "amc-management",
+  "health-monitoring",
+  "vms",
+  "ai-analytics",
+] as const;
+
+export const solutions: Solution[] = SOLUTION_ORDER.map((slug) => {
+  const solution = solutionsSource.find((item) => item.slug === slug);
+  if (!solution) throw new Error(`Missing solution: ${slug}`);
+  return solution;
+});
+
 export function getSolution(slug: string) {
   return solutions.find((s) => s.slug === slug);
 }
@@ -345,322 +407,284 @@ export type Industry = {
   relatedSolutions: string[];
 };
 
+const defaultRelated = ["vms", "ai-analytics", "health-monitoring"] as const;
+
+function industryEntry(
+  partial: Omit<Industry, "summary" | "challenges" | "outcomes" | "relatedSolutions"> &
+    Partial<Pick<Industry, "summary" | "challenges" | "outcomes" | "relatedSolutions">>,
+): Industry {
+  const focus = partial.tagline ?? partial.name;
+  return {
+    ...partial,
+    summary:
+      partial.summary ??
+      `${partial.name} operations need continuous visibility for safety, security, and performance. Orion Alerts turns existing CCTV into AI-powered monitoring for ${focus.toLowerCase()}.`,
+    challenges: partial.challenges ?? [
+      "Limited real-time visibility across critical zones",
+      "Delayed response to safety and security events",
+      "Surveillance blind spots from offline cameras or NVRs",
+      "Slow investigation of incidents across sites",
+    ],
+    outcomes: partial.outcomes ?? [
+      "Real-time AI monitoring across key operating areas",
+      "Faster alerts for safety, access, and operational risk",
+      "Stronger multi-site visibility from a single platform",
+      "Instant event search for audits and investigations",
+    ],
+    relatedSolutions: partial.relatedSolutions ?? [...defaultRelated],
+  };
+}
+
+/** Final industry set shown on /industries cards (name + recommended description as tagline). */
 export const industries: Industry[] = [
-  {
+  industryEntry({
     slug: "manufacturing",
     name: "Manufacturing",
     cardLabel: "Manufacturing",
-    image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=900&q=80",
-    tagline: "Discrete & process plants",
+    image: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=1600&q=90",
+    introVideo: "/Videos/industries/manufacturing.mp4",
+    tagline:
+      "Use Vision Copilot to connect mapped camera observations with decisions about shift handovers, PPE observations and recurring material build-up.",
     summary:
-      "Protect production lines, people, and high-value equipment across plants with unified video, AI safety alerts, and estate health monitoring.",
-    challenges: [
-      "Blind spots across large floorplates and loading bays",
-      "PPE and restricted-zone compliance at scale",
-      "Tooling, WIP, and asset loss on the shop floor",
-      "Fragmented camera and AMC coverage across sites",
-    ],
-    outcomes: [
-      "Unified plant video operations and incident response",
-      "AI alerts for safety and zone exceptions",
-      "Tracked critical assets with maintenance visibility",
-      "Coordinated uptime across multi-plant estates",
-    ],
-    relatedSolutions: ["vms", "ai-analytics", "smart-search", "asset-tracking", "amc-management", "health-monitoring"],
-  },
-  {
+      "Map cameras to the places your team manages and ask Vision Copilot about shift handovers, PPE observations and recurring material build-up.",
+  }),
+  industryEntry({
     slug: "automotive",
-    name: "Automotive & Autoparts",
+    name: "Automotive & Auto Components",
     cardLabel: "Automotive",
-    image: "https://images.unsplash.com/photo-1565043666747-69f6646db940?auto=format&fit=crop&w=900&q=80",
-    tagline: "Precision engineering & assemblies",
+    image: "https://images.unsplash.com/photo-1487754180451-c456f719a1fc?auto=format&fit=crop&w=1600&q=90",
+    tagline:
+      "Use Vision Copilot to connect mapped camera observations with decisions about assembly-cell events and line-side replenishment.",
     summary:
-      "Secure assembly lines, precision zones, and supplier logistics with real-time video intelligence built for high-throughput manufacturing.",
-    challenges: [
-      "Quality incidents hard to trace across lines",
-      "Restricted assembly zones and visitor control",
-      "Multi-shift safety and PPE enforcement",
-      "Camera blind spots in large production halls",
-    ],
-    outcomes: [
-      "Faster root-cause review with searchable video",
-      "Consistent safety monitoring across shifts",
-      "Clear audit trails for compliance and OEM standards",
-      "Proactive camera estate health before downtime",
-    ],
-    relatedSolutions: ["vms", "ai-analytics", "smart-search", "health-monitoring", "amc-management"],
-  },
-  {
-    slug: "metals-mining",
-    name: "Metals, Minerals & Mining",
-    cardLabel: "Metals & Mining",
-    image: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=900&q=80",
-    tagline: "Heavy industry & extraction",
-    summary:
-      "Monitor hazardous zones, perimeter security, and remote sites where safety, uptime, and rapid incident visibility are non-negotiable.",
-    challenges: [
-      "Harsh environments with limited operator coverage",
-      "Perimeter intrusion and unauthorized access",
-      "Equipment downtime cascading across operations",
-      "Distributed sites with inconsistent surveillance health",
-    ],
-    outcomes: [
-      "Real-time alerts for intrusion and safety events",
-      "Centralized visibility across pits, plants, and yards",
-      "Health monitoring for cameras and recorders in the field",
-      "Evidence-ready footage for incident investigations",
-    ],
-    relatedSolutions: ["vms", "ai-analytics", "health-monitoring", "asset-tracking", "amc-management"],
-  },
-  {
+      "Map cameras to the places your team manages and ask Vision Copilot about assembly-cell events and line-side replenishment.",
+  }),
+  industryEntry({
     slug: "cement",
     name: "Cement & Building Materials",
     cardLabel: "Cement",
-    image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=900&q=80",
-    tagline: "Building smarter, safer & more efficient cement operations",
+    image: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=1600&q=90",
+    tagline:
+      "Use Vision Copilot to connect mapped camera observations with decisions about truck staging and material-transfer visibility.",
     summary:
-      "Cement manufacturing operates in demanding environments with continuous production, heavy machinery, high-temperature processes, and large-scale material movement. Orion Alerts transforms existing surveillance infrastructure into an AI-powered operational intelligence platform for real-time monitoring, proactive alerts, and centralized management across the entire cement plant.",
-    challenges: [
-      "Process interruptions, equipment bottlenecks, and operational deviations that threaten production targets",
-      "Weak visibility across limestone, clinker, gypsum, and finished cement movement through conveyors, yards, silos, and loading areas",
-      "High-risk zones — kilns, crushers, clinker coolers, electrical rooms, and heavy equipment — where PPE gaps and unauthorized entry escalate quickly",
-      "Silent camera, NVR, storage, and network failures that create blind spots and unplanned downtime",
-    ],
-    outcomes: [
-      "Real-time production intelligence that identifies abnormal operations before they impact plant output",
-      "Stronger logistics visibility across loading bays, weighbridges, packaging, and dispatch with fewer material losses",
-      "AI-driven PPE, restricted-zone, vehicle, fire/smoke, and fall alerts with complete incident records for investigation and audit",
-      "Proactive health monitoring, asset tracking, and AMC workflows that maximize plant availability and surveillance uptime",
-    ],
-    relatedSolutions: [
-      "vms",
-      "ai-analytics",
-      "smart-search",
-      "asset-tracking",
-      "amc-management",
-      "health-monitoring",
-    ],
-  },
-  {
+      "Map cameras to the places your team manages and ask Vision Copilot about truck staging and material-transfer visibility.",
+  }),
+  industryEntry({
+    slug: "metals-mining",
+    name: "Metals, Mining & Minerals",
+    cardLabel: "Metals & Mining",
+    image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?auto=format&fit=crop&w=1600&q=90",
+    introVideo: "/Videos/industries/metals-mining.mp4",
+    tagline:
+      "Use Vision Copilot to connect mapped camera observations with decisions about remote work-zone review and heavy-equipment interfaces.",
+    summary:
+      "Map cameras to the places your team manages and ask Vision Copilot about remote work-zone review and heavy-equipment interfaces.",
+  }),
+  industryEntry({
     slug: "oil-gas",
     name: "Oil, Gas & Petrochemicals",
     cardLabel: "Oil & Gas",
-    image: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=900&q=80",
-    tagline: "Refining, upstream & midstream",
+    image: "https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?auto=format&fit=crop&w=1600&q=90",
+    tagline:
+      "Use Vision Copilot to connect mapped camera observations with decisions about tanker-area activity and controlled operational access.",
     summary:
-      "Harden surveillance across refineries, pipelines, and processing facilities with proactive alerts, compliance-ready evidence, and estate reliability.",
-    challenges: [
-      "High-risk zones requiring constant situational awareness",
-      "Regulatory audit and incident documentation pressure",
-      "Partner and contractor access complexity",
-      "Zero-tolerance windows for camera and recorder failure",
-    ],
-    outcomes: [
-      "Perimeter and zone intelligence with prioritized alerts",
-      "Forensic-ready video trails for investigations",
-      "Partner SLA and maintenance visibility",
-      "Health dashboards before outages impact operations",
-    ],
-    relatedSolutions: ["vms", "ai-analytics", "smart-search", "health-monitoring", "amc-management"],
-  },
-  {
-    slug: "schools",
-    name: "Schools",
-    cardLabel: "Schools",
-    image: "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=900&q=80",
-    tagline: "K-12, colleges & educational campuses",
-    summary:
-      "Create safer learning environments with campus-wide video, AI alerts for access exceptions, and reliable surveillance across buildings and grounds.",
-    challenges: [
-      "Large campuses with limited security staffing",
-      "After-hours intrusion and unauthorized access",
-      "Crowding and incident response across multiple buildings",
-      "Aging camera estates with inconsistent uptime",
-    ],
-    outcomes: [
-      "Unified live operations across campus buildings",
-      "AI alerts for perimeter and access exceptions",
-      "Faster incident review with searchable video",
-      "Proactive health monitoring for camera infrastructure",
-    ],
-    relatedSolutions: ["vms", "ai-analytics", "smart-search", "health-monitoring", "amc-management"],
-  },
-  {
+      "Map cameras to the places your team manages and ask Vision Copilot about tanker-area activity and controlled operational access.",
+  }),
+  industryEntry({
     slug: "pharma",
     name: "Pharmaceuticals & Life Sciences",
     cardLabel: "Pharma",
-    image: "https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=900&q=80",
-    tagline: "API, formulations, biologics & CDMO",
+    image: "https://images.unsplash.com/photo-1582719471384-894fbb16e074?auto=format&fit=crop&w=1600&q=90",
+    tagline:
+      "Use Vision Copilot to connect mapped camera observations with decisions about controlled-area observations and QA investigation context.",
     summary:
-      "Support GxP environments with controlled access monitoring, cleanroom-adjacent visibility, and audit-ready surveillance workflows.",
-    challenges: [
-      "Validated environments with strict access control",
-      "Documentation requirements for security incidents",
-      "Cold chain and storage area monitoring gaps",
-      "Distributed CDMO and multi-site coordination",
-    ],
-    outcomes: [
-      "Compliance-friendly incident review and export",
-      "AI monitoring for unauthorized access and anomalies",
-      "Centralized multi-site operations for QA and security",
-      "Reliable camera estate health across facilities",
-    ],
-    relatedSolutions: ["vms", "ai-analytics", "smart-search", "health-monitoring", "amc-management"],
-  },
-  {
+      "Map cameras to the places your team manages and ask Vision Copilot about controlled-area observations and QA investigation context.",
+  }),
+  industryEntry({
     slug: "food-fmcg",
-    name: "Food & FMCG",
+    name: "Food, Beverage & FMCG",
     cardLabel: "Food & FMCG",
-    image: "https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&w=900&q=80",
-    tagline: "Processing, bottling, packaging & personal care",
+    image: "https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&w=1600&q=90",
+    tagline:
+      "Use Vision Copilot to connect mapped camera observations with decisions about visible hygiene practices and packaging-flow observations.",
     summary:
-      "Protect processing lines, cold storage, and high-throughput packaging floors with video intelligence tuned for hygiene, safety, and loss prevention.",
-    challenges: [
-      "Hygiene and restricted production zone compliance",
-      "Shrinkage and chain-of-custody in warehouses",
-      "Cold storage and loading dock incident response",
-      "High camera counts with limited operator bandwidth",
-    ],
-    outcomes: [
-      "Prioritized AI alerts instead of endless feed watching",
-      "Multi-DC video command and investigation workflows",
-      "Health monitoring for 24/7 production uptime",
-      "Asset visibility for shared equipment and tooling",
-    ],
-    relatedSolutions: ["vms", "ai-analytics", "smart-search", "asset-tracking", "health-monitoring"],
-  },
-  {
+      "Map cameras to the places your team manages and ask Vision Copilot about visible hygiene practices and packaging-flow observations.",
+  }),
+  industryEntry({
     slug: "logistics",
     name: "Logistics & Warehousing",
     cardLabel: "Logistics",
-    image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=900&q=80",
-    tagline: "Transport hubs, yards & fulfillment",
+    image: "https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&w=1600&q=90",
+    tagline:
+      "Use Vision Copilot to connect mapped camera observations with decisions about cross-aisle obstructions and loading-bay handoffs.",
     summary:
-      "Secure yards, docks, and high-throughput facilities with searchable video, movement alerts, and centralized multi-site operations.",
-    challenges: [
-      "Yard and dock incident response delays",
-      "Shrinkage and chain-of-custody gaps",
-      "Multi-site operator overload",
-      "Camera estate uptime risk across DCs",
-    ],
-    outcomes: [
-      "Faster yard incident review and evidence export",
-      "Movement alerts on high-value freight zones",
-      "Centralized multi-DC live operations",
-      "SLA-backed camera and system maintenance",
-    ],
-    relatedSolutions: ["vms", "ai-analytics", "smart-search", "asset-tracking", "health-monitoring"],
-  },
-  {
-    slug: "commercial-infrastructure",
-    name: "Airports, Buildings & Commercial",
+      "Map cameras to the places your team manages and ask Vision Copilot about cross-aisle obstructions and loading-bay handoffs.",
+  }),
+  industryEntry({
+    slug: "dark-stores",
+    name: "Dark Stores & Micro-Fulfilment",
+    cardLabel: "Dark Stores",
+    image: "https://images.unsplash.com/photo-1553413077-190dd305871c?auto=format&fit=crop&w=1600&q=90",
+    tagline:
+      "Use Vision Copilot to connect mapped camera observations with decisions about compact stockroom layout and local dispatch pressure.",
+    summary:
+      "Map cameras to the places your team manages and ask Vision Copilot about compact stockroom layout and local dispatch pressure.",
+  }),
+  industryEntry({
+    slug: "quick-commerce",
+    name: "Quick Commerce",
+    cardLabel: "Quick Commerce",
+    image: "https://images.unsplash.com/photo-1605745341112-85968b19335b?auto=format&fit=crop&w=1600&q=90",
+    tagline: "Order-handling visibility, staff safety and rapid-dispatch monitoring",
+  }),
+  industryEntry({
+    slug: "ecommerce-fulfilment",
+    name: "E-commerce Fulfilment Centres",
+    cardLabel: "E-commerce FC",
+    image: "https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?auto=format&fit=crop&w=1600&q=90",
+    tagline: "Package movement, dispatch verification and restricted-area monitoring",
+  }),
+  industryEntry({
+    slug: "cold-storage",
+    name: "Cold Storage & Refrigerated Warehousing",
+    cardLabel: "Cold Storage",
+    image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1600&q=90",
+    tagline: "Temperature-sensitive area monitoring, access control and operational safety",
+  }),
+  industryEntry({
+    slug: "airports-ports-railways",
+    name: "Airports, Ports & Railways",
+    cardLabel: "Airports & Ports",
+    image: "https://images.unsplash.com/photo-1530521954074-e64f6810b32d?auto=format&fit=crop&w=1600&q=90",
+    tagline: "Crowd, perimeter and restricted-zone intelligence",
+  }),
+  industryEntry({
+    slug: "commercial-buildings",
+    name: "Commercial Buildings",
     cardLabel: "Commercial",
-    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=900&q=80",
-    tagline: "Transport hubs, retail & logistics facilities",
+    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1600&q=90",
+    tagline:
+      "Use Vision Copilot to connect mapped camera observations with decisions about tenant-facing common areas and recurring service pressure.",
     summary:
-      "Deliver safer experiences across airports, malls, offices, and mixed-use facilities with crowd-aware AI and multi-building video command.",
-    challenges: [
-      "High footfall and crowding across large floorplates",
-      "After-hours intrusion and access exceptions",
-      "Distributed security staffing",
-      "Inconsistent system health across buildings",
-    ],
-    outcomes: [
-      "Prioritized AI alert queues for operators",
-      "Consistent multi-building surveillance coverage",
-      "Clear visitor, zone, and perimeter policies",
-      "Proactive maintenance-driven camera uptime",
-    ],
-    relatedSolutions: ["vms", "ai-analytics", "smart-search", "health-monitoring", "amc-management"],
-  },
-  {
+      "Map cameras to the places your team manages and ask Vision Copilot about tenant-facing common areas and recurring service pressure.",
+  }),
+  industryEntry({
+    slug: "data-centres",
+    name: "Data Centres",
+    cardLabel: "Data Centres",
+    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1600&q=90",
+    tagline: "Critical-area protection, access intelligence and perimeter monitoring",
+  }),
+  industryEntry({
+    slug: "education-campuses",
+    name: "Education & Campuses",
+    cardLabel: "Education",
+    image: "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1600&q=90",
+    tagline: "Student safety, trespassing alerts and restricted-area monitoring",
+  }),
+  industryEntry({
+    slug: "healthcare",
+    name: "Healthcare & Hospitals",
+    cardLabel: "Healthcare",
+    image: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1600&q=90",
+    tagline: "Patient safety, fall detection and emergency-area intelligence",
+  }),
+  industryEntry({
+    slug: "retail-shopping",
+    name: "Retail & Shopping Centres",
+    cardLabel: "Retail",
+    image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1600&q=90",
+    tagline: "Crowd monitoring, queue visibility and customer-area safety",
+  }),
+  industryEntry({
+    slug: "hotels-hospitality",
+    name: "Hotels & Hospitality",
+    cardLabel: "Hospitality",
+    image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1600&q=90",
+    tagline: "Guest safety, service-area visibility and real-time incident alerts",
+  }),
+  industryEntry({
     slug: "utilities",
-    name: "Utilities & Smart Infrastructure",
+    name: "Utilities & Infrastructure",
     cardLabel: "Utilities",
-    image: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=900&q=80",
-    tagline: "Power, water, grids & industrial facilities",
-    summary:
-      "Operate with higher assurance across substations, plants, and regulated infrastructure where downtime and security incidents carry major impact.",
-    challenges: [
-      "Remote substations and perimeter pressure",
-      "Audit and evidence requirements",
-      "Partner network and contractor complexity",
-      "Zero-tolerance surveillance downtime",
-    ],
-    outcomes: [
-      "Hardened video command for critical sites",
-      "Forensic-ready event trails",
-      "Partner SLA and estate health visibility",
-      "Early warning before camera failures cascade",
-    ],
-    relatedSolutions: ["vms", "ai-analytics", "health-monitoring", "amc-management", "smart-search"],
-  },
-  {
+    image: "https://images.unsplash.com/photo-1466611653911-95081537e5b7?auto=format&fit=crop&w=1600&q=90",
+    tagline: "Remote-site monitoring, perimeter security and asset protection",
+  }),
+  industryEntry({
+    slug: "construction",
+    name: "Construction Sites",
+    cardLabel: "Construction",
+    image: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1600&q=90",
+    tagline: "PPE detection, unsafe-zone entry and after-hours intrusion",
+  }),
+  industryEntry({
     slug: "pulp-paper",
     name: "Pulp, Paper & Packaging",
     cardLabel: "Pulp & Paper",
-    image: "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?auto=format&fit=crop&w=900&q=80",
-    tagline: "Integrated mills & specialty packaging",
-    summary:
-      "Monitor sprawling mill operations, conveyor networks, and storage yards with unified video and AI safety intelligence.",
-    challenges: [
-      "Large continuous-process sites with blind spots",
-      "Fire and safety risk in storage and production areas",
-      "Energy-intensive operations needing reliable CCTV uptime",
-      "Multi-unit estates with manual health checks",
-    ],
-    outcomes: [
-      "Centralized visibility across mill sections",
-      "AI safety and zone monitoring at scale",
-      "Health dashboards for cameras and recorders",
-      "Searchable video for compliance and incidents",
-    ],
-    relatedSolutions: ["vms", "ai-analytics", "smart-search", "health-monitoring", "amc-management"],
-  },
-  {
+    image: "https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&w=1600&q=90",
+    tagline: "Production safety, material movement and process monitoring",
+  }),
+  industryEntry({
     slug: "textile",
-    name: "Textile & Garment",
-    cardLabel: "Textile",
-    image: "https://images.unsplash.com/photo-1558171813-4c088753af8f?auto=format&fit=crop&w=900&q=80",
-    tagline: "Spinning, weaving, dyeing & finishing",
-    summary:
-      "Secure production floors, dye houses, and finishing units with video operations built for shift-heavy, multi-building manufacturing.",
-    challenges: [
-      "Shift turnover and inconsistent manual monitoring",
-      "Theft and material movement across units",
-      "Safety compliance in noisy, fast-paced floors",
-      "Fragmented NVRs across buildings",
-    ],
-    outcomes: [
-      "Unified live operations across units",
-      "AI alerts for safety and restricted zones",
-      "Asset tracking for high-value machinery",
-      "AMC-driven uptime for camera infrastructure",
-    ],
-    relatedSolutions: ["vms", "ai-analytics", "asset-tracking", "health-monitoring", "amc-management"],
-  },
-  {
+    name: "Textiles & Garments",
+    cardLabel: "Textiles",
+    image: "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?auto=format&fit=crop&w=1600&q=90",
+    tagline: "Workforce safety, production-area visibility and fire-risk monitoring",
+  }),
+  industryEntry({
     slug: "polymers-plastics",
     name: "Polymers & Plastics",
     cardLabel: "Polymers",
-    image: "https://images.unsplash.com/photo-1565793298595-6a879b1d9492?auto=format&fit=crop&w=900&q=80",
-    tagline: "Molding, extrusion & polymer processing",
+    image: "https://images.unsplash.com/photo-1565793298595-6a879b1d9492?auto=format&fit=crop&w=1600&q=90",
+    tagline: "Process-zone safety, fire alerts and equipment-area monitoring",
+  }),
+  industryEntry({
+    slug: "banking",
+    name: "Banking & Financial Institutions",
+    cardLabel: "Banking",
+    image: "https://images.unsplash.com/photo-1541354329998-f4d9a9f9297f?auto=format&fit=crop&w=1600&q=90",
+    tagline: "Branch security, restricted-area access and suspicious-activity monitoring",
+  }),
+  industryEntry({
+    slug: "residential",
+    name: "Residential Communities & Townships",
+    cardLabel: "Residential",
+    image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1600&q=90",
+    tagline: "Perimeter security, vehicle monitoring and common-area safety",
+  }),
+  industryEntry({
+    slug: "government",
+    name: "Government & Public Infrastructure",
+    cardLabel: "Government",
+    image: "https://images.unsplash.com/photo-1523293182086-7651a899d37f?auto=format&fit=crop&w=1600&q=90",
+    tagline: "Public-area monitoring, perimeter protection and incident detection",
+  }),
+  industryEntry({
+    slug: "solar-renewable",
+    name: "Solar & Renewable Energy Facilities",
+    cardLabel: "Renewables",
+    image: "https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1600&q=90",
+    tagline: "Remote-site security, perimeter intrusion and asset monitoring",
+  }),
+  industryEntry({
+    slug: "telecom-remote",
+    name: "Telecom & Remote Sites",
+    cardLabel: "Telecom",
+    image: "https://images.unsplash.com/photo-1513828583688-c52646db42da?auto=format&fit=crop&w=1600&q=90",
+    tagline:
+      "Use Vision Copilot to connect mapped camera observations with decisions about shelter events and remote maintenance coordination.",
     summary:
-      "Watch extrusion lines, molding bays, and warehouse zones with proactive video analytics and reliable multi-site surveillance health.",
-    challenges: [
-      "High-temperature zones and equipment safety",
-      "Material handling and warehouse shrinkage",
-      "Limited visibility across molding and extrusion lines",
-      "Camera failures disrupting shift handovers",
-    ],
-    outcomes: [
-      "Real-time safety and intrusion alerts",
-      "Multi-site VMS for plants and warehouses",
-      "Smart search for quality and security incidents",
-      "Predictable maintenance for surveillance estate",
-    ],
-    relatedSolutions: ["vms", "ai-analytics", "smart-search", "health-monitoring", "asset-tracking"],
-  },
+      "Map cameras to the places your team manages and ask Vision Copilot about shelter events and remote maintenance coordination.",
+  }),
+  industryEntry({
+    slug: "sports-events",
+    name: "Sports & Event Venues",
+    cardLabel: "Sports & Events",
+    image: "https://images.unsplash.com/photo-1471295253337-3ceaaedca402?auto=format&fit=crop&w=1600&q=90",
+    tagline:
+      "Use Vision Copilot to connect mapped camera observations with decisions about event-phase congestion and stewarding decisions.",
+    summary:
+      "Map cameras to the places your team manages and ask Vision Copilot about event-phase congestion and stewarding decisions.",
+  }),
 ];
 
 export function getIndustry(slug: string) {

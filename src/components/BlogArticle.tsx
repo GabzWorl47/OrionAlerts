@@ -7,12 +7,26 @@ import {
   ArrowLeft,
   ArrowRight,
   Check,
-  Linkedin,
   Link2,
   Share2,
 } from "lucide-react";
 import { Button } from "@/components/ui";
-import type { BlogPost } from "@/lib/blogs";
+import { formatRelativeTime, type BlogPost } from "@/lib/blogs";
+import { BlogArticleContent, BlogArticleToc } from "@/components/BlogArticleContent";
+
+function LinkedInIcon({ size = 15 }: { size?: number }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      width={size}
+      height={size}
+      className="fill-current"
+      aria-hidden
+    >
+      <path d="M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8.5h4V23h-4V8.5zM8.5 8.5h3.8v2h.05c.53-1 1.82-2.05 3.75-2.05 4.01 0 4.75 2.64 4.75 6.07V23h-4v-6.6c0-1.57-.03-3.59-2.19-3.59-2.19 0-2.53 1.71-2.53 3.48V23h-3.88V8.5z" />
+    </svg>
+  );
+}
 
 type BlogArticleProps = {
   post: BlogPost;
@@ -80,6 +94,10 @@ export function BlogArticle({ post, related }: BlogArticleProps) {
           <div className="mt-6 flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.12em]">
             <span className="rounded-full bg-blue/10 px-2.5 py-1 text-blue">{post.category}</span>
             <span className="text-caption">·</span>
+            <span className="text-caption">
+              {formatRelativeTime(post.publishedAt || post.date)}
+            </span>
+            <span className="text-caption">·</span>
             <span className="text-caption">{post.dateLabel}</span>
             <span className="text-caption">·</span>
             <span className="text-caption">{post.readTime}</span>
@@ -110,7 +128,7 @@ export function BlogArticle({ post, related }: BlogArticleProps) {
                 className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-line bg-white text-muted transition hover:border-blue/30 hover:text-blue"
                 aria-label="Share on LinkedIn"
               >
-                <Linkedin size={15} />
+                <LinkedInIcon size={15} />
               </a>
               <button
                 type="button"
@@ -146,60 +164,10 @@ export function BlogArticle({ post, related }: BlogArticleProps) {
 
         <section className="container mt-10">
           <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_280px]">
-            <div className="mx-auto max-w-3xl lg:mx-0">
-              <div className="rounded-[20px] border border-blue/15 bg-gradient-to-br from-blue/[0.06] to-cyan/[0.08] p-5 md:p-6">
-                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-blue">
-                  Key takeaways
-                </p>
-                <ul className="mt-4 space-y-3">
-                  {post.takeaways.map((item) => (
-                    <li key={item} className="flex gap-3 text-sm leading-relaxed text-muted-strong">
-                      <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-blue" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+            <div>
+              <BlogArticleContent takeaways={post.takeaways} sections={post.sections} />
 
-              <div className="mt-8 space-y-6 text-[15px] leading-relaxed text-muted-strong md:text-base">
-                {post.sections.map((section, index) => {
-                  if (section.type === "heading") {
-                    return (
-                      <h2
-                        key={`${section.type}-${index}`}
-                        className="display pt-2 text-2xl normal-case text-text md:text-[1.75rem]"
-                      >
-                        {section.text}
-                      </h2>
-                    );
-                  }
-                  if (section.type === "quote") {
-                    return (
-                      <blockquote
-                        key={`${section.type}-${index}`}
-                        className="border-l-4 border-blue/40 bg-surface px-5 py-4 font-display text-lg leading-snug text-text"
-                      >
-                        {section.text}
-                      </blockquote>
-                    );
-                  }
-                  if (section.type === "list") {
-                    return (
-                      <ul key={`${section.type}-${index}`} className="space-y-2 pl-1">
-                        {section.items.map((item) => (
-                          <li key={item} className="flex gap-3">
-                            <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan" />
-                            <span>{item}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    );
-                  }
-                  return <p key={`${section.type}-${index}`}>{section.text}</p>;
-                })}
-              </div>
-
-              <div className="mt-10 flex flex-wrap gap-3">
+              <div className="mx-auto mt-10 flex max-w-3xl flex-wrap gap-3 lg:mx-0">
                 <Button href="/book-demo">Request a Demo</Button>
                 <Button href="/blogs" variant="outline">
                   More articles
@@ -208,22 +176,7 @@ export function BlogArticle({ post, related }: BlogArticleProps) {
             </div>
 
             <aside className="space-y-4 lg:sticky lg:top-[calc(var(--header-h)+1.5rem)] lg:self-start">
-              <div className="rounded-[20px] border border-line bg-white p-5">
-                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-caption">
-                  In this article
-                </p>
-                <ul className="mt-4 space-y-2">
-                  {post.sections
-                    .filter((section) => section.type === "heading")
-                    .map((section) =>
-                      section.type === "heading" ? (
-                        <li key={section.text} className="text-sm text-muted-strong">
-                          {section.text}
-                        </li>
-                      ) : null,
-                    )}
-                </ul>
-              </div>
+              <BlogArticleToc sections={post.sections} />
               <div className="rounded-[20px] border border-line bg-[#0c2238] p-5 text-white">
                 <p className="text-xs font-semibold uppercase tracking-[0.14em] text-cyan">
                   Next step

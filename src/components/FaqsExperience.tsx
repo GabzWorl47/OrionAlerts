@@ -387,8 +387,10 @@ function HelpCard({
         {body}
       </p>
       <span
-        className={`mt-5 inline-flex items-center gap-2 text-sm font-semibold ${
-          accent ? "text-white" : "text-blue"
+        className={`mt-5 inline-flex items-center gap-2 text-sm font-semibold transition ${
+          accent
+            ? "rounded-[8px] border border-cyan/40 bg-cyan px-3.5 py-2 text-[#0c2238] shadow-[0_0_20px_rgba(48,227,255,0.25)] group-hover:bg-white"
+            : "text-blue"
         }`}
       >
         {cta}

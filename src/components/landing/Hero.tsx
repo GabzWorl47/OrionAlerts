@@ -1,120 +1,210 @@
 "use client";
 
-import { motion, useMotionValue, useReducedMotion, useSpring, useTransform } from "framer-motion";
-import { useRef } from "react";
-import { MagneticButton } from "@/components/MagneticButton";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { motion, useReducedMotion } from "framer-motion";
+
+const INTRO_VIDEO = "/Videos/video/Intro%20video.mp4";
+const HERO_VIDEOS = [INTRO_VIDEO, INTRO_VIDEO, INTRO_VIDEO, INTRO_VIDEO] as const;
+
+const ease = [0.22, 1, 0.36, 1] as const;
 
 export function Hero() {
   const reduce = useReducedMotion();
-  const ref = useRef<HTMLElement>(null);
-  const mx = useMotionValue(0);
-  const my = useMotionValue(0);
-  const springX = useSpring(mx, { stiffness: 60, damping: 20 });
-  const springY = useSpring(my, { stiffness: 60, damping: 20 });
-  const layerX = useTransform(springX, (v) => v * -0.03);
-  const layerY = useTransform(springY, (v) => v * -0.03);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const advancingRef = useRef(false);
+  const [videoIndex, setVideoIndex] = useState(0);
+  const [progress, setProgress] = useState(0);
+  const [remaining, setRemaining] = useState(0);
 
-  function onMove(e: React.MouseEvent) {
-    if (reduce || !ref.current) return;
-    const rect = ref.current.getBoundingClientRect();
-    mx.set(e.clientX - (rect.left + rect.width / 2));
-    my.set(e.clientY - (rect.top + rect.height / 2));
-  }
+  const advance = useCallback(() => {
+    if (advancingRef.current) return;
+    advancingRef.current = true;
+
+    setVideoIndex((i) => (i + 1) % HERO_VIDEOS.length);
+    setProgress(0);
+    setRemaining(0);
+
+    const video = videoRef.current;
+    if (video) {
+      video.currentTime = 0;
+      void video.play().catch(() => {
+        // Autoplay may be blocked until interaction.
+      });
+    }
+
+    // Allow the next handoff after playback has restarted.
+    window.setTimeout(() => {
+      advancingRef.current = false;
+    }, 400);
+  }, []);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.muted = true;
+
+    const tryPlay = async () => {
+      try {
+        await video.play();
+      } catch {
+        // Autoplay may be blocked until interaction.
+      }
+    };
+
+    if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
+      void tryPlay();
+    } else {
+      video.addEventListener("loadeddata", () => void tryPlay(), { once: true });
+    }
+
+    const onTime = () => {
+      if (!video.duration || !Number.isFinite(video.duration)) return;
+      const ratio = video.currentTime / video.duration;
+      setProgress(ratio);
+      setRemaining(Math.max(0, Math.ceil(video.duration - video.currentTime)));
+      // Some encodings stall near the end without firing `ended`.
+      if (ratio >= 0.98) advance();
+    };
+
+    const onEnded = () => advance();
+
+    video.addEventListener("timeupdate", onTime);
+    video.addEventListener("ended", onEnded);
+    return () => {
+      video.removeEventListener("timeupdate", onTime);
+      video.removeEventListener("ended", onEnded);
+    };
+  }, [advance]);
+
+  const ringSize = 44;
+  const stroke = 1.75;
+  const radius = (ringSize - stroke) / 2;
+  const circumference = 2 * Math.PI * radius;
+  const dashOffset = circumference * (1 - progress);
 
   return (
-    <section
-      ref={ref}
-      onMouseMove={onMove}
-      className="relative overflow-hidden pt-[var(--header-h)]"
-    >
-      <div className="absolute inset-0 bg-bg" />
-      <div className="absolute inset-0 grid-texture opacity-60" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,rgba(43,140,255,0.12),transparent_55%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_80%_70%,rgba(48,227,255,0.08),transparent_45%)]" />
+    <section className="relative isolate min-h-[100svh] overflow-hidden bg-[#061018] text-white">
+      {/* Full-bleed video under everything */}
+      <video
+        ref={videoRef}
+        src={HERO_VIDEOS[videoIndex]}
+        className="absolute inset-0 h-full w-full object-cover"
+        muted
+        playsInline
+        autoPlay
+        preload="auto"
+        aria-hidden
+      />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_20%_40%,rgba(43,140,255,0.22),transparent_50%),radial-gradient(ellipse_at_90%_50%,rgba(251,146,60,0.16),transparent_42%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#061018]/55 via-transparent to-[#061018]/35" />
 
-      <div className="container relative z-10 py-16 text-center md:py-20">
-        <motion.p
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="eyebrow"
-        >
-          Enterprise AI Surveillance
-        </motion.p>
+      {/* Title locked to the true center of the video frame — shows for 5s then fades */}
+      <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center px-6">
         <motion.h1
-          initial={{ opacity: 0, y: 28 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
-          className="display mx-auto mt-5 max-w-4xl text-[clamp(2.6rem,6.5vw,5rem)] uppercase text-steel-gradient"
+          initial={reduce ? { opacity: 1 } : { opacity: 0, scale: 0.98 }}
+          animate={
+            reduce
+              ? { opacity: 1 }
+              : {
+                  opacity: [0, 1, 1, 0],
+                  scale: [0.98, 1, 1, 1],
+                }
+          }
+          transition={
+            reduce
+              ? { duration: 0 }
+              : {
+                  duration: 6,
+                  times: [0, 0.12, 0.83, 1],
+                  ease: "easeInOut",
+                }
+          }
+          className="select-none text-center font-display text-[clamp(3.2rem,12vw,8.5rem)] font-semibold uppercase leading-[0.9] tracking-[-0.04em]"
         >
-          Proactive physical security, powered by AI
+          <span className="bg-[linear-gradient(105deg,#9fd4ff_0%,#ffffff_42%,#fdba74_100%)] bg-clip-text text-transparent [text-shadow:0_0_40px_rgba(43,140,255,0.25)]">
+            Orion
+          </span>
+          <span className="mt-1 block bg-[linear-gradient(105deg,#fdba74_0%,#ffffff_55%,#9fd4ff_100%)] bg-clip-text text-transparent md:mt-2">
+            Alerts
+          </span>
         </motion.h1>
-        <motion.p
-          initial={{ opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, delay: 0.18 }}
-          className="description mx-auto mt-6 max-w-2xl text-lg"
-        >
-          ORION Alerts turns video, AI analytics, and operational data into real-time decisions —
-          one platform for security and operations teams.
-        </motion.p>
-        <motion.div
-          initial={{ opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, delay: 0.28 }}
-          className="mt-8 flex flex-wrap items-center justify-center gap-3"
-        >
-          <MagneticButton href="/book-demo">Book a Demo</MagneticButton>
-          <MagneticButton href="/#solutions" variant="outline">
-            Explore Solutions
-          </MagneticButton>
-        </motion.div>
       </div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 36, scale: 0.97 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.8, delay: 0.32, ease: [0.22, 1, 0.36, 1] }}
-        className="container relative z-10 pb-16 md:pb-20"
-        style={{ x: layerX, y: layerY }}
-      >
-        <div className="panel relative mx-auto aspect-[21/9] max-w-5xl overflow-hidden will-change-transform ai-glow">
-          <div className="command-panel absolute inset-0" />
-          <div className="absolute inset-0 opacity-40 mix-blend-screen bg-[radial-gradient(circle_at_30%_40%,rgba(124,58,237,0.35),transparent_35%),radial-gradient(circle_at_70%_60%,rgba(6,182,212,0.25),transparent_40%)]" />
-          <div className="scanlines absolute inset-0 opacity-45" />
-          {!reduce ? (
-            <motion.div
-              className="absolute inset-x-0 h-px bg-gradient-to-r from-transparent via-cyan to-transparent"
-              animate={{ top: ["10%", "90%", "10%"] }}
-              transition={{ duration: 5.5, ease: "linear", repeat: Infinity }}
-            />
-          ) : null}
-          <motion.div
-            className="absolute left-[18%] top-[28%] h-[38%] w-[18%] border border-cyan"
-            animate={{ opacity: [0.4, 1, 0.4] }}
-            transition={{ duration: 2.6, repeat: Infinity }}
-          >
-            <span className="absolute -top-5 left-0 text-[10px] font-semibold tracking-wide text-cyan">
-              Person Detected
-            </span>
-          </motion.div>
-          <motion.div
-            className="absolute left-[52%] top-[40%] h-[26%] w-[24%] border border-alert"
-            animate={{ opacity: [0.35, 1, 0.35] }}
-            transition={{ duration: 3.1, repeat: Infinity, delay: 0.4 }}
-          >
-            <span className="absolute -top-5 left-0 text-[10px] font-semibold tracking-wide text-alert">
-              Restricted Zone
-            </span>
-          </motion.div>
-          <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-[10px] uppercase tracking-[0.16em] text-white/60">
-            <span>ORION Ops · Command visual placeholder</span>
-            <span className="flex items-center gap-2 text-alert">
-              <span className="pulse-dot h-1.5 w-1.5 rounded-full bg-alert" /> Live
-            </span>
+      {!reduce ? (
+        <div
+          className="pointer-events-none absolute right-5 top-1/2 z-10 hidden -translate-y-1/2 md:right-8 md:block"
+          aria-hidden
+        >
+          <div className="flex flex-col items-center gap-3">
+            {HERO_VIDEOS.map((_, index) => {
+              const isActive = index === videoIndex;
+              if (!isActive) {
+                return (
+                  <span
+                    key={index}
+                    className="block size-1.5 rounded-full bg-white/45"
+                  />
+                );
+              }
+
+              return (
+                <div
+                  key={index}
+                  className="relative flex items-center justify-center"
+                  style={{ width: ringSize, height: ringSize }}
+                >
+                  <svg
+                    width={ringSize}
+                    height={ringSize}
+                    className="-rotate-90"
+                    viewBox={`0 0 ${ringSize} ${ringSize}`}
+                  >
+                    <circle
+                      cx={ringSize / 2}
+                      cy={ringSize / 2}
+                      r={radius}
+                      fill="none"
+                      stroke="rgba(255,255,255,0.22)"
+                      strokeWidth={stroke}
+                    />
+                    <circle
+                      cx={ringSize / 2}
+                      cy={ringSize / 2}
+                      r={radius}
+                      fill="none"
+                      stroke="rgba(255,255,255,0.95)"
+                      strokeWidth={stroke}
+                      strokeLinecap="round"
+                      strokeDasharray={circumference}
+                      strokeDashoffset={dashOffset}
+                      className="transition-[stroke-dashoffset] duration-200 ease-linear"
+                    />
+                  </svg>
+                  <span className="absolute inset-0 flex items-center justify-center text-[13px] font-semibold tabular-nums tracking-tight text-white">
+                    {remaining}
+                  </span>
+                </div>
+              );
+            })}
           </div>
         </div>
-      </motion.div>
+      ) : null}
+
+      {/* Glass band over the video — Verkada-style */}
+      <div className="absolute inset-x-0 bottom-0 z-20 border-t border-white/15 bg-[#061018]/45 backdrop-blur-2xl supports-[backdrop-filter]:bg-[#061018]/30">
+        <div className="container flex flex-col gap-3 py-4 md:flex-row md:items-end md:justify-between md:gap-10 md:py-5">
+          <motion.div
+            initial={reduce ? false : { opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.55, delay: 0.12, ease }}
+            className="max-w-md"
+          >
+            <p className="text-[clamp(1.15rem,1.8vw,1.45rem)] font-semibold leading-[1.2] tracking-[-0.02em] text-white">
+              Intelligent alerts for smarter, safer operations.
+            </p>
+          </motion.div>
+        </div>
+      </div>
     </section>
   );
 }

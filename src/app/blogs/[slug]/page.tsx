@@ -3,10 +3,13 @@ import { notFound } from "next/navigation";
 import { CtaBand, Section } from "@/components/ui";
 import { PageShell } from "@/components/PageShell";
 import { BlogArticle } from "@/components/BlogArticle";
-import { blogPosts, getBlog, getRelatedPosts } from "@/lib/blogs";
+import { getBlog, getPublishedBlogPosts, getRelatedPosts } from "@/lib/blog-store";
 
-export function generateStaticParams() {
-  return blogPosts.map((post) => ({ slug: post.slug }));
+export const dynamic = "force-dynamic";
+
+export async function generateStaticParams() {
+  const posts = await getPublishedBlogPosts();
+  return posts.map((post) => ({ slug: post.slug }));
 }
 
 export async function generateMetadata({
@@ -15,7 +18,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const post = getBlog(slug);
+  const post = await getBlog(slug);
   if (!post) return {};
   return {
     title: post.title,
@@ -43,10 +46,10 @@ export default async function BlogDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const post = getBlog(slug);
+  const post = await getBlog(slug);
   if (!post) notFound();
 
-  const related = getRelatedPosts(slug, 2);
+  const related = await getRelatedPosts(slug, 2);
 
   const jsonLd = {
     "@context": "https://schema.org",

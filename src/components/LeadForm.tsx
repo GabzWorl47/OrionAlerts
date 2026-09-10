@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import { GoogleRecaptcha } from "@/components/GoogleRecaptcha";
 
 type LeadKind = "demo" | "contact";
 
@@ -13,11 +14,20 @@ type LeadFormProps = {
 export function LeadForm({ kind, title, subtitle }: LeadFormProps) {
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [message, setMessage] = useState("");
+  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
+  const [recaptchaReset, setRecaptchaReset] = useState(0);
+  const requireCaptcha = kind === "demo";
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setStatus("submitting");
     setMessage("");
+
+    if (requireCaptcha && !recaptchaToken) {
+      setStatus("error");
+      setMessage("Please complete the reCAPTCHA challenge.");
+      return;
+    }
 
     const form = event.currentTarget;
     const data = Object.fromEntries(new FormData(form).entries());
@@ -26,7 +36,11 @@ export function LeadForm({ kind, title, subtitle }: LeadFormProps) {
       const res = await fetch("/api/leads", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ kind, ...data }),
+        body: JSON.stringify({
+          kind,
+          ...data,
+          ...(requireCaptcha ? { recaptchaToken } : {}),
+        }),
       });
 
       const json = (await res.json()) as { ok?: boolean; error?: string };
@@ -42,9 +56,13 @@ export function LeadForm({ kind, title, subtitle }: LeadFormProps) {
           : "Message received. We’ll connect you with the right person.",
       );
       form.reset();
+      setRecaptchaToken(null);
+      setRecaptchaReset((value) => value + 1);
     } catch (error) {
       setStatus("error");
       setMessage(error instanceof Error ? error.message : "Something went wrong.");
+      setRecaptchaToken(null);
+      setRecaptchaReset((value) => value + 1);
     }
   }
 
@@ -87,7 +105,6 @@ export function LeadForm({ kind, title, subtitle }: LeadFormProps) {
               </option>
               <option value="vms">VMS</option>
               <option value="ai-analytics">AI Vision & Real-Time Alerts</option>
-              <option value="smart-search">Smart Search</option>
               <option value="asset-tracking">Asset Tracking</option>
               <option value="amc-management">AMC Management</option>
               <option value="health-monitoring">Health Monitoring</option>
@@ -125,13 +142,20 @@ export function LeadForm({ kind, title, subtitle }: LeadFormProps) {
         </label>
       </div>
 
-      <p className="mt-4 text-xs text-muted">
-        Protected by Cloudflare bot management (Turnstile-ready). Submissions are rate-limited by IP.
-      </p>
+      {requireCaptcha ? (
+        <div className="mt-5">
+          <GoogleRecaptcha onChange={setRecaptchaToken} resetSignal={recaptchaReset} />
+          <p className="mt-2 text-xs text-muted">Protected by Google reCAPTCHA.</p>
+        </div>
+      ) : (
+        <p className="mt-4 text-xs text-muted">
+          Submissions are rate-limited by IP.
+        </p>
+      )}
 
       <button
         type="submit"
-        disabled={status === "submitting"}
+        disabled={status === "submitting" || (requireCaptcha && !recaptchaToken)}
         className="mt-5 inline-flex items-center justify-center rounded-[14px] bg-blue px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#1f7aef] disabled:cursor-not-allowed disabled:opacity-60"
       >
         {status === "submitting" ? "Sending…" : kind === "demo" ? "Request demo" : "Send message"}

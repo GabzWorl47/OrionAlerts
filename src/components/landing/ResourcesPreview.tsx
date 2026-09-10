@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
 import { Reveal, Stagger, StaggerItem } from "@/components/Reveal";
-import { blogPosts } from "@/lib/blogs";
+import type { BlogPost } from "@/lib/blogs";
 import { getFeaturedFaqs } from "@/lib/faqs";
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -16,9 +16,9 @@ const topics = [
   { label: "Operations", href: "/blogs" },
 ];
 
-export function ResourcesPreview() {
+export function ResourcesPreview({ posts = [] }: { posts?: BlogPost[] }) {
   const reduce = useReducedMotion();
-  const [featured, ...rest] = [...blogPosts].sort((a, b) =>
+  const [featured, ...rest] = [...posts].sort((a, b) =>
     a.date < b.date ? 1 : -1,
   );
   const secondary = rest.slice(0, 2);
@@ -183,7 +183,7 @@ export function ResourcesPreview() {
                 Straight answers
               </h3>
               <p className="mt-2 text-sm leading-relaxed text-white/55">
-                From existing cameras to Smart Search — the questions buyers ask first.
+                From existing cameras to AI-assisted operations — the questions buyers ask first.
               </p>
               <Link
                 href="/faqs"

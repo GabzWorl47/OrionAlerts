@@ -26,14 +26,19 @@ export function Section({
   children,
   className = "",
   narrow = false,
+  compact = false,
 }: {
   id?: string;
   children: ReactNode;
   className?: string;
   narrow?: boolean;
+  compact?: boolean;
 }) {
   return (
-    <section id={id} className={`py-16 md:py-24 ${className}`}>
+    <section
+      id={id}
+      className={`${compact ? "section-y-compact" : "section-y"} ${className}`}
+    >
       <div className={narrow ? "container max-w-3xl" : "container"}>{children}</div>
     </section>
   );
@@ -44,16 +49,30 @@ export function SectionHeading({
   title,
   lede,
   align = "left",
+  compact = false,
 }: {
   eyebrow?: string;
   title: string;
   lede?: string;
   align?: "left" | "center";
+  compact?: boolean;
 }) {
   return (
-    <div className={`mb-10 max-w-3xl ${align === "center" ? "mx-auto text-center" : ""}`}>
-      {eyebrow ? <p className="eyebrow mb-3">{eyebrow}</p> : null}
-      <h2 className="display text-3xl uppercase text-steel-gradient md:text-4xl">{title}</h2>
+    <div
+      className={`${
+        compact ? "mb-6" : "mb-[var(--section-heading-gap)]"
+      } max-w-3xl ${align === "center" ? "mx-auto text-center" : ""}`}
+    >
+      {eyebrow ? <p className={`eyebrow ${compact ? "mb-2" : "mb-3"}`}>{eyebrow}</p> : null}
+      <h2
+        className={`${
+          compact
+            ? "text-[clamp(1.45rem,2.8vw,2rem)]"
+            : "text-[clamp(1.75rem,3.5vw,2.5rem)]"
+        } font-semibold leading-[1.1] tracking-[-0.03em] text-text`}
+      >
+        {title}
+      </h2>
       {lede ? (
         <p className={`mt-4 description ${align === "center" ? "mx-auto" : ""}`}>{lede}</p>
       ) : null}
@@ -143,20 +162,24 @@ export function CtaBand({
   secondaryLabel?: string;
 }) {
   return (
-    <div
-      className={`overflow-hidden rounded-[24px] border border-line bg-surface px-8 py-10 md:px-12 md:py-12 ${className}`}
-    >
+    <div className={`overflow-hidden rounded-[28px] bg-blue px-8 py-10 text-white md:px-12 md:py-12 ${className}`}>
       <div className="grid gap-8 md:grid-cols-[1.4fr_auto] md:items-end">
         <div>
-          <h2 className="display text-3xl uppercase text-steel-gradient md:text-4xl">{title}</h2>
-          <p className="mt-3 max-w-xl description">{lede}</p>
+          <h2 className="text-[clamp(1.75rem,3.5vw,2.5rem)] font-semibold leading-[1.1] tracking-[-0.03em] text-white">
+            {title}
+          </h2>
+          <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-white/70">{lede}</p>
         </div>
         <div className={`flex flex-wrap gap-3 ${actionsClassName}`}>
           <MagneticButton href={primaryHref} className={primaryClassName}>
             {primaryLabel}
           </MagneticButton>
           {secondaryHref && secondaryLabel ? (
-            <MagneticButton href={secondaryHref} variant="outline">
+            <MagneticButton
+              href={secondaryHref}
+              variant="outline"
+              className="!border-white/30 !bg-transparent !text-white hover:!border-cyan hover:!text-cyan"
+            >
               {secondaryLabel}
             </MagneticButton>
           ) : null}

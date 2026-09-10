@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Outfit } from "next/font/google";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
-import { AiAssistant } from "@/components/AiAssistant";
+import { SiteChrome } from "@/components/SiteChrome";
 import { site } from "@/lib/site";
 import "./globals.css";
 
@@ -18,6 +16,11 @@ export const metadata: Metadata = {
     template: `%s · ${site.name}`,
   },
   description: site.description,
+  icons: {
+    icon: [{ url: "/Images/favicon.png", type: "image/png" }],
+    apple: [{ url: "/Images/favicon.png", type: "image/png" }],
+    shortcut: "/Images/favicon.png",
+  },
 };
 
 export default function RootLayout({
@@ -28,10 +31,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${outfit.variable} h-full antialiased`}>
       <body className="site-shell flex min-h-full flex-col bg-bg font-sans text-text">
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
-        <AiAssistant />
+        <SiteChrome>{children}</SiteChrome>
       </body>
     </html>
   );

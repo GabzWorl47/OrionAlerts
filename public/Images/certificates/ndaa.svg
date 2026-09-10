@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 80" role="img" aria-label="NDAA Compliant">
+  <defs>
+    <linearGradient id="ndaaBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0A2540"/>
+      <stop offset="100%" stop-color="#102A56"/>
+    </linearGradient>
+  </defs>
+  <rect x="18" y="8" width="164" height="64" rx="10" fill="url(#ndaaBg)"/>
+  <g fill="#F5D76E">
+    <polygon points="70,18 71.5,22.5 76,22.5 72.5,25.3 73.8,29.8 70,27 66.2,29.8 67.5,25.3 64,22.5 68.5,22.5"/>
+    <polygon points="85,16 86.5,20.5 91,20.5 87.5,23.3 88.8,27.8 85,25 81.2,27.8 82.5,23.3 79,20.5 83.5,20.5"/>
+    <polygon points="100,15 101.5,19.5 106,19.5 102.5,22.3 103.8,26.8 100,24 96.2,26.8 97.5,22.3 94,19.5 98.5,19.5"/>
+    <polygon points="115,16 116.5,20.5 121,20.5 117.5,23.3 118.8,27.8 115,25 111.2,27.8 112.5,23.3 109,20.5 113.5,20.5"/>
+    <polygon points="130,18 131.5,22.5 136,22.5 132.5,25.3 133.8,29.8 130,27 126.2,29.8 127.5,25.3 124,22.5 128.5,22.5"/>
+  </g>
+  <text x="100" y="48" text-anchor="middle" fill="#FFFFFF" font-family="Impact, Arial Black, Arial, sans-serif" font-size="22" font-weight="800" letter-spacing="2">NDAA</text>
+  <text x="100" y="62" text-anchor="middle" fill="#4FC3F7" font-family="Arial, sans-serif" font-size="8" font-weight="700" letter-spacing="2.5">COMPLIANT</text>
+</svg>

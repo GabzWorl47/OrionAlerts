@@ -42,6 +42,7 @@ export function Footer() {
           <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted">Company</p>
           <ul className="mt-4 space-y-2 text-sm text-muted-strong">
             <li><Link href="/about" className="transition hover:text-blue">About</Link></li>
+            <li><Link href="/nebula-os" className="transition hover:text-blue">Nebula OS</Link></li>
             <li><Link href="/blogs" className="transition hover:text-blue">Blog</Link></li>
             <li><Link href="/about#team" className="transition hover:text-blue">Careers</Link></li>
             <li><Link href="/contact" className="transition hover:text-blue">Trust & Security</Link></li>

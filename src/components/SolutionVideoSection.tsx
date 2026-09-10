@@ -6,6 +6,8 @@ import Image from "next/image";
 import { AnimatePresence, motion, useInView, useReducedMotion } from "framer-motion";
 import {
   Activity,
+  ArrowLeft,
+  ArrowRight,
   BellRing,
   CheckCircle2,
   LayoutGrid,
@@ -16,7 +18,6 @@ import {
   X,
   Zap,
 } from "lucide-react";
-import { SolutionVideo } from "@/components/SolutionVideo";
 
 const DEFAULT_OUTCOMES = [
   "Multi-site visibility from one command view",
@@ -45,7 +46,7 @@ const DEFAULT_WORKFLOW: WorkflowStep[] = [
     preview: "alert",
   },
   {
-    title: "Smart search",
+    title: "Event search",
     description: "Find evidence in seconds",
     preview: "search",
   },
@@ -70,40 +71,6 @@ const OUTCOME_PREVIEW_FALLBACK: PreviewKind[] = [
   "multisite",
 ];
 
-export type OutcomeItem = {
-  title: string;
-  description?: string;
-  preview?: PreviewKind;
-  videoSrc?: string;
-};
-
-function normalizeOutcomes(
-  outcomes: Array<string | OutcomeItem>,
-): Array<{
-  title: string;
-  description: string;
-  preview: PreviewKind;
-  videoSrc?: string;
-}> {
-  return outcomes.slice(0, 4).map((item, index) => {
-    if (typeof item === "string") {
-      return {
-        title: item,
-        description: OUTCOME_CAPTIONS[index % OUTCOME_CAPTIONS.length],
-        preview: OUTCOME_PREVIEW_FALLBACK[index % OUTCOME_PREVIEW_FALLBACK.length],
-      };
-    }
-    return {
-      title: item.title,
-      description:
-        item.description ?? OUTCOME_CAPTIONS[index % OUTCOME_CAPTIONS.length],
-      preview:
-        item.preview ?? OUTCOME_PREVIEW_FALLBACK[index % OUTCOME_PREVIEW_FALLBACK.length],
-      videoSrc: item.videoSrc,
-    };
-  });
-}
-
 const FEED_STILLS = [
   {
     src: "https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=900&q=80",
@@ -122,6 +89,44 @@ const FEED_STILLS = [
     label: "Cam 18 · Lobby",
   },
 ];
+
+export type OutcomeItem = {
+  title: string;
+  description?: string;
+  preview?: PreviewKind;
+  videoSrc?: string;
+  image?: string;
+};
+
+function normalizeOutcomes(
+  outcomes: Array<string | OutcomeItem>,
+): Array<{
+  title: string;
+  description: string;
+  preview: PreviewKind;
+  videoSrc?: string;
+  image?: string;
+}> {
+  return outcomes.slice(0, 6).map((item, index) => {
+    if (typeof item === "string") {
+      return {
+        title: item,
+        description: OUTCOME_CAPTIONS[index % OUTCOME_CAPTIONS.length],
+        preview: OUTCOME_PREVIEW_FALLBACK[index % OUTCOME_PREVIEW_FALLBACK.length],
+        image: FEED_STILLS[index % FEED_STILLS.length].src,
+      };
+    }
+    return {
+      title: item.title,
+      description:
+        item.description ?? OUTCOME_CAPTIONS[index % OUTCOME_CAPTIONS.length],
+      preview:
+        item.preview ?? OUTCOME_PREVIEW_FALLBACK[index % OUTCOME_PREVIEW_FALLBACK.length],
+      videoSrc: item.videoSrc,
+      image: item.image ?? FEED_STILLS[index % FEED_STILLS.length].src,
+    };
+  });
+}
 
 const SEARCH_CLIPS = [
   {
@@ -174,6 +179,8 @@ type SolutionVideoSectionProps = {
   workflowSteps?: WorkflowStep[];
   gap?: string;
   sideWidth?: string;
+  /** Wide intro video, then zoom out as side panels slide in */
+  cinematicEntrance?: boolean;
 };
 
 function MiniFeedVideo({ src, poster }: { src: string; poster?: string }) {
@@ -449,10 +456,23 @@ export function SolutionVideoSection({
   workflowSteps = DEFAULT_WORKFLOW,
   gap = "1.5rem",
   sideWidth = "16.5rem",
+  cinematicEntrance = false,
 }: SolutionVideoSectionProps) {
   const reduce = useReducedMotion();
   const sectionRef = useRef<HTMLElement>(null);
-  const inView = useInView(sectionRef, { once: true, amount: 0.28 });
+  const enteredView = useInView(sectionRef, { once: true, amount: 0.35 });
+  const useCinematic = cinematicEntrance && !reduce;
+  const [expanded, setExpanded] = useState(useCinematic);
+
+  useEffect(() => {
+    if (!useCinematic) {
+      setExpanded(false);
+      return;
+    }
+    if (!enteredView) return;
+    const timer = window.setTimeout(() => setExpanded(false), 4000);
+    return () => window.clearTimeout(timer);
+  }, [enteredView, useCinematic]);
 
   const outcomeItems = normalizeOutcomes(outcomes);
   const steps = workflowSteps.slice(0, 4).map((step, index) => ({
@@ -463,14 +483,41 @@ export function SolutionVideoSection({
   const [activeStep, setActiveStep] = useState(0);
   const [preview, setPreview] = useState<PreviewTarget>(null);
   const [autoPlay, setAutoPlay] = useState(true);
+  const [outcomeIndex, setOutcomeIndex] = useState(0);
+
+  const currentOutcome = outcomeItems[outcomeIndex] ?? outcomeItems[0];
+  const activeImage = currentOutcome?.image ?? poster;
+  const OutcomeIcon = outcomeIcons[outcomeIndex % outcomeIcons.length];
+  const outcomeDurationMs = 5500;
 
   useEffect(() => {
-    if (reduce || !autoPlay || preview || steps.length < 2) return;
+    if (reduce || !autoPlay || preview || steps.length < 2 || expanded) return;
     const timer = window.setInterval(() => {
       setActiveStep((value) => (value + 1) % steps.length);
     }, 2600);
     return () => window.clearInterval(timer);
-  }, [autoPlay, preview, reduce, steps.length]);
+  }, [autoPlay, expanded, preview, reduce, steps.length]);
+
+  useEffect(() => {
+    if (!cinematicEntrance || reduce || !autoPlay || outcomeItems.length <= 1) return;
+    const timer = window.setInterval(() => {
+      setOutcomeIndex((value) => (value + 1) % outcomeItems.length);
+    }, outcomeDurationMs);
+    return () => window.clearInterval(timer);
+  }, [
+    autoPlay,
+    cinematicEntrance,
+    outcomeDurationMs,
+    outcomeIndex,
+    outcomeItems.length,
+    reduce,
+  ]);
+
+  function goToOutcome(next: number) {
+    if (next === outcomeIndex) return;
+    setOutcomeIndex(next);
+    setAutoPlay(true);
+  }
 
   const openWorkflowPreview = (index: number) => {
     setActiveStep(index);
@@ -507,10 +554,331 @@ export function SolutionVideoSection({
             videoSrc: outcomeItems[preview.index]?.videoSrc,
           };
 
+  const panelsReady = !expanded;
+  const showWorkflow = !cinematicEntrance;
+  const cinematicEase = [0.22, 1, 0.36, 1] as const;
+
+  const outcomesList = (
+    <>
+      <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-blue">
+        Outcomes
+      </p>
+      <h3 className="display mt-2 text-[1.35rem] normal-case tracking-[-0.03em] text-text">
+        What operators notice first
+      </h3>
+      <p className="mt-2 text-xs text-muted">
+        Tap an outcome to open its dedicated video clip.
+      </p>
+      <ul className="mt-4 space-y-3">
+        {outcomeItems.map((outcome, index) => {
+          const Icon = outcomeIcons[index % outcomeIcons.length];
+          const isActive =
+            preview?.source === "outcome" && preview.index === index;
+          return (
+            <li key={outcome.title}>
+              <button
+                type="button"
+                onClick={() => openOutcomePreview(index)}
+                className={`group flex w-full gap-3 rounded-[16px] border px-3 py-3 text-left transition duration-300 hover:-translate-y-0.5 hover:border-blue/35 hover:shadow-[0_12px_28px_-18px_rgba(43,140,255,0.55)] ${
+                  isActive
+                    ? "border-blue/35 bg-[linear-gradient(135deg,rgba(43,140,255,0.1),rgba(48,227,255,0.08))]"
+                    : "border-line bg-bg"
+                }`}
+              >
+                <span className="mt-0.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[linear-gradient(135deg,#2b8cff,#30e3ff)] text-white shadow-[0_8px_18px_-10px_rgba(43,140,255,0.9)]">
+                  <Icon size={16} strokeWidth={2.4} />
+                </span>
+                <span>
+                  <span className="block text-[10px] font-bold uppercase tracking-[0.14em] text-blue/70">
+                    {String(index + 1).padStart(2, "0")} · Video preview
+                  </span>
+                  <span className="mt-0.5 block text-sm font-semibold leading-snug text-text">
+                    {outcome.title}
+                  </span>
+                </span>
+              </button>
+            </li>
+          );
+        })}
+      </ul>
+    </>
+  );
+
+  const outcomesPanel = (
+    <motion.div
+      className="rounded-[22px] border border-line bg-white/90 p-4 shadow-[0_18px_44px_-28px_rgba(43,140,255,0.45)] backdrop-blur-sm md:p-5"
+      initial={false}
+      animate={
+        panelsReady
+          ? { opacity: 1, x: 0 }
+          : { opacity: 0, x: 72 }
+      }
+      transition={{
+        duration: 0.75,
+        ease: cinematicEase,
+      }}
+    >
+      {outcomesList}
+    </motion.div>
+  );
+
+  const videoStage = (
+    <div className="solution-video-stage min-w-0 w-full">
+      <div className="relative overflow-hidden rounded-[18px] border border-line bg-[#0b1220] shadow-[0_22px_60px_rgba(15,23,42,0.16)]">
+        <div className="relative aspect-video">
+          <AnimatePresence mode="wait" initial={false}>
+            {activePreview ? (
+              <motion.div
+                key={`${preview?.source}-${preview?.index}-${activePreview.videoSrc ?? "none"}`}
+                className="absolute inset-0 p-2.5 md:p-3"
+                initial={reduce ? false : { opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={reduce ? undefined : { opacity: 0, y: -8 }}
+                transition={{ duration: 0.35, ease: cinematicEase }}
+              >
+                {activePreview.source === "outcome" && activePreview.videoSrc ? (
+                  <OutcomeClipPreview
+                    title={activePreview.title}
+                    caption={activePreview.caption}
+                    videoSrc={activePreview.videoSrc}
+                  />
+                ) : (
+                  <PreviewMock
+                    kind={activePreview.kind}
+                    title={activePreview.title}
+                    caption={activePreview.caption}
+                    videoSrc={activePreview.videoSrc}
+                    poster={poster}
+                  />
+                )}
+                <button
+                  type="button"
+                  onClick={closePreview}
+                  className="absolute right-4 top-4 z-10 inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-black/55 px-3 py-1.5 text-[11px] font-semibold text-white backdrop-blur-sm transition hover:bg-black/70"
+                >
+                  <Play size={12} />
+                  Back
+                  <X size={12} className="opacity-70" />
+                </button>
+              </motion.div>
+            ) : (
+              <motion.div
+                key="video"
+                className="absolute inset-0"
+                initial={reduce ? false : { opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={reduce ? undefined : { opacity: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                {poster ? (
+                  <Image
+                    src={poster}
+                    alt={label}
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 70vw"
+                    className="object-cover object-center"
+                    unoptimized
+                  />
+                ) : (
+                  <div className="flex h-full items-center justify-center bg-gradient-to-br from-[#15233a] to-[#0d1626] px-6 text-center">
+                    <div>
+                      <p className="display text-lg text-white md:text-xl">{label}</p>
+                      {caption ? (
+                        <p className="mt-2 max-w-md text-sm text-white/65">{caption}</p>
+                      ) : null}
+                    </div>
+                  </div>
+                )}
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </div>
+      {!activePreview && caption && src ? (
+        <p className="mt-3 text-center text-sm text-muted">{caption}</p>
+      ) : null}
+      {!activePreview ? (
+        <p className="mt-3 text-center text-xs text-muted lg:hidden">
+          Tap an outcome to open a preview.
+        </p>
+      ) : null}
+    </div>
+  );
+
+  if (cinematicEntrance) {
+    return (
+      <section
+        ref={sectionRef}
+        className="relative overflow-hidden bg-bg py-10 md:py-14"
+      >
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_80%_10%,rgba(43,140,255,0.12),transparent_50%)]" />
+        <div className="container relative">
+          <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+            <div className="max-w-2xl">
+              <p className="eyebrow mb-3">Outcomes</p>
+              <h2 className="display text-3xl normal-case text-steel-gradient md:text-4xl">
+                What operators notice first
+              </h2>
+            </div>
+            {outcomeItems.length > 1 ? (
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  aria-label="Previous outcome"
+                  onClick={() =>
+                    goToOutcome(
+                      (outcomeIndex - 1 + outcomeItems.length) % outcomeItems.length,
+                    )
+                  }
+                  className="flex h-11 w-11 items-center justify-center rounded-full border border-line bg-white text-text transition hover:border-blue/40 hover:text-blue"
+                >
+                  <ArrowLeft size={16} />
+                </button>
+                <button
+                  type="button"
+                  aria-label="Next outcome"
+                  onClick={() => goToOutcome((outcomeIndex + 1) % outcomeItems.length)}
+                  className="flex h-11 w-11 items-center justify-center rounded-full border border-line bg-white text-text transition hover:border-blue/40 hover:text-blue"
+                >
+                  <ArrowRight size={16} />
+                </button>
+              </div>
+            ) : null}
+          </div>
+
+          <div className="grid items-stretch gap-5 lg:grid-cols-[1.35fr_0.65fr]">
+            <div className="relative flex h-full min-h-[360px] flex-col overflow-hidden rounded-[28px] bg-[#0b1628] text-white shadow-[0_30px_80px_-40px_rgba(15,61,120,0.65)] md:min-h-[420px]">
+              <AnimatePresence mode="wait">
+                {activeImage ? (
+                  <motion.div
+                    key={activeImage}
+                    className="absolute inset-0"
+                    initial={reduce ? false : { opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={reduce ? undefined : { opacity: 0 }}
+                    transition={{ duration: 0.45, ease: "easeOut" }}
+                  >
+                    <Image
+                      src={activeImage}
+                      alt={currentOutcome?.title ?? label}
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 65vw"
+                      className="object-cover object-center"
+                      unoptimized
+                    />
+                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#07111f]/80 via-[#07111f]/20 to-transparent" />
+                  </motion.div>
+                ) : (
+                  <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_20%_0%,rgba(43,140,255,0.35),transparent_45%),radial-gradient(ellipse_at_100%_100%,rgba(48,227,255,0.18),transparent_40%)]" />
+                )}
+              </AnimatePresence>
+
+              <div className="relative z-10 flex flex-1 flex-col justify-end p-8 md:p-10">
+                <div className="flex items-center gap-3">
+                  <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-cyan backdrop-blur">
+                    <OutcomeIcon size={20} />
+                  </span>
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-cyan">
+                    Outcome {String(outcomeIndex + 1).padStart(2, "0")} /{" "}
+                    {String(outcomeItems.length).padStart(2, "0")}
+                  </p>
+                </div>
+                <h3 className="display mt-4 max-w-2xl text-[clamp(1.45rem,2.8vw,2.1rem)] normal-case leading-[1.15] text-white">
+                  {currentOutcome?.title ?? label}
+                </h3>
+                {currentOutcome?.description ? (
+                  <p className="mt-3 max-w-xl text-sm leading-relaxed text-white/70">
+                    {currentOutcome.description}
+                  </p>
+                ) : null}
+
+                <div className="mt-6 flex gap-2">
+                  {outcomeItems.map((item, i) => (
+                    <button
+                      key={item.title}
+                      type="button"
+                      aria-label={`Show ${item.title}`}
+                      onClick={() => goToOutcome(i)}
+                      className={`relative h-1.5 overflow-hidden rounded-full transition-all ${
+                        i === outcomeIndex
+                          ? "flex-[2.2] bg-white/20"
+                          : "flex-1 bg-white/20 hover:bg-white/40"
+                      }`}
+                    >
+                      {i === outcomeIndex && !reduce ? (
+                        <motion.span
+                          key={`outcome-progress-${outcomeIndex}-${outcomeDurationMs}`}
+                          className="absolute inset-y-0 left-0 rounded-full bg-cyan"
+                          initial={{ width: "0%" }}
+                          animate={{ width: "100%" }}
+                          transition={{
+                            duration: outcomeDurationMs / 1000,
+                            ease: "linear",
+                          }}
+                        />
+                      ) : i === outcomeIndex ? (
+                        <span className="absolute inset-0 rounded-full bg-cyan" />
+                      ) : null}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="flex h-full min-h-[360px] flex-col gap-2.5 md:min-h-[420px]">
+              {outcomeItems.map((item, i) => {
+                const ItemIcon = outcomeIcons[i % outcomeIcons.length];
+                const active = i === outcomeIndex;
+                return (
+                  <button
+                    key={item.title}
+                    type="button"
+                    onClick={() => goToOutcome(i)}
+                    aria-pressed={active}
+                    className={`group flex w-full flex-1 items-start gap-3 rounded-[18px] border px-4 py-3.5 text-left transition-colors ${
+                      active
+                        ? "border-blue/35 bg-white shadow-[0_14px_32px_-24px_rgba(43,140,255,0.55)]"
+                        : "border-transparent bg-white/50 hover:border-line hover:bg-white"
+                    }`}
+                  >
+                    <span
+                      className={`mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl transition ${
+                        active ? "bg-blue text-white" : "bg-surface-2 text-blue"
+                      }`}
+                    >
+                      <ItemIcon size={16} />
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block text-[11px] font-semibold uppercase tracking-[0.12em] text-caption">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <span
+                        className={`mt-1 block font-display text-[15px] normal-case leading-snug ${
+                          active ? "text-blue" : "text-text"
+                        }`}
+                      >
+                        {item.title}
+                      </span>
+                      {active ? (
+                        <span className="mt-2 block text-[13px] leading-relaxed text-muted-strong line-clamp-3">
+                          {item.description}
+                        </span>
+                      ) : null}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section
       ref={sectionRef}
-      className="solution-video-section relative overflow-hidden pb-12 pt-2 md:pb-16"
+      className="solution-video-section relative overflow-hidden pb-14 pt-16 md:pb-20 md:pt-24"
       style={
         {
           "--video-section-gap": gap,
@@ -526,238 +894,122 @@ export function SolutionVideoSection({
 
       <div className="container relative z-10">
         <div className="solution-video-layout grid items-center">
-          <aside className="hidden lg:block">
-            <motion.div
-              className="rounded-[22px] border border-line bg-white/90 p-4 shadow-[0_18px_44px_-28px_rgba(43,140,255,0.4)] backdrop-blur-sm"
-              initial={reduce ? false : { opacity: 0, x: -20 }}
-              animate={inView || reduce ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
-              transition={{ duration: 0.7, delay: reduce ? 0 : 0.35, ease: [0.22, 1, 0.36, 1] }}
-            >
-              <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-blue">
-                Workflow
-              </p>
-              <h3 className="display mt-2 text-[1.25rem] normal-case tracking-[-0.03em] text-text">
-                How operators use it
-              </h3>
-              <p className="mt-2 text-xs text-muted">Tap a step to open a live video preview.</p>
+            {showWorkflow ? (
+              <aside className="hidden lg:block">
+                <motion.div
+                  className="rounded-[22px] border border-line bg-white/90 p-4 shadow-[0_18px_44px_-28px_rgba(43,140,255,0.4)] backdrop-blur-sm"
+                  initial={reduce ? false : { opacity: 0, x: -20 }}
+                  animate={
+                    enteredView || reduce
+                      ? { opacity: 1, x: 0 }
+                      : { opacity: 0, x: -20 }
+                  }
+                  transition={{
+                    duration: 0.7,
+                    delay: reduce ? 0 : 0.35,
+                    ease: cinematicEase,
+                  }}
+                >
+                  <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-blue">
+                    Workflow
+                  </p>
+                  <h3 className="display mt-2 text-[1.25rem] normal-case tracking-[-0.03em] text-text">
+                    How operators use it
+                  </h3>
+                  <p className="mt-2 text-xs text-muted">
+                    Tap a step to open a preview.
+                  </p>
 
-              <ol className="relative mt-5 space-y-3">
-                <span
-                  aria-hidden
-                  className="absolute bottom-3 left-[1.15rem] top-3 w-px bg-gradient-to-b from-blue/40 via-cyan/30 to-transparent"
-                />
-                {steps.map((step, index) => {
-                  const Icon = workflowIcons[index % workflowIcons.length];
-                  const isActive =
-                    preview?.source === "workflow"
-                      ? preview.index === index
-                      : preview == null && activeStep === index;
-                  return (
-                    <li key={step.title}>
-                      <button
-                        type="button"
-                        onClick={() => openWorkflowPreview(index)}
-                        className={`relative flex w-full items-start gap-3 rounded-[16px] border px-3 py-3 text-left transition duration-300 ${
-                          isActive
-                            ? "border-blue/35 bg-[linear-gradient(135deg,rgba(43,140,255,0.1),rgba(48,227,255,0.08))] shadow-[0_12px_28px_-18px_rgba(43,140,255,0.55)]"
-                            : "border-transparent bg-bg/70 hover:border-line"
-                        }`}
-                      >
-                        <span
-                          className={`relative z-10 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full transition ${
-                            isActive
-                              ? "bg-[linear-gradient(135deg,#2b8cff,#30e3ff)] text-white"
-                              : "bg-white text-blue ring-1 ring-line"
-                          }`}
-                        >
-                          <Icon size={15} strokeWidth={2.35} />
-                        </span>
-                        <span>
-                          <span className="block text-[10px] font-bold uppercase tracking-[0.14em] text-blue/70">
-                            Step {String(index + 1).padStart(2, "0")}
-                          </span>
-                          <span className="mt-0.5 block text-sm font-semibold text-text">
-                            {step.title}
-                          </span>
-                          <span
-                            className={`mt-1 block text-xs leading-relaxed transition ${
-                              isActive ? "text-muted-strong" : "text-muted"
+                  <ol className="relative mt-5 space-y-3">
+                    <span
+                      aria-hidden
+                      className="absolute bottom-3 left-[1.15rem] top-3 w-px bg-gradient-to-b from-blue/40 via-cyan/30 to-transparent"
+                    />
+                    {steps.map((step, index) => {
+                      const Icon = workflowIcons[index % workflowIcons.length];
+                      const isActive =
+                        preview?.source === "workflow"
+                          ? preview.index === index
+                          : preview == null && activeStep === index;
+                      return (
+                        <li key={step.title}>
+                          <button
+                            type="button"
+                            onClick={() => openWorkflowPreview(index)}
+                            className={`relative flex w-full items-start gap-3 rounded-[16px] border px-3 py-3 text-left transition duration-300 ${
+                              isActive
+                                ? "border-blue/35 bg-[linear-gradient(135deg,rgba(43,140,255,0.1),rgba(48,227,255,0.08))] shadow-[0_12px_28px_-18px_rgba(43,140,255,0.55)]"
+                                : "border-transparent bg-bg/70 hover:border-line"
                             }`}
                           >
-                            {step.description}
-                          </span>
-                        </span>
-                      </button>
-                    </li>
-                  );
-                })}
-              </ol>
-            </motion.div>
-          </aside>
-
-          <motion.div
-            className="solution-video-stage min-w-0"
-            initial={reduce ? false : { opacity: 0, y: 18 }}
-            animate={
-              inView || reduce
-                ? { opacity: 1, y: 0 }
-                : { opacity: 0, y: 18 }
-            }
-            transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
-          >
-            <div className="relative overflow-hidden rounded-[18px] border border-line bg-[#0b1220] shadow-[0_22px_60px_rgba(15,23,42,0.16)]">
-              <div className="relative aspect-video">
-                <AnimatePresence mode="wait" initial={false}>
-                  {activePreview ? (
-                    <motion.div
-                      key={`${preview?.source}-${preview?.index}-${activePreview.videoSrc ?? "none"}`}
-                      className="absolute inset-0 p-2.5 md:p-3"
-                      initial={reduce ? false : { opacity: 0, y: 12 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={reduce ? undefined : { opacity: 0, y: -8 }}
-                      transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                    >
-                      {activePreview.source === "outcome" && activePreview.videoSrc ? (
-                        <OutcomeClipPreview
-                          title={activePreview.title}
-                          caption={activePreview.caption}
-                          videoSrc={activePreview.videoSrc}
-                        />
-                      ) : (
-                        <PreviewMock
-                          kind={activePreview.kind}
-                          title={activePreview.title}
-                          caption={activePreview.caption}
-                          videoSrc={activePreview.videoSrc}
-                          poster={poster}
-                        />
-                      )}
-                      <button
-                        type="button"
-                        onClick={closePreview}
-                        className="absolute right-4 top-4 z-10 inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-black/55 px-3 py-1.5 text-[11px] font-semibold text-white backdrop-blur-sm transition hover:bg-black/70"
-                      >
-                        <Play size={12} />
-                        Back to video
-                        <X size={12} className="opacity-70" />
-                      </button>
-                    </motion.div>
-                  ) : (
-                    <motion.div
-                      key="video"
-                      className="absolute inset-0"
-                      initial={reduce ? false : { opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={reduce ? undefined : { opacity: 0 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      {src ? (
-                        <SolutionVideo src={src} label={label} poster={poster} />
-                      ) : (
-                        <div className="flex h-full items-center justify-center bg-gradient-to-br from-[#15233a] to-[#0d1626] px-6 text-center">
-                          <div>
-                            <p className="display text-lg text-white md:text-xl">{label}</p>
-                            {caption ? (
-                              <p className="mt-2 max-w-md text-sm text-white/65">{caption}</p>
-                            ) : null}
-                          </div>
-                        </div>
-                      )}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            </div>
-            {!activePreview && caption && src ? (
-              <p className="mt-3 text-center text-sm text-muted">{caption}</p>
+                            <span
+                              className={`relative z-10 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full transition ${
+                                isActive
+                                  ? "bg-[linear-gradient(135deg,#2b8cff,#30e3ff)] text-white"
+                                  : "bg-white text-blue ring-1 ring-line"
+                              }`}
+                            >
+                              <Icon size={15} strokeWidth={2.35} />
+                            </span>
+                            <span>
+                              <span className="block text-[10px] font-bold uppercase tracking-[0.14em] text-blue/70">
+                                Step {String(index + 1).padStart(2, "0")}
+                              </span>
+                              <span className="mt-0.5 block text-sm font-semibold text-text">
+                                {step.title}
+                              </span>
+                              <span
+                                className={`mt-1 block text-xs leading-relaxed transition ${
+                                  isActive ? "text-muted-strong" : "text-muted"
+                                }`}
+                              >
+                                {step.description}
+                              </span>
+                            </span>
+                          </button>
+                        </li>
+                      );
+                    })}
+                  </ol>
+                </motion.div>
+              </aside>
             ) : null}
-            {!activePreview ? (
-              <p className="mt-3 text-center text-xs text-muted lg:hidden">
-                Tap a workflow step or outcome to open a live video-style preview.
-              </p>
-            ) : null}
-          </motion.div>
 
-          <aside className="mt-6 lg:mt-0">
-            <motion.div
-              className="rounded-[22px] border border-line bg-white/90 p-4 shadow-[0_18px_44px_-28px_rgba(43,140,255,0.45)] backdrop-blur-sm md:p-5"
-              initial={reduce ? false : { opacity: 0, x: 20 }}
-              animate={inView || reduce ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 }}
-              transition={{ duration: 0.7, delay: reduce ? 0 : 0.45, ease: [0.22, 1, 0.36, 1] }}
-            >
-              <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-blue">
-                Outcomes
-              </p>
-              <h3 className="display mt-2 text-[1.35rem] normal-case tracking-[-0.03em] text-text">
-                What operators notice first
-              </h3>
-              <p className="mt-2 text-xs text-muted">
-                Tap an outcome to open its dedicated video clip.
-              </p>
-              <ul className="mt-4 space-y-3">
-                {outcomeItems.map((outcome, index) => {
-                  const Icon = outcomeIcons[index % outcomeIcons.length];
-                  const isActive =
-                    preview?.source === "outcome" && preview.index === index;
-                  return (
-                    <li key={outcome.title}>
-                      <button
-                        type="button"
-                        onClick={() => openOutcomePreview(index)}
-                        className={`group flex w-full gap-3 rounded-[16px] border px-3 py-3 text-left transition duration-300 hover:-translate-y-0.5 hover:border-blue/35 hover:shadow-[0_12px_28px_-18px_rgba(43,140,255,0.55)] ${
-                          isActive
-                            ? "border-blue/35 bg-[linear-gradient(135deg,rgba(43,140,255,0.1),rgba(48,227,255,0.08))]"
-                            : "border-line bg-bg"
-                        }`}
-                      >
-                        <span className="mt-0.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[linear-gradient(135deg,#2b8cff,#30e3ff)] text-white shadow-[0_8px_18px_-10px_rgba(43,140,255,0.9)]">
-                          <Icon size={16} strokeWidth={2.4} />
-                        </span>
-                        <span>
-                          <span className="block text-[10px] font-bold uppercase tracking-[0.14em] text-blue/70">
-                            {String(index + 1).padStart(2, "0")} · Video preview
-                          </span>
-                          <span className="mt-0.5 block text-sm font-semibold leading-snug text-text">
-                            {outcome.title}
-                          </span>
-                        </span>
-                      </button>
-                    </li>
-                  );
-                })}
-              </ul>
-            </motion.div>
-          </aside>
-        </div>
+            {videoStage}
 
-        <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:hidden">
-          {steps.map((step, index) => {
-            const Icon = workflowIcons[index % workflowIcons.length];
-            const isActive =
-              preview?.source === "workflow" && preview.index === index;
-            return (
-              <button
-                key={step.title}
-                type="button"
-                onClick={() => openWorkflowPreview(index)}
-                className={`rounded-[16px] border px-4 py-3 text-left transition ${
-                  isActive
-                    ? "border-blue/35 bg-[linear-gradient(135deg,rgba(43,140,255,0.1),rgba(48,227,255,0.08))]"
-                    : "border-line bg-white/90"
-                }`}
-              >
-                <div className="flex items-center gap-2 text-blue">
-                  <Icon size={15} />
-                  <span className="text-[10px] font-bold uppercase tracking-[0.14em]">
-                    Step {String(index + 1).padStart(2, "0")}
-                  </span>
-                </div>
-                <p className="mt-1 text-sm font-semibold text-text">{step.title}</p>
-                <p className="mt-1 text-xs text-muted">{step.description}</p>
-              </button>
-            );
-          })}
-        </div>
+            <aside className="mt-6 lg:mt-0">{outcomesPanel}</aside>
+          </div>
+
+        {showWorkflow ? (
+          <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:hidden">
+            {steps.map((step, index) => {
+              const Icon = workflowIcons[index % workflowIcons.length];
+              const isActive =
+                preview?.source === "workflow" && preview.index === index;
+              return (
+                <button
+                  key={step.title}
+                  type="button"
+                  onClick={() => openWorkflowPreview(index)}
+                  className={`rounded-[16px] border px-4 py-3 text-left transition ${
+                    isActive
+                      ? "border-blue/35 bg-[linear-gradient(135deg,rgba(43,140,255,0.1),rgba(48,227,255,0.08))]"
+                      : "border-line bg-white/90"
+                  }`}
+                >
+                  <div className="flex items-center gap-2 text-blue">
+                    <Icon size={15} />
+                    <span className="text-[10px] font-bold uppercase tracking-[0.14em]">
+                      Step {String(index + 1).padStart(2, "0")}
+                    </span>
+                  </div>
+                  <p className="mt-1 text-sm font-semibold text-text">{step.title}</p>
+                  <p className="mt-1 text-xs text-muted">{step.description}</p>
+                </button>
+              );
+            })}
+          </div>
+        ) : null}
       </div>
     </section>
   );

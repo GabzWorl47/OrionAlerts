@@ -13,10 +13,11 @@ type MagneticButtonProps = {
 
 const variants = {
   solid:
-    "bg-blue text-white border border-blue hover:bg-[#1f7aef] shadow-[0_0_28px_rgba(43,140,255,0.35)]",
+    "rounded-[10px] border border-cyan/50 bg-cyan px-5 py-3 text-sm font-semibold !text-blue shadow-[0_10px_28px_rgba(12,34,56,0.12)] transition-colors hover:bg-white hover:!text-blue",
   outline:
-    "bg-white text-text border border-line hover:border-blue/40 hover:text-blue shadow-sm",
-  ghost: "bg-transparent text-muted hover:text-text border border-transparent",
+    "rounded-[10px] border border-line bg-white px-5 py-3 text-sm font-semibold text-text shadow-[0_10px_28px_rgba(12,34,56,0.06)] transition duration-200 hover:border-blue/25 hover:text-blue",
+  ghost:
+    "rounded-[10px] border border-transparent bg-transparent px-5 py-3 text-sm font-semibold text-muted transition duration-200 hover:text-text",
 };
 
 export function MagneticButton({
@@ -53,7 +54,7 @@ export function MagneticButton({
         href={href}
         onMouseMove={onMove}
         onMouseLeave={onLeave}
-        className={`inline-flex items-center justify-center gap-2 rounded-[14px] px-5 py-3 text-sm font-semibold tracking-wide transition duration-200 ${variants[variant]} ${className}`}
+        className={`inline-flex items-center justify-center gap-2 tracking-wide ${variants[variant]} ${className}`}
       >
         {children}
       </Link>

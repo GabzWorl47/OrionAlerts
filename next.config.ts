@@ -26,6 +26,21 @@ const nextConfig: NextConfig = {
         destination: "/blogs",
         permanent: false,
       },
+      {
+        source: "/industries/schools",
+        destination: "/industries/education-campuses",
+        permanent: true,
+      },
+      {
+        source: "/industries/commercial-infrastructure",
+        destination: "/industries/airports-ports-railways",
+        permanent: true,
+      },
+      {
+        source: "/industries/qsr",
+        destination: "/industries/quick-commerce",
+        permanent: true,
+      },
     ];
   },
 };
