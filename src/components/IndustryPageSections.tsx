@@ -14,7 +14,7 @@ import {
   Zap,
 } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
-import { Button, Section } from "@/components/ui";
+import { Button, CtaBand, Section } from "@/components/ui";
 import { Reveal, Stagger, StaggerItem } from "@/components/Reveal";
 import { FinalCta } from "@/components/landing/FinalCta";
 import { getSolution } from "@/lib/site";
@@ -167,6 +167,10 @@ function UseCasesSlider({
   useEffect(() => {
     const video = videoRef.current;
     if (!video || !current?.video) return;
+    if (reduce) {
+      video.pause();
+      return;
+    }
     video.muted = true;
     video.currentTime = 0;
     const tryPlay = async () => {
@@ -181,7 +185,7 @@ function UseCasesSlider({
     } else {
       video.addEventListener("loadeddata", () => void tryPlay(), { once: true });
     }
-  }, [current?.video, index]);
+  }, [current?.video, index, reduce]);
 
   function goTo(next: number) {
     if (next === index) return;
@@ -203,7 +207,7 @@ function UseCasesSlider({
 
         <div className="grid items-stretch gap-5 lg:grid-cols-[1.4fr_0.6fr]">
           <div className="relative flex h-full min-h-[400px] flex-col overflow-hidden rounded-[28px] bg-[#0b1628] text-white shadow-[0_30px_80px_-40px_rgba(15,61,120,0.65)] md:min-h-[480px]">
-            {hasVideo && current.video ? (
+            {hasVideo && current.video && !reduce ? (
               <>
                 <video
                   key={current.video}
@@ -213,8 +217,7 @@ function UseCasesSlider({
                   muted
                   loop
                   playsInline
-                  autoPlay
-                  preload="auto"
+                  preload="metadata"
                   aria-hidden
                 />
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#07111f]/75 via-[#07111f]/15 to-transparent" />

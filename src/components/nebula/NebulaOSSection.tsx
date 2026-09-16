@@ -12,8 +12,10 @@ function NebulaVideoBox() {
   const boxRef = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
   const [visible, setVisible] = useState(false);
+  const canPlay = nebulaVideo.available && Boolean(nebulaVideo.src);
 
   useEffect(() => {
+    if (!canPlay) return;
     const el = boxRef.current;
     if (!el) return;
     const io = new IntersectionObserver(
@@ -22,20 +24,20 @@ function NebulaVideoBox() {
     );
     io.observe(el);
     return () => io.disconnect();
-  }, []);
+  }, [canPlay]);
 
   useEffect(() => {
     const video = videoRef.current;
-    if (!video) return;
+    if (!video || !canPlay) return;
     video.muted = true;
     if (!visible || reduce) {
       video.pause();
       return;
     }
     void video.play().catch(() => {
-      // Autoplay may be blocked, or file not uploaded yet.
+      // Autoplay may be blocked.
     });
-  }, [visible, reduce]);
+  }, [visible, reduce, canPlay]);
 
   return (
     <div
@@ -43,17 +45,26 @@ function NebulaVideoBox() {
       className="relative mt-6 overflow-hidden rounded-[28px] border border-blue/15 bg-[#071018] shadow-[0_40px_90px_-40px_rgba(12,34,56,0.7)] ring-1 ring-white/10 md:mt-8 md:rounded-[32px]"
     >
       <div className="relative aspect-[16/9] min-h-[18rem] w-full sm:min-h-[22rem] lg:min-h-[32rem] xl:min-h-[38rem]">
-        <video
-          ref={videoRef}
-          src={nebulaVideo.src}
-          poster={nebulaVideo.poster}
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          className="absolute inset-0 h-full w-full object-cover object-center"
-          aria-label="Nebula OS overview video"
-        />
+        {canPlay && !reduce ? (
+          <video
+            ref={videoRef}
+            src={nebulaVideo.src}
+            poster={nebulaVideo.poster}
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            className="absolute inset-0 h-full w-full object-cover object-center"
+            aria-label="Nebula OS overview video"
+          />
+        ) : (
+          // eslint-disable-next-line @next/next/no-img-element -- poster fallback until video ships
+          <img
+            src={nebulaVideo.poster}
+            alt="Nebula OS platform overview"
+            className="absolute inset-0 h-full w-full object-cover object-center"
+          />
+        )}
         <div
           className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#071018]/55 via-transparent to-[#071018]/15"
           aria-hidden

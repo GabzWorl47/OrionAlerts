@@ -5,8 +5,10 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:cpanel": "next build && node scripts/package-cpanel.mjs",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "cookie-scan": "node scripts/cookie-scan.js"
   },
   "dependencies": {
     "framer-motion": "^12.42.2",

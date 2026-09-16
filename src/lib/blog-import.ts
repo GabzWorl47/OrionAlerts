@@ -80,7 +80,7 @@ export function parseBlogDocument(raw: string, fileName = "document"): BlogImpor
   }
 
   const remaining = blocks.slice(startIndex);
-  let takeaways: string[] = [];
+  const takeaways: string[] = [];
   const bodyBlocks: string[] = [];
   let excerpt = "";
   let inTakeaways = false;

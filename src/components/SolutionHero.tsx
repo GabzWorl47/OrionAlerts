@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useSyncExternalStore } from "react";
 import type { Solution } from "@/lib/site";
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -19,7 +19,6 @@ function shortLede(summary: string) {
 
 export function SolutionHero({ solution }: SolutionHeroProps) {
   const reduce = useReducedMotion();
-  const [ready, setReady] = useState(false);
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -28,7 +27,11 @@ export function SolutionHero({ solution }: SolutionHeroProps) {
   const imageY = useTransform(scrollYProgress, [0, 1], ["0%", "18%"]);
   const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "10%"]);
 
-  useEffect(() => setReady(true), []);
+  const ready = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false,
+  );
 
   const animate = ready && !reduce;
   const isBright =

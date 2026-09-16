@@ -43,6 +43,7 @@ export const manufacturingIndustryPage: IndustryPageRecord = {
     heading: "See the exceptions that routine rounds can miss.",
     paragraphs: [
       "A factory can have extensive CCTV coverage and still depend on someone noticing a problem at the right moment. Shift changes, shared vehicle routes and busy production areas make continuous manual observation difficult. Plant leaders need to know where an event happened, whether it needs intervention and which team owns the response. Focus video analytics on these decisions before expanding to more complex production analysis.",
+      "A reference deployment places cameras at production entries, vehicle-pedestrian crossings and one material-transfer point, on a network segment separated from plant OT systems. Retention should match the window a safety or quality review typically needs, with PPE and flow alerts routed to the production supervisor and EHS rather than a general security desk unfamiliar with the shift. Where a shift-scheduling system is available, align review timestamps with its records instead of relying on camera timestamps alone.",
     ],
     buyers: [
       "Plant heads",
@@ -174,13 +175,14 @@ export const manufacturingIndustryPage: IndustryPageRecord = {
       "Mapped hierarchy for the pilot production areas",
       "Defined alert and Copilot review owners",
       "Representative shift testing including low light and occlusion",
+      "Network segmentation between the camera system and plant OT systems, confirmed with IT/OT before installation",
     ],
   },
   standards: {
     publicCopy:
       "Video observations can support internal safety reviews associated with an occupational health and safety programme. ISO 45001 certification concerns the organisation's management system; OrionAlerts does not certify the factory or replace its safety controls.",
     frameworkIds: ["C1"],
-    reviewedAt: "2026-09-10",
+    reviewedAt: "2026-09-13",
   },
   metrics: [
     {
@@ -241,6 +243,6 @@ export const manufacturingIndustryPage: IndustryPageRecord = {
   },
   sources: ["README v2 §9.1", "README v2 §§3.1–3.3", "README v2 §7", "framework C1"],
   review: {
-    reviewedAt: "2026-09-10",
+    reviewedAt: "2026-09-13",
   },
 };

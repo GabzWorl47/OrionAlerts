@@ -21,7 +21,7 @@ export function FinalCta() {
           Ready to Make Your Operations Smarter and Safer?
         </motion.h2>
         <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-white/70 md:text-lg">
-          Discover how Orion AI can transform traditional monitoring into an intelligent, proactive,
+          Discover how OrionAlerts can transform traditional monitoring into an intelligent, proactive,
           and automated operation.
         </p>
         <div className="mt-9 flex flex-wrap items-center justify-center gap-3">

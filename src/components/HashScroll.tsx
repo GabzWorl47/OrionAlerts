@@ -3,11 +3,21 @@
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 
-function scrollToHash(behavior: ScrollBehavior = "smooth") {
+function prefersReducedMotion() {
+  if (typeof window === "undefined" || !window.matchMedia) return false;
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
+// Default is re-evaluated on every call (JS default params run at call time),
+// so a live prefers-reduced-motion change is honored without a re-render.
+function scrollToHash(
+  behavior: ScrollBehavior = prefersReducedMotion() ? "auto" : "smooth"
+) {
   const hash = window.location.hash.replace(/^#/, "");
   if (!hash) return true;
   const el = document.getElementById(hash);
   if (!el) return false;
+  // scroll-padding-top (globals.css) keeps this clear of the sticky header.
   el.scrollIntoView({ behavior, block: "start" });
   return true;
 }

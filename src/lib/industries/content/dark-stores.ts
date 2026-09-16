@@ -43,6 +43,7 @@ export const darkStoresIndustryPage: IndustryPageRecord = {
     heading: "Make compact operating spaces easier to manage.",
     paragraphs: [
       "Dark stores combine dense storage, frequent picking and rapid dispatch in limited space. A short-lived obstruction or unclear handoff may be missed during a busy period. The immediate need is practical site visibility rather than broad network performance claims. Choose camera views that help the store manager understand what happened without turning surveillance into individual productivity scoring.",
+      "A reference deployment covers the dispatch handoff point, high-traffic aisles and any restricted stock area, typically on the store's existing small-site network with limited redundancy. Keep retention short and tied to the stated business purpose, and route obstruction and handoff alerts to the store manager rather than a distant network-operations queue that cannot act in time. Where an order-management or dispatch system is available, align review timestamps with its handoff records instead of relying on video alone.",
     ],
     buyers: [
       "Dark-store operators",
@@ -174,13 +175,14 @@ export const darkStoresIndustryPage: IndustryPageRecord = {
       "Agreed response owners for obstruction, access and handoff events",
       "Field-of-view and retention plan limited to the stated business purpose",
       "Representative testing across peak picking periods and shelf occlusion",
+      "Alert routing to the store manager, not only network operations, so time-sensitive handoff and obstruction events reach someone who can act during the same peak",
     ],
   },
   standards: {
     publicCopy:
       "For food storage and distribution, assess the operation's applicable FSSAI obligations. Apply premises and privacy considerations for building monitoring. These do not amount to a dark-store AI certificate.",
     frameworkIds: ["C7", "C8", "C9"],
-    reviewedAt: "2026-09-10",
+    reviewedAt: "2026-09-13",
   },
   metrics: [
     {
@@ -246,6 +248,6 @@ export const darkStoresIndustryPage: IndustryPageRecord = {
     "frameworks C7/C8/C9",
   ],
   review: {
-    reviewedAt: "2026-09-10",
+    reviewedAt: "2026-09-13",
   },
 };

@@ -40,7 +40,8 @@ export function BlogArticle({ post, related }: BlogArticleProps) {
   const [shareUrl, setShareUrl] = useState(`https://orionalerts.com/blogs/${post.slug}`);
 
   useEffect(() => {
-    setShareUrl(window.location.href);
+    // Deferred so this isn't a synchronous setState call in the effect body.
+    queueMicrotask(() => setShareUrl(window.location.href));
   }, []);
 
   useEffect(() => {

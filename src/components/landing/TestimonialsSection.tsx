@@ -36,11 +36,6 @@ function TestimonialCard({ item }: { item: Testimonial }) {
         <p className="text-sm font-semibold text-text">{item.name}</p>
         <p className="mt-0.5 text-sm text-muted-strong">{item.designation}</p>
         <p className="mt-0.5 text-xs text-muted">{item.organization}</p>
-        {item.placeholder ? (
-          <p className="mt-2 inline-flex rounded-full border border-line bg-bg px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-caption">
-            Placeholder · pending approval
-          </p>
-        ) : null}
       </footer>
     </article>
   );
@@ -54,7 +49,9 @@ export function TestimonialsSection({
   compact?: boolean;
 }) {
   const reduce = useReducedMotion();
-  const loop = [...testimonials, ...testimonials];
+  const items = testimonials.filter((item) => !item.placeholder);
+
+  if (items.length === 0) return null;
 
   return (
     <section
@@ -75,11 +72,10 @@ export function TestimonialsSection({
                   : "text-[clamp(1.85rem,4vw,2.75rem)]"
               }`}
             >
-              What Our Clients Say
+              What customers say
             </h2>
             <p className="mt-2.5 text-sm text-muted md:text-[15px]">
-              Security and operations leaders using Orion Alerts across plants, warehouses, campuses,
-              and critical sites.
+              Named testimonials publish only after written customer approval.
             </p>
           </div>
         </Reveal>
@@ -104,15 +100,20 @@ export function TestimonialsSection({
 
         {reduce ? (
           <div className="flex gap-5 overflow-x-auto px-4 pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            {testimonials.map((item) => (
+            {items.map((item) => (
               <TestimonialCard key={item.id} item={item} />
             ))}
           </div>
         ) : (
           <div className="certificate-marquee-track certificate-marquee-track--slow gap-5 px-2">
-            {loop.map((item, index) => (
-              <TestimonialCard key={`${item.id}-${index}`} item={item} />
+            {items.map((item) => (
+              <TestimonialCard key={item.id} item={item} />
             ))}
+            <div aria-hidden className="contents">
+              {items.map((item) => (
+                <TestimonialCard key={`clone-${item.id}`} item={item} />
+              ))}
+            </div>
           </div>
         )}
       </div>

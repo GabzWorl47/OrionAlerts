@@ -156,9 +156,21 @@ export function AdminPanel({
     }
   }, []);
 
+  // Initial mount only: if the server already sees a valid admin session
+  // (initiallyAuthenticated), load the post list once. Subsequent logins are
+  // triggered directly from handleLogin's event handler below instead of
+  // reactively watching `authenticated`, since a fetch kicked off from an
+  // event handler is not subject to the effect cascading-render footgun and
+  // makes the "login -> load posts" causality explicit.
   useEffect(() => {
-    if (authenticated) void loadPosts();
-  }, [authenticated, loadPosts]);
+    if (!initiallyAuthenticated) return;
+    // Defer to a microtask so the fetch (and its setLoading/setPosts calls)
+    // isn't a synchronous call within the effect body itself.
+    queueMicrotask(() => {
+      void loadPosts();
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- run once on mount only
+  }, []);
 
   async function handleLogin(event: FormEvent) {
     event.preventDefault();
@@ -177,6 +189,7 @@ export function AdminPanel({
       }
       setPassword("");
       setAuthenticated(true);
+      await loadPosts();
     } catch {
       setLoginError("Login failed.");
     } finally {

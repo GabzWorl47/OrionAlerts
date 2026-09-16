@@ -185,11 +185,16 @@ type SolutionVideoSectionProps = {
 
 function MiniFeedVideo({ src, poster }: { src: string; poster?: string }) {
   const ref = useRef<HTMLVideoElement>(null);
+  const reduce = useReducedMotion();
 
   useEffect(() => {
     const video = ref.current;
     if (!video) return;
     video.muted = true;
+    if (reduce) {
+      video.pause();
+      return;
+    }
     const play = async () => {
       try {
         await video.play();
@@ -199,7 +204,20 @@ function MiniFeedVideo({ src, poster }: { src: string; poster?: string }) {
     };
     if (video.readyState >= 2) void play();
     else video.addEventListener("loadeddata", () => void play(), { once: true });
-  }, [src]);
+  }, [src, reduce]);
+
+  if (reduce && poster) {
+    return (
+      <Image
+        src={poster}
+        alt=""
+        fill
+        sizes="280px"
+        className="object-cover"
+        aria-hidden
+      />
+    );
+  }
 
   return (
     <video
@@ -464,12 +482,18 @@ export function SolutionVideoSection({
   const useCinematic = cinematicEntrance && !reduce;
   const [expanded, setExpanded] = useState(useCinematic);
 
+  // Adjusted during render (React's official "adjusting state when a
+  // prop changes" pattern) rather than as a synchronous setState-in-effect.
+  // Refs can't be read or written during render, so the previous value is
+  // tracked in state instead.
+  const [prevUseCinematic, setPrevUseCinematic] = useState(useCinematic);
+  if (prevUseCinematic !== useCinematic) {
+    setPrevUseCinematic(useCinematic);
+    if (!useCinematic) setExpanded(false);
+  }
+
   useEffect(() => {
-    if (!useCinematic) {
-      setExpanded(false);
-      return;
-    }
-    if (!enteredView) return;
+    if (!useCinematic || !enteredView) return;
     const timer = window.setTimeout(() => setExpanded(false), 4000);
     return () => window.clearTimeout(timer);
   }, [enteredView, useCinematic]);

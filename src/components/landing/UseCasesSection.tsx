@@ -4,24 +4,27 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import { useReducedMotion } from "framer-motion";
 import { Reveal } from "@/components/Reveal";
 import { aiUseCases, type UseCase } from "@/lib/homepage";
 
 function UseCaseCard({ useCase, active }: { useCase: UseCase; active: boolean }) {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const reduce = useReducedMotion();
+  const canAutoplay = Boolean(useCase.previewSrc) && !reduce;
 
   useEffect(() => {
     const video = videoRef.current;
     if (!video || !useCase.previewSrc) return;
     video.muted = true;
-    if (!active) {
+    if (!active || reduce) {
       video.pause();
       return;
     }
     void video.play().catch(() => {
       // Autoplay may be blocked until interaction.
     });
-  }, [active, useCase.previewSrc]);
+  }, [active, reduce, useCase.previewSrc]);
 
   return (
     <Link
@@ -34,7 +37,7 @@ function UseCaseCard({ useCase, active }: { useCase: UseCase; active: boolean })
       }`}
     >
       <div className="relative aspect-[16/9] w-full">
-        {useCase.previewSrc ? (
+        {canAutoplay ? (
           <video
             ref={videoRef}
             src={useCase.previewSrc}
@@ -136,7 +139,7 @@ export function UseCasesSection() {
               id="use-cases-heading"
               className="text-[clamp(1.05rem,3.2vw,2.65rem)] font-semibold leading-[1.15] tracking-[-0.03em] text-white"
             >
-              Real-World Use Cases Powered by Orion AI Vision
+              Real-World Use Cases Powered by OrionAlerts Vision
             </h2>
             <p className="mx-auto mt-4 max-w-none whitespace-nowrap text-[clamp(0.8rem,1.6vw,1rem)] leading-relaxed text-white/65">
               Detect critical events across your camera estate — then jump into the right Orion

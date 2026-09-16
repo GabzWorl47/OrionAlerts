@@ -43,6 +43,7 @@ export const automotiveIndustryPage: IndustryPageRecord = {
     heading: "Keep attention on the handoffs between people, parts and equipment.",
     paragraphs: [
       "Automotive operations depend on coordinated work across assembly cells, material supply and finished-vehicle movement. A queue of parts or a blocked route can affect more than one workstation. Camera-based observations are most useful when tied to a known station or route and reviewed alongside production records. They should strengthen investigation without overstating what video can say about product quality.",
+      "A reference deployment places cameras at line-side buffers, station entries and controlled-cell doors, typically on the plant's existing network where bandwidth and switch capacity allow. Retention should match the window a quality or safety investigation typically needs rather than an indefinite archive, with buffer and access alerts routed to the line supervisor and EHS. Where a shift-scheduling or MES integration is available, align review timestamps with its changeover records instead of treating the camera system as a standalone source of truth.",
     ],
     buyers: [
       "Plant directors",
@@ -174,13 +175,14 @@ export const automotiveIndustryPage: IndustryPageRecord = {
       "Mapped hierarchy for the selected assembly areas",
       "Clear ownership for production vs maintenance alert rules",
       "Representative testing across line speed, lighting and occlusion",
+      "Confirmed alert-routing owners (line supervisor, EHS) and, where available, timestamp alignment with the plant's shift or MES scheduling system",
     ],
   },
   standards: {
     publicCopy:
       "IATF 16949 is relevant to eligible automotive manufacturing quality systems and customer requirements. Video may provide investigation context; it does not establish product conformance or deliver IATF certification.",
     frameworkIds: ["C2"],
-    reviewedAt: "2026-09-10",
+    reviewedAt: "2026-09-13",
   },
   metrics: [
     {
@@ -241,6 +243,6 @@ export const automotiveIndustryPage: IndustryPageRecord = {
   },
   sources: ["README v2 §9.2", "README v2 §§3.1–3.3", "README v2 §7", "framework C2"],
   review: {
-    reviewedAt: "2026-09-10",
+    reviewedAt: "2026-09-13",
   },
 };

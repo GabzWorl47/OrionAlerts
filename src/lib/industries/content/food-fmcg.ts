@@ -43,6 +43,7 @@ export const foodFmcgIndustryPage: IndustryPageRecord = {
     heading: "Connect visible behaviour with the right operational response.",
     paragraphs: [
       "Busy production areas combine staff movement, cleaning, material handling and packaging activity. A camera may help reveal a visible exception, but food safety depends on controls far beyond what is visible. Keep the monitoring scope tied to defined practices and review events with production context. Non-food FMCG operations should use their applicable product requirements, rather than inheriting food-specific claims.",
+      "A reference deployment places cameras at production and hygiene-zone entries and packaging transfer points, using washdown-rated enclosures and cabling suited to the facility's cleaning cycle. Retention should match the window a QA investigation typically needs, with hygiene and packaging-flow alerts routed to food safety and production rather than general security. Where a production-scheduling or batch system is in use, align review timestamps with its records instead of treating video as a stand-alone traceability tool.",
     ],
     buyers: [
       "Plant managers",
@@ -174,13 +175,14 @@ export const foodFmcgIndustryPage: IndustryPageRecord = {
       "Agreed response owners for visible hygiene and packaging-flow events",
       "Camera placement plan compatible with washdown and condensation conditions",
       "Representative testing across clothing variations and packaging reflectivity",
+      "Washdown-rated camera enclosures and cabling confirmed against the facility's cleaning cycle before installation",
     ],
   },
   standards: {
     publicCopy:
       "Food businesses should assess applicable FSSAI licensing and Schedule 4 requirements. ISO 22000 is a food-safety management-system standard; video does not provide certification.",
     frameworkIds: ["C7"],
-    reviewedAt: "2026-09-10",
+    reviewedAt: "2026-09-13",
   },
   metrics: [
     {
@@ -246,6 +248,6 @@ export const foodFmcgIndustryPage: IndustryPageRecord = {
     "framework C7",
   ],
   review: {
-    reviewedAt: "2026-09-10",
+    reviewedAt: "2026-09-13",
   },
 };

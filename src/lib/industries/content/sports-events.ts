@@ -43,6 +43,7 @@ export const sportsEventsIndustryPage: IndustryPageRecord = {
     heading: "Combine visible crowd conditions with trained operational judgment.",
     paragraphs: [
       "Arrival, intervals and dispersal create different crowd patterns within a single event. A count or congestion observation is useful only when staff understand the area and have a response plan. Crowd safety depends on planning, staffing and coordinated action, not a dashboard threshold alone. NDMA guidance addresses organised crowd-management planning.",
+      "A reference deployment covers gates, concourse pinch points and egress routes, on a network sized for the peak load of arrival and dispersal rather than an average day. Retention should match the event debrief and any incident-review window, with congestion alerts routed to the stewarding and security control room that owns crowd response. Where a ticketing or access-control system is in use, align review timestamps with its gate records instead of treating a camera count as the only measure of crowd conditions.",
     ],
     buyers: [
       "Venue operators",
@@ -174,13 +175,14 @@ export const sportsEventsIndustryPage: IndustryPageRecord = {
       "Agreed response owners for arrival, interval and dispersal phases",
       "Event-phase validation plan covering darkness, lighting effects and occlusion",
       "Camera-outage reporting ownership during live events",
+      "Network capacity planned for peak arrival and dispersal load, not an average operating day",
     ],
   },
   standards: {
     publicCopy:
       "Use NDMA crowd-management guidance and premises/fire planning context. Event permissions and operating limits are venue- and jurisdiction-specific; camera analytics does not certify crowd safety.",
     frameworkIds: ["C21", "C8"],
-    reviewedAt: "2026-09-10",
+    reviewedAt: "2026-09-13",
   },
   metrics: [
     {
@@ -246,6 +248,6 @@ export const sportsEventsIndustryPage: IndustryPageRecord = {
     "frameworks C21/C8",
   ],
   review: {
-    reviewedAt: "2026-09-10",
+    reviewedAt: "2026-09-13",
   },
 };

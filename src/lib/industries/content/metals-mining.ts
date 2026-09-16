@@ -43,6 +43,7 @@ export const metalsMiningIndustryPage: IndustryPageRecord = {
     heading: "Prioritise the places where people and heavy equipment meet.",
     paragraphs: [
       "Mines and mineral-processing operations span large areas with uneven coverage and demanding conditions. A control room may need to distinguish routine movement from an event that requires field verification. The most useful camera pilot concentrates on stable, clearly defined locations rather than promising complete surveillance of an entire mine. Vehicle interaction is a recognised mine-safety concern.",
+      "A reference deployment concentrates on stable, high-value locations such as a crusher approach, equipment interface or transfer zone, usually connected by wireless links given the distances involved. Retention should match the window a safety investigation typically needs, with vehicle-interaction and access alerts routed to the control room and HSE. Where a fleet-management system is in use, align review timestamps with its vehicle-proximity records instead of treating video as the only source of truth for a pedestrian-vehicle event.",
     ],
     buyers: [
       "Mine managers",
@@ -174,13 +175,14 @@ export const metalsMiningIndustryPage: IndustryPageRecord = {
       "Agreed response owners for restricted-zone and field-verification events",
       "Network, power and environmental limits for selected remote camera views",
       "Hardware-approval check for the proposed mine installation environment",
+      "Wireless-link capacity planning for cameras at distance from the core network, verified before committing to full-site coverage",
     ],
   },
   standards: {
     publicCopy:
       "DGMS maintains approval requirements for specified mining equipment. Applicability depends on the equipment and mine environment; an ordinary surveillance device must not be described as mine-approved without evidence.",
     frameworkIds: ["C4"],
-    reviewedAt: "2026-09-10",
+    reviewedAt: "2026-09-13",
   },
   metrics: [
     {
@@ -246,6 +248,6 @@ export const metalsMiningIndustryPage: IndustryPageRecord = {
     "framework C4",
   ],
   review: {
-    reviewedAt: "2026-09-10",
+    reviewedAt: "2026-09-13",
   },
 };

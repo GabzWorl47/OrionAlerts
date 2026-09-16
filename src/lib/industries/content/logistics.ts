@@ -43,6 +43,7 @@ export const logisticsIndustryPage: IndustryPageRecord = {
     heading: "Focus on the interfaces where warehouse activity converges.",
     paragraphs: [
       "Forklifts, pedestrians and goods often converge around docks and cross-aisles. Shift peaks make manual observation difficult, while missing video can delay an incident review. Material-handling and powered-vehicle hazards are documented warehouse concerns. Use camera observations to support intervention and investigation while retaining physical safety measures.",
+      "A reference deployment covers docks, cross-aisles and staging lanes, usually over PoE or wireless links sized for a large floor plate. Retention should match the window claims and incident investigations typically need, with route and dock alerts routed to the shift lead who can act immediately rather than a back-office queue. Where a WMS is in use, align review timestamps with its dock-scheduling records instead of treating video as a standalone log of dock activity.",
     ],
     buyers: [
       "Warehouse heads",
@@ -174,13 +175,14 @@ export const logisticsIndustryPage: IndustryPageRecord = {
       "Mapped hierarchy for pilot docks and cross-aisles",
       "Clear supervisor ownership for each alert type",
       "Physical segregation and vehicle controls retained on site",
+      "Where available, timestamp alignment with the WMS dock-scheduling records used to investigate a specific dispatch window",
     ],
   },
   standards: {
     publicCopy:
       "Review site fire and life-safety requirements alongside occupational safety context for warehouse operations. Handling food or pharmaceuticals adds the relevant product and storage obligations for those goods; a general warehouse page does not imply a universal logistics certificate.",
     frameworkIds: ["C8", "C1"],
-    reviewedAt: "2026-09-10",
+    reviewedAt: "2026-09-13",
   },
   metrics: [
     {
@@ -241,6 +243,6 @@ export const logisticsIndustryPage: IndustryPageRecord = {
   },
   sources: ["README v2 §9.8", "README v2 §§3.1–3.3", "README v2 §7", "frameworks C1/C8"],
   review: {
-    reviewedAt: "2026-09-10",
+    reviewedAt: "2026-09-13",
   },
 };

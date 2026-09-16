@@ -66,14 +66,20 @@ export function Header() {
     setScrolled(v > 8);
   });
 
-  useEffect(() => {
+  // Reset transient menu/drawer state when the route changes.
+  // Adjusted during render (React's official "adjusting state when a
+  // prop changes" pattern) instead of an effect. Refs can't be read or
+  // written during render, so the previous pathname is tracked in state.
+  const [prevPathname, setPrevPathname] = useState(pathname);
+  if (prevPathname !== pathname) {
+    setPrevPathname(pathname);
     setOpen(false);
     setOpenMega(null);
     setMobileProductsOpen(false);
     setMobileIndustriesOpen(false);
     setMobileResourcesOpen(false);
     setMobileSolutionSlug(null);
-  }, [pathname]);
+  }
 
   useEffect(() => {
     // Only lock scroll for the mobile drawer. Locking for mega menus

@@ -4,6 +4,14 @@ import { createHash, timingSafeEqual } from "crypto";
 export const ADMIN_COOKIE = "oa_admin_session";
 const SESSION_TTL_SECONDS = 60 * 60 * 12; // 12 hours
 
+function getSessionSecret() {
+  return (
+    process.env.ADMIN_SESSION_SECRET?.trim() ||
+    process.env.ADMIN_PASSWORD?.trim() ||
+    "orionalerts-admin"
+  );
+}
+
 function getAdminPassword() {
   return process.env.ADMIN_PASSWORD?.trim() || "";
 }
@@ -13,8 +21,8 @@ export function isAdminAuthConfigured() {
 }
 
 function sign(value: string) {
-  const secret = getAdminPassword() || "orionalerts-admin";
-  return createHash("sha256").update(`${value}:${secret}`).digest("hex");
+  // Prefer ADMIN_SESSION_SECRET so the signing key can rotate independently of the password.
+  return createHash("sha256").update(`${value}:${getSessionSecret()}`).digest("hex");
 }
 
 export function createAdminSessionToken() {

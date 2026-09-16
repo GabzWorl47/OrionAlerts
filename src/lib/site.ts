@@ -2,11 +2,31 @@ export const site = {
   name: "OrionAlerts",
   tagline: "Intelligent video, analytics, and asset intelligence for enterprise operations.",
   description:
-    "OrionAlerts helps enterprises see more, decide faster, and operate safer with VMS, AI analytics, asset tracking, and AMC management.",
-  email: "hello@orionalerts.com",
-  phone: "+1 (800) 555-0147",
-  address: "Global HQ · Security Operations",
+    "OrionAlerts helps enterprises unify VMS, AI video alerts, camera health, asset tracking, and AMC operations across sites.",
+  email: "sales@orionalerts.com",
+  /** Leave empty until a verified public phone number is published. */
+  phone: "",
+  address: "K Raheja Platinum, 3rd Floor, Marol, Andheri East, Mumbai, Maharashtra 400059",
+  /** ISO 3166 country the business operates from. Used for schema.org areaServed. */
+  country: "IN",
 };
+
+/**
+ * Public profiles that belong to OrionAlerts, emitted as schema.org `sameAs`.
+ * Keep empty until real company-owned profile URLs exist — do not invent them.
+ */
+export const socialProfiles: string[] = [];
+
+/** Topics the company is an authority on; emitted as schema.org `knowsAbout`. */
+export const knowsAbout: string[] = [
+  "Video Surveillance as a Service",
+  "AI video analytics",
+  "Video management systems",
+  "CCTV camera health monitoring",
+  "Surveillance asset management",
+  "Annual maintenance contract management",
+  "Computer vision for industrial safety",
+];
 
 export type Solution = {
   slug: string;
@@ -534,28 +554,40 @@ export const industries: Industry[] = [
     name: "Quick Commerce",
     cardLabel: "Quick Commerce",
     image: "https://images.unsplash.com/photo-1605745341112-85968b19335b?auto=format&fit=crop&w=1600&q=90",
-    tagline: "Order-handling visibility, staff safety and rapid-dispatch monitoring",
+    tagline:
+      "Use Vision Copilot to connect mapped camera observations with decisions about regional oversight and recurring local handoff problems.",
+    summary:
+      "Map cameras to the places your team manages and ask Vision Copilot about regional oversight and recurring local handoff problems.",
   }),
   industryEntry({
     slug: "ecommerce-fulfilment",
     name: "E-commerce Fulfilment Centres",
     cardLabel: "E-commerce FC",
     image: "https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?auto=format&fit=crop&w=1600&q=90",
-    tagline: "Package movement, dispatch verification and restricted-area monitoring",
+    tagline:
+      "Use Vision Copilot to connect mapped camera observations with decisions about parcel-transfer interruptions and investigation context.",
+    summary:
+      "Map cameras to the places your team manages and ask Vision Copilot about parcel-transfer interruptions and investigation context.",
   }),
   industryEntry({
     slug: "cold-storage",
     name: "Cold Storage & Refrigerated Warehousing",
     cardLabel: "Cold Storage",
     image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1600&q=90",
-    tagline: "Temperature-sensitive area monitoring, access control and operational safety",
+    tagline:
+      "Use Vision Copilot to connect mapped camera observations with decisions about door activity and visual context around cold-chain investigations.",
+    summary:
+      "Map cameras to the places your team manages and ask Vision Copilot about door activity and visual context around cold-chain investigations.",
   }),
   industryEntry({
     slug: "airports-ports-railways",
     name: "Airports, Ports & Railways",
     cardLabel: "Airports & Ports",
     image: "https://images.unsplash.com/photo-1530521954074-e64f6810b32d?auto=format&fit=crop&w=1600&q=90",
-    tagline: "Crowd, perimeter and restricted-zone intelligence",
+    tagline:
+      "Use Vision Copilot to connect mapped camera observations with decisions about transport-specific access and passenger-area review.",
+    summary:
+      "Map cameras to the places your team manages and ask Vision Copilot about transport-specific access and passenger-area review.",
   }),
   industryEntry({
     slug: "commercial-buildings",
@@ -572,98 +604,140 @@ export const industries: Industry[] = [
     name: "Data Centres",
     cardLabel: "Data Centres",
     image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1600&q=90",
-    tagline: "Critical-area protection, access intelligence and perimeter monitoring",
+    tagline:
+      "Use Vision Copilot to connect mapped camera observations with decisions about controlled entrances and security-review prioritisation.",
+    summary:
+      "Map cameras to the places your team manages and ask Vision Copilot about controlled entrances and security-review prioritisation.",
   }),
   industryEntry({
     slug: "education-campuses",
     name: "Education & Campuses",
     cardLabel: "Education",
     image: "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1600&q=90",
-    tagline: "Student safety, trespassing alerts and restricted-area monitoring",
+    tagline:
+      "Use Vision Copilot to connect mapped camera observations with decisions about arrival, reception and common-area safeguarding.",
+    summary:
+      "Map cameras to the places your team manages and ask Vision Copilot about arrival, reception and common-area safeguarding.",
   }),
   industryEntry({
     slug: "healthcare",
     name: "Healthcare & Hospitals",
     cardLabel: "Healthcare",
     image: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1600&q=90",
-    tagline: "Patient safety, fall detection and emergency-area intelligence",
+    tagline:
+      "Use Vision Copilot to connect mapped camera observations with decisions about non-clinical common-area review and facilities priorities.",
+    summary:
+      "Map cameras to the places your team manages and ask Vision Copilot about non-clinical common-area review and facilities priorities.",
   }),
   industryEntry({
     slug: "retail-shopping",
     name: "Retail & Shopping Centres",
     cardLabel: "Retail",
     image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1600&q=90",
-    tagline: "Crowd monitoring, queue visibility and customer-area safety",
+    tagline:
+      "Use Vision Copilot to connect mapped camera observations with decisions about queues and service-area decisions.",
+    summary:
+      "Map cameras to the places your team manages and ask Vision Copilot about queues and service-area decisions.",
   }),
   industryEntry({
     slug: "hotels-hospitality",
     name: "Hotels & Hospitality",
     cardLabel: "Hospitality",
     image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1600&q=90",
-    tagline: "Guest safety, service-area visibility and real-time incident alerts",
+    tagline:
+      "Use Vision Copilot to connect mapped camera observations with decisions about arrival pressure and service-area coordination.",
+    summary:
+      "Map cameras to the places your team manages and ask Vision Copilot about arrival pressure and service-area coordination.",
   }),
   industryEntry({
     slug: "utilities",
     name: "Utilities & Infrastructure",
     cardLabel: "Utilities",
     image: "https://images.unsplash.com/photo-1466611653911-95081537e5b7?auto=format&fit=crop&w=1600&q=90",
-    tagline: "Remote-site monitoring, perimeter security and asset protection",
+    tagline:
+      "Use Vision Copilot to connect mapped camera observations with decisions about remote-site access and field-inspection priorities.",
+    summary:
+      "Map cameras to the places your team manages and ask Vision Copilot about remote-site access and field-inspection priorities.",
   }),
   industryEntry({
     slug: "construction",
     name: "Construction Sites",
     cardLabel: "Construction",
     image: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1600&q=90",
-    tagline: "PPE detection, unsafe-zone entry and after-hours intrusion",
+    tagline:
+      "Use Vision Copilot to connect mapped camera observations with decisions about changing routes and supervision across project areas.",
+    summary:
+      "Map cameras to the places your team manages and ask Vision Copilot about changing routes and supervision across project areas.",
   }),
   industryEntry({
     slug: "pulp-paper",
     name: "Pulp, Paper & Packaging",
     cardLabel: "Pulp & Paper",
     image: "https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&w=1600&q=90",
-    tagline: "Production safety, material movement and process monitoring",
+    tagline:
+      "Use Vision Copilot to connect mapped camera observations with decisions about roll-handling interfaces and recurring transfer build-up.",
+    summary:
+      "Map cameras to the places your team manages and ask Vision Copilot about roll-handling interfaces and recurring transfer build-up.",
   }),
   industryEntry({
     slug: "textile",
     name: "Textiles & Garments",
     cardLabel: "Textiles",
     image: "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?auto=format&fit=crop&w=1600&q=90",
-    tagline: "Workforce safety, production-area visibility and fire-risk monitoring",
+    tagline:
+      "Use Vision Copilot to connect mapped camera observations with decisions about material buffers and process-level improvement.",
+    summary:
+      "Map cameras to the places your team manages and ask Vision Copilot about material buffers and process-level improvement.",
   }),
   industryEntry({
     slug: "polymers-plastics",
     name: "Polymers & Plastics",
     cardLabel: "Polymers",
     image: "https://images.unsplash.com/photo-1565793298595-6a879b1d9492?auto=format&fit=crop&w=1600&q=90",
-    tagline: "Process-zone safety, fire alerts and equipment-area monitoring",
+    tagline:
+      "Use Vision Copilot to connect mapped camera observations with decisions about downstream build-up and controlled process-zone review.",
+    summary:
+      "Map cameras to the places your team manages and ask Vision Copilot about downstream build-up and controlled process-zone review.",
   }),
   industryEntry({
     slug: "banking",
     name: "Banking & Financial Institutions",
     cardLabel: "Banking",
     image: "https://images.unsplash.com/photo-1541354329998-f4d9a9f9297f?auto=format&fit=crop&w=1600&q=90",
-    tagline: "Branch security, restricted-area access and suspicious-activity monitoring",
+    tagline:
+      "Use Vision Copilot to connect mapped camera observations with decisions about branch-event review and regional follow-up.",
+    summary:
+      "Map cameras to the places your team manages and ask Vision Copilot about branch-event review and regional follow-up.",
   }),
   industryEntry({
     slug: "residential",
     name: "Residential Communities & Townships",
     cardLabel: "Residential",
     image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1600&q=90",
-    tagline: "Perimeter security, vehicle monitoring and common-area safety",
+    tagline:
+      "Use Vision Copilot to connect mapped camera observations with decisions about shared-space events and property-management priorities.",
+    summary:
+      "Map cameras to the places your team manages and ask Vision Copilot about shared-space events and property-management priorities.",
   }),
   industryEntry({
     slug: "government",
     name: "Government & Public Infrastructure",
     cardLabel: "Government",
     image: "https://images.unsplash.com/photo-1523293182086-7651a899d37f?auto=format&fit=crop&w=1600&q=90",
-    tagline: "Public-area monitoring, perimeter protection and incident detection",
+    tagline:
+      "Use Vision Copilot to connect mapped camera observations with decisions about service-counter pressure and accountable facility review.",
+    summary:
+      "Map cameras to the places your team manages and ask Vision Copilot about service-counter pressure and accountable facility review.",
   }),
   industryEntry({
     slug: "solar-renewable",
     name: "Solar & Renewable Energy Facilities",
     cardLabel: "Renewables",
     image: "https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1600&q=90",
-    tagline: "Remote-site security, perimeter intrusion and asset monitoring",
+    tagline:
+      "Use Vision Copilot to connect mapped camera observations with decisions about remote equipment-compound review and O&M priorities.",
+    summary:
+      "Map cameras to the places your team manages and ask Vision Copilot about remote equipment-compound review and O&M priorities.",
   }),
   industryEntry({
     slug: "telecom-remote",
@@ -698,6 +772,7 @@ export const navLinks = [
     children: solutions.map((s) => ({ href: `/solutions/${s.slug}`, label: s.shortName })),
   },
   { href: "/industries", label: "Industries" },
+  { href: "/nebula-os", label: "Nebula OS" },
   { href: "/partners", label: "Partners" },
   {
     href: "#",
@@ -731,8 +806,8 @@ export const resourceCategories = [
   },
   {
     title: "Case Studies",
-    description: "How enterprises adopt OrionAlerts across sites and partners.",
-    href: "/book-demo",
+    description: "Field notes and deployment stories from the OrionAlerts blog.",
+    href: "/blogs",
   },
   {
     title: "FAQs",
@@ -742,7 +817,7 @@ export const resourceCategories = [
   {
     title: "Documentation",
     description: "Architecture notes, admin guides, and integration overviews.",
-    href: "/contact",
+    href: "/docs",
   },
   {
     title: "Partner Resources",
@@ -750,8 +825,8 @@ export const resourceCategories = [
     href: "/partners",
   },
   {
-    title: "Comparisons",
-    description: "Honest capability framing versus common alternatives.",
+    title: "Talk to sales",
+    description: "Compare options with our team for your sites and stack.",
     href: "/contact",
   },
 ];

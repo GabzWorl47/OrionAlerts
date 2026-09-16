@@ -43,6 +43,7 @@ export const pharmaIndustryPage: IndustryPageRecord = {
     heading: "Add investigation context without overstating quality assurance.",
     paragraphs: [
       "Pharmaceutical operations need controlled processes and reliable records. A camera can help a reviewer understand an event near an entrance or packaging area, but it cannot establish sterility or batch quality. Define whether video is used for security, operational review or a regulated record before choosing the controls and validation approach. Quality ownership must remain clear.",
+      "A reference deployment covers gowning rooms and controlled-zone entries, on a network segment scoped and documented to the standard the facility applies to GxP-adjacent systems. Retention should match the window a QA investigation typically needs, with controlled-area alerts routed to QA and security rather than general facilities. Where a badge or access-control system is in use, align review timestamps with its logs instead of treating video as an independent compliance record.",
     ],
     buyers: [
       "Plant leadership",
@@ -174,13 +175,14 @@ export const pharmaIndustryPage: IndustryPageRecord = {
       "QA-agreed purpose for security, operational review or regulated-record use",
       "Retention, export and audit-trail requirements for the intended use",
       "Representative testing of access, time synchronisation and investigation retrieval",
+      "Documented network and validation scope for any camera system positioned near GxP-relevant areas, agreed with QA before installation",
     ],
   },
   standards: {
     publicCopy:
       "India's revised Schedule M addresses GMP requirements for pharmaceutical manufacturing. For FDA-regulated electronic records, assess 21 CFR Part 11 applicability based on intended use and underlying record requirements. Neither framework is a general CCTV product certificate.",
     frameworkIds: ["C6"],
-    reviewedAt: "2026-09-10",
+    reviewedAt: "2026-09-13",
   },
   metrics: [
     {
@@ -246,6 +248,6 @@ export const pharmaIndustryPage: IndustryPageRecord = {
     "framework C6",
   ],
   review: {
-    reviewedAt: "2026-09-10",
+    reviewedAt: "2026-09-13",
   },
 };

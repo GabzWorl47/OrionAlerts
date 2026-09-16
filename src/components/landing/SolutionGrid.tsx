@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { ChevronRight } from "lucide-react";
 import { LogoMarquee } from "@/components/landing/LogoMarquee";
@@ -47,13 +47,26 @@ function useColumnsPerRow() {
   return cols;
 }
 
+/**
+ * Avoid SSR/client tree mismatches from useReducedMotion: render "not ready"
+ * on the server and the first client pass, then flip true once hydrated.
+ * useSyncExternalStore lets React resolve the server/client snapshot itself,
+ * so this needs no effect + setState to flip the flag after mount.
+ */
+const subscribeToNothing = () => () => {};
+function useMotionReady() {
+  return useSyncExternalStore(
+    subscribeToNothing,
+    () => true,
+    () => false,
+  );
+}
+
 export function SolutionGrid() {
   const reduce = useReducedMotion();
-  const [ready, setReady] = useState(false);
+  const ready = useMotionReady();
   const [activeCluster, setActiveCluster] = useState<(typeof clusters)[number]["id"]>("all");
   const cols = useColumnsPerRow();
-
-  useEffect(() => setReady(true), []);
 
   const animate = ready && !reduce;
 
@@ -130,7 +143,11 @@ export function SolutionGrid() {
           <p className="mx-auto mt-4 max-w-2xl text-[15px] leading-relaxed text-muted-strong md:text-base">
             Explore the modules that power Orion Alerts — video and AI, asset visibility,
             maintenance workflows, and infrastructure health — each designed to work alone or as one
-            connected platform.
+            connected platform. Every module runs on{" "}
+            <Link href="/nebula-os" className="font-semibold text-blue hover:underline">
+              Nebula OS, our Vision AI operating system
+            </Link>
+            .
           </p>
         </motion.div>
 
@@ -225,7 +242,6 @@ export function SolutionGrid() {
                         src={solution.image}
                         alt={solution.name}
                         fill
-                        priority={solutionIndex < 5}
                         quality={90}
                         sizes="(max-width: 640px) 45vw, (max-width: 1024px) 30vw, 18vw"
                         className="object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.12]"

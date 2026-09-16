@@ -1,27 +1,37 @@
 "use client";
 
 import { motion, useReducedMotion, type Variants } from "framer-motion";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useSyncExternalStore } from "react";
 
-const ease = [0.22, 1, 0.36, 1] as const;
+/**
+ * Shared reveal easing - mirrors --ease-soft in globals.css (expo-out).
+ * Keep the two in sync if you tune one.
+ */
+const ease = [0.16, 1, 0.3, 1] as const;
 
+/**
+ * Direction variants: a soft fade + short translate + a whisper of scale.
+ * The scale keeps things editorial rather than a plain slide, without
+ * being showy - distances are intentionally small so it reads as a
+ * refinement, not an entrance effect.
+ */
 const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 36 },
-  show: { opacity: 1, y: 0 },
+  hidden: { opacity: 0, y: 28, scale: 0.985 },
+  show: { opacity: 1, y: 0, scale: 1 },
 };
 
 const fadeLeft: Variants = {
-  hidden: { opacity: 0, x: -72 },
-  show: { opacity: 1, x: 0 },
+  hidden: { opacity: 0, x: -56, scale: 0.985 },
+  show: { opacity: 1, x: 0, scale: 1 },
 };
 
 const fadeRight: Variants = {
-  hidden: { opacity: 0, x: 72 },
-  show: { opacity: 1, x: 0 },
+  hidden: { opacity: 0, x: 56, scale: 0.985 },
+  show: { opacity: 1, x: 0, scale: 1 },
 };
 
 const scaleIn: Variants = {
-  hidden: { opacity: 0, scale: 0.94 },
+  hidden: { opacity: 0, scale: 0.95 },
   show: { opacity: 1, scale: 1 },
 };
 
@@ -45,9 +55,11 @@ type RevealProps = {
 
 /** Avoid SSR/client tree mismatches from useReducedMotion. */
 function useMotionReady() {
-  const [ready, setReady] = useState(false);
-  useEffect(() => setReady(true), []);
-  return ready;
+  return useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false,
+  );
 }
 
 export function Reveal({
@@ -69,7 +81,7 @@ export function Reveal({
       initial={animate ? "hidden" : false}
       whileInView={animate ? "show" : undefined}
       viewport={animate ? { once, amount, margin: "-10% 0px -8% 0px" } : undefined}
-      transition={{ duration: 0.75, delay, ease }}
+      transition={{ duration: 0.7, delay, ease }}
     >
       {children}
     </motion.div>
@@ -122,7 +134,7 @@ export function StaggerItem({
     <motion.div
       className={className}
       variants={map[direction]}
-      transition={{ duration: 0.65, ease }}
+      transition={{ duration: 0.6, ease }}
     >
       {children}
     </motion.div>

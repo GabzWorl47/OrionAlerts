@@ -43,6 +43,7 @@ export const oilGasIndustryPage: IndustryPageRecord = {
     heading: "Separate useful visual awareness from safety-critical detection.",
     paragraphs: [
       "Refineries, terminals and petrochemical sites need to manage controlled access alongside vehicle and contractor activity. An operator benefits from seeing the scene around an event, but ordinary cameras cannot establish gas concentration, process pressure or safe isolation. Design the video workflow around verification and escalation, with a clear boundary between surveillance analytics and process safety.",
+      "A reference deployment covers tanker bays, controlled-access points and defined perimeter zones, with cabling and enclosures selected for the area's hazardous-area classification. Retention should match the window an HSE or security investigation typically needs, with access and tanker-area alerts routed to HSE and security rather than a general control room. Where a permit-to-work or access-control system is in use, align review timestamps with its records instead of treating video as a substitute for the permit process.",
     ],
     buyers: [
       "Terminal/refinery operations",
@@ -174,13 +175,14 @@ export const oilGasIndustryPage: IndustryPageRecord = {
       "Agreed response owners for perimeter, access and verification events",
       "Hazardous-area classification and hardware-approval check for proposed installs",
       "Representative testing across glare, night lighting, steam and weather",
+      "Hazardous-area classification confirmed for every proposed camera position and cable route before installation",
     ],
   },
   standards: {
     publicCopy:
       "Equipment installed in hazardous areas may require PESO approval within its jurisdiction. IECEx certification and EU ATEX requirements have distinct scopes and do not automatically replace Indian approvals. Verify the exact model and installation conditions.",
     frameworkIds: ["C5"],
-    reviewedAt: "2026-09-10",
+    reviewedAt: "2026-09-13",
   },
   metrics: [
     {
@@ -246,6 +248,6 @@ export const oilGasIndustryPage: IndustryPageRecord = {
     "framework C5",
   ],
   review: {
-    reviewedAt: "2026-09-10",
+    reviewedAt: "2026-09-13",
   },
 };

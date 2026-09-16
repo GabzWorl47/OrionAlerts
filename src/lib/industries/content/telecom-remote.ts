@@ -43,6 +43,7 @@ export const telecomRemoteIndustryPage: IndustryPageRecord = {
     heading: "Distinguish an unexplained entry from planned field work.",
     paragraphs: [
       "Telecom sites may have limited staffing and frequent maintenance visits. Remote operators need to know whether visible activity matches an authorised job before dispatching someone. Camera availability is part of that decision: a disconnected feed should never appear to confirm that a site is secure. Plan the response around actual access and connectivity conditions.",
+      "A reference deployment covers the shelter entry, equipment zone and site perimeter, typically backhauled over cellular or satellite links whose uptime varies by site. Camera and connectivity health should be visible alongside the alert itself, so a disconnected feed is never mistaken for a secure, unattended site. Route entry alerts to field maintenance and the security operations centre, and where a work-order or ticketing system is available, align review timestamps with dispatched visits instead of guessing whether activity was authorised.",
     ],
     buyers: [
       "Tower companies",
@@ -174,13 +175,14 @@ export const telecomRemoteIndustryPage: IndustryPageRecord = {
       "Agreed response owners for unexplained entry versus planned field work",
       "Connectivity and outage-recovery expectations for remote camera links",
       "Representative testing across maintenance visits, after-hours windows and intermittent links",
+      "Camera and connectivity health status surfaced alongside alerts, so backhaul loss is never read as a secure site",
     ],
   },
   standards: {
     publicCopy:
       "TEC/MTCTE requirements apply to notified telecom equipment within the applicable scheme and phase. They are not a blanket AI-software certificate; verify the exact equipment and current requirements.",
     frameworkIds: ["C20"],
-    reviewedAt: "2026-09-10",
+    reviewedAt: "2026-09-13",
   },
   metrics: [
     {
@@ -246,6 +248,6 @@ export const telecomRemoteIndustryPage: IndustryPageRecord = {
     "framework C20",
   ],
   review: {
-    reviewedAt: "2026-09-10",
+    reviewedAt: "2026-09-13",
   },
 };

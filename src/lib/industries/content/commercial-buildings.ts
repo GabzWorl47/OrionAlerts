@@ -43,6 +43,7 @@ export const commercialBuildingsIndustryPage: IndustryPageRecord = {
     heading: "Coordinate a response across shared spaces.",
     paragraphs: [
       "Multi-tenant buildings have overlapping activity at reception, lifts, parking and service entrances. Security may see an event without knowing which facilities or tenant team should act. Define the purpose and response owner for each monitored area. Common-area visibility should not become unrestricted access to every tenant's activity.",
+      "A reference deployment covers lobbies, lift lobbies, parking entries and service corridors, typically on the building's own network segment rather than tenant IT. Set retention against the property's privacy and lease obligations, and route each alert type to the correct owner: facilities for service and common-area events, security for access and incident review. Where an access-control or BMS integration exists, align review with its logs rather than treating video as the only record of who entered a space and when.",
     ],
     buyers: [
       "Facility managers",
@@ -174,13 +175,14 @@ export const commercialBuildingsIndustryPage: IndustryPageRecord = {
       "Agreed purpose and response owner per monitored area",
       "Permission, notice and retention rules for tenant-facing views",
       "Representative testing across daylight, crowding and after-hours windows",
+      "Defined network segmentation between building and tenant systems, and alignment with access-control or BMS logs where those integrations exist",
     ],
   },
   standards: {
     publicCopy:
       "Consider premises and fire planning alongside privacy obligations for building monitoring. Video can help review conditions; it does not grant fire approval, occupancy permission or building certification.",
     frameworkIds: ["C8", "C9"],
-    reviewedAt: "2026-09-10",
+    reviewedAt: "2026-09-13",
   },
   metrics: [
     {
@@ -246,6 +248,6 @@ export const commercialBuildingsIndustryPage: IndustryPageRecord = {
     "frameworks C8/C9",
   ],
   review: {
-    reviewedAt: "2026-09-10",
+    reviewedAt: "2026-09-13",
   },
 };

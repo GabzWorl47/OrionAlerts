@@ -36,7 +36,7 @@ function loadRecaptchaScript() {
 
   scriptLoading = new Promise<void>((resolve, reject) => {
     const existing = document.querySelector<HTMLScriptElement>(
-      'script[src^="https://www.google.com/recaptcha/api.js"]',
+      'script[src*="recaptcha/api.js"]',
     );
     if (existing) {
       existing.addEventListener("load", () => resolve(), { once: true });
@@ -49,7 +49,9 @@ function loadRecaptchaScript() {
 
     window.___recaptchaOnLoad = () => resolve();
     const script = document.createElement("script");
-    script.src = "https://www.google.com/recaptcha/api.js?onload=___recaptchaOnLoad&render=explicit";
+    // Prefer recaptcha.net to reduce unrelated Google cookies (per Google guidance / audit).
+    script.src =
+      "https://www.recaptcha.net/recaptcha/api.js?onload=___recaptchaOnLoad&render=explicit";
     script.async = true;
     script.defer = true;
     script.onerror = () => reject(new Error("reCAPTCHA failed to load"));

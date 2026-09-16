@@ -1,6 +1,8 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import {
+  CtaBand,
   Section,
   SectionHeading,
 } from "@/components/ui";
@@ -17,19 +19,35 @@ import { TestimonialsSection } from "@/components/landing/TestimonialsSection";
 import { HashScroll } from "@/components/HashScroll";
 import { getSolutionOutcomes } from "@/lib/solution-outcomes";
 import { getSolution, solutions } from "@/lib/site";
+import { buildPageMetadata, solutionSeoDescriptions } from "@/lib/seo";
+import {
+  breadcrumbJsonLd,
+  JsonLdScript,
+  serviceJsonLd,
+  videoObjectJsonLd,
+} from "@/lib/jsonld";
+import { publicVideoAssets } from "@/lib/videos";
 
 export function generateStaticParams() {
   return solutions.map((s) => ({ slug: s.slug }));
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
   const { slug } = await params;
   const solution = getSolution(slug);
   if (!solution) return {};
-  return {
+  return buildPageMetadata({
     title: solution.name,
-    description: solution.summary,
-  };
+    description:
+      solutionSeoDescriptions[solution.slug] ?? solution.tagline ?? solution.summary,
+    pathname: `/solutions/${solution.slug}`,
+    image: solution.image,
+    imageAlt: solution.name,
+  });
 }
 
 export default async function SolutionDetailPage({
@@ -40,10 +58,41 @@ export default async function SolutionDetailPage({
   const { slug } = await params;
   const solution = getSolution(slug);
   if (!solution) notFound();
+  const pageVideos = publicVideoAssets.filter(
+    (video) => video.pagePath === `/solutions/${solution.slug}`,
+  );
 
   return (
     <PageShell>
       <>
+        <JsonLdScript
+          data={breadcrumbJsonLd([
+            { name: "Home", path: "/" },
+            { name: "Solutions", path: "/solutions" },
+            { name: solution.name, path: `/solutions/${solution.slug}` },
+          ])}
+        />
+        <JsonLdScript
+          data={serviceJsonLd({
+            name: solution.name,
+            description:
+              solutionSeoDescriptions[solution.slug] ?? solution.headline,
+            path: `/solutions/${solution.slug}`,
+            image: solution.image,
+          })}
+        />
+        {pageVideos.map((video) => (
+          <JsonLdScript
+            key={video.id}
+            data={videoObjectJsonLd({
+              name: video.name,
+              description: video.description,
+              contentPath: video.contentPath,
+              thumbnailPath: video.thumbnailPath,
+              pagePath: video.pagePath,
+            })}
+          />
+        ))}
         <HashScroll />
         <SolutionHero solution={solution} />
 
@@ -197,8 +246,8 @@ export default async function SolutionDetailPage({
 
         <TestimonialsSection compact />
 
-        <Section compact>
-          <p className="mb-0 text-center text-sm text-muted">
+        <Section>
+          <p className="mb-4 text-sm text-muted">
             Explore other solutions:{" "}
             {solutions
               .filter((s) => s.slug !== solution.slug)
@@ -211,31 +260,15 @@ export default async function SolutionDetailPage({
                 </span>
               ))}
           </p>
+          <CtaBand
+            title={`See ${solution.shortName} in action`}
+            lede="Book a demo for a guided walkthrough tailored to your sites and operators."
+            primaryHref="/book-demo"
+            primaryLabel="Book a Demo"
+            secondaryHref="/contact"
+            secondaryLabel="Contact Us"
+          />
         </Section>
-
-      <Section>
-        <p className="mb-4 text-sm text-muted">
-          Explore other solutions:{" "}
-          {solutions
-            .filter((s) => s.slug !== solution.slug)
-            .map((s, i, arr) => (
-              <span key={s.slug}>
-                <Link href={`/solutions/${s.slug}`} className="font-medium text-blue hover:underline">
-                  {s.shortName}
-                </Link>
-                {i < arr.length - 1 ? " · " : ""}
-              </span>
-            ))}
-        </p>
-        <CtaBand
-          title={`See ${solution.shortName} in action`}
-          lede="Book a demo for a guided walkthrough tailored to your sites and operators."
-          primaryHref="/book-demo"
-          primaryLabel="Book a Demo"
-          secondaryHref="/contact"
-          secondaryLabel="Contact Us"
-        />
-      </Section>
         <FinalCta />
       </>
     </PageShell>

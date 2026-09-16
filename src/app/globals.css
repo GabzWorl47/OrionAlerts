@@ -39,6 +39,16 @@
   --nav-text-hover: #ffffff;
   --nav-text-active: #ffffff;
   --nav-hover-bg: rgba(255, 255, 255, 0.1);
+
+  /* Motion tokens — shared easing curves + durations.
+     Use these instead of ad-hoc cubic-beziers/ms values so scroll,
+     hover, and reveal animations read as one consistent system. */
+  --ease-soft: cubic-bezier(0.16, 1, 0.3, 1); /* "expo-out" — default premium easing */
+  --ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1); /* gentle overshoot, use sparingly */
+  --ease-swift: cubic-bezier(0.4, 0, 0.2, 1); /* quick micro-interactions (hover/focus) */
+  --dur-fast: 160ms;
+  --dur-base: 280ms;
+  --dur-slow: 560ms;
 }
 
 @theme inline {
@@ -54,6 +64,9 @@
   --color-ink-deep: var(--ink-deep);
   --color-alert: var(--alert);
   --color-line: var(--line);
+  --ease-soft: var(--ease-soft);
+  --ease-out-back: var(--ease-out-back);
+  --ease-swift: var(--ease-swift);
   --font-sans: var(--font-outfit);
   --font-display: var(--font-outfit);
 }
@@ -65,6 +78,8 @@
 
   html {
     scroll-behavior: smooth;
+    /* Clear the sticky header on anchor jumps / scrollIntoView targets. */
+    scroll-padding-top: calc(var(--header-h) + 1.5rem);
   }
 
   body {
@@ -173,6 +188,105 @@
 
 .site-header-bar .nav-link-active {
   color: var(--nav-text-active);
+}
+
+/* ============================================================
+   Shared motion utilities
+   ------------------------------------------------------------
+   A small reusable set any component/page can opt into. Durations
+   and easings pull from the tokens above so motion feels like one
+   system. Everything here animates transform/opacity/background-
+   position (never width/height/top/left) to stay off the layout
+   thread. All of it is neutralised under prefers-reduced-motion
+   (see the media query near the bottom of this file).
+
+   .transition-smooth / .transition-smooth-fast
+     Drop-in transition for transform, opacity, shadow, background
+     and border/text color changes — pair with a hover: utility.
+
+   .focus-ring
+     Accessible focus-visible ring in the brand cyan. Layout-safe
+     (uses outline, not border/box-shadow), so it never shifts content.
+
+   .animate-fade-rise-in
+     One-shot fade + rise + slight scale-in, e.g. for content that
+     mounts client-side outside of <Reveal>.
+
+   .shimmer
+     Subtle diagonal gradient sweep for a "premium" accent on a
+     card, badge or heading. Use sparingly.
+
+   .glow-cyan-hover
+     Soft cyan glow on hover/focus, echoing the accent used across
+     buttons and panels.
+   ============================================================ */
+
+.transition-smooth {
+  transition-property: transform, opacity, box-shadow, background-color, border-color, color;
+  transition-duration: var(--dur-base);
+  transition-timing-function: var(--ease-soft);
+}
+
+.transition-smooth-fast {
+  transition-property: transform, opacity, box-shadow, background-color, border-color, color;
+  transition-duration: var(--dur-fast);
+  transition-timing-function: var(--ease-swift);
+}
+
+.focus-ring {
+  outline: 2px solid transparent;
+  outline-offset: 3px;
+  transition: outline-color var(--dur-fast) var(--ease-swift);
+}
+
+.focus-ring:focus-visible {
+  outline-color: var(--cyan);
+}
+
+@keyframes fade-rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-fade-rise-in {
+  animation: fade-rise-in var(--dur-slow) var(--ease-soft) both;
+}
+
+@keyframes shimmer-sweep {
+  from {
+    background-position: -150% 0;
+  }
+  to {
+    background-position: 150% 0;
+  }
+}
+
+.shimmer {
+  background-image: linear-gradient(
+    100deg,
+    transparent 35%,
+    rgba(126, 200, 255, 0.35) 50%,
+    transparent 65%
+  );
+  background-size: 250% 100%;
+  animation: shimmer-sweep 2.6s ease-in-out infinite;
+}
+
+.glow-cyan-hover {
+  transition: box-shadow var(--dur-base) var(--ease-soft);
+}
+
+.glow-cyan-hover:hover,
+.glow-cyan-hover:focus-visible {
+  box-shadow:
+    0 0 0 1px rgba(126, 200, 255, 0.4),
+    0 12px 32px rgba(126, 200, 255, 0.22);
 }
 
 .section-alt {
@@ -533,10 +647,15 @@
 }
 
 .industry-score {
+  grid-column: span 4;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
   padding: 24px;
   border: 1px solid var(--industry-line);
   border-radius: var(--industry-radius-md);
   background: var(--industry-surface-raised);
+  box-shadow: 0 8px 24px rgba(7, 18, 37, 0.05);
 }
 
 .industry-score__value {
@@ -544,6 +663,10 @@
   font-size: clamp(2rem, 4vw, 3rem);
   font-weight: 700;
   line-height: 1;
+}
+
+.industry-score > p:last-of-type {
+  flex: 1 1 auto;
 }
 
 .industry-score__bar {
@@ -562,6 +685,57 @@
   background: linear-gradient(90deg, var(--industry-accent), var(--industry-success));
 }
 
+@keyframes industry-scan {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 56px 0;
+  }
+}
+
+.industry-score__bar--pending {
+  background-image: repeating-linear-gradient(
+    115deg,
+    rgba(25, 184, 255, 0.16) 0px,
+    rgba(25, 184, 255, 0.16) 7px,
+    transparent 7px,
+    transparent 14px
+  );
+  background-color: #dce7f2;
+  animation: industry-scan 2.4s linear infinite;
+}
+
+@keyframes industry-flow {
+  0% {
+    left: -2%;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    left: 100%;
+    opacity: 0;
+  }
+}
+
+.industry-tree__flow {
+  position: absolute;
+  top: -1px;
+  left: 0;
+  z-index: 1;
+  height: 2px;
+  width: 46px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, var(--industry-accent), transparent);
+  animation: industry-flow 4.2s ease-in-out infinite;
+  pointer-events: none;
+}
+
 .industry-faq {
   border-top: 1px solid var(--industry-line);
 }
@@ -577,7 +751,8 @@
   }
 
   .industry-card,
-  .industry-card--wide {
+  .industry-card--wide,
+  .industry-score {
     grid-column: 1 / -1;
   }
 
@@ -601,5 +776,30 @@
 
   .certificate-marquee-track {
     animation: none !important;
+  }
+
+  .industry-score__bar--pending,
+  .industry-tree__flow {
+    animation: none !important;
+  }
+
+  /* Shared motion utilities: no auto-playing animation, and
+     transitions resolve instantly instead of easing. */
+  .shimmer {
+    animation: none !important;
+    background-image: none !important;
+  }
+
+  .animate-fade-rise-in {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .transition-smooth,
+  .transition-smooth-fast,
+  .glow-cyan-hover,
+  .focus-ring {
+    transition-duration: 0.01ms !important;
   }
 }

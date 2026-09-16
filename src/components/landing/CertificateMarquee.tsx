@@ -7,25 +7,25 @@ const featuredCertificates = [
   {
     id: "iso-9001",
     name: "ISO 9001",
-    label: "ISO 9001 Certified",
+    label: "ISO 9001",
     logoSrc: "/Images/certificates/iso-9001.webp",
   },
   {
     id: "soc-2",
     name: "SOC 2",
-    label: "SOC 2 Type II",
+    label: "SOC 2",
     logoSrc: "/Images/certificates/soc2.png",
   },
   {
     id: "onvif",
     name: "ONVIF",
-    label: "ONVIF Conformant",
+    label: "ONVIF-aligned integrations",
     logoSrc: "/Images/certificates/onvif.svg",
   },
   {
     id: "iso-27001",
     name: "ISO 27001",
-    label: "ISO 27001 Certified",
+    label: "ISO 27001",
     logoSrc: "/Images/certificates/iso-27001.png",
   },
 ] as const;
@@ -46,8 +46,8 @@ export function CertificateMarquee() {
             Built for Compliance and Trust
           </h2>
           <p className="mx-auto mt-2.5 max-w-xl text-center text-sm text-muted">
-            Aligned with security frameworks and certifications that matter for enterprise
-            and government deployments.
+            Framework marks shown for orientation. Request certificate scope and validity for your
+            engagement from sales@orionalerts.com.
           </p>
         </Reveal>
 

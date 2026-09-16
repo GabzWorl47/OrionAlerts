@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, Check } from "lucide-react";
+import { useReducedMotion } from "framer-motion";
 import { Reveal } from "@/components/Reveal";
 import { homepageSolutions, type HomepageSolution } from "@/lib/homepage";
 
@@ -11,7 +12,9 @@ function SolutionMedia({ media }: { media: HomepageSolution["media"] }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const rootRef = useRef<HTMLDivElement>(null);
   const [inView, setInView] = useState(false);
+  const reduce = useReducedMotion();
   const isRemote = media.poster.startsWith("http");
+  const canAutoplay = Boolean(media.src) && !reduce;
 
   useEffect(() => {
     const el = rootRef.current;
@@ -28,19 +31,19 @@ function SolutionMedia({ media }: { media: HomepageSolution["media"] }) {
     const video = videoRef.current;
     if (!video || !media.src) return;
     video.muted = true;
-    if (!inView) {
+    if (!inView || reduce) {
       video.pause();
       return;
     }
     void video.play().catch(() => {});
-  }, [inView, media.src]);
+  }, [inView, media.src, reduce]);
 
   return (
     <div
       ref={rootRef}
       className="relative aspect-[16/10] overflow-hidden rounded-[20px] border border-line bg-[#0b1220] shadow-[0_16px_40px_rgba(15,23,42,0.1)]"
     >
-      {media.src ? (
+      {canAutoplay ? (
         <video
           ref={videoRef}
           src={media.src}

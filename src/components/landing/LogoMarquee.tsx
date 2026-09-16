@@ -30,7 +30,6 @@ function ClientItem({ client }: { client: ClientLogo }) {
 
 export function LogoMarquee({ compact = false }: { compact?: boolean } = {}) {
   const reduce = useReducedMotion();
-  const loop = [...clients, ...clients];
 
   return (
     <section
@@ -87,11 +86,19 @@ export function LogoMarquee({ compact = false }: { compact?: boolean } = {}) {
             role="list"
             aria-label="Trusted client organizations"
           >
-            {loop.map((client, index) => (
-              <div key={`${client.id}-${index}`} role="listitem">
+            {clients.map((client) => (
+              <div key={client.id} role="listitem">
                 <ClientItem client={client} />
               </div>
             ))}
+            {/* Visual clone for seamless marquee; hidden from assistive tech */}
+            <div aria-hidden className="contents">
+              {clients.map((client) => (
+                <div key={`clone-${client.id}`}>
+                  <ClientItem client={client} />
+                </div>
+              ))}
+            </div>
           </div>
         )}
       </div>

@@ -42,6 +42,7 @@ export const frameworks: Record<string, FrameworkRecord> = {
     sourceUrl: "https://peso.gov.in/",
     boundary:
       "Schemes are distinct; confirm Indian acceptance and approval rather than treating certificates as interchangeable. Verify the exact model and installation conditions.",
+  },
   C4: {
     id: "C4",
     name: "DGMS equipment approvals",
@@ -51,6 +52,7 @@ export const frameworks: Record<string, FrameworkRecord> = {
     sourceUrl: "https://www.dgms.gov.in/",
     boundary:
       "Applicability depends on the equipment and mine environment. An ordinary surveillance device must not be described as mine-approved without evidence.",
+  },
   C3: {
     id: "C3",
     name: "BIS / QCO product requirements",
@@ -98,6 +100,96 @@ export const frameworks: Record<string, FrameworkRecord> = {
     boundary:
       "Define monitoring purpose, authorised users and retention with legal/privacy owners before deployment.",
   },
+  C10: {
+    id: "C10",
+    name: "ISPS (ship and port facility security)",
+    jurisdiction: "Covered international maritime operations",
+    publicSummary:
+      "ISPS is a ship and port facility security framework for covered operators and authorities under applicable maritime operations.",
+    boundary:
+      "Scope includes applicable ships and port facilities, not every logistics site. Airport and railway requirements are separate and need operator-specific verification; no common transport AI certificate is established.",
+  },
+  C11: {
+    id: "C11",
+    name: "ISO/IEC 27001 / Uptime Institute Tier",
+    jurisdiction: "International (ISO/IEC 27001); data-centre Tier assessment scope",
+    publicSummary:
+      "ISO/IEC 27001 concerns an organisation's information-security management system. Uptime Institute Tier certification addresses defined data-centre infrastructure and operational scopes.",
+    boundary:
+      "Neither is conferred by adding video analytics. Verify the exact entity, scope and certificate. Neither automatically extends to an integrated vendor or every product.",
+  },
+  C12: {
+    id: "C12",
+    name: "CBSE school-safety provisions",
+    jurisdiction: "India (affiliated schools)",
+    publicSummary:
+      "CBSE school-safety provisions set affiliation and safety requirements for relevant affiliated schools.",
+    boundary:
+      "Review the applicable institution requirements and amendments. Do not generalise CBSE rules to universities or use them to justify unrestricted monitoring of children.",
+  },
+  C13: {
+    id: "C13",
+    name: "NABH healthcare accreditation",
+    jurisdiction: "India",
+    publicSummary:
+      "NABH accreditation evaluates the healthcare organisation under applicable programme standards.",
+    boundary:
+      "Programme, scope and applicable payer or contract requirements matter. Video may support selected reviews but does not confer accreditation, validate clinical performance, or make software NABH accredited.",
+  },
+  C14: {
+    id: "C14",
+    name: "CEA electrical safety regulations",
+    jurisdiction: "India",
+    publicSummary:
+      "CEA safety regulations provide electrical-safety context for covered installations and activities in India.",
+    boundary:
+      "Review the installation and applicable current requirements with qualified specialists. Analytics does not replace electrical protection, permit systems or required inspections, and video does not establish electrical safety.",
+  },
+  C15: {
+    id: "C15",
+    name: "FSC chain of custody",
+    jurisdiction: "International",
+    publicSummary:
+      "FSC chain-of-custody certification concerns documented handling and claims for eligible forest-based material.",
+    boundary:
+      "It requires an appropriate documented material chain. It is not a generic plant-safety requirement, and video does not establish certified provenance or replace transaction records.",
+  },
+  C16: {
+    id: "C16",
+    name: "GOTS / OEKO-TEX STANDARD 100",
+    jurisdiction: "International textiles",
+    publicSummary:
+      "GOTS and OEKO-TEX STANDARD 100 address specific textile certification and testing claims for eligible products and organisations.",
+    boundary:
+      "GOTS claims relate to its organic-textile programme; STANDARD 100 concerns harmful-substance testing. Neither is awarded through CCTV, and neither is a universal requirement for every textile factory.",
+  },
+  C17: {
+    id: "C17",
+    name: "Plastic-packaging EPR",
+    jurisdiction: "India",
+    publicSummary:
+      "Plastic-packaging EPR obligations apply to relevant regulated entities and activities under the current CPCB framework.",
+    boundary:
+      "Check registration, reporting and evidence rules for the exact role. Video does not establish recycling-credit or EPR compliance, and footage does not generate valid EPR credits or replace the required records.",
+  },
+  C18: {
+    id: "C18",
+    name: "RBI IT governance directions",
+    jurisdiction: "India",
+    publicSummary:
+      "RBI IT governance directions apply to specified regulated entities and controls under the official covered categories.",
+    boundary:
+      "Confirm current applicability and amendments for the institution. These directions are not an RBI certification programme for CCTV vendors, and OrionAlerts must not be labelled RBI certified.",
+  },
+  C19: {
+    id: "C19",
+    name: "STQC CCTV/IoT scheme",
+    jurisdiction: "India",
+    publicSummary:
+      "STQC's CCTV/IoT scheme provides product assessment routes and certified-product information for applicable procurement contexts.",
+    boundary:
+      "Verify exact products, versions and applicable orders. Do not transfer a camera or component certificate to an entire AI platform or offering.",
+  },
   C21: {
     id: "C21",
     name: "NDMA crowd-management guidance",
@@ -107,6 +199,7 @@ export const frameworks: Record<string, FrameworkRecord> = {
     sourceUrl: "https://www.pib.gov.in/newsite/printrelease.aspx?lang=2&reg=48&relid=151549",
     boundary:
       "It is not a product certificate or a guarantee that an estimated crowd count defines a safe condition.",
+  },
   C20: {
     id: "C20",
     name: "TEC / MTCTE",

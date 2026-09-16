@@ -6,6 +6,15 @@ const nextConfig: NextConfig = {
   reactStrictMode: false,
   // Allow both localhost and 127.0.0.1 in dev so /_next assets & HMR work either way.
   allowedDevOrigins: ["127.0.0.1", "localhost"],
+  // Self-contained Node server for cPanel / VPS (npm run build:cpanel → dist/).
+  output: "standalone",
+  // Blog JSON + uploads are read/written at runtime from process.cwd().
+  outputFileTracingIncludes: {
+    "/*": ["./data/**/*"],
+    "/api/**/*": ["./data/**/*", "./public/uploads/**/*"],
+    "/blogs": ["./data/**/*"],
+    "/blogs/*": ["./data/**/*"],
+  },
   images: {
     remotePatterns: [
       {
@@ -19,12 +28,12 @@ const nextConfig: NextConfig = {
       {
         source: "/resources",
         destination: "/blogs",
-        permanent: false,
+        permanent: true,
       },
       {
         source: "/resources/:path*",
         destination: "/blogs",
-        permanent: false,
+        permanent: true,
       },
       {
         source: "/industries/schools",
@@ -38,6 +47,11 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/industries/qsr",
+        destination: "/industries/quick-commerce",
+        permanent: true,
+      },
+      {
+        source: "/industries/quick-service-restaurants",
         destination: "/industries/quick-commerce",
         permanent: true,
       },

@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
 import { Button, CtaBand, FeatureCard, Section, SectionHeading } from "@/components/ui";
 import { PageShell } from "@/components/PageShell";
+import { buildPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildPageMetadata({
   title: "Become a Partner",
   description:
-    "Join the OrionAlerts partner ecosystem — white-label, pricing, training, portal, partner lookup, and integrations.",
-};
+    "Join the OrionAlerts partner ecosystem for system integrators and technology partners—enablement, packaging, and joint delivery.",
+  pathname: "/partners",
+});
+
 
 const partnerTracks = [
   {
@@ -79,7 +82,7 @@ export default function PartnersPage() {
         <SectionHeading
           eyebrow="Program"
           title="What partners get"
-          lede="Program rules and final commercial packs are still being finalized — structure is ready for content drop-in."
+          lede="Enablement, packaging support, and joint delivery paths for system integrators and technology partners."
         />
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {enablement.map((item, index) => (
@@ -94,8 +97,8 @@ export default function PartnersPage() {
           lede="Tell us your region, specialties, and whether you’re SI-led, technology-led, or both."
           primaryHref="/contact"
           primaryLabel="Contact Us"
-          secondaryHref="/partners"
-          secondaryLabel="Partner resources"
+          secondaryHref="/faqs"
+          secondaryLabel="Read FAQs"
         />
       </Section>
     </>

@@ -1,13 +1,14 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { useReducedMotion } from "framer-motion";
 
 type SolutionVideoProps = {
   src: string;
   label: string;
   poster?: string;
   fit?: "contain" | "cover";
-  /** When false, video pauses. Defaults to true (autoplay). */
+  /** When false, video pauses. Defaults to true (autoplay when motion is allowed). */
   playing?: boolean;
 };
 
@@ -19,6 +20,8 @@ export function SolutionVideo({
   playing = true,
 }: SolutionVideoProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const reduce = useReducedMotion();
+  const shouldPlay = playing && !reduce;
 
   useEffect(() => {
     const video = videoRef.current;
@@ -26,7 +29,7 @@ export function SolutionVideo({
 
     video.muted = true;
 
-    if (!playing) {
+    if (!shouldPlay) {
       video.pause();
       return;
     }
@@ -44,7 +47,7 @@ export function SolutionVideo({
     } else {
       video.addEventListener("loadeddata", () => void tryPlay(), { once: true });
     }
-  }, [src, playing]);
+  }, [src, shouldPlay]);
 
   return (
     <video
@@ -58,7 +61,7 @@ export function SolutionVideo({
       playsInline
       muted
       loop
-      preload="auto"
+      preload="metadata"
       aria-label={label}
     />
   );

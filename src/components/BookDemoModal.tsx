@@ -73,7 +73,7 @@ export function BookDemoModalProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (pathname === "/book-demo" || pathname === "/book-demo/") {
-      setOpen(true);
+      queueMicrotask(() => setOpen(true));
       router.replace("/");
     }
   }, [pathname, router]);

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useSyncExternalStore } from "react";
 import type { IndustryPageData } from "@/lib/industry-pages";
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -19,7 +19,6 @@ function shortLede(summary: string) {
 
 export function IndustryHero({ industry }: IndustryHeroProps) {
   const reduce = useReducedMotion();
-  const [ready, setReady] = useState(false);
   const hasVideo = Boolean(industry.introVideo);
   const videoRef = useRef<HTMLVideoElement>(null);
   const ref = useRef<HTMLElement>(null);
@@ -30,11 +29,15 @@ export function IndustryHero({ industry }: IndustryHeroProps) {
   const imageY = useTransform(scrollYProgress, [0, 1], ["0%", "18%"]);
   const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "10%"]);
 
-  useEffect(() => setReady(true), []);
+  const ready = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false,
+  );
 
   useEffect(() => {
     const video = videoRef.current;
-    if (!video || !industry.introVideo) return;
+    if (!video || !industry.introVideo || reduce) return;
     video.muted = true;
     const tryPlay = async () => {
       try {
@@ -48,9 +51,10 @@ export function IndustryHero({ industry }: IndustryHeroProps) {
     } else {
       video.addEventListener("loadeddata", () => void tryPlay(), { once: true });
     }
-  }, [industry.introVideo]);
+  }, [industry.introVideo, reduce]);
 
   const animate = ready && !reduce;
+  const posterSrc = industry.introVideoPoster ?? industry.image;
 
   return (
     <section
@@ -61,13 +65,12 @@ export function IndustryHero({ industry }: IndustryHeroProps) {
         className="absolute inset-0"
         style={animate ? { y: imageY } : undefined}
       >
-        {hasVideo && industry.introVideo ? (
+        {hasVideo && industry.introVideo && !reduce ? (
           <video
             ref={videoRef}
             src={industry.introVideo}
-            poster={industry.introVideoPoster ?? industry.image}
+            poster={posterSrc}
             className="absolute inset-0 h-full w-full object-cover brightness-[1.18] contrast-[1.06] saturate-[1.05]"
-            autoPlay
             muted
             loop
             playsInline
@@ -76,7 +79,7 @@ export function IndustryHero({ industry }: IndustryHeroProps) {
           />
         ) : (
           <Image
-            src={industry.image}
+            src={posterSrc}
             alt=""
             fill
             priority

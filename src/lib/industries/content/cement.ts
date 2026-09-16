@@ -43,6 +43,7 @@ export const cementIndustryPage: IndustryPageRecord = {
     heading: "Make dusty, distributed plant areas easier to review.",
     paragraphs: [
       "Material transfer, bagging and vehicle dispatch create multiple points where a small interruption can become an operational problem. Dust, vibration and changing daylight also make camera coverage less reliable. A useful system needs realistic detection boundaries and a plan for keeping views clear. Start with specific events that operators can verify and act upon.",
+      "A reference deployment positions cameras at loading bays, material-transfer points and conveyor-side access, often connected over longer cable runs or wireless links given the size of a typical plant footprint. Retention should match dispatch and safety-review cycles rather than an indefinite archive, with loading and transfer alerts routed to dispatch and plant operations. Where a weighbridge or dispatch system is in use, align review timestamps with its vehicle records instead of treating video as a standalone log.",
     ],
     buyers: [
       "Plant heads",
@@ -174,13 +175,14 @@ export const cementIndustryPage: IndustryPageRecord = {
       "Agreed response owners for staging, transfer and work-zone events",
       "Cleaning access and mounting plan for dusty production conditions",
       "Representative testing across dusty periods, night shifts and vehicle movement",
+      "Where available, timestamp alignment with the weighbridge or dispatch system for vehicle-level review",
     ],
   },
   standards: {
     publicCopy:
       "Applicable BIS product certification requirements concern the cement or building-material product. Camera monitoring does not certify product quality. Assess the relevant product category and current quality-control order separately from plant safety monitoring.",
     frameworkIds: ["C3"],
-    reviewedAt: "2026-09-10",
+    reviewedAt: "2026-09-13",
   },
   metrics: [
     {
@@ -246,6 +248,6 @@ export const cementIndustryPage: IndustryPageRecord = {
     "framework C3",
   ],
   review: {
-    reviewedAt: "2026-09-10",
+    reviewedAt: "2026-09-13",
   },
 };

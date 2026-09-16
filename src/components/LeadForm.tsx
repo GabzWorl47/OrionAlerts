@@ -1,7 +1,9 @@
 "use client";
 
+import Link from "next/link";
 import { FormEvent, useState } from "react";
 import { GoogleRecaptcha } from "@/components/GoogleRecaptcha";
+import { legalMeta } from "@/lib/legal";
 
 type LeadKind = "demo" | "contact";
 
@@ -9,14 +11,18 @@ type LeadFormProps = {
   kind: LeadKind;
   title: string;
   subtitle: string;
+  /** Use h2 when the page already has an H1 (e.g. contact). */
+  titleAs?: "h1" | "h2";
 };
 
-export function LeadForm({ kind, title, subtitle }: LeadFormProps) {
+export function LeadForm({ kind, title, subtitle, titleAs = "h1" }: LeadFormProps) {
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [message, setMessage] = useState("");
   const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
   const [recaptchaReset, setRecaptchaReset] = useState(0);
   const requireCaptcha = kind === "demo";
+  const TitleTag = titleAs;
+  const formTitleId = "lead-form-title";
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -70,12 +76,18 @@ export function LeadForm({ kind, title, subtitle }: LeadFormProps) {
     "mt-1.5 w-full rounded-[12px] border border-line bg-white px-3 py-2.5 text-sm text-text outline-none transition focus:border-blue/40 focus:ring-2 focus:ring-blue/10";
 
   return (
-    <form onSubmit={onSubmit} className="rounded-[24px] border border-line bg-surface p-6 md:p-8">
+    <form
+      onSubmit={onSubmit}
+      className="rounded-[24px] border border-line bg-surface p-6 md:p-8"
+      aria-labelledby={formTitleId}
+    >
       <div className="mb-6">
-        <h1 className="display text-3xl text-text md:text-4xl">{title}</h1>
+        <TitleTag id={formTitleId} className="display text-3xl text-text md:text-4xl">
+          {title}
+        </TitleTag>
         <p className="mt-2 text-muted">{subtitle}</p>
         <p className="mt-3 text-xs uppercase tracking-[0.14em] text-cyan">
-          Stored as {kind === "demo" ? "Demo lead" : "Contact lead"} · separate ERP stream
+          {kind === "demo" ? "Demo request" : "Contact request"} · processed by OrionAlerts
         </p>
       </div>
 
@@ -122,6 +134,7 @@ export function LeadForm({ kind, title, subtitle }: LeadFormProps) {
               <option value="support">Support / ticket</option>
               <option value="partner">Partnership</option>
               <option value="press">Press / investor</option>
+              <option value="privacy">Privacy request</option>
               <option value="other">Other</option>
             </select>
           </label>
@@ -152,6 +165,22 @@ export function LeadForm({ kind, title, subtitle }: LeadFormProps) {
           Submissions are rate-limited by IP.
         </p>
       )}
+
+      <p className="mt-5 text-xs leading-relaxed text-muted" data-privacy-notice>
+        By submitting, you send these details to OrionAlerts so we can respond to your request. We
+        also record your IP address for rate-limiting and abuse prevention
+        {requireCaptcha ? ", and Google processes reCAPTCHA data for bot protection" : ""}.
+        Submissions go to our application servers and are written to application logs; a separate
+        CRM/ERP store is not connected yet. See our{" "}
+        <Link href="/privacy" className="text-blue hover:underline">
+          Privacy Policy
+        </Link>{" "}
+        for retention and your rights, or email{" "}
+        <a href={`mailto:${legalMeta.privacyEmail}`} className="text-blue hover:underline">
+          {legalMeta.privacyEmail}
+        </a>{" "}
+        to request access or deletion.
+      </p>
 
       <button
         type="submit"

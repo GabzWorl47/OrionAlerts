@@ -104,8 +104,8 @@ Use these internal status values in the content data:
 | Status | Meaning | Publication treatment |
 |---|---|---|
 | `owner-confirmed` | Vision Copilot with typed questions/search, location hierarchy and camera mapping, ongoing scene analysis, alerts, recommendations, scores on a 0–100 scale | Use as core positioning now. Exact query support, scoring names/formulas and UI details are governed separately; do not repeatedly request confirmation of the capability |
-| `baseline-claim` | Consistently described in the existing product copy: configured intrusion/zone events, PPE, people/vehicle analytics, alerts, video review, infrastructure health | Product owner must confirm scope once in the shared claim register; do not treat repository text as test evidence |
-| `pilot-dependent` | Potentially observable but affected by placement, resolution, lighting and model support: queues, door state, blocked paths, material accumulation, prolonged occupancy | Publish only with an explicit scoping qualification and a supported detector confirmed by the product owner |
+| `baseline-claim` | Consistently described in the existing product copy: configured intrusion/zone events, PPE, people/vehicle analytics, alerts, video review, infrastructure health | Use with the shared claim register; do not treat repository text as test evidence |
+| `pilot-dependent` | Potentially observable but affected by placement, resolution, lighting and model support: queues, door state, blocked paths, material accumulation, prolonged occupancy | Publish only with an explicit scoping qualification and a supported detector |
 | `integration-dependent` | Requires a second data source: access authorisation, order identity, MES state, temperature, WMS scans, SCADA/BMS/ERP events | Describe as a scoped integration opportunity until the specific integration is confirmed |
 | `specialist` | Dedicated inspection/thermal/clinical/safety function or regulated recordkeeping | Exclude as an OrionAlerts capability unless a validated, documented offering exists |
 

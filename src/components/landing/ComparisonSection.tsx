@@ -28,11 +28,11 @@ export function ComparisonSection() {
                 id="comparison-heading"
                 className="text-[clamp(1.85rem,4vw,2.85rem)] font-semibold leading-[1.1] tracking-[-0.03em] text-text"
               >
-                Upgrade from Outdated Systems to Orion AI
+                Upgrade from Outdated Systems to OrionAlerts
               </h2>
             </div>
             <MagneticButton href="/book-demo" className="self-start lg:self-auto">
-              Modernize Your Operations with Orion AI
+              Modernize Your Operations with OrionAlerts
               <ArrowRight size={16} />
             </MagneticButton>
           </div>
@@ -43,7 +43,7 @@ export function ComparisonSection() {
             [
               ["compare", "Both"],
               ["traditional", "Traditional"],
-              ["orion", "Orion AI"],
+              ["orion", "OrionAlerts"],
             ] as const
           ).map(([id, label]) => (
             <button
@@ -73,7 +73,7 @@ export function ComparisonSection() {
               </div>
               <div className="bg-blue px-6 py-4">
                 <p className="text-xs font-semibold uppercase tracking-[0.16em] text-cyan">
-                  Orion AI
+                  OrionAlerts
                 </p>
               </div>
             </div>
@@ -104,7 +104,7 @@ export function ComparisonSection() {
                     }`}
                   >
                     <p className="mb-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-cyan md:hidden">
-                      Orion AI
+                      OrionAlerts
                     </p>
                     <p className="text-sm font-medium leading-relaxed text-text md:text-[15px]">
                       {row.orion}

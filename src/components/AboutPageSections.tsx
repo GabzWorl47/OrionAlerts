@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { Button, CtaBand, Section, SectionHeading } from "@/components/ui";
 import { Reveal } from "@/components/Reveal";
 import {
@@ -40,6 +41,13 @@ export function AboutWhoWeAre() {
               {paragraph}
             </p>
           ))}
+          <p className="mt-4 text-lg leading-relaxed text-muted">
+            Those capabilities run as modules of{" "}
+            <Link href="/nebula-os" className="font-semibold text-blue hover:underline">
+              Nebula OS, our Vision AI operating system
+            </Link>
+            , the Linux-based platform underneath Orion Alerts.
+          </p>
         </Reveal>
 
         <Reveal direction="right" delay={0.08}>
@@ -88,7 +96,8 @@ export function AboutContactCta() {
           <div>
             <p className="font-semibold text-text">Need us directly?</p>
             <p className="mt-1 text-sm text-muted">
-              {site.email} · {site.phone}
+              {site.email}
+              {site.phone ? ` · ${site.phone}` : null}
             </p>
           </div>
           <Button href="/contact" variant="outline" className={ctaButtonClass}>
