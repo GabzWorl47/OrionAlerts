@@ -23,8 +23,7 @@ export const sportsEventsIndustryPage: IndustryPageRecord = {
     ogTitle: "Stadium and Event Video Analytics | OrionAlerts",
     ogDescription:
       "Explore sports and event venues with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
-    image:
-      "https://images.unsplash.com/photo-1471295253337-3ceaaedca402?auto=format&fit=crop&w=1600&q=90",
+    image: "/Images/industries/sports-events.webp",
   },
   hero: {
     eyebrow: "Sports & Event Venues",
@@ -32,7 +31,7 @@ export const sportsEventsIndustryPage: IndustryPageRecord = {
     lede: "Map cameras to the places your team manages and ask Vision Copilot about event-phase congestion and stewarding decisions. OrionAlerts analyses scenes over time to surface alerts, recommendations and operational scores that help you decide what to review today and what to improve next.",
     media: {
       kind: "image",
-      src: "https://images.unsplash.com/photo-1471295253337-3ceaaedca402?auto=format&fit=crop&w=1600&q=90",
+      src: "/Images/industries/sports-events.webp",
       alt: "Illustrative sports venue and crowd photograph used for industry context",
       demonstrationLabel: "Illustrative photograph — not a verified customer deployment",
     },

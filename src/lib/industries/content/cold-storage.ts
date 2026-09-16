@@ -23,8 +23,7 @@ export const coldStorageIndustryPage: IndustryPageRecord = {
     ogTitle: "Cold Storage Video Analytics | OrionAlerts",
     ogDescription:
       "Explore cold storage operations with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
-    image:
-      "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1600&q=90",
+    image: "/Images/industries/cold-storage.webp",
   },
   hero: {
     eyebrow: "Cold Storage & Refrigerated Warehousing",
@@ -32,7 +31,7 @@ export const coldStorageIndustryPage: IndustryPageRecord = {
     lede: "Map cameras to the places your team manages and ask Vision Copilot about door activity and visual context around cold-chain investigations. OrionAlerts analyses scenes over time to surface alerts, recommendations and operational scores that help you decide what to review today and what to improve next.",
     media: {
       kind: "image",
-      src: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1600&q=90",
+      src: "/Images/industries/cold-storage.webp",
       alt: "Illustrative cold-storage warehouse photograph used for industry context",
       demonstrationLabel: "Illustrative photograph — not a verified customer deployment",
     },

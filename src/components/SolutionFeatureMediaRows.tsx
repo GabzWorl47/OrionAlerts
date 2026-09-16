@@ -53,7 +53,48 @@ const SECTION_COPY: Record<
 };
 
 const FEATURE_IMAGES: Record<string, string> = {
-  "Centralized Asset Inventory": "/Images/solutions/centralised.png",
+  // Asset Tracking
+  "Centralized Asset Inventory": "/Images/solutions/centralized-asset-inventory.webp",
+  "Asset Lifecycle Management": "/Images/solutions/asset-lifecycle-management.webp",
+  "Serial Number Tracking": "/Images/solutions/serial-number-tracking.webp",
+  "Location & Department Mapping": "/Images/solutions/location-department-mapping.webp",
+  "Asset Assignment & Ownership": "/Images/solutions/asset-assignment-ownership.webp",
+  "Warranty & Documentation Management": "/Images/solutions/warranty-documentation-management.webp",
+  "Audit Trail & Compliance Reports": "/Images/solutions/audit-trail-compliance-reports.webp",
+
+  // AMC Management
+  "AMC & Warranty Management": "/Images/solutions/amc-warranty-management.webp",
+  "Preventive Maintenance Scheduling": "/Images/solutions/preventive-maintenance-scheduling.webp",
+  "Service Request Management": "/Images/solutions/service-request-management.webp",
+  "Vendor Performance Monitoring": "/Images/solutions/vendor-performance-monitoring.webp",
+  "SLA Compliance Tracking": "/Images/solutions/sla-compliance-tracking.webp",
+  "Renewal Alerts & Notifications": "/Images/solutions/renewal-alerts-notifications.webp",
+  "Maintenance History": "/Images/solutions/maintenance-history.webp",
+  "Automated Reminders": "/Images/solutions/automated-reminders.webp",
+
+  // VMS
+  "Centralized Live Monitoring & Playback": "/Images/solutions/centralized-live-monitoring-playback.png",
+  "Multi-Site Surveillance Management": "/Images/solutions/multi-site-surveillance-management.png",
+  "Video Search & Incident Investigation": "/Images/solutions/video-search-incident-investigation.png",
+  "Secure Remote Access": "/Images/solutions/secure-remote-access.webp",
+  "Event & Alarm Management": "/Images/solutions/event-alarm-management.png",
+  "Open Integration with IP Cameras & Third-Party Systems": "/Images/solutions/open-integration-ip-cameras-third-party.png",
+
+  // AI Analytics
+  "Real-Time AI Video Analytics": "/Images/solutions/real-time-ai-video-analytics.png",
+  "Instant Event Detection & Smart Alerts": "/Images/solutions/instant-event-detection-smart-alerts.png",
+  "Intrusion, PPE & Safety Monitoring": "/Images/solutions/intrusion-ppe-safety-monitoring.png",
+  "People, Vehicle & Occupancy Analytics": "/Images/solutions/people-vehicle-occupancy-analytics.png",
+  "Intrusion Detection": "/Images/solutions/intrusion-detection.png",
+  "Restricted Area Monitoring": "/Images/solutions/restricted-area-monitoring.webp",
+
+  // Health Monitoring
+  "Real-Time Device Health Monitoring": "/Images/solutions/real-time-device-health-monitoring.webp",
+  "Camera, NVR & Server Status": "/Images/solutions/camera-nvr-server-status.webp",
+  "Recording & Storage Health Monitoring": "/Images/solutions/recording-storage-health-monitoring.webp",
+  "Network & Connectivity Monitoring": "/Images/solutions/network-connectivity-monitoring.webp",
+  "Instant Alerts & Notifications": "/Images/solutions/instant-alerts-notifications.webp",
+  "Uptime & Availability Reports": "/Images/solutions/uptime-availability-reports.webp",
 };
 
 const FEATURE_RESULTS: Record<string, string> = {

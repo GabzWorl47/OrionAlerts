@@ -23,8 +23,7 @@ export const educationCampusesIndustryPage: IndustryPageRecord = {
     ogTitle: "Campus Safety Video Analytics | OrionAlerts",
     ogDescription:
       "Explore education and campuses with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
-    image:
-      "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1600&q=90",
+    image: "/Images/industries/education.webp",
   },
   hero: {
     eyebrow: "Education & Campuses",
@@ -32,7 +31,7 @@ export const educationCampusesIndustryPage: IndustryPageRecord = {
     lede: "Map cameras to the places your team manages and ask Vision Copilot about arrival, reception and common-area safeguarding. OrionAlerts analyses scenes over time to surface alerts, recommendations and operational scores that help you decide what to review today and what to improve next.",
     media: {
       kind: "image",
-      src: "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1600&q=90",
+      src: "/Images/industries/education.webp",
       alt: "Illustrative campus building photograph used for education industry context",
       demonstrationLabel: "Illustrative photograph — not a verified customer deployment",
     },

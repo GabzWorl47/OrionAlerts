@@ -23,8 +23,7 @@ export const hotelsHospitalityIndustryPage: IndustryPageRecord = {
     ogTitle: "Hotel and Hospitality Video Analytics | OrionAlerts",
     ogDescription:
       "Explore hotels and hospitality with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
-    image:
-      "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1600&q=90",
+    image: "/Images/industries/hospitality.webp",
   },
   hero: {
     eyebrow: "Hotels & Hospitality",
@@ -32,7 +31,7 @@ export const hotelsHospitalityIndustryPage: IndustryPageRecord = {
     lede: "Map cameras to the places your team manages and ask Vision Copilot about arrival pressure and service-area coordination. OrionAlerts analyses scenes over time to surface alerts, recommendations and operational scores that help you decide what to review today and what to improve next.",
     media: {
       kind: "image",
-      src: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1600&q=90",
+      src: "/Images/industries/hospitality.webp",
       alt: "Illustrative hotel lobby photograph used for hospitality industry context",
       demonstrationLabel: "Illustrative photograph — not a verified customer deployment",
     },

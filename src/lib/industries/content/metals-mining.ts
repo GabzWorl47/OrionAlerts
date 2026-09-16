@@ -23,8 +23,7 @@ export const metalsMiningIndustryPage: IndustryPageRecord = {
     ogTitle: "Mining and Metals Video Analytics | OrionAlerts",
     ogDescription:
       "Explore mining and metals with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
-    image:
-      "https://images.unsplash.com/photo-1578662996442-48f60103fc96?auto=format&fit=crop&w=1600&q=90",
+    image: "/Images/industries/metals-mining.jpeg",
   },
   hero: {
     eyebrow: "Metals, Mining & Minerals",
@@ -32,7 +31,7 @@ export const metalsMiningIndustryPage: IndustryPageRecord = {
     lede: "Map cameras to the places your team manages and ask Vision Copilot about remote work-zone review and heavy-equipment interfaces. OrionAlerts analyses scenes over time to surface alerts, recommendations and operational scores that help you decide what to review today and what to improve next.",
     media: {
       kind: "image",
-      src: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?auto=format&fit=crop&w=1600&q=90",
+      src: "/Images/industries/metals-mining.jpeg",
       alt: "Illustrative mining and mineral-processing photograph used for industry context",
       demonstrationLabel: "Illustrative photograph — not a verified customer deployment",
     },

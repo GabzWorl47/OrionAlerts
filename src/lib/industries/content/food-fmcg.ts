@@ -23,8 +23,7 @@ export const foodFmcgIndustryPage: IndustryPageRecord = {
     ogTitle: "Food and FMCG Video Analytics | OrionAlerts",
     ogDescription:
       "Explore food and fmcg operations with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
-    image:
-      "https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&w=1600&q=90",
+    image: "/Images/industries/food-fmcg.webp",
   },
   hero: {
     eyebrow: "Food, Beverage & FMCG",
@@ -32,7 +31,7 @@ export const foodFmcgIndustryPage: IndustryPageRecord = {
     lede: "Map cameras to the places your team manages and ask Vision Copilot about visible hygiene practices and packaging-flow observations. OrionAlerts analyses scenes over time to surface alerts, recommendations and operational scores that help you decide what to review today and what to improve next.",
     media: {
       kind: "image",
-      src: "https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&w=1600&q=90",
+      src: "/Images/industries/food-fmcg.webp",
       alt: "Illustrative food and packaging facility photograph used for industry context",
       demonstrationLabel: "Illustrative photograph — not a verified customer deployment",
     },

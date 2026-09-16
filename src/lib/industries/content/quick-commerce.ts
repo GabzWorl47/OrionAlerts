@@ -23,8 +23,7 @@ export const quickCommerceIndustryPage: IndustryPageRecord = {
     ogTitle: "Quick Commerce Video Analytics | OrionAlerts",
     ogDescription:
       "Explore quick commerce networks with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
-    image:
-      "https://images.unsplash.com/photo-1605745341112-85968b19335b?auto=format&fit=crop&w=1600&q=90",
+    image: "/Images/industries/quick-commerce.webp",
   },
   hero: {
     eyebrow: "Quick Commerce",
@@ -32,7 +31,7 @@ export const quickCommerceIndustryPage: IndustryPageRecord = {
     lede: "Map cameras to the places your team manages and ask Vision Copilot about regional oversight and recurring local handoff problems. OrionAlerts analyses scenes over time to surface alerts, recommendations and operational scores that help you decide what to review today and what to improve next.",
     media: {
       kind: "image",
-      src: "https://images.unsplash.com/photo-1605745341112-85968b19335b?auto=format&fit=crop&w=1600&q=90",
+      src: "/Images/industries/quick-commerce.webp",
       alt: "Illustrative quick-commerce dispatch photograph used for industry context",
       demonstrationLabel: "Illustrative photograph — not a verified customer deployment",
     },

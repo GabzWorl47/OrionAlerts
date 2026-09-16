@@ -16,6 +16,8 @@ const nextConfig: NextConfig = {
     "/blogs/*": ["./data/**/*"],
   },
   images: {
+    unoptimized: true,
+    qualities: [75, 90, 95],
     remotePatterns: [
       {
         protocol: "https",

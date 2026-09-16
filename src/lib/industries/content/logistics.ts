@@ -23,8 +23,7 @@ export const logisticsIndustryPage: IndustryPageRecord = {
     ogTitle: "Warehouse and Logistics Video Analytics | OrionAlerts",
     ogDescription:
       "Explore warehouses and logistics with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
-    image:
-      "https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&w=1600&q=90",
+    image: "/Images/industries/logistics.webp",
   },
   hero: {
     eyebrow: "Logistics & Warehousing",
@@ -32,7 +31,7 @@ export const logisticsIndustryPage: IndustryPageRecord = {
     lede: "Map cameras to the places your team manages and ask Vision Copilot about cross-aisle obstructions and loading-bay handoffs. OrionAlerts analyses scenes over time to surface alerts, recommendations and operational scores that help you decide what to review today and what to improve next.",
     media: {
       kind: "image",
-      src: "https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&w=1600&q=90",
+      src: "/Images/industries/logistics.webp",
       alt: "Illustrative warehouse loading-bay photograph used for logistics industry context",
       demonstrationLabel: "Illustrative photograph — not a verified customer deployment",
     },

@@ -23,8 +23,7 @@ export const healthcareIndustryPage: IndustryPageRecord = {
     ogTitle: "Hospital Video Analytics | OrionAlerts",
     ogDescription:
       "Explore hospital operations with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
-    image:
-      "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1600&q=90",
+    image: "/Images/industries/healthcare.webp",
   },
   hero: {
     eyebrow: "Healthcare & Hospitals",
@@ -32,7 +31,7 @@ export const healthcareIndustryPage: IndustryPageRecord = {
     lede: "Map cameras to the places your team manages and ask Vision Copilot about non-clinical common-area review and facilities priorities. OrionAlerts analyses scenes over time to surface alerts, recommendations and operational scores that help you decide what to review today and what to improve next.",
     media: {
       kind: "image",
-      src: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1600&q=90",
+      src: "/Images/industries/healthcare.webp",
       alt: "Illustrative hospital common-area photograph used for healthcare industry context",
       demonstrationLabel: "Illustrative photograph — not a verified customer deployment",
     },

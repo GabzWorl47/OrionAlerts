@@ -23,8 +23,7 @@ export const darkStoresIndustryPage: IndustryPageRecord = {
     ogTitle: "Dark Store Video Analytics | OrionAlerts",
     ogDescription:
       "Explore dark stores with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
-    image:
-      "https://images.unsplash.com/photo-1553413077-190dd305871c?auto=format&fit=crop&w=1600&q=90",
+    image: "/Images/industries/dark-stores.webp",
   },
   hero: {
     eyebrow: "Dark Stores & Micro-Fulfilment",
@@ -32,7 +31,7 @@ export const darkStoresIndustryPage: IndustryPageRecord = {
     lede: "Map cameras to the places your team manages and ask Vision Copilot about compact stockroom layout and local dispatch pressure. OrionAlerts analyses scenes over time to surface alerts, recommendations and operational scores that help you decide what to review today and what to improve next.",
     media: {
       kind: "image",
-      src: "https://images.unsplash.com/photo-1553413077-190dd305871c?auto=format&fit=crop&w=1600&q=90",
+      src: "/Images/industries/dark-stores.webp",
       alt: "Illustrative dark-store and micro-fulfilment photograph used for industry context",
       demonstrationLabel: "Illustrative photograph — not a verified customer deployment",
     },

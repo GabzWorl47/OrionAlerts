@@ -23,8 +23,7 @@ export const pharmaIndustryPage: IndustryPageRecord = {
     ogTitle: "Pharmaceutical Video Analytics | OrionAlerts",
     ogDescription:
       "Explore pharmaceutical facilities with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
-    image:
-      "https://images.unsplash.com/photo-1582719471384-894fbb16e074?auto=format&fit=crop&w=1600&q=90",
+    image: "/Images/industries/pharma.webp",
   },
   hero: {
     eyebrow: "Pharmaceuticals & Life Sciences",
@@ -32,7 +31,7 @@ export const pharmaIndustryPage: IndustryPageRecord = {
     lede: "Map cameras to the places your team manages and ask Vision Copilot about controlled-area observations and QA investigation context. OrionAlerts analyses scenes over time to surface alerts, recommendations and operational scores that help you decide what to review today and what to improve next.",
     media: {
       kind: "image",
-      src: "https://images.unsplash.com/photo-1582719471384-894fbb16e074?auto=format&fit=crop&w=1600&q=90",
+      src: "/Images/industries/pharma.webp",
       alt: "Illustrative pharmaceutical facility photograph used for industry context",
       demonstrationLabel: "Illustrative photograph — not a verified customer deployment",
     },

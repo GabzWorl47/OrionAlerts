@@ -23,8 +23,7 @@ export const airportsPortsRailwaysIndustryPage: IndustryPageRecord = {
     ogTitle: "Transport Hub Video Analytics | OrionAlerts",
     ogDescription:
       "Explore transport hubs with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
-    image:
-      "https://images.unsplash.com/photo-1530521954074-e64f6810b32d?auto=format&fit=crop&w=1600&q=90",
+    image: "/Images/industries/airports-ports.webp",
   },
   hero: {
     eyebrow: "Airports, Ports & Railways",
@@ -32,7 +31,7 @@ export const airportsPortsRailwaysIndustryPage: IndustryPageRecord = {
     lede: "Map cameras to the places your team manages and ask Vision Copilot about transport-specific access and passenger-area review. OrionAlerts analyses scenes over time to surface alerts, recommendations and operational scores that help you decide what to review today and what to improve next.",
     media: {
       kind: "image",
-      src: "https://images.unsplash.com/photo-1530521954074-e64f6810b32d?auto=format&fit=crop&w=1600&q=90",
+      src: "/Images/industries/airports-ports.webp",
       alt: "Illustrative transport hub photograph used for airport, port and railway industry context",
       demonstrationLabel: "Illustrative photograph — not a verified customer deployment",
     },

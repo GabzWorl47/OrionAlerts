@@ -23,8 +23,7 @@ export const governmentIndustryPage: IndustryPageRecord = {
     ogTitle: "Public Infrastructure Video Analytics | OrionAlerts",
     ogDescription:
       "Explore public facilities with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
-    image:
-      "https://images.unsplash.com/photo-1523293182086-7651a899d37f?auto=format&fit=crop&w=1600&q=90",
+    image: "/Images/industries/government.webp",
   },
   hero: {
     eyebrow: "Government & Public Infrastructure",
@@ -32,7 +31,7 @@ export const governmentIndustryPage: IndustryPageRecord = {
     lede: "Map cameras to the places your team manages and ask Vision Copilot about service-counter pressure and accountable facility review. OrionAlerts analyses scenes over time to surface alerts, recommendations and operational scores that help you decide what to review today and what to improve next.",
     media: {
       kind: "image",
-      src: "https://images.unsplash.com/photo-1523293182086-7651a899d37f?auto=format&fit=crop&w=1600&q=90",
+      src: "/Images/industries/government.webp",
       alt: "Illustrative public administrative building photograph used for government industry context",
       demonstrationLabel: "Illustrative photograph — not a verified customer deployment",
     },

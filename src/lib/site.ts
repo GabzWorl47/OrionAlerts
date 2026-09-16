@@ -51,7 +51,7 @@ const solutionsSource: Solution[] = [
     slug: "vms",
     name: "Video Management System (VMS)",
     shortName: "VMS",
-    image: "/Images/ChatGPT%20Image%20Sep%208%2C%202026%2C%2001_25_29%20PM.png",
+    image: "/Images/solutions/centralized-live-monitoring-playback.png",
     tagline: "Live monitoring & control",
     headline:
       "Unify cameras, sites, and operators in one enterprise VMS for live monitoring, playback, and control.",
@@ -116,7 +116,7 @@ const solutionsSource: Solution[] = [
     slug: "ai-analytics",
     name: "AI Vision & Real-Time Alerts",
     shortName: "AI Vision",
-    image: "/Images/ChatGPT%20Image%20Sep%208%2C%202026%2C%2001_21_20%20PM.png",
+    image: "/Images/solutions/real-time-ai-video-analytics.png",
     tagline: "Intelligent video analytics",
     headline:
       "Turn live video into real-time AI alerts for safety, intrusion, PPE, and operational events.",
@@ -181,7 +181,7 @@ const solutionsSource: Solution[] = [
     slug: "asset-tracking",
     name: "Asset Tracking",
     shortName: "Asset Tracking",
-    image: "/Images/ChatGPT%20Image%20Sep%208%2C%202026%2C%2012_29_40%20PM.png",
+    image: "/Images/solutions/centralized-asset-inventory.webp",
     tagline: "Inventory & lifecycle visibility",
     headline:
       "Track surveillance and IT assets across locations with clear ownership and lifecycle visibility.",
@@ -253,7 +253,7 @@ const solutionsSource: Solution[] = [
     slug: "amc-management",
     name: "AMC Management",
     shortName: "AMC Management",
-    image: "/Images/ChatGPT%20Image%20Sep%208%2C%202026%2C%2012_48_49%20PM.png",
+    image: "/Images/solutions/amc-warranty-management.webp",
     tagline: "Maintenance & warranties",
     headline:
       "Keep AMC, warranties, vendors, and preventive maintenance on schedule from one workspace.",
@@ -332,7 +332,7 @@ const solutionsSource: Solution[] = [
     slug: "health-monitoring",
     name: "Health Monitoring",
     shortName: "Health Monitoring",
-    image: "/Images/ChatGPT%20Image%20Sep%208%2C%202026%2C%2012_54_34%20PM.png",
+    image: "/Images/solutions/real-time-device-health-monitoring.webp",
     tagline: "Infrastructure uptime",
     headline:
       "Spot camera, NVR, storage, and network issues before they create operational blind spots.",
@@ -461,7 +461,7 @@ export const industries: Industry[] = [
     slug: "manufacturing",
     name: "Manufacturing",
     cardLabel: "Manufacturing",
-    image: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=1600&q=90",
+    image: "/Images/industries/manufacturing.png",
     introVideo: "/Videos/industries/manufacturing.mp4",
     tagline:
       "Use Vision Copilot to connect mapped camera observations with decisions about shift handovers, PPE observations and recurring material build-up.",
@@ -472,7 +472,7 @@ export const industries: Industry[] = [
     slug: "automotive",
     name: "Automotive & Auto Components",
     cardLabel: "Automotive",
-    image: "https://images.unsplash.com/photo-1487754180451-c456f719a1fc?auto=format&fit=crop&w=1600&q=90",
+    image: "/Images/industries/automotive.png",
     tagline:
       "Use Vision Copilot to connect mapped camera observations with decisions about assembly-cell events and line-side replenishment.",
     summary:
@@ -482,7 +482,7 @@ export const industries: Industry[] = [
     slug: "cement",
     name: "Cement & Building Materials",
     cardLabel: "Cement",
-    image: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=1600&q=90",
+    image: "/Images/industries/cement.jpeg",
     tagline:
       "Use Vision Copilot to connect mapped camera observations with decisions about truck staging and material-transfer visibility.",
     summary:
@@ -492,7 +492,7 @@ export const industries: Industry[] = [
     slug: "metals-mining",
     name: "Metals, Mining & Minerals",
     cardLabel: "Metals & Mining",
-    image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?auto=format&fit=crop&w=1600&q=90",
+    image: "/Images/industries/metals-mining.jpeg",
     introVideo: "/Videos/industries/metals-mining.mp4",
     tagline:
       "Use Vision Copilot to connect mapped camera observations with decisions about remote work-zone review and heavy-equipment interfaces.",
@@ -503,7 +503,7 @@ export const industries: Industry[] = [
     slug: "oil-gas",
     name: "Oil, Gas & Petrochemicals",
     cardLabel: "Oil & Gas",
-    image: "https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?auto=format&fit=crop&w=1600&q=90",
+    image: "/Images/industries/oil-gas.jpeg",
     tagline:
       "Use Vision Copilot to connect mapped camera observations with decisions about tanker-area activity and controlled operational access.",
     summary:
@@ -513,7 +513,7 @@ export const industries: Industry[] = [
     slug: "pharma",
     name: "Pharmaceuticals & Life Sciences",
     cardLabel: "Pharma",
-    image: "https://images.unsplash.com/photo-1582719471384-894fbb16e074?auto=format&fit=crop&w=1600&q=90",
+    image: "/Images/industries/pharma.webp",
     tagline:
       "Use Vision Copilot to connect mapped camera observations with decisions about controlled-area observations and QA investigation context.",
     summary:
@@ -523,7 +523,7 @@ export const industries: Industry[] = [
     slug: "food-fmcg",
     name: "Food, Beverage & FMCG",
     cardLabel: "Food & FMCG",
-    image: "https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&w=1600&q=90",
+    image: "/Images/industries/food-fmcg.webp",
     tagline:
       "Use Vision Copilot to connect mapped camera observations with decisions about visible hygiene practices and packaging-flow observations.",
     summary:
@@ -533,7 +533,7 @@ export const industries: Industry[] = [
     slug: "logistics",
     name: "Logistics & Warehousing",
     cardLabel: "Logistics",
-    image: "https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&w=1600&q=90",
+    image: "/Images/industries/logistics.webp",
     tagline:
       "Use Vision Copilot to connect mapped camera observations with decisions about cross-aisle obstructions and loading-bay handoffs.",
     summary:
@@ -543,7 +543,7 @@ export const industries: Industry[] = [
     slug: "dark-stores",
     name: "Dark Stores & Micro-Fulfilment",
     cardLabel: "Dark Stores",
-    image: "https://images.unsplash.com/photo-1553413077-190dd305871c?auto=format&fit=crop&w=1600&q=90",
+    image: "/Images/industries/dark-stores.webp",
     tagline:
       "Use Vision Copilot to connect mapped camera observations with decisions about compact stockroom layout and local dispatch pressure.",
     summary:
@@ -553,7 +553,7 @@ export const industries: Industry[] = [
     slug: "quick-commerce",
     name: "Quick Commerce",
     cardLabel: "Quick Commerce",
-    image: "https://images.unsplash.com/photo-1605745341112-85968b19335b?auto=format&fit=crop&w=1600&q=90",
+    image: "/Images/industries/quick-commerce.webp",
     tagline:
       "Use Vision Copilot to connect mapped camera observations with decisions about regional oversight and recurring local handoff problems.",
     summary:
@@ -563,7 +563,7 @@ export const industries: Industry[] = [
     slug: "ecommerce-fulfilment",
     name: "E-commerce Fulfilment Centres",
     cardLabel: "E-commerce FC",
-    image: "https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?auto=format&fit=crop&w=1600&q=90",
+    image: "/Images/industries/ecommerce-fc.webp",
     tagline:
       "Use Vision Copilot to connect mapped camera observations with decisions about parcel-transfer interruptions and investigation context.",
     summary:
@@ -573,7 +573,7 @@ export const industries: Industry[] = [
     slug: "cold-storage",
     name: "Cold Storage & Refrigerated Warehousing",
     cardLabel: "Cold Storage",
-    image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1600&q=90",
+    image: "/Images/industries/cold-storage.webp",
     tagline:
       "Use Vision Copilot to connect mapped camera observations with decisions about door activity and visual context around cold-chain investigations.",
     summary:
@@ -583,7 +583,7 @@ export const industries: Industry[] = [
     slug: "airports-ports-railways",
     name: "Airports, Ports & Railways",
     cardLabel: "Airports & Ports",
-    image: "https://images.unsplash.com/photo-1530521954074-e64f6810b32d?auto=format&fit=crop&w=1600&q=90",
+    image: "/Images/industries/airports-ports.webp",
     tagline:
       "Use Vision Copilot to connect mapped camera observations with decisions about transport-specific access and passenger-area review.",
     summary:
@@ -603,7 +603,7 @@ export const industries: Industry[] = [
     slug: "data-centres",
     name: "Data Centres",
     cardLabel: "Data Centres",
-    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1600&q=90",
+    image: "/Images/industries/data-centres.webp",
     tagline:
       "Use Vision Copilot to connect mapped camera observations with decisions about controlled entrances and security-review prioritisation.",
     summary:
@@ -613,7 +613,7 @@ export const industries: Industry[] = [
     slug: "education-campuses",
     name: "Education & Campuses",
     cardLabel: "Education",
-    image: "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1600&q=90",
+    image: "/Images/industries/education.webp",
     tagline:
       "Use Vision Copilot to connect mapped camera observations with decisions about arrival, reception and common-area safeguarding.",
     summary:
@@ -623,7 +623,7 @@ export const industries: Industry[] = [
     slug: "healthcare",
     name: "Healthcare & Hospitals",
     cardLabel: "Healthcare",
-    image: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1600&q=90",
+    image: "/Images/industries/healthcare.webp",
     tagline:
       "Use Vision Copilot to connect mapped camera observations with decisions about non-clinical common-area review and facilities priorities.",
     summary:
@@ -643,7 +643,7 @@ export const industries: Industry[] = [
     slug: "hotels-hospitality",
     name: "Hotels & Hospitality",
     cardLabel: "Hospitality",
-    image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1600&q=90",
+    image: "/Images/industries/hospitality.webp",
     tagline:
       "Use Vision Copilot to connect mapped camera observations with decisions about arrival pressure and service-area coordination.",
     summary:
@@ -713,7 +713,7 @@ export const industries: Industry[] = [
     slug: "residential",
     name: "Residential Communities & Townships",
     cardLabel: "Residential",
-    image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1600&q=90",
+    image: "/Images/industries/residential.webp",
     tagline:
       "Use Vision Copilot to connect mapped camera observations with decisions about shared-space events and property-management priorities.",
     summary:
@@ -723,7 +723,7 @@ export const industries: Industry[] = [
     slug: "government",
     name: "Government & Public Infrastructure",
     cardLabel: "Government",
-    image: "https://images.unsplash.com/photo-1523293182086-7651a899d37f?auto=format&fit=crop&w=1600&q=90",
+    image: "/Images/industries/government.webp",
     tagline:
       "Use Vision Copilot to connect mapped camera observations with decisions about service-counter pressure and accountable facility review.",
     summary:
@@ -733,7 +733,7 @@ export const industries: Industry[] = [
     slug: "solar-renewable",
     name: "Solar & Renewable Energy Facilities",
     cardLabel: "Renewables",
-    image: "https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1600&q=90",
+    image: "/Images/industries/renewables.webp",
     tagline:
       "Use Vision Copilot to connect mapped camera observations with decisions about remote equipment-compound review and O&M priorities.",
     summary:
@@ -743,7 +743,7 @@ export const industries: Industry[] = [
     slug: "telecom-remote",
     name: "Telecom & Remote Sites",
     cardLabel: "Telecom",
-    image: "https://images.unsplash.com/photo-1513828583688-c52646db42da?auto=format&fit=crop&w=1600&q=90",
+    image: "/Images/industries/telecom.webp",
     tagline:
       "Use Vision Copilot to connect mapped camera observations with decisions about shelter events and remote maintenance coordination.",
     summary:
@@ -753,7 +753,7 @@ export const industries: Industry[] = [
     slug: "sports-events",
     name: "Sports & Event Venues",
     cardLabel: "Sports & Events",
-    image: "https://images.unsplash.com/photo-1471295253337-3ceaaedca402?auto=format&fit=crop&w=1600&q=90",
+    image: "/Images/industries/sports-events.webp",
     tagline:
       "Use Vision Copilot to connect mapped camera observations with decisions about event-phase congestion and stewarding decisions.",
     summary:

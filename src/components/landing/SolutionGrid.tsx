@@ -10,7 +10,7 @@ import { solutions } from "@/lib/site";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
-const SOLUTIONS_HERO_IMAGE = "/Images/solutions-hero.png";
+const SOLUTIONS_HERO_IMAGE = "/Images/solutions-hero-datacenter.jpg";
 
 const clusters = [
   {

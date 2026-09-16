@@ -23,8 +23,7 @@ export const ecommerceFulfilmentIndustryPage: IndustryPageRecord = {
     ogTitle: "Fulfilment Centre Video Analytics | OrionAlerts",
     ogDescription:
       "Explore fulfilment centres with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
-    image:
-      "https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?auto=format&fit=crop&w=1600&q=90",
+    image: "/Images/industries/ecommerce-fc.webp",
   },
   hero: {
     eyebrow: "E-commerce Fulfilment Centres",
@@ -32,7 +31,7 @@ export const ecommerceFulfilmentIndustryPage: IndustryPageRecord = {
     lede: "Map cameras to the places your team manages and ask Vision Copilot about parcel-transfer interruptions and investigation context. OrionAlerts analyses scenes over time to surface alerts, recommendations and operational scores that help you decide what to review today and what to improve next.",
     media: {
       kind: "image",
-      src: "https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?auto=format&fit=crop&w=1600&q=90",
+      src: "/Images/industries/ecommerce-fc.webp",
       alt: "Illustrative fulfilment-centre parcel handling photograph used for industry context",
       demonstrationLabel: "Illustrative photograph — not a verified customer deployment",
     },
