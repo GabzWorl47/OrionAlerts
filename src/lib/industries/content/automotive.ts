@@ -23,7 +23,7 @@ export const automotiveIndustryPage: IndustryPageRecord = {
     ogTitle: "Automotive Plant Video Analytics | OrionAlerts",
     ogDescription:
       "Explore automotive plants with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
-    image: "/Images/industries/.webp",
+    image: "/Images/industries/automotive.webp",
   },
   hero: {
     eyebrow: "Automotive & Auto Components",
@@ -31,7 +31,7 @@ export const automotiveIndustryPage: IndustryPageRecord = {
     lede: "Map cameras to the places your team manages and ask Vision Copilot about assembly-cell events and line-side replenishment. OrionAlerts analyses scenes over time to surface alerts, recommendations and operational scores that help you decide what to review today and what to improve next.",
     media: {
       kind: "image",
-      src: "/Images/industries/.webp",
+      src: "/Images/industries/automotive.webp",
       alt: "Automotive robotic welding assembly line photograph",
       demonstrationLabel: "Automotive Manufacturing Operations",
     },

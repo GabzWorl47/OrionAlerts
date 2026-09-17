@@ -23,7 +23,7 @@ export const manufacturingIndustryPage: IndustryPageRecord = {
     ogTitle: "AI Video Analytics for Manufacturing | OrionAlerts",
     ogDescription:
       "Explore manufacturing operations with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
-    image: "/Images/industries/.webp",
+    image: "/Images/industries/manufacturing.webp",
   },
   hero: {
     eyebrow: "Manufacturing",
@@ -31,7 +31,7 @@ export const manufacturingIndustryPage: IndustryPageRecord = {
     lede: "Map cameras to the places your team manages and ask Vision Copilot about shift handovers, PPE observations and recurring material build-up. OrionAlerts analyses scenes over time to surface alerts, recommendations and operational scores that help you decide what to review today and what to improve next.",
     media: {
       kind: "image",
-      src: "/Images/industries/.webp",
+      src: "/Images/industries/manufacturing.webp",
       alt: "Smart manufacturing facility with robotic arm packaging conveyor line",
       demonstrationLabel: "Smart Manufacturing Operations",
     },

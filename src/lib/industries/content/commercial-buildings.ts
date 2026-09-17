@@ -23,7 +23,7 @@ export const commercialBuildingsIndustryPage: IndustryPageRecord = {
     ogTitle: "Commercial Building Video Analytics | OrionAlerts",
     ogDescription:
       "Explore commercial buildings with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
-    image: "/Images/industries/.webp",
+    image: "/Images/industries/commercial-buildings.webp",
   },
   hero: {
     eyebrow: "Commercial Buildings",
@@ -31,7 +31,7 @@ export const commercialBuildingsIndustryPage: IndustryPageRecord = {
     lede: "Map cameras to the places your team manages and ask Vision Copilot about tenant-facing common areas and recurring service pressure. OrionAlerts analyses scenes over time to surface alerts, recommendations and operational scores that help you decide what to review today and what to improve next.",
     media: {
       kind: "image",
-      src: "/Images/industries/.webp",
+      src: "/Images/industries/commercial-buildings.webp",
       alt: "Illustrative commercial office building photograph used for industry context",
       demonstrationLabel: "Illustrative photograph — not a verified customer deployment",
     },

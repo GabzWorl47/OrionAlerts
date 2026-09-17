@@ -23,7 +23,7 @@ export const cementIndustryPage: IndustryPageRecord = {
     ogTitle: "Cement Plant AI Video Analytics | OrionAlerts",
     ogDescription:
       "Explore cement plants with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
-    image: "/Images/industries/.webp",
+    image: "/Images/industries/cement.webp",
   },
   hero: {
     eyebrow: "Cement & Building Materials",
@@ -31,7 +31,7 @@ export const cementIndustryPage: IndustryPageRecord = {
     lede: "Map cameras to the places your team manages and ask Vision Copilot about truck staging and material-transfer visibility. OrionAlerts analyses scenes over time to surface alerts, recommendations and operational scores that help you decide what to review today and what to improve next.",
     media: {
       kind: "image",
-      src: "/Images/industries/.webp",
+      src: "/Images/industries/cement.webp",
       alt: "Illustrative cement plant and construction materials photograph used for industry context",
       demonstrationLabel: "Illustrative photograph — not a verified customer deployment",
     },
