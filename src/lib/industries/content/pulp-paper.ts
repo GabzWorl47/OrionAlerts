@@ -23,7 +23,7 @@ export const pulpPaperIndustryPage: IndustryPageRecord = {
     ogTitle: "Paper and Packaging Video Analytics | OrionAlerts",
     ogDescription:
       "Explore paper and packaging plants with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
-    image: "/Images/industries/pulp-paper.jpeg",
+    image: "/Images/industries/.webp",
   },
   hero: {
     eyebrow: "Pulp, Paper & Packaging",
@@ -31,7 +31,7 @@ export const pulpPaperIndustryPage: IndustryPageRecord = {
     lede: "Map cameras to the places your team manages and ask Vision Copilot about roll-handling interfaces and recurring transfer build-up. OrionAlerts analyses scenes over time to surface alerts, recommendations and operational scores that help you decide what to review today and what to improve next.",
     media: {
       kind: "image",
-      src: "/Images/industries/pulp-paper.jpeg",
+      src: "/Images/industries/.webp",
       alt: "Illustrative paper and packaging plant photograph used for industry context",
       demonstrationLabel: "Illustrative photograph — not a verified customer deployment",
     },

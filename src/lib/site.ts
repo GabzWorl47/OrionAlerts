@@ -461,7 +461,7 @@ export const industries: Industry[] = [
     slug: "manufacturing",
     name: "Manufacturing",
     cardLabel: "Manufacturing",
-    image: "/Images/industries/manufacturing.png",
+    image: "/Images/industries/.webp",
     introVideo: "/Videos/industries/manufacturing.mp4",
     tagline:
       "Use Vision Copilot to connect mapped camera observations with decisions about shift handovers, PPE observations and recurring material build-up.",
@@ -472,7 +472,7 @@ export const industries: Industry[] = [
     slug: "automotive",
     name: "Automotive & Auto Components",
     cardLabel: "Automotive",
-    image: "/Images/industries/automotive.png",
+    image: "/Images/industries/.webp",
     tagline:
       "Use Vision Copilot to connect mapped camera observations with decisions about assembly-cell events and line-side replenishment.",
     summary:
@@ -482,7 +482,7 @@ export const industries: Industry[] = [
     slug: "cement",
     name: "Cement & Building Materials",
     cardLabel: "Cement",
-    image: "/Images/industries/cement.jpeg",
+    image: "/Images/industries/.webp",
     tagline:
       "Use Vision Copilot to connect mapped camera observations with decisions about truck staging and material-transfer visibility.",
     summary:
@@ -492,7 +492,7 @@ export const industries: Industry[] = [
     slug: "metals-mining",
     name: "Metals, Mining & Minerals",
     cardLabel: "Metals & Mining",
-    image: "/Images/industries/metals-mining.jpeg",
+    image: "/Images/industries/.webp",
     introVideo: "/Videos/industries/metals-mining.mp4",
     tagline:
       "Use Vision Copilot to connect mapped camera observations with decisions about remote work-zone review and heavy-equipment interfaces.",
@@ -503,7 +503,7 @@ export const industries: Industry[] = [
     slug: "oil-gas",
     name: "Oil, Gas & Petrochemicals",
     cardLabel: "Oil & Gas",
-    image: "/Images/industries/oil-gas.jpeg",
+    image: "/Images/industries/.webp",
     tagline:
       "Use Vision Copilot to connect mapped camera observations with decisions about tanker-area activity and controlled operational access.",
     summary:
@@ -513,7 +513,7 @@ export const industries: Industry[] = [
     slug: "pharma",
     name: "Pharmaceuticals & Life Sciences",
     cardLabel: "Pharma",
-    image: "/Images/industries/pharma.jpeg",
+    image: "/Images/industries/.webp",
     tagline:
       "Use Vision Copilot to connect mapped camera observations with decisions about controlled-area observations and QA investigation context.",
     summary:
@@ -553,7 +553,7 @@ export const industries: Industry[] = [
     slug: "quick-commerce",
     name: "Quick Commerce",
     cardLabel: "Quick Commerce",
-    image: "/Images/industries/quick-commerce.jpeg",
+    image: "/Images/industries/.webp",
     tagline:
       "Use Vision Copilot to connect mapped camera observations with decisions about regional oversight and recurring local handoff problems.",
     summary:
@@ -593,7 +593,7 @@ export const industries: Industry[] = [
     slug: "commercial-buildings",
     name: "Commercial Buildings",
     cardLabel: "Commercial",
-    image: "/Images/industries/commercial-buildings.jpeg",
+    image: "/Images/industries/.webp",
     tagline:
       "Use Vision Copilot to connect mapped camera observations with decisions about tenant-facing common areas and recurring service pressure.",
     summary:
@@ -653,7 +653,7 @@ export const industries: Industry[] = [
     slug: "utilities",
     name: "Utilities & Infrastructure",
     cardLabel: "Utilities",
-    image: "/Images/industries/utilities.jpeg",
+    image: "/Images/industries/.webp",
     tagline:
       "Use Vision Copilot to connect mapped camera observations with decisions about remote-site access and field-inspection priorities.",
     summary:
@@ -663,7 +663,7 @@ export const industries: Industry[] = [
     slug: "construction",
     name: "Construction Sites",
     cardLabel: "Construction",
-    image: "/Images/industries/construction.jpeg",
+    image: "/Images/industries/.webp",
     tagline:
       "Use Vision Copilot to connect mapped camera observations with decisions about changing routes and supervision across project areas.",
     summary:
@@ -673,7 +673,7 @@ export const industries: Industry[] = [
     slug: "pulp-paper",
     name: "Pulp, Paper & Packaging",
     cardLabel: "Pulp & Paper",
-    image: "/Images/industries/pulp-paper.jpeg",
+    image: "/Images/industries/.webp",
     tagline:
       "Use Vision Copilot to connect mapped camera observations with decisions about roll-handling interfaces and recurring transfer build-up.",
     summary:
@@ -693,7 +693,7 @@ export const industries: Industry[] = [
     slug: "polymers-plastics",
     name: "Polymers & Plastics",
     cardLabel: "Polymers",
-    image: "/Images/industries/polymers-plastics.jpeg",
+    image: "/Images/industries/.webp",
     tagline:
       "Use Vision Copilot to connect mapped camera observations with decisions about downstream build-up and controlled process-zone review.",
     summary:
@@ -703,7 +703,7 @@ export const industries: Industry[] = [
     slug: "banking",
     name: "Banking & Financial Institutions",
     cardLabel: "Banking",
-    image: "/Images/industries/banking.jpeg",
+    image: "/Images/industries/.webp",
     tagline:
       "Use Vision Copilot to connect mapped camera observations with decisions about branch-event review and regional follow-up.",
     summary:
@@ -723,7 +723,7 @@ export const industries: Industry[] = [
     slug: "government",
     name: "Government & Public Infrastructure",
     cardLabel: "Government",
-    image: "/Images/industries/government.jpeg",
+    image: "/Images/industries/.webp",
     tagline:
       "Use Vision Copilot to connect mapped camera observations with decisions about service-counter pressure and accountable facility review.",
     summary:
@@ -733,7 +733,7 @@ export const industries: Industry[] = [
     slug: "solar-renewable",
     name: "Solar & Renewable Energy Facilities",
     cardLabel: "Renewables",
-    image: "/Images/industries/renewables.jpeg",
+    image: "/Images/industries/.webp",
     tagline:
       "Use Vision Copilot to connect mapped camera observations with decisions about remote equipment-compound review and O&M priorities.",
     summary:
@@ -743,7 +743,7 @@ export const industries: Industry[] = [
     slug: "telecom-remote",
     name: "Telecom & Remote Sites",
     cardLabel: "Telecom",
-    image: "/Images/industries/telecom.jpeg",
+    image: "/Images/industries/.webp",
     tagline:
       "Use Vision Copilot to connect mapped camera observations with decisions about shelter events and remote maintenance coordination.",
     summary:

@@ -23,7 +23,7 @@ export const oilGasIndustryPage: IndustryPageRecord = {
     ogTitle: "Oil and Gas AI Video Analytics | OrionAlerts",
     ogDescription:
       "Explore oil and gas facilities with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
-    image: "/Images/industries/oil-gas.jpeg",
+    image: "/Images/industries/.webp",
   },
   hero: {
     eyebrow: "Oil, Gas & Petrochemicals",
@@ -31,7 +31,7 @@ export const oilGasIndustryPage: IndustryPageRecord = {
     lede: "Map cameras to the places your team manages and ask Vision Copilot about tanker-area activity and controlled operational access. OrionAlerts analyses scenes over time to surface alerts, recommendations and operational scores that help you decide what to review today and what to improve next.",
     media: {
       kind: "image",
-      src: "/Images/industries/oil-gas.jpeg",
+      src: "/Images/industries/.webp",
       alt: "Illustrative oil and gas facility photograph used for industry context",
       demonstrationLabel: "Illustrative photograph — not a verified customer deployment",
     },

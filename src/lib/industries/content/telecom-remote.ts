@@ -23,7 +23,7 @@ export const telecomRemoteIndustryPage: IndustryPageRecord = {
     ogTitle: "Telecom Site Video Analytics | OrionAlerts",
     ogDescription:
       "Explore telecom and remote sites with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
-    image: "/Images/industries/telecom.jpeg",
+    image: "/Images/industries/.webp",
   },
   hero: {
     eyebrow: "Telecom & Remote Sites",
@@ -31,7 +31,7 @@ export const telecomRemoteIndustryPage: IndustryPageRecord = {
     lede: "Map cameras to the places your team manages and ask Vision Copilot about shelter events and remote maintenance coordination. OrionAlerts analyses scenes over time to surface alerts, recommendations and operational scores that help you decide what to review today and what to improve next.",
     media: {
       kind: "image",
-      src: "/Images/industries/telecom.jpeg",
+      src: "/Images/industries/.webp",
       alt: "Illustrative telecom tower and remote site photograph used for industry context",
       demonstrationLabel: "Illustrative photograph — not a verified customer deployment",
     },
