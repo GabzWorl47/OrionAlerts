@@ -552,8 +552,9 @@ export const nebulaFaqs: NebulaFaq[] = [
  * `/Videos/video/nebula-os.mp4` so the UI does not reference a 404 asset.
  */
 export const nebulaVideo = {
-  src: "" as string,
-  poster: "/visuals/solutions/ai-vision.png",
+  src: "/Videos/video/nebula.mp4",
+  webmSrc: "/Videos/video/nebula.webm",
+  poster: "/visuals/solutions/nebula-poster.webp",
   /** Set true and restore src when the file is present in public/. */
-  available: false,
+  available: true,
 };

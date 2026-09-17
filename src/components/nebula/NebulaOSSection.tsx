@@ -48,7 +48,6 @@ function NebulaVideoBox() {
         {canPlay && !reduce ? (
           <video
             ref={videoRef}
-            src={nebulaVideo.src}
             poster={nebulaVideo.poster}
             muted
             loop
@@ -56,7 +55,12 @@ function NebulaVideoBox() {
             preload="metadata"
             className="absolute inset-0 h-full w-full object-cover object-center"
             aria-label="Nebula OS overview video"
-          />
+          >
+            {nebulaVideo.webmSrc ? (
+              <source src={nebulaVideo.webmSrc} type="video/webm" />
+            ) : null}
+            <source src={nebulaVideo.src} type="video/mp4" />
+          </video>
         ) : (
           // eslint-disable-next-line @next/next/no-img-element -- poster fallback until video ships
           <img
