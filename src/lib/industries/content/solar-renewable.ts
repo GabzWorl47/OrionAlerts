@@ -23,7 +23,7 @@ export const solarRenewableIndustryPage: IndustryPageRecord = {
     ogTitle: "Solar and Renewable Site Video Analytics | OrionAlerts",
     ogDescription:
       "Explore renewable energy sites with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
-    image: "/Images/industries/renewables.webp",
+    image: "/Images/industries/renewables.jpeg",
   },
   hero: {
     eyebrow: "Solar & Renewable Energy Facilities",
@@ -31,7 +31,7 @@ export const solarRenewableIndustryPage: IndustryPageRecord = {
     lede: "Map cameras to the places your team manages and ask Vision Copilot about remote equipment-compound review and O&M priorities. OrionAlerts analyses scenes over time to surface alerts, recommendations and operational scores that help you decide what to review today and what to improve next.",
     media: {
       kind: "image",
-      src: "/Images/industries/renewables.webp",
+      src: "/Images/industries/renewables.jpeg",
       alt: "Illustrative solar farm photograph used for renewable energy industry context",
       demonstrationLabel: "Illustrative photograph — not a verified customer deployment",
     },

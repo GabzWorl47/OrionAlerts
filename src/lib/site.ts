@@ -553,7 +553,7 @@ export const industries: Industry[] = [
     slug: "quick-commerce",
     name: "Quick Commerce",
     cardLabel: "Quick Commerce",
-    image: "/Images/industries/quick-commerce.webp",
+    image: "/Images/industries/quick-commerce.jpeg",
     tagline:
       "Use Vision Copilot to connect mapped camera observations with decisions about regional oversight and recurring local handoff problems.",
     summary:
@@ -693,7 +693,7 @@ export const industries: Industry[] = [
     slug: "polymers-plastics",
     name: "Polymers & Plastics",
     cardLabel: "Polymers",
-    image: "https://images.unsplash.com/photo-1565793298595-6a879b1d9492?auto=format&fit=crop&w=1600&q=90",
+    image: "/Images/industries/polymers-plastics.jpeg",
     tagline:
       "Use Vision Copilot to connect mapped camera observations with decisions about downstream build-up and controlled process-zone review.",
     summary:
@@ -723,7 +723,7 @@ export const industries: Industry[] = [
     slug: "government",
     name: "Government & Public Infrastructure",
     cardLabel: "Government",
-    image: "/Images/industries/government.webp",
+    image: "/Images/industries/government.jpeg",
     tagline:
       "Use Vision Copilot to connect mapped camera observations with decisions about service-counter pressure and accountable facility review.",
     summary:
@@ -733,7 +733,7 @@ export const industries: Industry[] = [
     slug: "solar-renewable",
     name: "Solar & Renewable Energy Facilities",
     cardLabel: "Renewables",
-    image: "/Images/industries/renewables.webp",
+    image: "/Images/industries/renewables.jpeg",
     tagline:
       "Use Vision Copilot to connect mapped camera observations with decisions about remote equipment-compound review and O&M priorities.",
     summary:
@@ -743,7 +743,7 @@ export const industries: Industry[] = [
     slug: "telecom-remote",
     name: "Telecom & Remote Sites",
     cardLabel: "Telecom",
-    image: "/Images/industries/telecom.webp",
+    image: "/Images/industries/telecom.jpeg",
     tagline:
       "Use Vision Copilot to connect mapped camera observations with decisions about shelter events and remote maintenance coordination.",
     summary:

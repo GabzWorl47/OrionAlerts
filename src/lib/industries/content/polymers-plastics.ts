@@ -23,8 +23,7 @@ export const polymersPlasticsIndustryPage: IndustryPageRecord = {
     ogTitle: "Plastics Plant Video Analytics | OrionAlerts",
     ogDescription:
       "Explore polymer and plastics plants with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
-    image:
-      "https://images.unsplash.com/photo-1565793298595-6a879b1d9492?auto=format&fit=crop&w=1600&q=90",
+    image: "/Images/industries/polymers-plastics.jpeg",
   },
   hero: {
     eyebrow: "Polymers & Plastics",
@@ -32,7 +31,7 @@ export const polymersPlasticsIndustryPage: IndustryPageRecord = {
     lede: "Map cameras to the places your team manages and ask Vision Copilot about downstream build-up and controlled process-zone review. OrionAlerts analyses scenes over time to surface alerts, recommendations and operational scores that help you decide what to review today and what to improve next.",
     media: {
       kind: "image",
-      src: "https://images.unsplash.com/photo-1565793298595-6a879b1d9492?auto=format&fit=crop&w=1600&q=90",
+      src: "/Images/industries/polymers-plastics.jpeg",
       alt: "Illustrative polymer and plastics plant photograph used for industry context",
       demonstrationLabel: "Illustrative photograph — not a verified customer deployment",
     },
