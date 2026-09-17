@@ -23,8 +23,7 @@ export const bankingIndustryPage: IndustryPageRecord = {
     ogTitle: "Banking Video Analytics | OrionAlerts",
     ogDescription:
       "Explore bank branch networks with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
-    image:
-      "https://images.unsplash.com/photo-1541354329998-f4d9a9f9297f?auto=format&fit=crop&w=1600&q=90",
+    image: "/Images/industries/banking.jpeg",
   },
   hero: {
     eyebrow: "Banking & Financial Institutions",
@@ -32,7 +31,7 @@ export const bankingIndustryPage: IndustryPageRecord = {
     lede: "Map cameras to the places your team manages and ask Vision Copilot about branch-event review and regional follow-up. OrionAlerts analyses scenes over time to surface alerts, recommendations and operational scores that help you decide what to review today and what to improve next.",
     media: {
       kind: "image",
-      src: "https://images.unsplash.com/photo-1541354329998-f4d9a9f9297f?auto=format&fit=crop&w=1600&q=90",
+      src: "/Images/industries/banking.jpeg",
       alt: "Illustrative bank branch exterior photograph used for industry context",
       demonstrationLabel: "Illustrative photograph — not a verified customer deployment",
     },

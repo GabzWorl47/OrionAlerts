@@ -513,7 +513,7 @@ export const industries: Industry[] = [
     slug: "pharma",
     name: "Pharmaceuticals & Life Sciences",
     cardLabel: "Pharma",
-    image: "/Images/industries/pharma.webp",
+    image: "/Images/industries/pharma.jpeg",
     tagline:
       "Use Vision Copilot to connect mapped camera observations with decisions about controlled-area observations and QA investigation context.",
     summary:
@@ -593,7 +593,7 @@ export const industries: Industry[] = [
     slug: "commercial-buildings",
     name: "Commercial Buildings",
     cardLabel: "Commercial",
-    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1600&q=90",
+    image: "/Images/industries/commercial-buildings.jpeg",
     tagline:
       "Use Vision Copilot to connect mapped camera observations with decisions about tenant-facing common areas and recurring service pressure.",
     summary:
@@ -653,7 +653,7 @@ export const industries: Industry[] = [
     slug: "utilities",
     name: "Utilities & Infrastructure",
     cardLabel: "Utilities",
-    image: "https://images.unsplash.com/photo-1466611653911-95081537e5b7?auto=format&fit=crop&w=1600&q=90",
+    image: "/Images/industries/utilities.jpeg",
     tagline:
       "Use Vision Copilot to connect mapped camera observations with decisions about remote-site access and field-inspection priorities.",
     summary:
@@ -663,7 +663,7 @@ export const industries: Industry[] = [
     slug: "construction",
     name: "Construction Sites",
     cardLabel: "Construction",
-    image: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1600&q=90",
+    image: "/Images/industries/construction.jpeg",
     tagline:
       "Use Vision Copilot to connect mapped camera observations with decisions about changing routes and supervision across project areas.",
     summary:
@@ -673,7 +673,7 @@ export const industries: Industry[] = [
     slug: "pulp-paper",
     name: "Pulp, Paper & Packaging",
     cardLabel: "Pulp & Paper",
-    image: "https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&w=1600&q=90",
+    image: "/Images/industries/pulp-paper.jpeg",
     tagline:
       "Use Vision Copilot to connect mapped camera observations with decisions about roll-handling interfaces and recurring transfer build-up.",
     summary:
@@ -703,7 +703,7 @@ export const industries: Industry[] = [
     slug: "banking",
     name: "Banking & Financial Institutions",
     cardLabel: "Banking",
-    image: "https://images.unsplash.com/photo-1541354329998-f4d9a9f9297f?auto=format&fit=crop&w=1600&q=90",
+    image: "/Images/industries/banking.jpeg",
     tagline:
       "Use Vision Copilot to connect mapped camera observations with decisions about branch-event review and regional follow-up.",
     summary:

@@ -23,8 +23,7 @@ export const constructionIndustryPage: IndustryPageRecord = {
     ogTitle: "Construction Site Video Analytics | OrionAlerts",
     ogDescription:
       "Explore construction projects with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
-    image:
-      "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1600&q=90",
+    image: "/Images/industries/construction.jpeg",
   },
   hero: {
     eyebrow: "Construction Sites",
@@ -32,7 +31,7 @@ export const constructionIndustryPage: IndustryPageRecord = {
     lede: "Map cameras to the places your team manages and ask Vision Copilot about changing routes and supervision across project areas. OrionAlerts analyses scenes over time to surface alerts, recommendations and operational scores that help you decide what to review today and what to improve next.",
     media: {
       kind: "image",
-      src: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1600&q=90",
+      src: "/Images/industries/construction.jpeg",
       alt: "Illustrative construction site photograph used for industry context",
       demonstrationLabel: "Illustrative photograph — not a verified customer deployment",
     },

@@ -23,8 +23,7 @@ export const utilitiesIndustryPage: IndustryPageRecord = {
     ogTitle: "Utility Infrastructure Video Analytics | OrionAlerts",
     ogDescription:
       "Explore utility infrastructure with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
-    image:
-      "https://images.unsplash.com/photo-1466611653911-95081537e5b7?auto=format&fit=crop&w=1600&q=90",
+    image: "/Images/industries/utilities.jpeg",
   },
   hero: {
     eyebrow: "Utilities & Infrastructure",
@@ -32,7 +31,7 @@ export const utilitiesIndustryPage: IndustryPageRecord = {
     lede: "Map cameras to the places your team manages and ask Vision Copilot about remote-site access and field-inspection priorities. OrionAlerts analyses scenes over time to surface alerts, recommendations and operational scores that help you decide what to review today and what to improve next.",
     media: {
       kind: "image",
-      src: "https://images.unsplash.com/photo-1466611653911-95081537e5b7?auto=format&fit=crop&w=1600&q=90",
+      src: "/Images/industries/utilities.jpeg",
       alt: "Illustrative utility infrastructure photograph used for industry context",
       demonstrationLabel: "Illustrative photograph — not a verified customer deployment",
     },
