@@ -20,7 +20,7 @@ function NebulaVideoBox() {
     if (!el) return;
     const io = new IntersectionObserver(
       ([entry]) => setVisible(entry.isIntersecting),
-      { threshold: 0.25 },
+      { threshold: 0.1 },
     );
     io.observe(el);
     return () => io.disconnect();
@@ -48,7 +48,9 @@ function NebulaVideoBox() {
         {canPlay && !reduce ? (
           <video
             ref={videoRef}
+            src={nebulaVideo.src}
             poster={nebulaVideo.poster}
+            autoPlay
             muted
             loop
             playsInline
