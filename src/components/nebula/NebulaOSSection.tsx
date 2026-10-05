@@ -9,39 +9,23 @@ import { nebulaSectionCopy, nebulaVideo } from "@/lib/nebula-os";
 
 function NebulaVideoBox() {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const boxRef = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
-  const [visible, setVisible] = useState(false);
   const canPlay = nebulaVideo.available && Boolean(nebulaVideo.src);
 
   useEffect(() => {
-    if (!canPlay) return;
-    const el = boxRef.current;
-    if (!el) return;
-    const io = new IntersectionObserver(
-      ([entry]) => setVisible(entry.isIntersecting),
-      { threshold: 0.1 },
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, [canPlay]);
-
-  useEffect(() => {
     const video = videoRef.current;
-    if (!video || !canPlay) return;
+    if (!video || !canPlay || reduce) return;
     video.muted = true;
-    if (!visible || reduce) {
-      video.pause();
-      return;
-    }
-    void video.play().catch(() => {
-      // Autoplay may be blocked.
-    });
-  }, [visible, reduce, canPlay]);
+    const tryPlay = () => {
+      video.play().catch(() => {
+        // Autoplay may be blocked until user interaction
+      });
+    };
+    tryPlay();
+  }, [canPlay, reduce]);
 
   return (
     <div
-      ref={boxRef}
       className="relative mt-6 overflow-hidden rounded-[28px] border border-blue/15 bg-[#071018] shadow-[0_40px_90px_-40px_rgba(12,34,56,0.7)] ring-1 ring-white/10 md:mt-8 md:rounded-[32px]"
     >
       <div className="relative aspect-[16/9] min-h-[18rem] w-full sm:min-h-[22rem] lg:min-h-[32rem] xl:min-h-[38rem]">
@@ -54,7 +38,7 @@ function NebulaVideoBox() {
             muted
             loop
             playsInline
-            preload="metadata"
+            preload="auto"
             className="absolute inset-0 h-full w-full object-cover object-center"
             aria-label="Nebula OS overview video"
           >
