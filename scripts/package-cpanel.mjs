@@ -3,7 +3,7 @@
  * Packages Next.js standalone output into ./dist for cPanel Node.js App.
  * Run after `next build` (or via `npm run build:cpanel`).
  */
-import { cpSync, existsSync, mkdirSync, rmSync, writeFileSync } from "node:fs";
+import { cpSync, existsSync, mkdirSync, readdirSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
 const root = process.cwd();
@@ -18,7 +18,21 @@ if (!existsSync(standalone)) {
 rmSync(dist, { recursive: true, force: true });
 mkdirSync(dist, { recursive: true });
 
-cpSync(standalone, dist, { recursive: true });
+function findServerJsDir(dir) {
+  if (existsSync(join(dir, "server.js"))) return dir;
+  try {
+    for (const item of readdirSync(dir, { withFileTypes: true })) {
+      if (item.isDirectory()) {
+        const found = findServerJsDir(join(dir, item.name));
+        if (found) return found;
+      }
+    }
+  } catch {}
+  return null;
+}
+
+const serverDir = findServerJsDir(standalone) || standalone;
+cpSync(serverDir, dist, { recursive: true });
 
 const staticSrc = join(root, ".next", "static");
 const staticDest = join(dist, ".next", "static");

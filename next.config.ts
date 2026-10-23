@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import path from "node:path";
 
 const nextConfig: NextConfig = {
   // Framer Motion enter animations stay stuck at opacity:0 under React 19 Strict Mode
@@ -8,6 +9,7 @@ const nextConfig: NextConfig = {
   allowedDevOrigins: ["127.0.0.1", "localhost"],
   // Self-contained Node server for cPanel / VPS (npm run build:cpanel → dist/).
   output: "standalone",
+  outputFileTracingRoot: path.join(__dirname),
   // Blog JSON + uploads are read/written at runtime from process.cwd().
   outputFileTracingIncludes: {
     "/*": ["./data/**/*"],
