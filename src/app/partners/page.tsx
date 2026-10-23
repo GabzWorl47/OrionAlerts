@@ -65,7 +65,7 @@ export default function PartnersPage() {
           portal access, and clear commercial rails.
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
-          <Button href="/contact">Apply to partner</Button>
+          <Button href="/contact?topic=partner">Apply to partner</Button>
         </div>
       </Section>
 
@@ -95,7 +95,7 @@ export default function PartnersPage() {
         <CtaBand
           title="Start a partner conversation"
           lede="Tell us your region, specialties, and whether you’re SI-led, technology-led, or both."
-          primaryHref="/contact"
+          primaryHref="/contact?topic=partner"
           primaryLabel="Contact Us"
           secondaryHref="/faqs"
           secondaryLabel="Read FAQs"

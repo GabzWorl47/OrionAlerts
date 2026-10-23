@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { GoogleRecaptcha } from "@/components/GoogleRecaptcha";
 import { legalMeta } from "@/lib/legal";
 
@@ -13,16 +13,27 @@ type LeadFormProps = {
   subtitle: string;
   /** Use h2 when the page already has an H1 (e.g. contact). */
   titleAs?: "h1" | "h2";
+  defaultTopic?: string;
 };
 
-export function LeadForm({ kind, title, subtitle, titleAs = "h1" }: LeadFormProps) {
+export function LeadForm({ kind, title, subtitle, titleAs = "h1", defaultTopic = "" }: LeadFormProps) {
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [message, setMessage] = useState("");
+  const [selectedTopic, setSelectedTopic] = useState(defaultTopic);
   const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
   const [recaptchaReset, setRecaptchaReset] = useState(0);
   const requireCaptcha = kind === "demo";
   const TitleTag = titleAs;
   const formTitleId = "lead-form-title";
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const param = new URLSearchParams(window.location.search).get("topic");
+      if (param && ["sales", "support", "partner", "press", "privacy", "other"].includes(param)) {
+        setSelectedTopic(param);
+      }
+    }
+  }, []);
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -62,6 +73,7 @@ export function LeadForm({ kind, title, subtitle, titleAs = "h1" }: LeadFormProp
           : "Message received. We’ll connect you with the right person.",
       );
       form.reset();
+      setSelectedTopic(defaultTopic);
       setRecaptchaToken(null);
       setRecaptchaReset((value) => value + 1);
     } catch (error) {
@@ -126,7 +138,12 @@ export function LeadForm({ kind, title, subtitle, titleAs = "h1" }: LeadFormProp
         ) : (
           <label className="text-sm font-medium text-text sm:col-span-2">
             Reason for reaching out
-            <select name="topic" className={fieldClass} defaultValue="">
+            <select
+              name="topic"
+              className={fieldClass}
+              value={selectedTopic}
+              onChange={(e) => setSelectedTopic(e.target.value)}
+            >
               <option value="" disabled>
                 Choose a topic
               </option>
@@ -170,8 +187,7 @@ export function LeadForm({ kind, title, subtitle, titleAs = "h1" }: LeadFormProp
         By submitting, you send these details to OrionAlerts so we can respond to your request. We
         also record your IP address for rate-limiting and abuse prevention
         {requireCaptcha ? ", and Google processes reCAPTCHA data for bot protection" : ""}.
-        Submissions go to our application servers and are written to application logs; a separate
-        CRM/ERP store is not connected yet. See our{" "}
+        See our{" "}
         <Link href="/privacy" className="text-blue hover:underline">
           Privacy Policy
         </Link>{" "}

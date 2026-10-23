@@ -64,6 +64,19 @@ writeFileSync(
    NEXT_PUBLIC_RECAPTCHA_SITE_KEY=<optional>
    RECAPTCHA_SECRET_KEY=<optional>
 
+   # SMTP Configuration (cPanel Email Accounts)
+   SMTP_HOST=mail.orionalerts.com
+   SMTP_PORT=465
+   SMTP_SECURE=true
+   SMTP_USER=websitelead@orionalerts.com
+   SMTP_PASS=<cpanel email password>
+   SMTP_FROM="OrionAlerts" <websitelead@orionalerts.com>
+   SMTP_REJECT_UNAUTHORIZED=false
+
+   # Lead routing targets
+   WEBSITE_LEAD_EMAIL=websitelead@orionalerts.com
+   PARTNER_EMAIL=partner@orionalerts.com
+
 4. Start / Restart the Node.js application in cPanel.
 
 5. Point the domain document root to the Node app (or use the app URL
