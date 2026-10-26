@@ -56,6 +56,7 @@ export function LeadForm({
 }: LeadFormProps) {
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [message, setMessage] = useState("");
+  const [selectedTopic, setSelectedTopic] = useState<string>(defaultTopic ?? "");
   const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
   const [recaptchaReset, setRecaptchaReset] = useState(0);
   const requireCaptcha = kind === "demo";
@@ -66,6 +67,7 @@ export function LeadForm({
   // Without a site key the widget shows its own notice instead of a checkbox.
   const captchaConfigured = Boolean(process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY);
   const showCaptchaHint = awaitingCaptcha && captchaConfigured;
+
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -105,6 +107,7 @@ export function LeadForm({
           : "Message received. We’ll connect you with the right person.",
       );
       form.reset();
+      setSelectedTopic(defaultTopic ?? "");
       setRecaptchaToken(null);
       setRecaptchaReset((value) => value + 1);
     } catch (error) {
@@ -195,7 +198,12 @@ export function LeadForm({
         ) : (
           <label className="text-sm font-medium text-text sm:col-span-2">
             Reason for reaching out
-            <select name="topic" className={fieldClass} defaultValue={defaultTopic ?? ""}>
+            <select
+              name="topic"
+              className={fieldClass}
+              value={selectedTopic}
+              onChange={(e) => setSelectedTopic(e.target.value)}
+            >
               <option value="" disabled>
                 Choose a topic
               </option>

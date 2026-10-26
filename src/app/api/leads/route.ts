@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { verifyRecaptchaToken } from "@/lib/recaptcha";
+import { sendLeadEmail } from "@/lib/email";
 
 type LeadPayload = {
   kind?: string;
@@ -178,11 +179,29 @@ export async function POST(request: Request) {
     }
   }
 
-  // Durable CRM/ERP storage is not connected yet — do not claim a separate ERP stream.
-  // Application logs may contain personal data; minimize retention in production ops.
+  const nowIso = new Date().toISOString();
+
+  // Send email via configured SMTP (routes partner topic to partner@, others to websitelead@)
+  const emailResult = await sendLeadEmail({
+    kind,
+    name,
+    email,
+    company,
+    phone,
+    message,
+    interest,
+    topic,
+    siteCount,
+    cameraCount,
+    ip,
+    submittedAt: nowIso,
+  });
+
   console.info("[lead]", {
     kind,
-    storage: "application_logs_pending_crm",
+    recipient: emailResult.recipient,
+    emailSent: emailResult.ok,
+    simulated: emailResult.simulated || false,
     name,
     email,
     company,
@@ -192,9 +211,8 @@ export async function POST(request: Request) {
     siteCount,
     cameraCount,
     messageLength: message.length,
-    // Redact full message body from default logs; keep length for ops debugging.
     ip,
-    at: new Date().toISOString(),
+    at: nowIso,
   });
 
   return NextResponse.json({ ok: true });

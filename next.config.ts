@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import path from "node:path";
 
 const nextConfig: NextConfig = {
   // Framer Motion enter animations stay stuck at opacity:0 under React 19 Strict Mode
@@ -10,6 +11,7 @@ const nextConfig: NextConfig = {
   output: "standalone",
   poweredByHeader: false,
   compress: true,
+  outputFileTracingRoot: path.join(__dirname),
   // Blog JSON + uploads are read/written at runtime from process.cwd().
   outputFileTracingIncludes: {
     "/*": ["./data/**/*"],
