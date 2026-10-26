@@ -1,0 +1,31 @@
+/_next/static/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Cloudflare Workers Static Assets response headers. This file is read when the site is
+# built for Workers (it ends up at the root of the assets directory) and is not served
+# itself. It only affects files served straight from static assets: responses produced
+# by the Next.js worker (pages, API routes, /Videos/*) set their own headers.
+# https://developers.cloudflare.com/workers/static-assets/headers/
+# https://opennext.js.org/cloudflare/caching#static-assets-caching
+#
+# Keep the /_next/static/* rule as the very first line: `opennextjs-cloudflare migrate`
+# appends its own copy of that rule unless this file starts with it.
+#
+# Without these rules Workers sends `public, max-age=0, must-revalidate` for every asset,
+# ignoring the headers() in next.config.ts. public/ media is not content-hashed, so it
+# gets a week plus background revalidation (same as next.config.ts), not `immutable`.
+
+/Images/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=2592000
+
+/visuals/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=2592000
+
+/Videos/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=2592000
+
+# Source files for the /Videos/* route handler (src/app/Videos/[...path]/route.ts),
+# which adds HTTP Range support. Pages link to /Videos/..., never to these URLs.
+/_videos/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=2592000
+  X-Robots-Tag: noindex

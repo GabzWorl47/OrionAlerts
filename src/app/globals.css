@@ -6,9 +6,10 @@
   --surface: #ffffff;
   --surface-2: #e9eef2;
   --text: #0c2238;
-  --muted: #64788c;
+  /* muted/caption darkened just enough for WCAG AA (4.5:1) on --bg and --surface-2. */
+  --muted: #5b6d7f; /* also keeps 3:1 against --text so inline links stay distinguishable */
   --muted-strong: #4a6074;
-  --caption: #8a9aab;
+  --caption: #5e7184;
 
   /* Accents — navy primary, soft sky highlight */
   --blue: #0c2238;
@@ -139,12 +140,15 @@
   line-height: 1;
 }
 
-.eyebrow {
-  font-size: 0.6875rem;
-  font-weight: 600;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: color-mix(in srgb, var(--text) 55%, transparent);
+/* Layered so utilities can override it, e.g. `eyebrow text-cyan/90` on dark sections. */
+@layer components {
+  .eyebrow {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--text) 68%, transparent); /* 55% failed AA contrast */
+  }
 }
 
 .lede {
@@ -240,7 +244,8 @@
 }
 
 .focus-ring:focus-visible {
-  outline-color: var(--cyan);
+  /* Mid blue reads at >=3:1 on both white cards and the navy sections; --cyan was ~1.8:1 on white. */
+  outline-color: #1f7aef;
 }
 
 @keyframes fade-rise-in {
@@ -256,6 +261,49 @@
 
 .animate-fade-rise-in {
   animation: fade-rise-in var(--dur-slow) var(--ease-soft) both;
+}
+
+/*
+  Homepage hero. These run as CSS (not framer-motion) so they start on first
+  paint instead of after hydration: the hero copy and wordmark used to sit at
+  SSR opacity:0 until JS ran, which pushed mobile LCP out by several seconds.
+*/
+@keyframes hero-wordmark {
+  0% {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  12% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  83% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+
+.hero-wordmark {
+  animation: hero-wordmark 6s ease-in-out both;
+}
+
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(var(--hero-rise-y, 16px));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-rise {
+  animation: hero-rise 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 @keyframes shimmer-sweep {
@@ -469,7 +517,7 @@
   --industry-text: #152238;
   --industry-muted: #52627a;
   --industry-accent: #19b8ff;
-  --industry-accent-strong: #0879d1;
+  --industry-accent-strong: #066dbd; /* was #0879d1: 4.05:1 on the tinted cards */
   --industry-success: #18a67a;
   --industry-warning: #eaa334;
   --industry-radius-lg: 28px;
@@ -790,7 +838,9 @@
     background-image: none !important;
   }
 
-  .animate-fade-rise-in {
+  .animate-fade-rise-in,
+  .hero-wordmark,
+  .hero-rise {
     animation: none !important;
     opacity: 1 !important;
     transform: none !important;

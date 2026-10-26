@@ -158,7 +158,7 @@ export function SolutionFeatureMediaRows({
               <Reveal key={feature.title} delay={0.04}>
                 <div
                   id={featureAnchorId(feature.title)}
-                  className={`relative scroll-mt-[calc(var(--header-h)+1.25rem)] grid items-center gap-6 lg:grid-cols-2 lg:gap-10 ${
+                  className={`relative grid items-center gap-6 lg:grid-cols-2 lg:gap-10 ${
                     mediaFirst ? "" : "lg:[&>*:first-child]:order-2"
                   }`}
                 >
@@ -180,7 +180,7 @@ export function SolutionFeatureMediaRows({
                         key={alias}
                         id={alias}
                         aria-hidden
-                        className="absolute left-0 top-0 h-px w-px scroll-mt-[calc(var(--header-h)+1.25rem)]"
+                        className="absolute left-0 top-0 h-px w-px"
                       />
                     ))}
                     <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-blue">

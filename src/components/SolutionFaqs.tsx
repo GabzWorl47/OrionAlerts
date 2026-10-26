@@ -18,7 +18,7 @@ export function SolutionFaqs({ id = "faqs", heading, faqs, className = "" }: Sol
     <section
       id={id}
       aria-labelledby={`${id}-heading`}
-      className={`scroll-mt-[calc(var(--header-h)+1.25rem)] bg-white py-10 md:py-14 ${className}`}
+      className={`bg-white py-10 md:py-14 ${className}`}
     >
       <div className="container max-w-4xl">
         <p className="eyebrow mb-2 text-center">FAQs</p>

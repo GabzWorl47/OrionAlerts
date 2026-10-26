@@ -78,8 +78,10 @@ writeFileSync(
    NEXT_PUBLIC_SITE_URL=https://orionalerts.com
    ADMIN_PASSWORD=<strong password>
    ADMIN_SESSION_SECRET=<long random string>
-   NEXT_PUBLIC_RECAPTCHA_SITE_KEY=<optional>
-   RECAPTCHA_SECRET_KEY=<optional>
+   # Google reCAPTCHA (required for the Book a Demo form). The site key is
+   # read at runtime, so set it here; no rebuild needed.
+   RECAPTCHA_SITE_KEY=<reCAPTCHA v2 site key>
+   RECAPTCHA_SECRET_KEY=<reCAPTCHA v2 secret key>
 
    # SMTP Configuration (cPanel Email Accounts)
    SMTP_HOST=mail.orionalerts.com

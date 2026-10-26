@@ -11,6 +11,7 @@ import {
   Share2,
 } from "lucide-react";
 import { Button } from "@/components/ui";
+import { mediumImage, responsiveSrcSet } from "@/lib/responsive-images";
 import { formatBlogDateShort, getBlogUpdatedDay, type BlogPost } from "@/lib/blogs";
 import { BlogArticleContent, BlogArticleToc } from "@/components/BlogArticleContent";
 
@@ -158,13 +159,19 @@ export function BlogArticle({ post, related }: BlogArticleProps) {
           </div>
 
           <div className="relative mt-10 aspect-[16/9] overflow-hidden rounded-[22px] border border-line">
-            <Image
+            {/*
+              Plain <img> so the LCP image can carry a srcSet (images.unoptimized
+              stops next/image generating one); phones get the 828px copy.
+            */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
               src={post.image}
-              alt={post.imageAlt || post.title}
-              fill
-              priority
+              srcSet={responsiveSrcSet(post.image)}
               sizes="(max-width: 1024px) 100vw, 76rem"
-              className="object-cover"
+              alt={post.imageAlt || post.title}
+              fetchPriority="high"
+              decoding="async"
+              className="absolute inset-0 h-full w-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#0c2238]/25 via-transparent to-transparent" />
           </div>
@@ -230,7 +237,7 @@ export function BlogArticle({ post, related }: BlogArticleProps) {
                 >
                   <div className="relative aspect-[16/10]">
                     <Image
-                      src={item.image}
+                      src={mediumImage(item.image)}
                       alt={item.imageAlt || item.title}
                       fill
                       sizes="(max-width: 768px) 100vw, 40vw"

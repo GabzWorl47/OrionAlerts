@@ -342,7 +342,7 @@ export function MigratedIndustryPage({ page }: Props) {
 
       <section
         id={industrySectionAnchors.useCases}
-        className="industry-section industry-section--tint scroll-mt-[calc(var(--header-h)+1rem)]"
+        className="industry-section industry-section--tint"
       >
         <div className="industry-shell">
           <SectionKicker icon={ScanEye}>{copy.useCases.kicker}</SectionKicker>
@@ -412,7 +412,7 @@ export function MigratedIndustryPage({ page }: Props) {
 
       <section
         id={industrySectionAnchors.copilot}
-        className="industry-section scroll-mt-[calc(var(--header-h)+1rem)]"
+        className="industry-section"
       >
         <div className="industry-shell">
           <VisionCopilotPanel page={page} kicker={copy.copilot.kicker} heading={copy.copilot.heading} />
@@ -421,7 +421,7 @@ export function MigratedIndustryPage({ page }: Props) {
 
       <section
         id={industrySectionAnchors.mapped}
-        className="industry-section industry-section--dark relative overflow-hidden scroll-mt-[calc(var(--header-h)+1rem)]"
+        className="industry-section industry-section--dark relative overflow-hidden"
       >
         <div
           aria-hidden
@@ -456,7 +456,7 @@ export function MigratedIndustryPage({ page }: Props) {
 
       <section
         id={industrySectionAnchors.workflow}
-        className="industry-section scroll-mt-[calc(var(--header-h)+1rem)]"
+        className="industry-section"
       >
         <div className="industry-shell">
           <SectionKicker icon={WorkflowIcon}>{copy.workflow.kicker}</SectionKicker>
@@ -491,7 +491,7 @@ export function MigratedIndustryPage({ page }: Props) {
 
       <section
         id={industrySectionAnchors.deployment}
-        className="industry-section industry-section--tint scroll-mt-[calc(var(--header-h)+1rem)]"
+        className="industry-section industry-section--tint"
       >
         <div className="industry-shell industry-grid">
           <div className="industry-card--wide">
@@ -520,7 +520,7 @@ export function MigratedIndustryPage({ page }: Props) {
 
       <section
         id={industrySectionAnchors.standards}
-        className="industry-section scroll-mt-[calc(var(--header-h)+1rem)]"
+        className="industry-section"
       >
         <div className="industry-shell max-w-3xl">
           <SectionKicker icon={ShieldCheck}>{copy.standards.kicker}</SectionKicker>
@@ -560,7 +560,7 @@ export function MigratedIndustryPage({ page }: Props) {
 
       <section
         id={industrySectionAnchors.pilotMetrics}
-        className="industry-section industry-section--tint scroll-mt-[calc(var(--header-h)+1rem)]"
+        className="industry-section industry-section--tint"
       >
         <div className="industry-shell">
           <SectionKicker icon={Compass}>{copy.pilotMetrics.kicker}</SectionKicker>
@@ -590,7 +590,7 @@ export function MigratedIndustryPage({ page }: Props) {
 
       <section
         id={industrySectionAnchors.solutions}
-        className="industry-section scroll-mt-[calc(var(--header-h)+1rem)]"
+        className="industry-section"
       >
         <div className="industry-shell">
           <SectionKicker icon={Layers}>{copy.solutions.kicker}</SectionKicker>
@@ -636,7 +636,7 @@ export function MigratedIndustryPage({ page }: Props) {
 
       <section
         id={industrySectionAnchors.faqs}
-        className="industry-section industry-section--tint scroll-mt-[calc(var(--header-h)+1rem)]"
+        className="industry-section industry-section--tint"
       >
         <div className="industry-shell max-w-3xl">
           <SectionKicker icon={CircleHelp}>{copy.faqs.kicker}</SectionKicker>
@@ -661,7 +661,7 @@ export function MigratedIndustryPage({ page }: Props) {
       {readingGroups.length ? (
         <section
           id={industrySectionAnchors.furtherReading}
-          className="industry-section scroll-mt-[calc(var(--header-h)+1rem)]"
+          className="industry-section"
         >
           <div className="industry-shell">
             <SectionKicker icon={BookOpen}>{copy.furtherReading.kicker}</SectionKicker>
@@ -699,7 +699,7 @@ export function MigratedIndustryPage({ page }: Props) {
 
       <section
         id={industrySectionAnchors.related}
-        className="industry-section industry-section--tint scroll-mt-[calc(var(--header-h)+1rem)]"
+        className="industry-section industry-section--tint"
       >
         <div className="industry-shell">
           <SectionKicker icon={Network}>{copy.related.kicker}</SectionKicker>
@@ -755,7 +755,7 @@ export function MigratedIndustryPage({ page }: Props) {
 
       <section
         id={industrySectionAnchors.finalCta}
-        className="industry-section industry-section--dark relative overflow-hidden scroll-mt-[calc(var(--header-h)+1rem)]"
+        className="industry-section industry-section--dark relative overflow-hidden"
       >
         <div
           aria-hidden

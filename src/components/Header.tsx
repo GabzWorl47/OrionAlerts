@@ -201,7 +201,7 @@ export function Header() {
 
   return (
     <header
-      className={`site-header fixed inset-x-0 top-0 z-50 border-b transition-[background-color,box-shadow,border-color] duration-300 ${
+      className={`site-header fixed inset-x-0 top-0 z-[65] border-b transition-[background-color,box-shadow,border-color] duration-300 ${
         scrolled
           ? "border-[var(--nav-border)] bg-[var(--nav-bg-scrolled)] shadow-[0_10px_30px_rgba(8,24,42,0.35)]"
           : "border-[var(--nav-border)] bg-[var(--nav-bg)]"
@@ -209,7 +209,7 @@ export function Header() {
       onMouseLeave={closeMenus}
     >
       <div className="site-header-bar container flex h-[var(--header-h)] items-center gap-6">
-        <Link href="/" className="shrink-0" aria-label="OrionAlerts home" onClick={() => setOpen(false)}>
+        <Link href="/" className="shrink-0" aria-label="Orion Alerts home" onClick={() => setOpen(false)}>
           <span className="display text-lg tracking-tight text-white sm:text-xl">
             ORION <span className="text-cyan">Alerts</span>
           </span>

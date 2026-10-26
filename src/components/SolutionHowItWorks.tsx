@@ -21,7 +21,7 @@ export function SolutionHowItWorks({ solution, content }: SolutionHowItWorksProp
     <section
       id="how-it-works"
       aria-labelledby="how-it-works-heading"
-      className="relative scroll-mt-[calc(var(--header-h)+1.25rem)] overflow-hidden bg-[linear-gradient(180deg,#e8f6ff_0%,#f0fbff_55%,#eaf4ff_100%)] py-10 md:py-14"
+      className="relative overflow-hidden bg-[linear-gradient(180deg,#e8f6ff_0%,#f0fbff_55%,#eaf4ff_100%)] py-10 md:py-14"
     >
       <div
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,rgba(126,200,255,0.28),transparent_55%)]"

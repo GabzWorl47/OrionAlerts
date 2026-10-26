@@ -8,7 +8,16 @@ import { useSafeReducedMotion } from "@/lib/use-safe-reduced-motion";
 import { Reveal } from "@/components/Reveal";
 import { aiUseCases, type UseCase } from "@/lib/homepage";
 
-function UseCaseCard({ useCase, active }: { useCase: UseCase; active: boolean }) {
+function UseCaseCard({
+  useCase,
+  active,
+  playing,
+}: {
+  useCase: UseCase;
+  active: boolean;
+  /** Active and the carousel is on screen: only then is the clip fetched and played. */
+  playing: boolean;
+}) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const reduce = useSafeReducedMotion();
   const canAutoplay = Boolean(useCase.previewSrc) && !reduce;
@@ -17,19 +26,18 @@ function UseCaseCard({ useCase, active }: { useCase: UseCase; active: boolean })
     const video = videoRef.current;
     if (!video || !useCase.previewSrc) return;
     video.muted = true;
-    if (!active || reduce) {
+    if (!playing || reduce) {
       video.pause();
       return;
     }
     void video.play().catch(() => {
       // Autoplay may be blocked until interaction.
     });
-  }, [active, reduce, useCase.previewSrc]);
+  }, [playing, reduce, useCase.previewSrc]);
 
   return (
     <Link
       href={useCase.pageHref}
-      aria-label={`${useCase.title}: ${useCase.description}`}
       className={`group relative block overflow-hidden rounded-[28px] bg-[#071525] transition duration-300 ${
         active
           ? "shadow-[0_28px_70px_-40px_rgba(12,34,56,0.6)] ring-1 ring-cyan/35"
@@ -45,7 +53,7 @@ function UseCaseCard({ useCase, active }: { useCase: UseCase; active: boolean })
             muted
             loop
             playsInline
-            preload={active ? "metadata" : "none"}
+            preload={playing ? "metadata" : "none"}
             className="absolute inset-0 h-full w-full object-cover object-center"
           />
         ) : (
@@ -74,6 +82,20 @@ function UseCaseCard({ useCase, active }: { useCase: UseCase; active: boolean })
 export function UseCasesSection() {
   const scrollerRef = useRef<HTMLDivElement>(null);
   const [index, setIndex] = useState(0);
+  // The active card's clip used to start downloading (~1 MB) on page load even
+  // though the carousel sits well below the fold; wait until it is near view.
+  const [inView, setInView] = useState(false);
+
+  useEffect(() => {
+    const root = scrollerRef.current;
+    if (!root) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setInView(entry.isIntersecting),
+      { rootMargin: "200px 0px" },
+    );
+    observer.observe(root);
+    return () => observer.disconnect();
+  }, []);
 
   const scrollToIndex = useCallback((next: number) => {
     const root = scrollerRef.current;
@@ -184,7 +206,7 @@ export function UseCasesSection() {
               data-usecase-card
               className="w-[min(90vw,64rem)] shrink-0 snap-center"
             >
-              <UseCaseCard useCase={useCase} active={i === index} />
+              <UseCaseCard useCase={useCase} active={i === index} playing={inView && i === index} />
             </div>
           ))}
         </div>
@@ -194,8 +216,9 @@ export function UseCasesSection() {
         <p className="text-sm font-medium text-white/55">
           {String(index + 1).padStart(2, "0")} / {String(aiUseCases.length).padStart(2, "0")}
         </p>
-        <div className="flex flex-1 justify-center gap-1.5" role="tablist" aria-label="Use case pages">
+        <div className="flex flex-1 justify-center" role="tablist" aria-label="Use case pages">
           {aiUseCases.map((item, i) => (
+            // 24px hit area (WCAG 2.5.8 target size); the visible pill stays 6px tall.
             <button
               key={item.slug}
               type="button"
@@ -203,10 +226,15 @@ export function UseCasesSection() {
               aria-selected={i === index}
               aria-label={`Show ${item.title}`}
               onClick={() => scrollToIndex(i)}
-              className={`h-1.5 rounded-full transition-all ${
-                i === index ? "w-8 bg-cyan" : "w-2.5 bg-white/20 hover:bg-white/40"
-              }`}
-            />
+              className="group flex h-6 min-w-6 items-center justify-center px-px"
+            >
+              <span
+                aria-hidden
+                className={`block h-1.5 rounded-full transition-all ${
+                  i === index ? "w-8 bg-cyan" : "w-2.5 bg-white/20 group-hover:bg-white/40"
+                }`}
+              />
+            </button>
           ))}
         </div>
         <span className="w-12 shrink-0" aria-hidden />

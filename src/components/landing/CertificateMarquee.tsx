@@ -64,7 +64,9 @@ export function CertificateMarquee() {
                 <div className="flex h-28 w-full items-center justify-center sm:h-32">
                   <Image
                     src={certificate.logoSrc}
-                    alt={certificate.name}
+                    // The label below names the certificate; repeating it as alt
+                    // makes screen readers announce it twice.
+                    alt=""
                     width={180}
                     height={180}
                     unoptimized

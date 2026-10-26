@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { FormEvent, useId, useState } from "react";
-import { GoogleRecaptcha } from "@/components/GoogleRecaptcha";
+import { GoogleRecaptcha, useRecaptchaSiteKey } from "@/components/GoogleRecaptcha";
 import { legalMeta } from "@/lib/legal";
 
 type LeadKind = "demo" | "contact";
@@ -64,8 +64,9 @@ export function LeadForm({
   const formTitleId = useId();
   const captchaHintId = useId();
   const awaitingCaptcha = requireCaptcha && !recaptchaToken;
-  // Without a site key the widget shows its own notice instead of a checkbox.
-  const captchaConfigured = Boolean(process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY);
+  // Resolved at runtime; without a site key the widget shows its own notice instead of a checkbox.
+  const recaptchaSiteKey = useRecaptchaSiteKey(requireCaptcha);
+  const captchaConfigured = Boolean(recaptchaSiteKey);
   const showCaptchaHint = awaitingCaptcha && captchaConfigured;
 
 
@@ -235,7 +236,11 @@ export function LeadForm({
 
       {requireCaptcha ? (
         <div className="mt-5">
-          <GoogleRecaptcha onChange={setRecaptchaToken} resetSignal={recaptchaReset} />
+          <GoogleRecaptcha
+            siteKey={recaptchaSiteKey}
+            onChange={setRecaptchaToken}
+            resetSignal={recaptchaReset}
+          />
           <p className="mt-2 text-xs text-muted">Protected by Google reCAPTCHA.</p>
         </div>
       ) : null}
@@ -245,11 +250,11 @@ export function LeadForm({
         request. We also record your IP address for rate-limiting and abuse prevention
         {requireCaptcha ? ", and Google processes reCAPTCHA data for bot protection" : ""}. See
         our{" "}
-        <Link href="/privacy" className="text-blue hover:underline">
+        <Link href="/privacy" className="text-blue underline underline-offset-2 hover:no-underline">
           Privacy Policy
         </Link>{" "}
         for how long we keep your details and your rights, or email{" "}
-        <a href={`mailto:${legalMeta.privacyEmail}`} className="text-blue hover:underline">
+        <a href={`mailto:${legalMeta.privacyEmail}`} className="text-blue underline underline-offset-2 hover:no-underline">
           {legalMeta.privacyEmail}
         </a>{" "}
         to request access or deletion.

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSafeReducedMotion } from "@/lib/use-safe-reduced-motion";
 import { MagneticButton } from "@/components/MagneticButton";
 import { Reveal } from "@/components/Reveal";
@@ -11,6 +11,24 @@ function NebulaVideoBox() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const reduce = useSafeReducedMotion();
   const canPlay = nebulaVideo.available && Boolean(nebulaVideo.src);
+  // <video poster> downloads eagerly even far below the fold; attach it on approach.
+  const [near, setNear] = useState(false);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setNear(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "600px 0px" },
+    );
+    observer.observe(video);
+    return () => observer.disconnect();
+  }, []);
 
   // The clip is ~11 MB, so only fetch and play it while it's near the viewport.
   useEffect(() => {
@@ -41,7 +59,7 @@ function NebulaVideoBox() {
         {canPlay && !reduce ? (
           <video
             ref={videoRef}
-            poster={nebulaVideo.poster}
+            poster={near ? nebulaVideo.poster : undefined}
             muted
             loop
             playsInline

@@ -12,6 +12,9 @@ function SolutionMedia({ media }: { media: HomepageSolution["media"] }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const rootRef = useRef<HTMLDivElement>(null);
   const [inView, setInView] = useState(false);
+  // <video poster> is fetched eagerly (unlike a lazy <img>), so all five
+  // posters used to download during page load; attach it only when close.
+  const [near, setNear] = useState(false);
   const reduce = useSafeReducedMotion();
   const isRemote = media.poster.startsWith("http");
   const canAutoplay = Boolean(media.src) && !reduce;
@@ -24,7 +27,20 @@ function SolutionMedia({ media }: { media: HomepageSolution["media"] }) {
       { threshold: 0.35 },
     );
     io.observe(el);
-    return () => io.disconnect();
+    const nearIo = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setNear(true);
+          nearIo.disconnect();
+        }
+      },
+      { rootMargin: "600px 0px" },
+    );
+    nearIo.observe(el);
+    return () => {
+      io.disconnect();
+      nearIo.disconnect();
+    };
   }, []);
 
   useEffect(() => {
@@ -47,11 +63,13 @@ function SolutionMedia({ media }: { media: HomepageSolution["media"] }) {
         <video
           ref={videoRef}
           src={media.src}
-          poster={media.poster}
+          poster={near ? media.poster : undefined}
           muted
           loop
           playsInline
-          preload="metadata"
+          // Nothing is fetched until the block scrolls into view and play()
+          // runs; the poster covers it until then.
+          preload="none"
           className="absolute inset-0 h-full w-full object-cover"
         />
       ) : isRemote ? (

@@ -14,6 +14,7 @@ import {
 } from "@/lib/blogs";
 import { CtaBand } from "@/components/ui";
 import { useSafeReducedMotion } from "@/lib/use-safe-reduced-motion";
+import { mediumImage } from "@/lib/responsive-images";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -324,7 +325,7 @@ function ArticleCard({ post, index }: { post: BlogPost; index: number }) {
     >
       <div className="relative aspect-[16/10] overflow-hidden">
         <Image
-          src={post.image}
+          src={mediumImage(post.image)}
           alt={post.imageAlt || post.title}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1280px) 45vw, 30vw"

@@ -1,4 +1,5 @@
 import { site, solutions } from "@/lib/site";
+import { mediumImage } from "@/lib/responsive-images";
 
 export type UniversalVideoCard = {
   id: string;
@@ -138,7 +139,8 @@ export const homepageSolutions: HomepageSolution[] = HOMEPAGE_SOLUTION_ORDER.fla
       description: solution.oneLiner || solution.summary.split("\n")[0],
       benefits: solution.benefits.slice(0, 4),
       media: {
-        poster: solution.image,
+        // Rendered in a ~600px card, so the 828px copy is plenty.
+        poster: mediumImage(solution.image),
         src: solution.introVideo,
         alt: leadFeature
           ? `OrionAlerts ${solution.name}: ${leadFeature.toLowerCase()}`

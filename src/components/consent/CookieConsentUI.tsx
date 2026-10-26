@@ -121,14 +121,14 @@ export function CookieConsentUI() {
     <>
       {showBanner ? (
         <div
-          className="fixed inset-x-0 bottom-0 z-[70] border-t border-line bg-surface/95 p-4 shadow-[0_-8px_30px_rgba(12,34,56,0.08)] backdrop-blur-md md:p-5"
+          className="animate-fade-rise-in fixed inset-x-0 bottom-0 z-[70] border-t border-line bg-surface/95 py-3 shadow-[0_-8px_30px_rgba(12,34,56,0.08)] backdrop-blur-md md:p-5"
           role="dialog"
           aria-label="Cookie notice"
         >
-          <div className="container flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <div className="container flex flex-col gap-3 md:flex-row md:items-end md:justify-between md:gap-4">
             <div className="max-w-3xl">
               <p className="text-sm font-semibold text-text">Cookies on OrionAlerts</p>
-              <p className="mt-1.5 text-sm leading-relaxed text-muted">
+              <p className="mt-1 text-[13px] leading-snug text-muted md:mt-1.5 md:text-sm md:leading-relaxed">
                 We use strictly necessary cookies for security and admin sign-in. Optional analytics
                 and advertising cookies are off by default, and we do not currently use any.
                 Read the{" "}
@@ -142,21 +142,21 @@ export function CookieConsentUI() {
               <button
                 type="button"
                 onClick={openSettings}
-                className="inline-flex items-center justify-center rounded-[12px] border border-line bg-white px-4 py-2.5 text-sm font-semibold text-text transition hover:border-blue/30"
+                className="inline-flex flex-auto items-center justify-center whitespace-nowrap rounded-[12px] border border-line bg-white px-2.5 py-2 text-[13px] font-semibold text-text transition hover:border-blue/30 md:flex-none md:px-4 md:py-2.5 md:text-sm"
               >
                 Cookie Settings
               </button>
               <button
                 type="button"
                 onClick={rejectOptional}
-                className="inline-flex items-center justify-center rounded-[12px] border border-line bg-white px-4 py-2.5 text-sm font-semibold text-text transition hover:border-blue/30"
+                className="inline-flex flex-auto items-center justify-center whitespace-nowrap rounded-[12px] border border-line bg-white px-2.5 py-2 text-[13px] font-semibold text-text transition hover:border-blue/30 md:flex-none md:px-4 md:py-2.5 md:text-sm"
               >
                 Reject optional
               </button>
               <button
                 type="button"
                 onClick={acceptAll}
-                className="inline-flex items-center justify-center rounded-[12px] bg-blue px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[#1f7aef]"
+                className="inline-flex flex-auto items-center justify-center whitespace-nowrap rounded-[12px] bg-blue px-2.5 py-2 text-[13px] font-semibold text-white transition hover:bg-[#1f7aef] md:flex-none md:px-4 md:py-2.5 md:text-sm"
               >
                 Accept all
               </button>

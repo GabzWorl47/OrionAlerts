@@ -64,7 +64,7 @@ export function LegalDoc({
 
         <div className="mt-12 space-y-12">
           {sections.map((section) => (
-            <section key={section.id} id={section.id} className="scroll-mt-28">
+            <section key={section.id} id={section.id}>
               <h2 className="text-xl font-semibold tracking-[-0.02em] text-text md:text-2xl">
                 {section.title}
               </h2>

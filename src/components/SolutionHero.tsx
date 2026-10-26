@@ -4,6 +4,7 @@ import Image from "next/image";
 import { m, useScroll, useTransform } from "framer-motion";
 import { useRef, useSyncExternalStore } from "react";
 import { MagneticButton } from "@/components/MagneticButton";
+import { responsiveSrcSet } from "@/lib/responsive-images";
 import type { Solution } from "@/lib/site";
 import { useSafeReducedMotion } from "@/lib/use-safe-reduced-motion";
 
@@ -116,14 +117,20 @@ export function SolutionHero({ solution }: SolutionHeroProps) {
           </m.div>
         </div>
         <div className="relative w-full">
-          <Image
+          {/*
+            Plain <img>: with images.unoptimized next/image can't emit a srcSet,
+            and this is the LCP element — phones get the 828px copy.
+          */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
             src={heroSrc}
+            srcSet={responsiveSrcSet(heroSrc)}
+            sizes="100vw"
             alt={`${solution.shortName} overview`}
             width={heroSize.width}
             height={heroSize.height}
-            priority
-            quality={95}
-            sizes="100vw"
+            fetchPriority="high"
+            decoding="async"
             className="h-auto w-full object-cover object-center"
           />
         </div>
@@ -145,6 +152,7 @@ export function SolutionHero({ solution }: SolutionHeroProps) {
           alt={`${solution.shortName} overview`}
           fill
           priority
+          fetchPriority="high"
           quality={95}
           sizes="100vw"
           className="object-cover object-center"

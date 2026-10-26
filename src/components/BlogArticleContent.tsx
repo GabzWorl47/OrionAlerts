@@ -63,9 +63,6 @@ export function InlineText({ text }: { text: string }) {
   );
 }
 
-/** Headings sit under the fixed header when reached from the contents links. */
-const headingAnchorOffset = "scroll-mt-[calc(var(--header-h)+1.5rem)]";
-
 export function BlogArticleContent({
   takeaways,
   sections,
@@ -107,7 +104,7 @@ export function BlogArticleContent({
                 <h3
                   key={`${section.type}-${index}`}
                   id={headingIds[index] ?? undefined}
-                  className={`${headingAnchorOffset} pt-3 font-display text-[1.2rem] font-semibold normal-case leading-snug tracking-[-0.02em] text-text md:text-[1.35rem]`}
+                  className="pt-3 font-display text-[1.2rem] font-semibold normal-case leading-snug tracking-[-0.02em] text-text md:text-[1.35rem]"
                 >
                   <span className="mr-2 inline-block h-2 w-2 rounded-full bg-cyan align-middle" />
                   <InlineText text={section.text} />
@@ -118,7 +115,7 @@ export function BlogArticleContent({
               <h2
                 key={`${section.type}-${index}`}
                 id={headingIds[index] ?? undefined}
-                className={`${headingAnchorOffset} display border-t border-line pt-8 text-[clamp(1.45rem,2.4vw,1.9rem)] normal-case leading-[1.2] tracking-[-0.03em] text-text first:border-t-0 first:pt-2`}
+                className="display border-t border-line pt-8 text-[clamp(1.45rem,2.4vw,1.9rem)] normal-case leading-[1.2] tracking-[-0.03em] text-text first:border-t-0 first:pt-2"
               >
                 <InlineText text={section.text} />
               </h2>

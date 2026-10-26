@@ -2,14 +2,11 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { m } from "framer-motion";
 import { useSafeReducedMotion } from "@/lib/use-safe-reduced-motion";
 
 const INTRO_VIDEO = "/Videos/video/intro.mp4";
 const HERO_POSTER = "/visuals/solutions/ai-vision-clean.webp";
 const HERO_VIDEOS = [INTRO_VIDEO, INTRO_VIDEO, INTRO_VIDEO, INTRO_VIDEO] as const;
-
-const ease = [0.22, 1, 0.36, 1] as const;
 
 export function Hero() {
   const reduce = useSafeReducedMotion();
@@ -18,7 +15,7 @@ export function Hero() {
   const [videoIndex, setVideoIndex] = useState(0);
   const [progress, setProgress] = useState(0);
   const [remaining, setRemaining] = useState(0);
-  // The <video> itself is not mounted until this flips true, so the 13MB
+  // The <video> itself is not mounted until this flips true, so the ~3MB
   // background clip never competes for bandwidth/CPU with the initial paint.
   // The poster <img> below is the actual LCP element for every visitor.
   const [videoReady, setVideoReady] = useState(false);
@@ -48,9 +45,13 @@ export function Hero() {
   // (and, in the same idle window, hydrate). Scheduling the state flip inside
   // a requestIdleCallback/rAF callback keeps it off the effect's synchronous
   // call stack, so it never blocks or competes with the LCP poster paint.
+  // The idle callback is only armed after window "load", so the ~3 MB clip
+  // also stays out of the way of the page's scripts, fonts and images on slow
+  // connections (it used to start downloading during hydration).
   useEffect(() => {
     if (reduce) return;
     let cancelled = false;
+    let handle: number | undefined;
 
     const schedule =
       typeof window.requestIdleCallback === "function"
@@ -61,13 +62,20 @@ export function Hero() {
         ? window.cancelIdleCallback
         : window.clearTimeout;
 
-    const handle = schedule(() => {
-      if (!cancelled) setVideoReady(true);
-    });
+    const arm = () => {
+      if (cancelled) return;
+      handle = schedule(() => {
+        if (!cancelled) setVideoReady(true);
+      }) as number;
+    };
+
+    if (document.readyState === "complete") arm();
+    else window.addEventListener("load", arm, { once: true });
 
     return () => {
       cancelled = true;
-      cancelSchedule(handle as number);
+      window.removeEventListener("load", arm);
+      if (handle !== undefined) cancelSchedule(handle);
     };
   }, [reduce]);
 
@@ -157,34 +165,15 @@ export function Hero() {
         className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center px-6"
         aria-hidden
       >
-        <m.div
-          initial={reduce ? { opacity: 1 } : { opacity: 0, scale: 0.98 }}
-          animate={
-            reduce
-              ? { opacity: 1 }
-              : {
-                  opacity: [0, 1, 1, 0],
-                  scale: [0.98, 1, 1, 1],
-                }
-          }
-          transition={
-            reduce
-              ? { duration: 0 }
-              : {
-                  duration: 6,
-                  times: [0, 0.12, 0.83, 1],
-                  ease: "easeInOut",
-                }
-          }
-          className="select-none text-center font-display text-[clamp(3.2rem,12vw,8.5rem)] font-semibold uppercase leading-[0.9] tracking-[-0.04em]"
-        >
+        {/* CSS-driven (.hero-wordmark in globals.css) so it starts on first paint, not after hydration. */}
+        <div className="hero-wordmark select-none text-center font-display text-[clamp(3.2rem,12vw,8.5rem)] font-semibold uppercase leading-[0.9] tracking-[-0.04em]">
           <span className="bg-[linear-gradient(105deg,#9fd4ff_0%,#ffffff_42%,#fdba74_100%)] bg-clip-text text-transparent [text-shadow:0_0_40px_rgba(43,140,255,0.25)]">
             Orion
           </span>
           <span className="mt-1 block bg-[linear-gradient(105deg,#fdba74_0%,#ffffff_55%,#9fd4ff_100%)] bg-clip-text text-transparent md:mt-2">
             Alerts
           </span>
-        </m.div>
+        </div>
       </div>
 
       {!reduce ? (
@@ -250,12 +239,8 @@ export function Hero() {
       {/* Persistent value proposition + primary CTA (stays after brand animation) */}
       <div className="absolute inset-x-0 bottom-0 z-20 border-t border-white/15 bg-[#061018]/45 backdrop-blur-2xl supports-[backdrop-filter]:bg-[#061018]/30">
         <div className="container flex flex-col gap-4 py-4 md:flex-row md:items-end md:justify-between md:gap-10 md:py-5">
-          <m.div
-            initial={reduce ? false : { opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.55, delay: 0.12, ease }}
-            className="max-w-xl"
-          >
+          {/* .hero-rise is CSS so the H1 paints with the HTML instead of waiting for hydration. */}
+          <div className="hero-rise max-w-xl [animation-delay:120ms]">
             <h1 className="text-[clamp(1.05rem,1.6vw,1.35rem)] font-semibold leading-[1.25] tracking-[-0.02em] text-white">
               AI video analytics, VMS and CCTV health monitoring for multi-site
               enterprises
@@ -264,13 +249,9 @@ export function Hero() {
               Real-time alerts from the cameras you already own, across every
               branch, plant and warehouse.
             </p>
-          </m.div>
-          <m.div
-            initial={reduce ? false : { opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2, ease }}
-            className="flex flex-wrap gap-2"
-          >
+          </div>
+          {/* pr-36 reserves the corner the fixed Ask Orion launcher sits in. */}
+          <div className="hero-rise flex flex-wrap gap-2 pr-36 [--hero-rise-y:12px] [animation-delay:200ms]">
             <Link
               href="/book-demo"
               className="inline-flex items-center justify-center rounded-[14px] bg-blue px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#1f7aef]"
@@ -283,7 +264,7 @@ export function Hero() {
             >
               Explore Solutions
             </Link>
-          </m.div>
+          </div>
         </div>
       </div>
     </section>

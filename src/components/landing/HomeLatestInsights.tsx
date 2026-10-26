@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { sortBlogPosts, type BlogPost } from "@/lib/blogs";
+import { mediumImage } from "@/lib/responsive-images";
 
 /** The newest published posts, as plain links (rendered on the server). */
 export function HomeLatestInsights({ posts }: { posts: BlogPost[] }) {
@@ -37,7 +38,7 @@ export function HomeLatestInsights({ posts }: { posts: BlogPost[] }) {
                 {post.image ? (
                   <div className="relative aspect-[16/9] overflow-hidden bg-surface-2">
                     <Image
-                      src={post.image}
+                      src={mediumImage(post.image)}
                       alt=""
                       fill
                       sizes="(max-width: 768px) 100vw, 33vw"

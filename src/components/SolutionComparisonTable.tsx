@@ -8,7 +8,7 @@ export function SolutionComparisonTable({ table }: { table: ComparisonTable }) {
     <section
       id="comparison"
       aria-labelledby="comparison-heading"
-      className="scroll-mt-[calc(var(--header-h)+1.25rem)] bg-[linear-gradient(180deg,#f4faff_0%,#ffffff_100%)] py-10 md:py-14"
+      className="bg-[linear-gradient(180deg,#f4faff_0%,#ffffff_100%)] py-10 md:py-14"
     >
       <div className="container max-w-5xl">
         <div className="mx-auto max-w-3xl text-center">

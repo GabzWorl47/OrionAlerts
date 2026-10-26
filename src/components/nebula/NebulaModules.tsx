@@ -13,7 +13,7 @@ function ModuleRow({ mod, index }: { mod: NebulaModule; index: number }) {
     <Reveal delay={0.04}>
       <article
         id={mod.id}
-        className="scroll-mt-28 overflow-hidden rounded-[32px] border border-blue/10 bg-white/70 p-6 backdrop-blur-sm shadow-[0_18px_50px_-34px_rgba(43,140,255,0.4)] sm:p-8 lg:p-10"
+        className="overflow-hidden rounded-[32px] border border-blue/10 bg-white/70 p-6 backdrop-blur-sm shadow-[0_18px_50px_-34px_rgba(43,140,255,0.4)] sm:p-8 lg:p-10"
       >
         <div className="grid gap-7 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-12">
           <div className={flipped ? "lg:order-2" : "lg:order-1"}>

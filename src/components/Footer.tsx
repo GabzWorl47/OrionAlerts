@@ -46,7 +46,7 @@ export function Footer() {
       <div className="container grid grid-cols-2 gap-x-6 gap-y-10 py-14 md:grid-cols-3 lg:grid-cols-7">
         <div className="col-span-2 md:col-span-3 lg:col-span-2">
           <p className="display text-2xl text-text">
-            ORION <span className="text-cyan">Alerts</span>
+            ORION <span className="text-[#2f8fd8]">Alerts</span>
           </p>
           <p className="mt-3 max-w-sm text-sm text-muted">{site.tagline}</p>
           <div className="mt-5 space-y-1 text-sm text-muted">
@@ -122,7 +122,7 @@ export function Footer() {
             <li><Link href="/faqs" className={linkClass}>FAQs</Link></li>
             <li><Link href="/partners" className={linkClass}>Partner program</Link></li>
             <li>
-              <Link href="/book-demo" className="font-semibold text-cyan transition hover:text-blue">
+              <Link href="/book-demo" className="font-semibold text-blue transition hover:text-cyan">
                 Book a Demo
               </Link>
             </li>
@@ -131,7 +131,8 @@ export function Footer() {
       </div>
 
       <div className="border-t border-line">
-        <div className="container flex flex-col gap-2 py-5 text-xs text-muted sm:flex-row sm:items-center sm:justify-between">
+        {/* Bottom/right padding keeps the legal links clear of the fixed Ask Orion launcher. */}
+        <div className="container flex flex-col gap-2 pb-24 pt-5 text-xs text-muted sm:flex-row sm:items-center sm:justify-between sm:pb-5 sm:pr-36">
           <p>
             © {new Date().getFullYear()} {site.name}, a product of {legalMeta.controllerLegalName}{" "}
             All rights reserved.

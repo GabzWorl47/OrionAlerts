@@ -1,3 +1,18 @@
+function readRuntimeEnv(name: string) {
+  // Dynamic key on purpose: Next.js inlines `process.env.NEXT_PUBLIC_*` literals at
+  // build time, so this keeps the lookup a real request-time read.
+  return process.env[name]?.trim() || undefined;
+}
+
+/**
+ * reCAPTCHA site key resolved at request time. RECAPTCHA_SITE_KEY (runtime, e.g. a
+ * Cloudflare Worker variable or cPanel env) wins over NEXT_PUBLIC_RECAPTCHA_SITE_KEY.
+ * The site key is public by design; only the secret key must stay server-side.
+ */
+export function getRecaptchaSiteKey(): string | null {
+  return readRuntimeEnv("RECAPTCHA_SITE_KEY") ?? readRuntimeEnv("NEXT_PUBLIC_RECAPTCHA_SITE_KEY") ?? null;
+}
+
 type RecaptchaVerifyResult =
   | { ok: true }
   | { ok: false; error: string; status: number };

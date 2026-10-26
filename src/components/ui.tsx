@@ -132,7 +132,7 @@ export function FeatureCard({
   return (
     <article className="rounded-[20px] border border-line bg-surface p-6 transition-smooth hover:-translate-y-1.5 hover:border-blue/35 hover:shadow-[0_16px_36px_rgba(126,200,255,0.22)]">
       {typeof index === "number" ? (
-        <p className="mb-3 font-display text-sm text-cyan">{String(index + 1).padStart(2, "0")}</p>
+        <p className="mb-3 font-display text-sm text-muted">{String(index + 1).padStart(2, "0")}</p>
       ) : null}
       <h3 className="display text-xl text-text">{title}</h3>
       <p className="mt-2 text-sm leading-relaxed text-muted-strong">{description}</p>
