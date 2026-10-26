@@ -59,7 +59,7 @@ writeFileSync(
 ==========================================
 
 1. In cPanel → Setup Node.js App:
-   - Node.js version: 20.x (or 18.x+)
+   - Node.js version: 20.9 or newer (required by Next.js 16)
    - Application root: folder where you upload these files (this dist/)
    - Application URL: your domain or subdomain
    - Application startup file: server.js
@@ -67,6 +67,9 @@ writeFileSync(
 
 2. Upload the ENTIRE contents of this dist/ folder to the application root
    (include server.js, .next/, node_modules/, public/, data/).
+   Careful: data/blogs.json replaces the server's copy. If posts were added
+   or edited through /admin on the live site, download the server's
+   data/blogs.json first and keep it, or merge it into this one.
 
 3. Environment variables (cPanel → Node.js App → Environment):
    NODE_ENV=production
