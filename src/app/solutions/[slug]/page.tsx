@@ -66,6 +66,7 @@ function heroData(solution: Solution): SolutionHeroData {
     tagline: solution.tagline,
     headline: solution.headline,
     image: solution.image,
+    heroImage: solution.heroImage,
     lede: shortLede(solution.summary),
   };
 }

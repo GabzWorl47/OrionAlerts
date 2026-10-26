@@ -17,7 +17,7 @@ export const textileIndustryPage: IndustryPageRecord = {
     description:
       "Textile and garment factory AI CCTV: track material build-up at staging buffers and pathway events, measuring process conditions, not individual workers.",
     canonicalPath: "/industries/textile",
-    image: "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?auto=format&fit=crop&w=1600&q=90",
+    image: "/Images/industries/textile-hero.webp",
   },
   hero: {
     eyebrow: "Textiles & Garments",
@@ -26,8 +26,8 @@ export const textileIndustryPage: IndustryPageRecord = {
       "Track material build-up at staging buffers and obstructions on shared routes, focusing on process conditions rather than individual workers. Ask Vision Copilot which buffers keep accumulating material.",
     media: {
       kind: "image",
-      src: "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?auto=format&fit=crop&w=1600&q=90",
-      alt: "Row of coloured T-shirts on hangers on a clothing rail",
+      src: "/Images/industries/textile-hero.webp",
+      alt: "Engineer with a tablet beside production machines on a factory floor, tinted dark blue",
     },
     primaryCta: industrySharedCtas.primary,
     secondaryCta: industrySharedCtas.secondaryHero,

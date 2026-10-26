@@ -12,16 +12,25 @@ function NebulaVideoBox() {
   const reduce = useSafeReducedMotion();
   const canPlay = nebulaVideo.available && Boolean(nebulaVideo.src);
 
+  // The clip is ~11 MB, so only fetch and play it while it's near the viewport.
   useEffect(() => {
     const video = videoRef.current;
     if (!video || !canPlay || reduce) return;
     video.muted = true;
-    const tryPlay = () => {
-      video.play().catch(() => {
-        // Autoplay may be blocked until user interaction
-      });
-    };
-    tryPlay();
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          video.play().catch(() => {
+            // Autoplay may be blocked until user interaction
+          });
+        } else {
+          video.pause();
+        }
+      },
+      { rootMargin: "200px 0px", threshold: 0.15 },
+    );
+    observer.observe(video);
+    return () => observer.disconnect();
   }, [canPlay, reduce]);
 
   return (
@@ -32,13 +41,11 @@ function NebulaVideoBox() {
         {canPlay && !reduce ? (
           <video
             ref={videoRef}
-            src={nebulaVideo.src}
             poster={nebulaVideo.poster}
-            autoPlay
             muted
             loop
             playsInline
-            preload="auto"
+            preload="none"
             className="absolute inset-0 h-full w-full object-cover object-center"
             aria-label="Nebula OS overview video"
           >

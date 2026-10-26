@@ -17,7 +17,7 @@ export const pharmaIndustryPage: IndustryPageRecord = {
     description:
       "Flag gowning exceptions and controlled-area entry in pharma plants, retrieve clips fast for QA investigations and confirm CCTV is recording.",
     canonicalPath: "/industries/pharma",
-    image: "/Images/industries/pharma.webp",
+    image: "/Images/industries/pharma-hero.webp",
   },
   hero: {
     eyebrow: "Pharmaceuticals & Life Sciences",
@@ -26,7 +26,7 @@ export const pharmaIndustryPage: IndustryPageRecord = {
       "Flag visible gowning exceptions and controlled-area entry, retrieve the right clip fast for QA investigations, and confirm CCTV is recording. Ask Vision Copilot which controlled areas had recurring observations this review period.",
     media: {
       kind: "image",
-      src: "/Images/industries/pharma.webp",
+      src: "/Images/industries/pharma-hero.webp",
       alt: "Lab-coated staff inspecting vials on a pharmaceutical filling line",
     },
     primaryCta: industrySharedCtas.primary,

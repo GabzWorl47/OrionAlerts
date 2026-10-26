@@ -3,7 +3,7 @@
 import Link from "next/link";
 import {
   AnimatePresence,
-  motion,
+  m,
   useScroll,
   useMotionValueEvent,
 } from "framer-motion";
@@ -307,7 +307,7 @@ export function Header() {
 
       <AnimatePresence>
         {open ? (
-          <motion.div
+          <m.div
             initial={reduce ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -330,7 +330,7 @@ export function Header() {
                 </button>
                 <AnimatePresence>
                   {mobileProductsOpen ? (
-                    <motion.div
+                    <m.div
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: "auto", opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
@@ -373,7 +373,7 @@ export function Header() {
                             </div>
                             <AnimatePresence>
                               {expanded ? (
-                                <motion.div
+                                <m.div
                                   initial={{ height: 0, opacity: 0 }}
                                   animate={{ height: "auto", opacity: 1 }}
                                   exit={{ height: 0, opacity: 0 }}
@@ -395,7 +395,7 @@ export function Header() {
                                       {feature.title}
                                     </Link>
                                   ))}
-                                </motion.div>
+                                </m.div>
                               ) : null}
                             </AnimatePresence>
                           </div>
@@ -414,7 +414,7 @@ export function Header() {
                       >
                         View all solutions
                       </Link>
-                    </motion.div>
+                    </m.div>
                   ) : null}
                 </AnimatePresence>
 
@@ -432,7 +432,7 @@ export function Header() {
                 </button>
                 <AnimatePresence>
                   {mobileIndustriesOpen ? (
-                    <motion.div
+                    <m.div
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: "auto", opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
@@ -455,7 +455,7 @@ export function Header() {
                       >
                         View all industries
                       </Link>
-                    </motion.div>
+                    </m.div>
                   ) : null}
                 </AnimatePresence>
 
@@ -473,7 +473,7 @@ export function Header() {
                 </button>
                 <AnimatePresence>
                   {mobileResourcesOpen ? (
-                    <motion.div
+                    <m.div
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: "auto", opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
@@ -489,7 +489,7 @@ export function Header() {
                           {item.label}
                         </Link>
                       ))}
-                    </motion.div>
+                    </m.div>
                   ) : null}
                 </AnimatePresence>
 
@@ -519,7 +519,7 @@ export function Header() {
                 Book a Demo
               </Link>
             </div>
-          </motion.div>
+          </m.div>
         ) : null}
       </AnimatePresence>
     </header>

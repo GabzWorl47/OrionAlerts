@@ -17,7 +17,7 @@ export const utilitiesIndustryPage: IndustryPageRecord = {
     description:
       "CCTV analytics for substations and remote utility sites: verified perimeter events, remote-view outage hours and field-team acknowledgement times.",
     canonicalPath: "/industries/utilities",
-    image: "/Images/industries/utilities.webp",
+    image: "/Images/industries/utilities-hero.webp",
   },
   hero: {
     eyebrow: "Utilities & Infrastructure",
@@ -25,8 +25,8 @@ export const utilitiesIndustryPage: IndustryPageRecord = {
     lede: "Verify perimeter and equipment-zone entry at substations and remote utility sites before dispatching a field team, and see which remote cameras have gone offline and for how long.",
     media: {
       kind: "image",
-      src: "/Images/industries/utilities.webp",
-      alt: "Illustration of power lines, a water treatment plant and gas pipelines beside a monitoring dashboard",
+      src: "/Images/industries/utilities-hero.webp",
+      alt: "Hydroelectric dam and river in a mountain valley, tinted dark blue",
     },
     primaryCta: industrySharedCtas.primary,
     secondaryCta: industrySharedCtas.secondaryHero,

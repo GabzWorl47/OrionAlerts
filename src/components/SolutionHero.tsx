@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { m, useScroll, useTransform } from "framer-motion";
 import { useRef, useSyncExternalStore } from "react";
 import { MagneticButton } from "@/components/MagneticButton";
 import type { Solution } from "@/lib/site";
@@ -17,8 +17,29 @@ const ease = [0.22, 1, 0.36, 1] as const;
  */
 export type SolutionHeroData = Pick<
   Solution,
-  "slug" | "name" | "seoTitle" | "shortName" | "tagline" | "headline" | "image"
+  | "slug"
+  | "name"
+  | "seoTitle"
+  | "shortName"
+  | "tagline"
+  | "headline"
+  | "image"
+  | "heroImage"
 > & { lede: string };
+
+/**
+ * Intrinsic pixel sizes of the hero artwork, so the bright hero's <Image>
+ * reserves the right aspect ratio (no layout shift). Unknown sources fall back
+ * to the 3:2 size the solution renders ship at.
+ */
+const HERO_IMAGE_SIZES: Record<string, { width: number; height: number }> = {
+  "/Images/solutions/centralized-live-monitoring-playback.webp": { width: 1536, height: 1024 },
+  "/Images/solutions/real-time-ai-video-analytics.webp": { width: 1536, height: 1024 },
+  "/Images/solutions/asset-tracking-hero.webp": { width: 1586, height: 900 },
+  "/Images/solutions/amc-management-hero.webp": { width: 1586, height: 940 },
+  "/Images/solutions/health-monitoring-hero.webp": { width: 1586, height: 904 },
+};
+const DEFAULT_HERO_SIZE = { width: 1536, height: 1024 };
 
 type SolutionHeroProps = {
   solution: SolutionHeroData;
@@ -41,6 +62,8 @@ export function SolutionHero({ solution }: SolutionHeroProps) {
   );
 
   const animate = ready && !reduce;
+  const heroSrc = solution.heroImage ?? solution.image;
+  const heroSize = HERO_IMAGE_SIZES[heroSrc] ?? DEFAULT_HERO_SIZE;
   const isBright =
     solution.slug === "asset-tracking" ||
     solution.slug === "amc-management" ||
@@ -56,31 +79,31 @@ export function SolutionHero({ solution }: SolutionHeroProps) {
       >
         <div className="pointer-events-none absolute inset-x-0 top-0 h-[28rem] bg-[radial-gradient(ellipse_at_50%_0%,rgba(126,200,255,0.22),transparent_65%)]" />
         <div className="container relative z-10 pb-2 pt-10 text-center md:pb-4 md:pt-14">
-          <motion.p
+          <m.p
             initial={animate ? { opacity: 0, y: 12 } : false}
             animate={{ opacity: 1, y: 0 }}
             transition={animate ? { duration: 0.45, ease } : { duration: 0 }}
             className="eyebrow"
           >
             {solution.tagline}
-          </motion.p>
-          <motion.h1
+          </m.p>
+          <m.h1
             initial={animate ? { opacity: 0, y: 16 } : false}
             animate={{ opacity: 1, y: 0 }}
             transition={animate ? { duration: 0.55, delay: 0.05, ease } : { duration: 0 }}
             className="mx-auto mt-3 max-w-5xl text-balance font-display text-[clamp(1.85rem,4.2vw,3.25rem)] font-semibold normal-case leading-[1.08] tracking-[-0.03em] text-text"
           >
             {solution.seoTitle ?? solution.name}
-          </motion.h1>
-          <motion.p
+          </m.h1>
+          <m.p
             initial={animate ? { opacity: 0, y: 14 } : false}
             animate={{ opacity: 1, y: 0 }}
             transition={animate ? { duration: 0.5, delay: 0.1, ease } : { duration: 0 }}
             className="description mx-auto mt-4 max-w-2xl text-balance text-[15px] md:text-[17px]"
           >
             {solution.headline}
-          </motion.p>
-          <motion.div
+          </m.p>
+          <m.div
             initial={animate ? { opacity: 0, y: 12 } : false}
             animate={{ opacity: 1, y: 0 }}
             transition={animate ? { duration: 0.5, delay: 0.15, ease } : { duration: 0 }}
@@ -90,14 +113,14 @@ export function SolutionHero({ solution }: SolutionHeroProps) {
             <MagneticButton href="#how-it-works" variant="outline">
               See How It Works
             </MagneticButton>
-          </motion.div>
+          </m.div>
         </div>
         <div className="relative w-full">
           <Image
-            src={solution.image}
+            src={heroSrc}
             alt={`${solution.shortName} overview`}
-            width={1920}
-            height={1080}
+            width={heroSize.width}
+            height={heroSize.height}
             priority
             quality={95}
             sizes="100vw"
@@ -113,12 +136,12 @@ export function SolutionHero({ solution }: SolutionHeroProps) {
       ref={ref}
       className="relative min-h-[min(92vh,52rem)] overflow-hidden bg-blue pt-[var(--header-h)] text-white"
     >
-      <motion.div
+      <m.div
         className="absolute inset-0"
         style={animate ? { y: imageY } : undefined}
       >
         <Image
-          src={solution.image}
+          src={heroSrc}
           alt={`${solution.shortName} overview`}
           fill
           priority
@@ -126,52 +149,52 @@ export function SolutionHero({ solution }: SolutionHeroProps) {
           sizes="100vw"
           className="object-cover object-center"
         />
-      </motion.div>
+      </m.div>
 
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-blue/88 via-blue/55 to-blue/25" />
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink-deep/55 via-transparent to-blue/15" />
 
       <div className="container relative z-10 flex min-h-[min(78vh,44rem)] flex-col">
-        <motion.div
+        <m.div
           className="mt-auto max-w-xl pb-10 pt-24 md:pb-14 md:pt-32"
           style={animate ? { y: contentY } : undefined}
         >
-          <motion.p
+          <m.p
             initial={animate ? { opacity: 0, y: 14 } : false}
             animate={{ opacity: 1, y: 0 }}
             transition={animate ? { duration: 0.5, ease } : { duration: 0 }}
             className="text-[11px] font-semibold uppercase tracking-[0.18em] text-cyan"
           >
             {solution.tagline}
-          </motion.p>
+          </m.p>
 
-          <motion.p
+          <m.p
             initial={animate ? { opacity: 0, y: 16 } : false}
             animate={{ opacity: 1, y: 0 }}
             transition={animate ? { duration: 0.55, delay: 0.05, ease } : { duration: 0 }}
             className="mt-2.5 font-display text-[clamp(1.7rem,3.8vw,2.75rem)] font-semibold uppercase leading-[0.95] tracking-[-0.03em] text-white"
           >
             {solution.shortName}
-          </motion.p>
+          </m.p>
 
-          <motion.h1
+          <m.h1
             initial={animate ? { opacity: 0, y: 16 } : false}
             animate={{ opacity: 1, y: 0 }}
             transition={animate ? { duration: 0.55, delay: 0.1, ease } : { duration: 0 }}
             className="mt-3 max-w-lg font-display text-[clamp(1.05rem,1.8vw,1.35rem)] font-medium normal-case leading-[1.3] text-white/88"
           >
             {solution.headline}
-          </motion.h1>
+          </m.h1>
 
-          <motion.p
+          <m.p
             initial={animate ? { opacity: 0, y: 14 } : false}
             animate={{ opacity: 1, y: 0 }}
             transition={animate ? { duration: 0.5, delay: 0.16, ease } : { duration: 0 }}
             className="mt-3 max-w-md text-sm leading-relaxed text-white/65"
           >
             {solution.lede}
-          </motion.p>
-        </motion.div>
+          </m.p>
+        </m.div>
       </div>
     </section>
   );

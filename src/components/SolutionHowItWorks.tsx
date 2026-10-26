@@ -53,7 +53,7 @@ export function SolutionHowItWorks({ solution, content }: SolutionHowItWorksProp
           {showBenefits ? (
             <div>
               <h3 className="font-display text-[1.25rem] font-semibold tracking-[-0.02em] text-text">
-                What changes for IT and facilities teams
+                What changes for your teams
               </h3>
               <ul className="mt-4 space-y-2.5">
                 {solution.benefits.map((benefit) => (

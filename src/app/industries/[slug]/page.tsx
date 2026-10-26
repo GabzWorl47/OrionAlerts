@@ -1,19 +1,14 @@
 import { notFound, permanentRedirect } from "next/navigation";
 import type { Metadata } from "next";
 import { PageShell } from "@/components/PageShell";
-import { IndustryHero } from "@/components/IndustryHero";
-import { IndustryPageSections } from "@/components/IndustryPageSections";
-import { LogoMarquee } from "@/components/landing/LogoMarquee";
 import { MigratedIndustryPage } from "@/components/industries/MigratedIndustryPage";
 import { industries } from "@/lib/site";
-import { getIndustryPage, getRelatedIndustries } from "@/lib/industry-pages";
 import {
   getIndustryPageRecord,
   shouldUseMigratedIndustryPage,
   toPublicIndustryPage,
 } from "@/lib/industries/registry";
-import { buildPageMetadata, clipDescription } from "@/lib/seo";
-import { breadcrumbJsonLd, JsonLdScript } from "@/lib/jsonld";
+import { buildPageMetadata } from "@/lib/seo";
 
 /** Old industry slugs that were renamed — keep deep links working. */
 const legacyIndustrySlugs: Record<string, string> = {
@@ -65,19 +60,8 @@ export async function generateMetadata({
     };
   }
 
-  const industry = getIndustryPage(resolved);
-  if (!industry) return {};
-  return buildPageMetadata({
-    title: industry.name,
-    description: clipDescription(
-      industry.tagline
-        ? `${industry.name}: ${industry.tagline}`
-        : industry.summary,
-    ),
-    pathname: `/industries/${industry.slug}`,
-    image: industry.image,
-    imageAlt: industry.name,
-  });
+  // Every industry in the registry renders on the migrated path; anything else 404s.
+  return {};
 }
 
 export default async function IndustryDetailPage({
@@ -99,25 +83,5 @@ export default async function IndustryDetailPage({
     );
   }
 
-  const industry = getIndustryPage(slug);
-  if (!industry) notFound();
-
-  const related = getRelatedIndustries(slug, 4);
-
-  return (
-    <PageShell>
-      <>
-        <JsonLdScript
-          data={breadcrumbJsonLd([
-            { name: "Home", path: "/" },
-            { name: "Industries", path: "/industries" },
-            { name: industry.name, path: `/industries/${industry.slug}` },
-          ])}
-        />
-        <IndustryHero industry={industry} />
-        <LogoMarquee />
-        <IndustryPageSections industry={industry} related={related} />
-      </>
-    </PageShell>
-  );
+  notFound();
 }

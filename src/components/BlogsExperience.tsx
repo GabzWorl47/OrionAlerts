@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { ArrowRight, ArrowUpRight, Search } from "lucide-react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 import {
   formatBlogDateShort,
   getBlogCategoryCounts,
@@ -61,7 +61,7 @@ export function BlogsExperience({ posts }: { posts: BlogPost[] }) {
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-bg to-transparent" />
 
         <div className="container relative z-10 pb-14 pt-12 md:pb-16 md:pt-16">
-          <motion.div
+          <m.div
             initial={reduce ? false : { opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, ease }}
@@ -84,7 +84,7 @@ export function BlogsExperience({ posts }: { posts: BlogPost[] }) {
               {posts.length} {posts.length === 1 ? "article" : "articles"}
               {latestDate ? ` · Last published ${formatBlogDateShort(latestDate)}` : ""}
             </p>
-          </motion.div>
+          </m.div>
         </div>
       </section>
 
@@ -93,7 +93,7 @@ export function BlogsExperience({ posts }: { posts: BlogPost[] }) {
         <div className="container relative">
           <AnimatePresence mode="wait">
             {featured ? (
-              <motion.div
+              <m.div
                 key={`featured-${featured.slug}-${category}-${query}`}
                 initial={reduce ? false : { opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -101,11 +101,11 @@ export function BlogsExperience({ posts }: { posts: BlogPost[] }) {
                 transition={{ duration: 0.4, ease }}
               >
                 <FeaturedArticle post={featured} />
-              </motion.div>
+              </m.div>
             ) : null}
           </AnimatePresence>
 
-          <motion.div
+          <m.div
             initial={reduce ? false : { opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.45, delay: 0.06, ease }}
@@ -154,11 +154,11 @@ export function BlogsExperience({ posts }: { posts: BlogPost[] }) {
                 );
               })}
             </div>
-          </motion.div>
+          </m.div>
 
           <AnimatePresence mode="wait">
             {filtered.length ? (
-              <motion.div
+              <m.div
                 key={`${category}-${query}-grid`}
                 initial={reduce ? false : { opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -192,9 +192,9 @@ export function BlogsExperience({ posts }: { posts: BlogPost[] }) {
                     Showing the latest match above. Adjust filters to explore more.
                   </p>
                 )}
-              </motion.div>
+              </m.div>
             ) : (
-              <motion.div
+              <m.div
                 key="empty"
                 initial={reduce ? false : { opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -214,7 +214,7 @@ export function BlogsExperience({ posts }: { posts: BlogPost[] }) {
                 >
                   Clear filters <ArrowRight size={14} />
                 </button>
-              </motion.div>
+              </m.div>
             )}
           </AnimatePresence>
         </div>

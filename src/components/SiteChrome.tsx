@@ -2,14 +2,28 @@
 
 import { usePathname } from "next/navigation";
 import { ReactNode } from "react";
+import { LazyMotion, domAnimation } from "framer-motion";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { AiAssistant } from "@/components/AiAssistant";
 import { BookDemoModalProvider } from "@/components/BookDemoModal";
 import { ConsentProvider } from "@/components/consent/ConsentProvider";
-import { CookieConsentUI } from "@/components/consent/CookieConsentUI";
+import { CookieConsentGate } from "@/components/consent/CookieConsentGate";
 
+/**
+ * Site components render `m.*` (not `motion.*`) so only the `domAnimation`
+ * feature set ships in the shared bundle. Components that need layout/drag
+ * animations scope their own `<LazyMotion features={domMax}>` (see FaqsExperience).
+ */
 export function SiteChrome({ children }: { children: ReactNode }) {
+  return (
+    <LazyMotion features={domAnimation} strict>
+      <SiteChromeInner>{children}</SiteChromeInner>
+    </LazyMotion>
+  );
+}
+
+function SiteChromeInner({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const isAdmin = pathname.startsWith("/admin");
 
@@ -32,7 +46,7 @@ export function SiteChrome({ children }: { children: ReactNode }) {
         </main>
         <Footer />
         <AiAssistant />
-        <CookieConsentUI />
+        <CookieConsentGate />
       </BookDemoModalProvider>
     </ConsentProvider>
   );

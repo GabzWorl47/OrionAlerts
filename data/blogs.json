@@ -11,7 +11,7 @@
       "readTime": "8 min read",
       "author": "OrionAlerts Team",
       "authorRole": "Editorial",
-      "image": "/Images/solutions/secure-remote-access.webp",
+      "image": "/Images/solutions/secure-remote-access-clean.webp",
       "imageAlt": "Remote monitoring setup with an on-site video console, a laptop and a phone connected to multiple sites through secure access",
       "tags": [
         "edge AI",
@@ -1744,7 +1744,7 @@
       "readTime": "7 min read",
       "author": "OrionAlerts Team",
       "authorRole": "Editorial",
-      "image": "/Images/architecture-vms.webp",
+      "image": "/Images/architecture-vms-clean.webp",
       "imageAlt": "Video management system architecture with IP cameras at an office, a factory and a warehouse connected over LAN or WAN to a central VMS core, storage and control-room, desktop, web and mobile clients",
       "tags": [
         "VMS",
@@ -3090,7 +3090,7 @@
       "readTime": "3 min read",
       "author": "Ayushi",
       "authorRole": "Senior Finance Manager",
-      "image": "/visuals/solutions/ai-vision.webp",
+      "image": "/visuals/solutions/ai-vision-clean.webp",
       "imageAlt": "Operator watching a live street camera feed with AI bounding boxes labeling people, vehicles and anomaly alerts",
       "tags": [
         "AI video analytics",

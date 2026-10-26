@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useSyncExternalStore, type CSSProperties, type ReactNode } from "react";
-import { motion, useReducedMotion, type Variants } from "framer-motion";
+import { m, useReducedMotion, type Variants } from "framer-motion";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -90,7 +90,7 @@ function AnimatedCard({
     style,
     children,
   };
-  return as === "li" ? <motion.li {...props} /> : <motion.div {...props} />;
+  return as === "li" ? <m.li {...props} /> : <m.div {...props} />;
 }
 
 /** A <ul>/<ol> stagger container — for grids of genuine list items (Stagger itself renders a div). */
@@ -116,7 +116,7 @@ function StaggerList({
     variants: { hidden: {}, show: { transition: { staggerChildren: animate ? delay : 0 } } },
     children,
   };
-  return as === "ol" ? <motion.ol {...props} /> : <motion.ul {...props} />;
+  return as === "ol" ? <m.ol {...props} /> : <m.ul {...props} />;
 }
 
 /** Badge per capability status; core capabilities carry no badge. */
@@ -266,7 +266,7 @@ export function MigratedIndustryPage({ page }: Props) {
         }
       >
         <Stagger className="industry-shell industry-hero__copy" delay={0.1}>
-          <motion.p
+          <m.p
             variants={cardVariants}
             className="industry-kicker inline-flex items-center gap-2"
             style={{ color: "var(--industry-accent)" }}
@@ -276,27 +276,27 @@ export function MigratedIndustryPage({ page }: Props) {
               aria-hidden
             />
             {page.hero.eyebrow}
-          </motion.p>
-          <motion.h1 variants={cardVariants} className="industry-h1">
+          </m.p>
+          <m.h1 variants={cardVariants} className="industry-h1">
             {page.hero.h1}
-          </motion.h1>
-          <motion.p
+          </m.h1>
+          <m.p
             variants={cardVariants}
             className="industry-prose"
             style={{ color: "rgba(255,255,255,0.82)" }}
           >
             {page.hero.lede}
-          </motion.p>
+          </m.p>
           {page.context.buyers.length ? (
-            <motion.p
+            <m.p
               variants={cardVariants}
               className="mt-4 max-w-[72ch] text-sm leading-relaxed text-white/75"
             >
               <span className="font-semibold text-white">Built for: </span>
               {page.context.buyers.join(" · ")}
-            </motion.p>
+            </m.p>
           ) : null}
-          <motion.div variants={cardVariants} className="industry-hero__actions">
+          <m.div variants={cardVariants} className="industry-hero__actions">
             <Button href={page.hero.primaryCta.href}>{page.hero.primaryCta.label}</Button>
             <Button
               href={page.hero.secondaryCta.href}
@@ -317,7 +317,7 @@ export function MigratedIndustryPage({ page }: Props) {
                 aria-hidden
               />
             </Link>
-          </motion.div>
+          </m.div>
         </Stagger>
       </section>
 
@@ -328,13 +328,13 @@ export function MigratedIndustryPage({ page }: Props) {
           </Reveal>
           <Stagger className="mt-2">
             {page.context.paragraphs.map((paragraph) => (
-              <motion.p
+              <m.p
                 key={paragraph.slice(0, 40)}
                 variants={cardVariants}
                 className="industry-prose mt-4"
               >
                 {paragraph}
-              </motion.p>
+              </m.p>
             ))}
           </Stagger>
         </div>
@@ -443,12 +443,12 @@ export function MigratedIndustryPage({ page }: Props) {
           <Stagger className="industry-tree mt-8 relative" delay={0.07}>
             <span className="industry-tree__flow" aria-hidden />
             {page.locationContext.hierarchyExample.map((level) => (
-              <motion.div key={level.label} variants={cardVariants} className="industry-tree__level">
+              <m.div key={level.label} variants={cardVariants} className="industry-tree__level">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[rgba(126,211,255,0.8)]">
                   {level.label}
                 </p>
                 <p className="mt-3 text-lg font-semibold text-white">{level.example}</p>
-              </motion.div>
+              </m.div>
             ))}
           </Stagger>
         </div>
@@ -468,7 +468,7 @@ export function MigratedIndustryPage({ page }: Props) {
           </Reveal>
           <StaggerList as="ol" className="mt-8 flex flex-wrap items-center gap-2" delay={0.06}>
             {industrySharedCopy.workflowLabels.map((label, index) => (
-              <motion.li key={label} variants={cardVariants} className="flex items-center gap-2">
+              <m.li key={label} variants={cardVariants} className="flex items-center gap-2">
                 <span className="inline-flex min-h-11 items-center gap-2 rounded-[12px] border border-[var(--industry-line)] bg-white px-3.5 py-2 text-sm font-semibold">
                   <span className="text-[var(--industry-accent-strong)]">
                     {String(index + 1).padStart(2, "0")}
@@ -483,7 +483,7 @@ export function MigratedIndustryPage({ page }: Props) {
                     aria-hidden
                   />
                 ) : null}
-              </motion.li>
+              </m.li>
             ))}
           </StaggerList>
         </div>
@@ -505,14 +505,14 @@ export function MigratedIndustryPage({ page }: Props) {
           </div>
           <StaggerList className="industry-card space-y-3">
             {page.deployment.requiredInputs.map((item) => (
-              <motion.li
+              <m.li
                 key={item}
                 variants={cardVariants}
                 className="flex gap-2.5 text-sm leading-relaxed text-[var(--industry-muted)]"
               >
                 <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--industry-accent-strong)]" />
                 {item}
-              </motion.li>
+              </m.li>
             ))}
           </StaggerList>
         </div>
@@ -647,12 +647,12 @@ export function MigratedIndustryPage({ page }: Props) {
           </Reveal>
           <Stagger className="industry-faq mt-6" delay={0.07}>
             {[...page.faqs, ...industrySharedFaqs].map((faq) => (
-              <motion.div key={faq.question} variants={cardVariants} className="industry-faq__item">
+              <m.div key={faq.question} variants={cardVariants} className="industry-faq__item">
                 <h3 className="font-display text-[1.05rem] font-semibold text-[var(--industry-text)]">
                   {faq.question}
                 </h3>
                 <p className="industry-prose mt-2">{faq.answer}</p>
-              </motion.div>
+              </m.div>
             ))}
           </Stagger>
         </div>

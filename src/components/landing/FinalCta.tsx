@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { MagneticButton } from "@/components/MagneticButton";
 
 export function FinalCta() {
@@ -11,7 +11,7 @@ export function FinalCta() {
       className="relative overflow-hidden bg-blue py-10 md:py-14"
     >
       <div className="container relative text-center">
-        <motion.h2
+        <m.h2
           id="final-cta-heading"
           initial={{ opacity: 0, y: 22 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -19,7 +19,7 @@ export function FinalCta() {
           className="mx-auto max-w-4xl text-balance text-[clamp(2rem,5vw,3.6rem)] font-semibold leading-[1.1] tracking-[-0.03em] text-white"
         >
           See OrionAlerts in action
-        </motion.h2>
+        </m.h2>
         <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-white/70 md:text-lg">
           We&apos;ll show live AI alerts, camera health and AMC tracking for a site like yours.
         </p>

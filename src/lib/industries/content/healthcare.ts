@@ -17,7 +17,7 @@ export const healthcareIndustryPage: IndustryPageRecord = {
     description:
       "Hospital CCTV analytics for non-clinical areas: waiting-area congestion, access and pathway events, and authorised incident retrieval for security teams.",
     canonicalPath: "/industries/healthcare",
-    image: "/Images/industries/healthcare.webp",
+    image: "/Images/industries/healthcare-hero.webp",
   },
   hero: {
     eyebrow: "Healthcare & Hospitals",
@@ -25,7 +25,7 @@ export const healthcareIndustryPage: IndustryPageRecord = {
     lede: "Watch waiting areas, entrances and non-clinical routes with the cameras the hospital already has. Facilities and security get congestion and pathway alerts with the location and clip, and authorised staff can retrieve an incident quickly.",
     media: {
       kind: "image",
-      src: "/Images/industries/healthcare.webp",
+      src: "/Images/industries/healthcare-hero.webp",
       alt: "Nurses and doctors at a hospital nursing station and reception area",
     },
     primaryCta: industrySharedCtas.primary,

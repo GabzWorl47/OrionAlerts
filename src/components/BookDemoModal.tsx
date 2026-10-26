@@ -9,11 +9,15 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import { X } from "lucide-react";
-import { BOOK_DEMO_INTRO } from "@/components/BookDemoPanel";
-import { LeadForm } from "@/components/LeadForm";
-import { useSafeReducedMotion } from "@/lib/use-safe-reduced-motion";
+import dynamic from "next/dynamic";
+
+const loadDialog = () => import("@/components/BookDemoDialog");
+
+// The dialog (lead form + reCAPTCHA) is split out of the shared bundle and only
+// fetched on intent (hover/focus of a Book a Demo link) or first open.
+const BookDemoDialog = dynamic(() => loadDialog().then((mod) => mod.BookDemoDialog), {
+  ssr: false,
+});
 
 type BookDemoModalContextValue = {
   open: boolean;
@@ -51,7 +55,10 @@ function isOnBookDemoPage() {
 
 export function BookDemoModalProvider({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
-  const reduce = useSafeReducedMotion();
+  // Mount the lazily loaded dialog on first open, then keep it mounted so
+  // AnimatePresence can play the exit animation on close.
+  const [hasOpened, setHasOpened] = useState(false);
+  if (open && !hasOpened) setHasOpened(true);
 
   const openBookDemo = useCallback(() => setOpen(true), []);
   const closeBookDemo = useCallback(() => setOpen(false), []);
@@ -74,8 +81,20 @@ export function BookDemoModalProvider({ children }: { children: ReactNode }) {
       setOpen(true);
     }
 
+    function onIntent(event: Event) {
+      const target = event.target as HTMLElement | null;
+      const anchor = target?.closest?.("a[href]") as HTMLAnchorElement | null;
+      if (anchor && isBookDemoHref(anchor.getAttribute("href"))) void loadDialog();
+    }
+
     document.addEventListener("click", onClick, true);
-    return () => document.removeEventListener("click", onClick, true);
+    document.addEventListener("pointerover", onIntent, { passive: true });
+    document.addEventListener("focusin", onIntent);
+    return () => {
+      document.removeEventListener("click", onClick, true);
+      document.removeEventListener("pointerover", onIntent);
+      document.removeEventListener("focusin", onIntent);
+    };
   }, []);
 
   useEffect(() => {
@@ -100,53 +119,7 @@ export function BookDemoModalProvider({ children }: { children: ReactNode }) {
   return (
     <BookDemoModalContext.Provider value={value}>
       {children}
-      <AnimatePresence>
-        {open ? (
-          <motion.div
-            className="fixed inset-0 z-[90] flex items-center justify-center p-4 md:p-6"
-            initial={reduce ? false : { opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={reduce ? undefined : { opacity: 0 }}
-            transition={{ duration: 0.2 }}
-          >
-            <button
-              type="button"
-              aria-label="Close book demo dialog"
-              className="absolute inset-0 bg-[#07111f]/45 backdrop-blur-[2px]"
-              onClick={closeBookDemo}
-            />
-            <motion.div
-              role="dialog"
-              aria-modal="true"
-              aria-labelledby="book-demo-modal-title"
-              className="relative z-10 max-h-[min(92dvh,52rem)] w-full max-w-xl overflow-y-auto rounded-[28px] shadow-[0_40px_100px_-36px_rgba(7,17,31,0.65)]"
-              initial={reduce ? false : { opacity: 0, y: 18, scale: 0.96 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={reduce ? undefined : { opacity: 0, y: 12, scale: 0.98 }}
-              transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-            >
-              <button
-                type="button"
-                onClick={closeBookDemo}
-                autoFocus
-                className="absolute right-3 top-3 z-20 inline-flex h-10 w-10 items-center justify-center rounded-full border border-line bg-white/95 text-muted-strong shadow-sm transition hover:border-blue/30 hover:text-blue"
-                aria-label="Close"
-              >
-                <X size={18} />
-              </button>
-              <div id="book-demo-modal-title" className="sr-only">
-                Book a Demo
-              </div>
-              <LeadForm
-                kind="demo"
-                title="Book a Demo"
-                titleAs="h2"
-                subtitle={BOOK_DEMO_INTRO}
-              />
-            </motion.div>
-          </motion.div>
-        ) : null}
-      </AnimatePresence>
+      {hasOpened ? <BookDemoDialog open={open} onClose={closeBookDemo} /> : null}
     </BookDemoModalContext.Provider>
   );
 }

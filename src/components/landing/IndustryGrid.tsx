@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { m, useReducedMotion } from "framer-motion";
 import { ChevronRight } from "lucide-react";
 import { LogoMarquee } from "@/components/landing/LogoMarquee";
 import { industries, site } from "@/lib/site";
@@ -126,7 +126,7 @@ export function IndustryGrid() {
   return (
     <section className="relative overflow-hidden bg-bg pb-2 md:pb-4">
       <div className="relative min-h-[min(92vh,52rem)] overflow-hidden bg-[#07111f] pt-[var(--header-h)] text-white">
-        <motion.div
+        <m.div
           className="absolute inset-0"
           initial={animate ? { scale: 1.04, opacity: 0.9 } : false}
           animate={{ scale: 1, opacity: 1 }}
@@ -142,31 +142,31 @@ export function IndustryGrid() {
             className="object-cover object-center"
             aria-hidden
           />
-        </motion.div>
+        </m.div>
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#07111f] via-[#07111f]/78 to-[#07111f]/20" />
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#07111f] via-transparent to-[#07111f]/40" />
 
         <div className="container relative z-10 flex min-h-[min(78vh,44rem)] flex-col">
           <div className="mt-auto max-w-xl pb-10 pt-24 md:pb-14 md:pt-32">
-            <motion.p
+            <m.p
               className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan"
               initial={animate ? { opacity: 0, y: 16 } : false}
               animate={{ opacity: 1, y: 0 }}
               transition={animate ? { duration: 0.5, delay: 0.06, ease } : { duration: 0 }}
             >
               Sector coverage
-            </motion.p>
+            </m.p>
 
-            <motion.p
+            <m.p
               className="mt-4 font-display text-[clamp(2.5rem,6.5vw,4.8rem)] font-semibold uppercase leading-[0.92] tracking-[-0.04em] text-white"
               initial={animate ? { opacity: 0, y: 22 } : false}
               animate={{ opacity: 1, y: 0 }}
               transition={animate ? { duration: 0.6, delay: 0.12, ease } : { duration: 0 }}
             >
               Industries
-            </motion.p>
+            </m.p>
 
-            <motion.span
+            <m.span
               aria-hidden
               className="mt-5 block h-px origin-left bg-gradient-to-r from-cyan via-blue/80 to-transparent"
               initial={animate ? { scaleX: 0 } : false}
@@ -174,16 +174,16 @@ export function IndustryGrid() {
               transition={animate ? { duration: 0.8, delay: 0.28, ease } : { duration: 0 }}
             />
 
-            <motion.h1
+            <m.h1
               className="mt-5 max-w-xl font-display text-[clamp(1.25rem,2.2vw,1.75rem)] font-medium normal-case leading-[1.3] text-white/90"
               initial={animate ? { opacity: 0, y: 22 } : false}
               animate={{ opacity: 1, y: 0 }}
               transition={animate ? { duration: 0.6, delay: 0.22, ease } : { duration: 0 }}
             >
               AI video analytics for {industries.length} industries
-            </motion.h1>
+            </m.h1>
 
-            <motion.p
+            <m.p
               className="mt-5 max-w-md text-[15px] leading-relaxed text-white/65 md:text-base"
               initial={animate ? { opacity: 0, y: 18 } : false}
               animate={{ opacity: 1, y: 0 }}
@@ -191,7 +191,7 @@ export function IndustryGrid() {
             >
               Real-time alerts, recording and camera health for plants, campuses and critical
               sites, built around how each sector operates and the cameras you already have.
-            </motion.p>
+            </m.p>
           </div>
         </div>
       </div>
@@ -209,7 +209,7 @@ export function IndustryGrid() {
           </p>
         </div>
 
-        <motion.div
+        <m.div
           className="relative mt-8 flex flex-wrap items-center justify-center gap-2"
           initial={animate ? { opacity: 0, y: 12 } : false}
           animate={{ opacity: 1, y: 0 }}
@@ -232,9 +232,9 @@ export function IndustryGrid() {
               </button>
             );
           })}
-        </motion.div>
+        </m.div>
 
-        <motion.div
+        <m.div
           key={activeCluster}
           className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 md:gap-5 lg:grid-cols-5"
           initial="hidden"
@@ -257,7 +257,7 @@ export function IndustryGrid() {
             const indexLabel = String(industryIndex + 1).padStart(2, "0");
 
             return (
-              <motion.div
+              <m.div
                 key={industry.slug}
                 custom={{ slideX }}
                 variants={
@@ -282,7 +282,7 @@ export function IndustryGrid() {
                 }
                 className="h-full"
               >
-                <motion.div
+                <m.div
                   className="h-full"
                   whileHover={
                     animate
@@ -347,11 +347,11 @@ export function IndustryGrid() {
                       </div>
                     </div>
                   </Link>
-                </motion.div>
-              </motion.div>
+                </m.div>
+              </m.div>
             );
           })}
-        </motion.div>
+        </m.div>
       </div>
     </section>
   );

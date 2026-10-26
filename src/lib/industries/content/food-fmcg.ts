@@ -17,7 +17,7 @@ export const foodFmcgIndustryPage: IndustryPageRecord = {
     description:
       "AI video analytics for food, beverage and FMCG plants: hygiene-zone entry observations, packaging-area build-up and footage ready for QA investigations.",
     canonicalPath: "/industries/food-fmcg",
-    image: "/Images/industries/food-fmcg.webp",
+    image: "/Images/industries/food-fmcg-hero.webp",
   },
   hero: {
     eyebrow: "Food, Beverage & FMCG",
@@ -25,8 +25,8 @@ export const foodFmcgIndustryPage: IndustryPageRecord = {
     lede: "Review hygiene-zone entries and packaging transfer points from the cameras you already have. Ask Vision Copilot what happened at the packing-area entry this morning, and route visible exceptions to food safety and production with the clip and location.",
     media: {
       kind: "image",
-      src: "/Images/industries/food-fmcg.webp",
-      alt: "Supermarket aisle with fresh produce, packaged snacks and household goods",
+      src: "/Images/industries/food-fmcg-hero.webp",
+      alt: "Cartons moving along a roller conveyor on a factory production line, tinted dark blue",
     },
     primaryCta: industrySharedCtas.primary,
     secondaryCta: industrySharedCtas.secondaryHero,

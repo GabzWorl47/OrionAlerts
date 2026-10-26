@@ -17,7 +17,7 @@ export const retailShoppingIndustryPage: IndustryPageRecord = {
     description:
       "AI video analytics for retail stores and malls: checkout queue observations, restricted-area entry and fast incident retrieval, without profiling shoppers.",
     canonicalPath: "/industries/retail-shopping",
-    image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1600&q=90",
+    image: "/Images/industries/retail-shopping-hero.webp",
   },
   hero: {
     eyebrow: "Retail & Shopping Centres",
@@ -25,8 +25,8 @@ export const retailShoppingIndustryPage: IndustryPageRecord = {
     lede: "Estimate checkout queues, flag entry to stockrooms and restricted areas, and find the right incident clip fast across stores and malls, using neutral event definitions instead of shopper profiling.",
     media: {
       kind: "image",
-      src: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1600&q=90",
-      alt: "Clothing store with garments on rails and shelves under pendant lights",
+      src: "/Images/industries/retail-shopping-hero.webp",
+      alt: "Blurred store aisle with shelves of packaged goods, tinted dark blue",
     },
     primaryCta: industrySharedCtas.primary,
     secondaryCta: industrySharedCtas.secondaryHero,

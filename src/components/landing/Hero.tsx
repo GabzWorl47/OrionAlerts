@@ -2,11 +2,11 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useSafeReducedMotion } from "@/lib/use-safe-reduced-motion";
 
 const INTRO_VIDEO = "/Videos/video/intro.mp4";
-const HERO_POSTER = "/visuals/solutions/ai-vision.webp";
+const HERO_POSTER = "/visuals/solutions/ai-vision-clean.webp";
 const HERO_VIDEOS = [INTRO_VIDEO, INTRO_VIDEO, INTRO_VIDEO, INTRO_VIDEO] as const;
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -157,7 +157,7 @@ export function Hero() {
         className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center px-6"
         aria-hidden
       >
-        <motion.div
+        <m.div
           initial={reduce ? { opacity: 1 } : { opacity: 0, scale: 0.98 }}
           animate={
             reduce
@@ -184,7 +184,7 @@ export function Hero() {
           <span className="mt-1 block bg-[linear-gradient(105deg,#fdba74_0%,#ffffff_55%,#9fd4ff_100%)] bg-clip-text text-transparent md:mt-2">
             Alerts
           </span>
-        </motion.div>
+        </m.div>
       </div>
 
       {!reduce ? (
@@ -250,7 +250,7 @@ export function Hero() {
       {/* Persistent value proposition + primary CTA (stays after brand animation) */}
       <div className="absolute inset-x-0 bottom-0 z-20 border-t border-white/15 bg-[#061018]/45 backdrop-blur-2xl supports-[backdrop-filter]:bg-[#061018]/30">
         <div className="container flex flex-col gap-4 py-4 md:flex-row md:items-end md:justify-between md:gap-10 md:py-5">
-          <motion.div
+          <m.div
             initial={reduce ? false : { opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, delay: 0.12, ease }}
@@ -264,8 +264,8 @@ export function Hero() {
               Real-time alerts from the cameras you already own, across every
               branch, plant and warehouse.
             </p>
-          </motion.div>
-          <motion.div
+          </m.div>
+          <m.div
             initial={reduce ? false : { opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2, ease }}
@@ -283,7 +283,7 @@ export function Hero() {
             >
               Explore Solutions
             </Link>
-          </motion.div>
+          </m.div>
         </div>
       </div>
     </section>

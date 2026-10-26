@@ -61,20 +61,20 @@ const FEATURE_IMAGES: Record<string, string> = {
 
   // AMC Management
   "AMC & Warranty Management": "/Images/solutions/amc-warranty-management.webp",
-  "Preventive Maintenance Scheduling": "/Images/solutions/preventive-maintenance-scheduling.webp",
-  "Service Request Management": "/Images/solutions/service-request-management.webp",
-  "Vendor Performance Monitoring": "/Images/solutions/vendor-performance-monitoring.webp",
-  "SLA Compliance Tracking": "/Images/solutions/sla-compliance-tracking.webp",
-  "Renewal & PM Reminders": "/Images/solutions/renewal-alerts-notifications.webp",
+  "Preventive Maintenance Scheduling": "/Images/solutions/preventive-maintenance-scheduling-clean.webp",
+  "Service Request Management": "/Images/solutions/service-request-management-clean.webp",
+  "Vendor Performance Monitoring": "/Images/solutions/vendor-performance-monitoring-clean.webp",
+  "SLA Compliance Tracking": "/Images/solutions/sla-compliance-tracking-clean.webp",
+  "Renewal & PM Reminders": "/Images/solutions/renewal-alerts-notifications-clean.webp",
   "Maintenance History": "/Images/solutions/maintenance-history.webp",
 
   // VMS
   "Centralized Live Monitoring & Playback": "/Images/solutions/centralized-live-monitoring-playback.webp",
-  "Multi-Site Surveillance Management": "/Images/solutions/multi-site-surveillance-management.webp",
+  "Multi-Site Surveillance Management": "/Images/solutions/multi-site-surveillance-management-clean.webp",
   "Video Search & Incident Investigation": "/Images/solutions/video-search-incident-investigation.webp",
-  "Secure Remote Access": "/Images/solutions/secure-remote-access.webp",
+  "Secure Remote Access": "/Images/solutions/secure-remote-access-clean.webp",
   "Event & Alarm Management": "/Images/solutions/event-alarm-management.webp",
-  "Open Integration with IP Cameras & Third-Party Systems": "/Images/solutions/open-integration-ip-cameras-third-party.webp",
+  "Open Integration with IP Cameras & Third-Party Systems": "/Images/solutions/open-integration-ip-cameras-third-party-clean.webp",
 
   // AI Analytics
   "Real-Time AI Video Analytics": "/Images/solutions/real-time-ai-video-analytics.webp",
@@ -85,7 +85,7 @@ const FEATURE_IMAGES: Record<string, string> = {
   // The only existing visual with fire / smoke detections on screen.
   "Fire & Smoke Detection": "/Images/solutions/instant-event-detection-smart-alerts.webp",
   // People tracked across a crossing: dwell and line-crossing context.
-  "Loitering & Line-Crossing Detection": "/visuals/solutions/ai-vision.webp",
+  "Loitering & Line-Crossing Detection": "/visuals/solutions/ai-vision-clean.webp",
   "People, Vehicle & Occupancy Analytics": "/Images/solutions/people-vehicle-occupancy-analytics.webp",
 
   // Health Monitoring
@@ -97,7 +97,7 @@ const FEATURE_IMAGES: Record<string, string> = {
   "Network & Connectivity Monitoring": "/Images/solutions/network-connectivity-monitoring.webp",
   // Camera offline / HDD error / network loss alerts on dashboard and mobile.
   // (instant-alerts-notifications.webp is not used: it shows an SMS channel.)
-  "Device Failure Alerts": "/Images/health-monitoring-overview.webp",
+  "Device Failure Alerts": "/Images/health-monitoring-overview-clean.webp",
   "Uptime & Availability Reports": "/Images/solutions/uptime-availability-reports.webp",
 };
 

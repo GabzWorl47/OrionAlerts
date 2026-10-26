@@ -116,8 +116,8 @@ const content: Record<string, SolutionPageContent> = {
     howItWorksLede:
       "From connecting the cameras you already own to exporting evidence, in four steps.",
     diagram: {
-      src: "/Images/architecture-vms.webp",
-      alt: "VMS architecture: IP cameras at several sites connect over LAN or WAN to the VMS core for live view, recording, playback, user and device management, with storage and backup, and are viewed from control-room, operator, web and mobile clients",
+      src: "/Images/architecture-vms-clean.webp",
+      alt: "VMS architecture: IP cameras at several sites connect over LAN or WAN to the VMS core for live view, recording, playback, user and device management, with NAS or SAN storage and on-premises backup, and are viewed from control-room, operator, web and mobile clients",
       width: 1672,
       height: 941,
     },
@@ -189,12 +189,10 @@ const content: Record<string, SolutionPageContent> = {
     howItWorksHeading: "How OrionAlerts AI video analytics works",
     howItWorksLede:
       "AI runs on the cameras you already record. Setting it up is a matter of choosing cameras, zones and rules.",
-    diagram: {
-      src: "/Images/architecture-ai-analytics.webp",
-      alt: "AI video analytics architecture: site cameras feed the AI core for analytics, event processing and rules, and alerts reach the operator dashboard, mobile app, workstations and control room; detections shown include people, vehicles, intrusion, PPE and smoke or fire",
-      width: 1672,
-      height: 941,
-    },
+    // Hidden: architecture-ai-analytics.webp shows remote sites sending video
+    // over VPN/Internet to a central "Vision AI Core", which contradicts the
+    // copy (video and AI stay on the on-site Nebula OS node). Re-export first.
+    diagram: undefined,
     faqHeading: "AI video analytics FAQs",
     comparison: {
       heading: "Motion detection vs AI video analytics",
@@ -316,7 +314,7 @@ const content: Record<string, SolutionPageContent> = {
     howItWorksLede:
       "How assets, contracts, service requests and renewals connect, from the asset record to the performance report.",
     diagram: {
-      src: "/Images/architecture-amc-management.webp",
+      src: "/Images/architecture-amc-management-clean.webp",
       alt: "AMC Management workflow: asset added, AMC or warranty assigned, preventive maintenance scheduled, service requests managed, vendor and SLA tracking, performance reports",
       width: 1635,
       height: 788,
@@ -380,8 +378,8 @@ const content: Record<string, SolutionPageContent> = {
     howItWorksLede:
       "Health checks run on each site's Nebula OS node, next to the cameras and recorders they watch.",
     diagram: {
-      src: "/Images/architecture-health-monitoring.webp",
-      alt: "CCTV health monitoring architecture: cameras, NVRs, switches and other devices report to the health monitoring engine, which checks online status, performance, connectivity, storage and video streams, raises alerts and feeds a command-center dashboard",
+      src: "/Images/architecture-health-monitoring-clean.webp",
+      alt: "CCTV health monitoring architecture: cameras, NVRs, switches and other devices report to the health monitoring engine, which checks online status, performance, connectivity, storage and video streams, sends alerts by email and mobile app and feeds a command-center dashboard",
       width: 1672,
       height: 941,
     },

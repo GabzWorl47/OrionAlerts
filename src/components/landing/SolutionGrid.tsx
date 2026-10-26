@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { m, useReducedMotion } from "framer-motion";
 import { ChevronRight } from "lucide-react";
 import { LogoMarquee } from "@/components/landing/LogoMarquee";
 import { solutions } from "@/lib/site";
@@ -99,25 +99,25 @@ export function SolutionGrid() {
           </div>
           <div className="container relative z-10 flex min-h-[24rem] flex-col md:min-h-[min(78vh,44rem)]">
             <div className="mt-auto max-w-2xl pb-10 pt-10 md:pb-14 md:pt-32">
-              <motion.p
+              <m.p
                 className="font-display text-[clamp(1.05rem,2vw,1.35rem)] font-bold uppercase tracking-[0.14em] text-white"
                 initial={animate ? { opacity: 0, y: 12 } : false}
                 animate={{ opacity: 1, y: 0 }}
                 transition={animate ? { duration: 0.45, ease } : { duration: 0 }}
               >
                 Solutions
-              </motion.p>
+              </m.p>
 
-              <motion.h1
+              <m.h1
                 className="mt-2 font-display text-[clamp(1.65rem,3.4vw,2.5rem)] font-semibold normal-case leading-[1.1] tracking-[-0.03em] text-white"
                 initial={animate ? { opacity: 0, y: 20 } : false}
                 animate={{ opacity: 1, y: 0 }}
                 transition={animate ? { duration: 0.55, delay: 0.05, ease } : { duration: 0 }}
               >
                 Video surveillance software for multi-site operations
-              </motion.h1>
+              </m.h1>
 
-              <motion.p
+              <m.p
                 className="mt-3 max-w-xl text-[15px] leading-relaxed text-white/75 md:text-base"
                 initial={animate ? { opacity: 0, y: 14 } : false}
                 animate={{ opacity: 1, y: 0 }}
@@ -126,7 +126,7 @@ export function SolutionGrid() {
                 VMS, AI video analytics, camera health monitoring, asset tracking and AMC
                 management on one platform, so security, IT and facilities teams work from one
                 system.
-              </motion.p>
+              </m.p>
             </div>
           </div>
         </div>
@@ -136,7 +136,7 @@ export function SolutionGrid() {
 
       <section className="relative overflow-hidden bg-bg pb-10 md:pb-14">
       <div className="relative mx-auto w-[min(100%-1.5rem,90rem)] pt-10 md:pt-14">
-        <motion.div
+        <m.div
           className="mx-auto max-w-3xl text-center"
           initial={animate ? { opacity: 0, y: 16 } : false}
           animate={{ opacity: 1, y: 0 }}
@@ -154,9 +154,9 @@ export function SolutionGrid() {
             </Link>
             .
           </p>
-        </motion.div>
+        </m.div>
 
-        <motion.div
+        <m.div
           className="relative mt-10 flex flex-wrap items-center justify-center gap-2"
           initial={animate ? { opacity: 0, y: 12 } : false}
           animate={{ opacity: 1, y: 0 }}
@@ -179,9 +179,9 @@ export function SolutionGrid() {
               </button>
             );
           })}
-        </motion.div>
+        </m.div>
 
-        <motion.div
+        <m.div
           key={activeCluster}
           className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 md:gap-5 lg:grid-cols-5"
           initial="hidden"
@@ -202,7 +202,7 @@ export function SolutionGrid() {
             const slideX = fromLeft ? -36 : 36;
 
             return (
-              <motion.div
+              <m.div
                 key={solution.slug}
                 custom={{ slideX }}
                 variants={
@@ -227,7 +227,7 @@ export function SolutionGrid() {
                 }
                 className="h-full"
               >
-                <motion.div
+                <m.div
                   className="h-full"
                   whileHover={
                     animate
@@ -278,11 +278,11 @@ export function SolutionGrid() {
                       </div>
                     </div>
                   </Link>
-                </motion.div>
-              </motion.div>
+                </m.div>
+              </m.div>
             );
           })}
-        </motion.div>
+        </m.div>
       </div>
       </section>
     </>

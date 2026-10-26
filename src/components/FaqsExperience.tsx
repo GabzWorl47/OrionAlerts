@@ -13,7 +13,7 @@ import {
   Search,
   Sparkles,
 } from "lucide-react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, LazyMotion, domMax, m } from "framer-motion";
 import { useSafeReducedMotion } from "@/lib/use-safe-reduced-motion";
 import {
   faqCategories,
@@ -88,9 +88,12 @@ export function FaqsExperience() {
               />
 
               <div className="mt-8">
+                {/* FaqRow animates height with `layout`, which needs domMax.
+                    Scoped here so only /faqs ships the layout feature bundle. */}
+                <LazyMotion features={domMax}>
                 <AnimatePresence mode="wait">
                   {filtered.length ? (
-                    <motion.div
+                    <m.div
                       key={`${category}-${query}-${filtered.length}`}
                       initial={reduce ? false : { opacity: 0, y: 16 }}
                       animate={{ opacity: 1, y: 0 }}
@@ -123,9 +126,9 @@ export function FaqsExperience() {
                           </section>
                         );
                       })}
-                    </motion.div>
+                    </m.div>
                   ) : (
-                    <motion.div
+                    <m.div
                       key="empty"
                       initial={reduce ? false : { opacity: 0, y: 12 }}
                       animate={{ opacity: 1, y: 0 }}
@@ -144,9 +147,10 @@ export function FaqsExperience() {
                       >
                         Contact the team <ArrowRight size={14} />
                       </Link>
-                    </motion.div>
+                    </m.div>
                   )}
                 </AnimatePresence>
+                </LazyMotion>
               </div>
             </div>
 
@@ -192,7 +196,7 @@ function Hero({ reduce }: { reduce: boolean }) {
       />
 
       <div className="container relative">
-        <motion.div
+        <m.div
           initial={reduce ? false : { opacity: 0, y: 20, filter: "blur(6px)" }}
           animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           transition={{ duration: 0.65, ease }}
@@ -212,9 +216,9 @@ function Hero({ reduce }: { reduce: boolean }) {
             Straight answers on cameras, deployment, data, AI detections, pricing, security and
             partners.
           </p>
-        </motion.div>
+        </m.div>
 
-        <motion.div
+        <m.div
           initial={reduce ? false : { opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.55, delay: 0.08, ease }}
@@ -242,7 +246,7 @@ function Hero({ reduce }: { reduce: boolean }) {
               </div>
             </div>
           ))}
-        </motion.div>
+        </m.div>
       </div>
     </section>
   );
@@ -322,7 +326,7 @@ function FaqRow({
   const panelId = `${baseId}-panel`;
 
   return (
-    <motion.div
+    <m.div
       layout
       className={`overflow-hidden rounded-[20px] border transition duration-300 ${
         isOpen
@@ -368,7 +372,7 @@ function FaqRow({
       </h3>
 
       {/* Answer stays in the DOM when collapsed so it is server-rendered and crawlable. */}
-      <motion.div
+      <m.div
         id={panelId}
         role="region"
         aria-labelledby={buttonId}
@@ -398,8 +402,8 @@ function FaqRow({
             </p>
           ) : null}
         </div>
-      </motion.div>
-    </motion.div>
+      </m.div>
+    </m.div>
   );
 }
 

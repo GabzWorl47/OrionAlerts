@@ -17,7 +17,7 @@ export const dataCentresIndustryPage: IndustryPageRecord = {
     description:
       "Data centre CCTV analytics: review controlled-entrance events, check clips against access logs once integrated, and confirm security cameras are recording.",
     canonicalPath: "/industries/data-centres",
-    image: "/Images/industries/data-centres.webp",
+    image: "/Images/industries/data-centres-hero.webp",
   },
   hero: {
     eyebrow: "Data Centres",
@@ -25,7 +25,7 @@ export const dataCentresIndustryPage: IndustryPageRecord = {
     lede: "Find the right access-lobby clip fast, check it against access-control logs once that integration is verified, and confirm every priority security camera is recording. Physical security sees controlled-entrance events in context before deciding what to investigate.",
     media: {
       kind: "image",
-      src: "/Images/industries/data-centres.webp",
+      src: "/Images/industries/data-centres-hero.webp",
       alt: "Technician walking between rows of server racks in a data centre hall",
     },
     primaryCta: industrySharedCtas.primary,

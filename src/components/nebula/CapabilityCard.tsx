@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useSafeReducedMotion } from "@/lib/use-safe-reduced-motion";
 import {
   Activity,
@@ -38,7 +38,7 @@ export function CapabilityCard({
   const Icon = iconMap[capability.id] ?? Cpu;
 
   return (
-    <motion.div
+    <m.div
       initial={reduce ? false : { opacity: 0, y: 12 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.35 }}
@@ -87,6 +87,6 @@ export function CapabilityCard({
           {capability.description}
         </p>
       </Link>
-    </motion.div>
+    </m.div>
   );
 }

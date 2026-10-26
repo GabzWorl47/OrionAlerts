@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion, type Variants } from "framer-motion";
+import { m, useReducedMotion, type Variants } from "framer-motion";
 import { ReactNode, useSyncExternalStore } from "react";
 
 /**
@@ -75,7 +75,7 @@ export function Reveal({
   const animate = ready && !reduce;
 
   return (
-    <motion.div
+    <m.div
       className={className}
       variants={map[direction]}
       initial={animate ? "hidden" : false}
@@ -84,7 +84,7 @@ export function Reveal({
       transition={{ duration: 0.7, delay, ease }}
     >
       {children}
-    </motion.div>
+    </m.div>
   );
 }
 
@@ -104,7 +104,7 @@ export function Stagger({
   const animate = ready && !reduce;
 
   return (
-    <motion.div
+    <m.div
       className={className}
       initial={animate ? "hidden" : false}
       whileInView={animate ? "show" : undefined}
@@ -117,7 +117,7 @@ export function Stagger({
       }}
     >
       {children}
-    </motion.div>
+    </m.div>
   );
 }
 
@@ -131,12 +131,12 @@ export function StaggerItem({
   direction?: RevealDirection;
 }) {
   return (
-    <motion.div
+    <m.div
       className={className}
       variants={map[direction]}
       transition={{ duration: 0.6, ease }}
     >
       {children}
-    </motion.div>
+    </m.div>
   );
 }

@@ -29,7 +29,7 @@ export const publicVideoAssets: PublicVideoAsset[] = [
     description:
       "Overview of OrionAlerts enterprise video intelligence for multi-site operations and AI alerts.",
     contentPath: "/Videos/video/intro.mp4",
-    thumbnailPath: "/visuals/solutions/ai-vision.webp",
+    thumbnailPath: "/visuals/solutions/ai-vision-clean.webp",
     pagePath: "/",
     uploadDate: "2026-08-03T15:27:02+05:30",
     duration: "PT17S", // ffprobe: 16.83 s
@@ -51,7 +51,7 @@ export const publicVideoAssets: PublicVideoAsset[] = [
     description:
       "Turn live CCTV into prioritized alerts for intrusion, PPE, safety, and operations.",
     contentPath: "/Videos/outcomes/ai-analytics.mp4",
-    thumbnailPath: "/visuals/solutions/ai-vision.webp",
+    thumbnailPath: "/visuals/solutions/ai-vision-clean.webp",
     pagePath: "/solutions/ai-analytics",
     uploadDate: "2026-07-29T18:35:55+05:30",
     duration: "PT10S", // ffprobe: 10.00 s
@@ -63,7 +63,7 @@ export const publicVideoAssets: PublicVideoAsset[] = [
       "Detect camera, NVR, storage, and network issues before they create operational blind spots.",
     contentPath: "/Videos/video/health-monitoring.mp4",
     thumbnailPath:
-      "/Images/health-monitoring-overview.webp",
+      "/Images/health-monitoring-overview-clean.webp",
     pagePath: "/solutions/health-monitoring",
     uploadDate: "2026-08-04T11:02:02+05:30",
     duration: "PT10S", // ffprobe: 10.00 s
@@ -79,7 +79,7 @@ export const publicVideoAssets: PublicVideoAsset[] = [
     name: "Fire and Smoke Detection demonstration",
     description: "Spot early smoke and fire indicators across monitored zones.",
     contentPath: "/Videos/video/fire-smoke-detection.mp4",
-    thumbnailPath: "/visuals/solutions/ai-vision.webp",
+    thumbnailPath: "/visuals/solutions/ai-vision-clean.webp",
     pagePath: "/use-cases/fire-smoke-detection",
     uploadDate: "2026-08-04T11:02:02+05:30",
     duration: "PT10S", // ffprobe: 10.00 s
@@ -89,7 +89,7 @@ export const publicVideoAssets: PublicVideoAsset[] = [
     name: "Fall Detection demonstration",
     description: "Identify falls quickly so responders can intervene sooner.",
     contentPath: "/Videos/video/fall-detection.mp4",
-    thumbnailPath: "/visuals/solutions/ai-vision.webp",
+    thumbnailPath: "/visuals/solutions/ai-vision-clean.webp",
     pagePath: "/use-cases/fall-detection",
     uploadDate: "2026-08-04T11:02:02+05:30",
     duration: "PT10S", // ffprobe: 10.00 s
@@ -99,7 +99,7 @@ export const publicVideoAssets: PublicVideoAsset[] = [
     name: "Perimeter Intrusion Detection demonstration",
     description: "Monitor fences, gates, and outer boundaries continuously.",
     contentPath: "/Videos/video/perimeter-intrusion-detection.mp4",
-    thumbnailPath: "/visuals/solutions/ai-vision.webp",
+    thumbnailPath: "/visuals/solutions/ai-vision-clean.webp",
     pagePath: "/use-cases/perimeter-intrusion-detection",
     uploadDate: "2026-08-04T11:02:02+05:30",
     duration: "PT10S", // ffprobe: 10.00 s
@@ -109,7 +109,7 @@ export const publicVideoAssets: PublicVideoAsset[] = [
     name: "Crowd Detection demonstration",
     description: "Track density build-ups that need operational attention.",
     contentPath: "/Videos/video/crowd-detection.mp4",
-    thumbnailPath: "/visuals/solutions/ai-vision.webp",
+    thumbnailPath: "/visuals/solutions/ai-vision-clean.webp",
     pagePath: "/use-cases/crowd-detection",
     uploadDate: "2026-08-04T11:02:02+05:30",
     duration: "PT10S", // ffprobe: 10.00 s
@@ -119,7 +119,7 @@ export const publicVideoAssets: PublicVideoAsset[] = [
     name: "Loitering Detection demonstration",
     description: "Flag prolonged presence in sensitive or idle zones.",
     contentPath: "/Videos/video/loitering-detection.mp4",
-    thumbnailPath: "/visuals/solutions/ai-vision.webp",
+    thumbnailPath: "/visuals/solutions/ai-vision-clean.webp",
     pagePath: "/use-cases/loitering-detection",
     uploadDate: "2026-08-04T11:02:02+05:30",
     duration: "PT10S", // ffprobe: 10.00 s
@@ -129,7 +129,7 @@ export const publicVideoAssets: PublicVideoAsset[] = [
     name: "Camera Tampering Detection demonstration",
     description: "Detect blocked, moved, or otherwise compromised cameras.",
     contentPath: "/Videos/video/camera-tampering-detection.mp4",
-    thumbnailPath: "/visuals/solutions/ai-vision.webp",
+    thumbnailPath: "/visuals/solutions/ai-vision-clean.webp",
     pagePath: "/use-cases/camera-tampering-detection",
     uploadDate: "2026-08-04T11:02:02+05:30",
     duration: "PT10S", // ffprobe: 10.00 s
@@ -139,7 +139,7 @@ export const publicVideoAssets: PublicVideoAsset[] = [
     name: "No-Motion or Black-Screen Alert demonstration",
     description: "Catch failed feeds and silent sensors before blind spots grow.",
     contentPath: "/Videos/video/no-motion-black-screen-alert.mp4",
-    thumbnailPath: "/visuals/solutions/ai-vision.webp",
+    thumbnailPath: "/visuals/solutions/ai-vision-clean.webp",
     pagePath: "/use-cases/no-motion-black-screen-alert",
     uploadDate: "2026-08-04T11:02:02+05:30",
     duration: "PT10S", // ffprobe: 10.00 s
@@ -149,7 +149,7 @@ export const publicVideoAssets: PublicVideoAsset[] = [
     name: "Vehicle Detection demonstration",
     description: "Monitor vehicle presence, movement, and restricted approaches.",
     contentPath: "/Videos/video/vehicle-detection.mp4",
-    thumbnailPath: "/visuals/solutions/ai-vision.webp",
+    thumbnailPath: "/visuals/solutions/ai-vision-clean.webp",
     pagePath: "/use-cases/vehicle-detection",
     uploadDate: "2026-08-04T11:02:02+05:30",
     duration: "PT10S", // ffprobe: 10.00 s
@@ -159,7 +159,7 @@ export const publicVideoAssets: PublicVideoAsset[] = [
     name: "Safety Compliance Detection demonstration",
     description: "Enforce PPE and site safety rules with visual AI checks.",
     contentPath: "/Videos/video/safety-compliance-detection.mp4",
-    thumbnailPath: "/visuals/solutions/ai-vision.webp",
+    thumbnailPath: "/visuals/solutions/ai-vision-clean.webp",
     pagePath: "/use-cases/safety-compliance-detection",
     uploadDate: "2026-08-04T11:02:02+05:30",
     duration: "PT10S", // ffprobe: 10.00 s
@@ -169,7 +169,7 @@ export const publicVideoAssets: PublicVideoAsset[] = [
     name: "Abandoned Object Detection demonstration",
     description: "Identify unattended items that may indicate risk.",
     contentPath: "/Videos/video/abandoned-object-detection.mp4",
-    thumbnailPath: "/visuals/solutions/ai-vision.webp",
+    thumbnailPath: "/visuals/solutions/ai-vision-clean.webp",
     pagePath: "/use-cases/abandoned-object-detection",
     uploadDate: "2026-08-04T11:02:02+05:30",
     duration: "PT10S", // ffprobe: 10.00 s
@@ -179,7 +179,7 @@ export const publicVideoAssets: PublicVideoAsset[] = [
     name: "Restricted-Zone Monitoring demonstration",
     description: "Keep prohibited zones clear with continuous zone analytics.",
     contentPath: "/Videos/video/restricted-zone-monitoring.mp4",
-    thumbnailPath: "/visuals/solutions/ai-vision.webp",
+    thumbnailPath: "/visuals/solutions/ai-vision-clean.webp",
     pagePath: "/use-cases/restricted-zone-monitoring",
     uploadDate: "2026-08-04T11:02:02+05:30",
     duration: "PT10S", // ffprobe: 10.00 s

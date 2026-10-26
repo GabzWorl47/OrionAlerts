@@ -12,7 +12,7 @@ const seedPostsSource: BlogPost[] = [
     readTime: "6 min read",
     author: "Ayushi",
     authorRole: "Senior Finance Manager",
-    image: "/visuals/solutions/ai-vision.webp",
+    image: "/visuals/solutions/ai-vision-clean.webp",
     imageAlt:
       "Operator watching a live street camera feed with AI bounding boxes labeling people, vehicles and anomaly alerts",
     takeaways: [

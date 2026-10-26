@@ -17,7 +17,7 @@ export const darkStoresIndustryPage: IndustryPageRecord = {
     description:
       "Dark store CCTV analytics: spot aisle obstructions and dispatch-handoff congestion, and retrieve usable clips fast, without scoring individual pickers.",
     canonicalPath: "/industries/dark-stores",
-    image: "/Images/industries/dark-stores.webp",
+    image: "/Images/industries/dark-stores-hero.webp",
   },
   hero: {
     eyebrow: "Dark Stores & Micro-Fulfilment",
@@ -25,8 +25,8 @@ export const darkStoresIndustryPage: IndustryPageRecord = {
     lede: "Spot aisle obstructions and dispatch-handoff congestion in a compact store, and pull the right clip fast when an order is disputed. Alerts go to the store manager, who can act during the same peak.",
     media: {
       kind: "image",
-      src: "/Images/industries/dark-stores.webp",
-      alt: "Staff picking grocery orders from labelled aisles in a dark store",
+      src: "/Images/industries/dark-stores-hero.webp",
+      alt: "Blurred view of stocked shelves and staff picking orders in a dark store, tinted dark blue",
     },
     primaryCta: industrySharedCtas.primary,
     secondaryCta: industrySharedCtas.secondaryHero,

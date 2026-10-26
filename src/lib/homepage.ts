@@ -69,7 +69,7 @@ export const universalSolutionVideos: UniversalVideoCard[] = [
     description:
       "Turn camera streams into prioritized alerts for safety, intrusion, and operational exceptions.",
     src: "/Videos/outcomes/ai-analytics.mp4",
-    poster: "/visuals/solutions/ai-vision.webp",
+    poster: "/visuals/solutions/ai-vision-clean.webp",
   },
   {
     id: "health-uptime",
@@ -78,7 +78,7 @@ export const universalSolutionVideos: UniversalVideoCard[] = [
       "Detect camera, NVR, storage, and network issues before they create operational blind spots.",
     src: "/Videos/video/health-monitoring.mp4",
     poster:
-      "/Images/health-monitoring-overview.webp",
+      "/Images/health-monitoring-overview-clean.webp",
   },
   {
     id: "estate-ops",
@@ -86,7 +86,7 @@ export const universalSolutionVideos: UniversalVideoCard[] = [
     description:
       "Track assets, maintenance contracts, and infrastructure health so operations stay ready.",
     src: "/Videos/video/asset-tracking.mp4",
-    poster: "/Images/asset-tracking-overview.webp",
+    poster: "/Images/asset-tracking-overview-clean.webp",
   },
 ];
 
@@ -177,7 +177,7 @@ export const comparisonRows: ComparisonRow[] = [
   },
 ];
 
-const useCasePoster = "/visuals/solutions/ai-vision.webp";
+const useCasePoster = "/visuals/solutions/ai-vision-clean.webp";
 const useCasePreview = "/Videos/workflow/ai-alert.mp4";
 
 export const aiUseCases: UseCase[] = [

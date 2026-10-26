@@ -17,7 +17,7 @@ export const metalsMiningIndustryPage: IndustryPageRecord = {
     description:
       "AI video analytics for mines and processing plants: restricted-zone alerts at crushers and equipment interfaces, plus remote camera outage tracking.",
     canonicalPath: "/industries/metals-mining",
-    image: "/Images/industries/metals-mining.webp",
+    image: "/Images/industries/metals-mining-hero.webp",
   },
   hero: {
     eyebrow: "Metals, Mining & Minerals",
@@ -26,7 +26,7 @@ export const metalsMiningIndustryPage: IndustryPageRecord = {
       "Flag entry into restricted zones at crusher approaches and equipment interfaces, and see when a remote camera or recording source goes offline. Ask Vision Copilot what the mine supervisor should inspect before the next operating period.",
     media: {
       kind: "image",
-      src: "/Images/industries/metals-mining.webp",
+      src: "/Images/industries/metals-mining-hero.webp",
       alt: "Open-pit mine with haul trucks and excavators beside a mineral-processing plant",
     },
     primaryCta: industrySharedCtas.primary,

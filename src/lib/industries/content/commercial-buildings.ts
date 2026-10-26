@@ -17,7 +17,7 @@ export const commercialBuildingsIndustryPage: IndustryPageRecord = {
     description:
       "CCTV analytics for commercial buildings: after-hours alerts, lobby and lift-lobby congestion, and fast incident retrieval for facilities and security.",
     canonicalPath: "/industries/commercial-buildings",
-    image: "/Images/industries/commercial-buildings.webp",
+    image: "/Images/industries/commercial-buildings-hero.webp",
   },
   hero: {
     eyebrow: "Commercial Buildings",
@@ -25,8 +25,8 @@ export const commercialBuildingsIndustryPage: IndustryPageRecord = {
     lede: "Flag after-hours activity and lobby and lift-lobby congestion, and route each alert to facilities or security. Retrieve the right common-area clip fast when an incident needs review.",
     media: {
       kind: "image",
-      src: "/Images/industries/commercial-buildings.webp",
-      alt: "Woman drinking a glass of orange juice in a kitchen",
+      src: "/Images/industries/commercial-buildings-hero.webp",
+      alt: "City skyline of glass office towers, tinted dark blue",
     },
     primaryCta: industrySharedCtas.primary,
     secondaryCta: industrySharedCtas.secondaryHero,

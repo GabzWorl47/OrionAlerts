@@ -17,7 +17,7 @@ export const automotiveIndustryPage: IndustryPageRecord = {
     description:
       "AI video analytics for automotive plants: line-side buffer dwell, controlled-cell entry alerts and fast clip retrieval by station and changeover.",
     canonicalPath: "/industries/automotive",
-    image: "/Images/industries/automotive.webp",
+    image: "/Images/industries/automotive-hero.webp",
   },
   hero: {
     eyebrow: "Automotive & Auto Components",
@@ -26,8 +26,8 @@ export const automotiveIndustryPage: IndustryPageRecord = {
       "Track line-side buffer dwell during replenishment, flag entry into controlled assembly cells and pull up the right station clip when a supervisor asks Vision Copilot.",
     media: {
       kind: "image",
-      src: "/Images/industries/automotive.webp",
-      alt: "Robotic arms welding car body shells on an automotive assembly line",
+      src: "/Images/industries/automotive-hero.webp",
+      alt: "Blurred car body shell between robotic arms on an assembly line, tinted dark blue",
     },
     primaryCta: industrySharedCtas.primary,
     secondaryCta: industrySharedCtas.secondaryHero,

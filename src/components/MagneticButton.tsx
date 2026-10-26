@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { motion, useMotionValue, useSpring } from "framer-motion";
+import { m, useMotionValue, useSpring } from "framer-motion";
 import { ReactNode, useRef } from "react";
 import { useSafeReducedMotion } from "@/lib/use-safe-reduced-motion";
 
@@ -52,7 +52,7 @@ export function MagneticButton({
   }
 
   return (
-    <motion.div style={{ x: springX, y: springY }} className="inline-flex">
+    <m.div style={{ x: springX, y: springY }} className="inline-flex">
       <Link
         ref={ref}
         href={href}
@@ -62,6 +62,6 @@ export function MagneticButton({
       >
         {children}
       </Link>
-    </motion.div>
+    </m.div>
   );
 }

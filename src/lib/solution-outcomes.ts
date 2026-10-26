@@ -42,19 +42,19 @@ export function getSolutionOutcomes(solution: Solution): OutcomeItem[] {
           title: "Clear partner accountability",
           description: "Track vendors, SLAs, and technician visits in one place",
           preview: "multisite",
-          image: "/Images/solutions/vendor-performance-monitoring.webp",
+          image: "/Images/solutions/vendor-performance-monitoring-clean.webp",
         },
         {
           title: "Preventive work planned ahead",
           description: "Schedule preventive maintenance and renewals before they fall due",
           preview: "livewall",
-          image: "/Images/solutions/preventive-maintenance-scheduling.webp",
+          image: "/Images/solutions/preventive-maintenance-scheduling-clean.webp",
         },
         {
           title: "Contract and SLA status in one report",
           description: "See coverage and SLA status for every site",
           preview: "search",
-          image: "/Images/solutions/sla-compliance-tracking.webp",
+          image: "/Images/solutions/sla-compliance-tracking-clean.webp",
         },
       ];
     case "vms":
@@ -69,7 +69,7 @@ export function getSolutionOutcomes(solution: Solution): OutcomeItem[] {
           title: "Replace NVR-by-NVR logins with one console",
           description: "Every site, camera and recorder in one operator workflow",
           preview: "alert",
-          image: "/Images/solutions/multi-site-surveillance-management.webp",
+          image: "/Images/solutions/multi-site-surveillance-management-clean.webp",
         },
         {
           title: "Audit-ready access and export trails",
@@ -81,7 +81,7 @@ export function getSolutionOutcomes(solution: Solution): OutcomeItem[] {
           title: "Ready for AI alerts",
           description: "Add AI video analytics to the same cameras later",
           preview: "multisite",
-          image: "/Images/solutions/open-integration-ip-cameras-third-party.webp",
+          image: "/Images/solutions/open-integration-ip-cameras-third-party-clean.webp",
         },
       ];
     case "ai-analytics":

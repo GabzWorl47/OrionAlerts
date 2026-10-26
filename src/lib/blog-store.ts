@@ -78,7 +78,7 @@ function normalizePost(raw: Partial<BlogPost>): BlogPost | null {
     readTime: raw.readTime || estimateReadTime(sections, takeaways),
     author: raw.author || "OrionAlerts Team",
     authorRole: raw.authorRole || "Editorial",
-    image: raw.image || "/visuals/solutions/ai-vision.webp",
+    image: raw.image || "/visuals/solutions/ai-vision-clean.webp",
     takeaways,
     sections,
     published: raw.published !== false,

@@ -3,7 +3,7 @@
 import type { CSSProperties, ReactNode } from "react";
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { AnimatePresence, motion, useInView } from "framer-motion";
+import { AnimatePresence, m, useInView } from "framer-motion";
 import {
   Activity,
   ArrowLeft,
@@ -74,19 +74,19 @@ const OUTCOME_PREVIEW_FALLBACK: PreviewKind[] = [
 
 const FEED_STILLS = [
   {
-    src: "https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=900&q=80",
+    src: "/Images/industries/logistics-hero.webp",
     label: "Cam 01 · Gate",
   },
   {
-    src: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=900&q=80",
+    src: "/Images/industries/cement-hero.webp",
     label: "Cam 07 · Yard",
   },
   {
-    src: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=900&q=80",
+    src: "/Images/industries/ecommerce-fulfilment-hero.webp",
     label: "Cam 12 · Line",
   },
   {
-    src: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=900&q=80",
+    src: "/Images/industries/data-centres-hero.webp",
     label: "Cam 18 · Lobby",
   },
 ];
@@ -131,32 +131,32 @@ function normalizeOutcomes(
 
 const SEARCH_CLIPS = [
   {
-    src: "https://images.unsplash.com/photo-1565043666747-69f6646db940?auto=format&fit=crop&w=800&q=80",
+    src: "/Images/industries/cement-hero.webp",
     time: "14:02",
   },
   {
-    src: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=80",
+    src: "/Images/industries/metals-mining-hero.webp",
     time: "14:11",
   },
   {
-    src: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=800&q=80",
+    src: "/Images/industries/logistics-hero.webp",
     time: "14:27",
   },
 ];
 
 const SITE_FEEDS = [
   {
-    src: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80",
+    src: "/Images/industries/manufacturing.webp",
     site: "Pune Plant",
     status: "86 cams · Live",
   },
   {
-    src: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80",
+    src: "/Images/industries/ecommerce-fulfilment-hero.webp",
     site: "Chennai DC",
     status: "42 cams · Live",
   },
   {
-    src: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80",
+    src: "/Images/industries/logistics-hero.webp",
     site: "Ahmedabad Yard",
     status: "2 offline",
     warn: true,
@@ -633,7 +633,7 @@ export function SolutionVideoSection({
   );
 
   const outcomesPanel = (
-    <motion.div
+    <m.div
       className="rounded-[22px] border border-line bg-white/90 p-4 shadow-[0_18px_44px_-28px_rgba(43,140,255,0.45)] backdrop-blur-sm md:p-5"
       initial={false}
       animate={
@@ -647,7 +647,7 @@ export function SolutionVideoSection({
       }}
     >
       {outcomesList}
-    </motion.div>
+    </m.div>
   );
 
   const videoStage = (
@@ -656,7 +656,7 @@ export function SolutionVideoSection({
         <div className="relative aspect-video">
           <AnimatePresence mode="wait" initial={false}>
             {activePreview ? (
-              <motion.div
+              <m.div
                 key={`${preview?.source}-${preview?.index}-${activePreview.videoSrc ?? "none"}`}
                 className="absolute inset-0 p-2.5 md:p-3"
                 initial={reduce ? false : { opacity: 0, y: 12 }}
@@ -688,9 +688,9 @@ export function SolutionVideoSection({
                   Back
                   <X size={12} className="opacity-70" />
                 </button>
-              </motion.div>
+              </m.div>
             ) : (
-              <motion.div
+              <m.div
                 key="video"
                 className="absolute inset-0"
                 initial={reduce ? false : { opacity: 0 }}
@@ -717,7 +717,7 @@ export function SolutionVideoSection({
                     </div>
                   </div>
                 )}
-              </motion.div>
+              </m.div>
             )}
           </AnimatePresence>
         </div>
@@ -778,7 +778,7 @@ export function SolutionVideoSection({
             <div className="relative flex h-full min-h-[360px] flex-col overflow-hidden rounded-[28px] bg-[#0b1628] text-white shadow-[0_30px_80px_-40px_rgba(15,61,120,0.65)] md:min-h-[420px]">
               <AnimatePresence mode="wait">
                 {activeImage ? (
-                  <motion.div
+                  <m.div
                     key={activeImage}
                     className="absolute inset-0"
                     initial={reduce ? false : { opacity: 0 }}
@@ -795,7 +795,7 @@ export function SolutionVideoSection({
                       unoptimized
                     />
                     <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#07111f]/80 via-[#07111f]/20 to-transparent" />
-                  </motion.div>
+                  </m.div>
                 ) : (
                   <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_20%_0%,rgba(43,140,255,0.35),transparent_45%),radial-gradient(ellipse_at_100%_100%,rgba(48,227,255,0.18),transparent_40%)]" />
                 )}
@@ -834,7 +834,7 @@ export function SolutionVideoSection({
                       }`}
                     >
                       {i === outcomeIndex && !reduce ? (
-                        <motion.span
+                        <m.span
                           key={`outcome-progress-${outcomeIndex}-${outcomeDurationMs}`}
                           className="absolute inset-y-0 left-0 rounded-full bg-cyan"
                           initial={{ width: "0%" }}
@@ -924,7 +924,7 @@ export function SolutionVideoSection({
         <div className="solution-video-layout grid items-center">
             {showWorkflow ? (
               <aside className="hidden lg:block">
-                <motion.div
+                <m.div
                   className="rounded-[22px] border border-line bg-white/90 p-4 shadow-[0_18px_44px_-28px_rgba(43,140,255,0.4)] backdrop-blur-sm"
                   initial={reduce ? false : { opacity: 0, x: -20 }}
                   animate={
@@ -999,7 +999,7 @@ export function SolutionVideoSection({
                       );
                     })}
                   </ol>
-                </motion.div>
+                </m.div>
               </aside>
             ) : null}
 

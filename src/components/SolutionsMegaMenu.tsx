@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import {
   Activity,
   Bell,
@@ -196,7 +196,7 @@ export function SolutionsMegaMenu({
         </aside>
 
         <div className="flex-1 overflow-y-auto bg-[#0f1c2e] px-5 py-5 xl:px-6">
-          <motion.div
+          <m.div
             key={activeId}
             initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
@@ -221,7 +221,7 @@ export function SolutionsMegaMenu({
                 />
               ))}
             </div>
-          </motion.div>
+          </m.div>
         </div>
       </div>
 

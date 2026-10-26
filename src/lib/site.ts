@@ -44,6 +44,11 @@ export type Solution = {
   /** Meta description (120–155 chars). Falls back to the shared SEO copy in seo.ts. */
   seoDescription?: string;
   image: string;
+  /**
+   * Hero-only variant of `image` with the headline baked into the artwork
+   * removed (the hero already renders the H1 as text). Falls back to `image`.
+   */
+  heroImage?: string;
   tagline: string;
   headline: string;
   summary: string;
@@ -327,6 +332,7 @@ const solutionsSource: Solution[] = [
       "Track IT and surveillance assets by serial, QR or barcode: location, custodian, warranty and lifecycle history in one register, with audit-ready exports.",
     shortName: "Asset Tracking",
     image: "/Images/solutions/centralized-asset-inventory.webp",
+    heroImage: "/Images/solutions/asset-tracking-hero.webp",
     tagline: "Inventory & lifecycle visibility",
     headline:
       "Track surveillance and IT assets across locations with clear ownership and lifecycle visibility.",
@@ -440,6 +446,7 @@ const solutionsSource: Solution[] = [
       "AMC management software for annual maintenance contracts, warranties, preventive maintenance, service tickets, vendor SLAs and renewal alerts across sites.",
     shortName: "AMC Management",
     image: "/Images/solutions/amc-warranty-management.webp",
+    heroImage: "/Images/solutions/amc-management-hero.webp",
     tagline: "Maintenance & warranties",
     headline:
       "Keep AMC, warranties, vendors, and preventive maintenance on schedule from one workspace.",
@@ -552,6 +559,7 @@ const solutionsSource: Solution[] = [
       "CCTV health monitoring for cameras, NVRs, storage and network links. Get alerts when a camera goes offline or stops recording, so gaps are caught early.",
     shortName: "Health Monitoring",
     image: "/Images/solutions/real-time-device-health-monitoring.webp",
+    heroImage: "/Images/solutions/health-monitoring-hero.webp",
     tagline: "Infrastructure uptime",
     headline:
       "Spot camera, NVR, storage, and network issues before they create operational blind spots.",
@@ -734,7 +742,7 @@ export const industries: Industry[] = [
     slug: "automotive",
     name: "Automotive & Auto Components",
     cardLabel: "Automotive",
-    image: "/Images/industries/automotive.webp",
+    image: "/Images/industries/automotive-hero.webp",
     tagline:
       "Line-side buffer dwell, controlled-cell entry and clip retrieval by station.",
     summary:
@@ -744,7 +752,7 @@ export const industries: Industry[] = [
     slug: "cement",
     name: "Cement & Building Materials",
     cardLabel: "Cement",
-    image: "/Images/industries/cement.webp",
+    image: "/Images/industries/cement-hero.webp",
     tagline:
       "Truck queues at loading bays, conveyor-zone entry and camera health in dust.",
     summary:
@@ -754,7 +762,7 @@ export const industries: Industry[] = [
     slug: "metals-mining",
     name: "Metals, Mining & Minerals",
     cardLabel: "Metals & Mining",
-    image: "/Images/industries/metals-mining.webp",
+    image: "/Images/industries/metals-mining-hero.webp",
     introVideo: "/Videos/industries/metals-mining.mp4",
     tagline:
       "Restricted-zone alerts at crushers and remote camera outage tracking.",
@@ -765,7 +773,7 @@ export const industries: Industry[] = [
     slug: "oil-gas",
     name: "Oil, Gas & Petrochemicals",
     cardLabel: "Oil & Gas",
-    image: "/Images/industries/oil-gas.webp",
+    image: "/Images/industries/oil-gas-hero.webp",
     tagline:
       "Tanker-bay activity, controlled-area entry and operator-verified perimeter alerts.",
     summary:
@@ -775,7 +783,7 @@ export const industries: Industry[] = [
     slug: "pharma",
     name: "Pharmaceuticals & Life Sciences",
     cardLabel: "Pharma",
-    image: "/Images/industries/pharma.webp",
+    image: "/Images/industries/pharma-hero.webp",
     tagline:
       "Gowning exceptions, controlled-area entry and fast clips for QA investigations.",
     summary:
@@ -785,7 +793,7 @@ export const industries: Industry[] = [
     slug: "food-fmcg",
     name: "Food, Beverage & FMCG",
     cardLabel: "Food & FMCG",
-    image: "/Images/industries/food-fmcg.webp",
+    image: "/Images/industries/food-fmcg-hero.webp",
     tagline:
       "Hygiene-zone entry, packaging-area build-up and footage for QA reviews.",
     summary:
@@ -795,7 +803,7 @@ export const industries: Industry[] = [
     slug: "logistics",
     name: "Logistics & Warehousing",
     cardLabel: "Logistics",
-    image: "/Images/industries/logistics.webp",
+    image: "/Images/industries/logistics-hero.webp",
     tagline:
       "Dock dwell and forklift–pedestrian route exceptions at cross-aisles.",
     summary:
@@ -805,7 +813,7 @@ export const industries: Industry[] = [
     slug: "dark-stores",
     name: "Dark Stores & Micro-Fulfilment",
     cardLabel: "Dark Stores",
-    image: "/Images/industries/dark-stores.webp",
+    image: "/Images/industries/dark-stores-hero.webp",
     tagline:
       "Aisle obstructions and dispatch-handoff congestion in compact stores.",
     summary:
@@ -815,7 +823,7 @@ export const industries: Industry[] = [
     slug: "quick-commerce",
     name: "Quick Commerce",
     cardLabel: "Quick Commerce",
-    image: "/Images/industries/quick-commerce.webp",
+    image: "/Images/industries/quick-commerce-hero.webp",
     tagline:
       "Pickup-area congestion and camera uptime compared across many stores.",
     summary:
@@ -825,7 +833,7 @@ export const industries: Industry[] = [
     slug: "ecommerce-fulfilment",
     name: "E-commerce Fulfilment Centres",
     cardLabel: "E-commerce Fulfilment",
-    image: "/Images/industries/ecommerce-fc.webp",
+    image: "/Images/industries/ecommerce-fulfilment-hero.webp",
     tagline:
       "Parcel build-up at packing and sortation transfers, with fast handoff clips.",
     summary:
@@ -835,7 +843,7 @@ export const industries: Industry[] = [
     slug: "cold-storage",
     name: "Cold Storage & Refrigerated Warehousing",
     cardLabel: "Cold Storage",
-    image: "/Images/industries/cold-storage.webp",
+    image: "/Images/industries/cold-storage-hero.webp",
     tagline:
       "Chamber door activity and loading periods for temperature-excursion reviews.",
     summary:
@@ -855,7 +863,7 @@ export const industries: Industry[] = [
     slug: "commercial-buildings",
     name: "Commercial Buildings",
     cardLabel: "Commercial Buildings",
-    image: "/Images/industries/commercial-buildings.webp",
+    image: "/Images/industries/commercial-buildings-hero.webp",
     tagline:
       "After-hours alerts, lift-lobby congestion and fast incident retrieval.",
     summary:
@@ -865,7 +873,7 @@ export const industries: Industry[] = [
     slug: "data-centres",
     name: "Data Centres",
     cardLabel: "Data Centres",
-    image: "/Images/industries/data-centres.webp",
+    image: "/Images/industries/data-centres-hero.webp",
     tagline:
       "Controlled-entrance events, checked against access logs once integrated.",
     summary:
@@ -875,7 +883,7 @@ export const industries: Industry[] = [
     slug: "education-campuses",
     name: "Education & Campuses",
     cardLabel: "Education",
-    image: "/Images/industries/education.webp",
+    image: "/Images/industries/education-campuses-hero.webp",
     tagline:
       "Perimeter alerts and arrival congestion at school and college gates.",
     summary:
@@ -885,7 +893,7 @@ export const industries: Industry[] = [
     slug: "healthcare",
     name: "Healthcare & Hospitals",
     cardLabel: "Healthcare",
-    image: "/Images/industries/healthcare.webp",
+    image: "/Images/industries/healthcare-hero.webp",
     tagline:
       "Waiting-area congestion and pathway events in non-clinical areas.",
     summary:
@@ -895,7 +903,7 @@ export const industries: Industry[] = [
     slug: "retail-shopping",
     name: "Retail & Shopping Centres",
     cardLabel: "Retail",
-    image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1600&q=90",
+    image: "/Images/industries/retail-shopping-hero.webp",
     tagline:
       "Checkout queues, stockroom entry and fast incident retrieval.",
     summary:
@@ -905,7 +913,7 @@ export const industries: Industry[] = [
     slug: "hotels-hospitality",
     name: "Hotels & Hospitality",
     cardLabel: "Hospitality",
-    image: "/Images/industries/hospitality.webp",
+    image: "/Images/industries/hotels-hospitality-hero.webp",
     tagline:
       "Check-in congestion and after-hours alerts in lobbies and service areas.",
     summary:
@@ -915,7 +923,7 @@ export const industries: Industry[] = [
     slug: "utilities",
     name: "Utilities & Infrastructure",
     cardLabel: "Utilities",
-    image: "/Images/industries/utilities.webp",
+    image: "/Images/industries/utilities-hero.webp",
     tagline:
       "Perimeter events and remote-view outages at substations and field sites.",
     summary:
@@ -935,7 +943,7 @@ export const industries: Industry[] = [
     slug: "pulp-paper",
     name: "Pulp, Paper & Packaging",
     cardLabel: "Pulp & Paper",
-    image: "/Images/industries/pulp-paper.webp",
+    image: "/Images/industries/pulp-paper-hero.webp",
     tagline:
       "Roll-handling zone alerts and material build-up at transfer points.",
     summary:
@@ -945,7 +953,7 @@ export const industries: Industry[] = [
     slug: "textile",
     name: "Textiles & Garments",
     cardLabel: "Textiles",
-    image: "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?auto=format&fit=crop&w=1600&q=90",
+    image: "/Images/industries/textile-hero.webp",
     tagline:
       "Material build-up at staging buffers and pathway events on the floor.",
     summary:
@@ -955,7 +963,7 @@ export const industries: Industry[] = [
     slug: "polymers-plastics",
     name: "Polymers & Plastics",
     cardLabel: "Polymers",
-    image: "/Images/industries/polymers-plastics.webp",
+    image: "/Images/industries/polymers-plastics-hero.webp",
     tagline:
       "Build-up at moulding and extrusion transfers, plus restricted-zone alerts.",
     summary:
@@ -965,7 +973,7 @@ export const industries: Industry[] = [
     slug: "banking",
     name: "Banking & Financial Institutions",
     cardLabel: "Banking",
-    image: "/Images/industries/banking.webp",
+    image: "/Images/industries/banking-hero.webp",
     tagline:
       "After-hours branch alerts and offline-camera detection across every branch.",
     summary:
@@ -985,7 +993,7 @@ export const industries: Industry[] = [
     slug: "government",
     name: "Government & Public Infrastructure",
     cardLabel: "Government",
-    image: "/Images/industries/government.webp",
+    image: "/Images/industries/government-hero.webp",
     tagline:
       "Service-counter queues, route obstructions and recording availability.",
     summary:
@@ -995,7 +1003,7 @@ export const industries: Industry[] = [
     slug: "solar-renewable",
     name: "Solar & Renewable Energy Facilities",
     cardLabel: "Renewables",
-    image: "/Images/industries/renewables.webp",
+    image: "/Images/industries/solar-renewable-hero.webp",
     tagline:
       "Perimeter alerts at gates and equipment compounds on remote sites.",
     summary:
@@ -1005,7 +1013,7 @@ export const industries: Industry[] = [
     slug: "telecom-remote",
     name: "Telecom & Remote Sites",
     cardLabel: "Telecom",
-    image: "/Images/industries/telecom.webp",
+    image: "/Images/industries/telecom-remote-hero.webp",
     tagline:
       "Shelter-entry alerts checked against planned visits, with link health.",
     summary:
@@ -1015,7 +1023,7 @@ export const industries: Industry[] = [
     slug: "sports-events",
     name: "Sports & Event Venues",
     cardLabel: "Sports & Events",
-    image: "/Images/industries/sports-events.webp",
+    image: "/Images/industries/sports-events-hero.webp",
     tagline:
       "Gate and concourse congestion by event phase, plus steward response.",
     summary:

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useSafeReducedMotion } from "@/lib/use-safe-reduced-motion";
 import {
   nebulaCapabilities,
@@ -74,14 +74,14 @@ export function NebulaArchitecture() {
           </div>
         </div>
 
-        <motion.div
+        <m.div
           initial={reduce ? false : { opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.45, delay: 0.08 }}
         >
           <ArchitectureLayer title="Cloud Layer" items={cloudLayer} tone="cloud" />
-        </motion.div>
+        </m.div>
 
         <p className="text-center text-[12px] font-medium leading-relaxed tracking-[0.03em] text-muted md:text-[13px] md:tracking-[0.04em]">
           Cameras → SDKs → Drivers → Nebula OS → Cloud / Command Center

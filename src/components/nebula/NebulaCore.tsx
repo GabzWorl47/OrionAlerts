@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useSafeReducedMotion } from "@/lib/use-safe-reduced-motion";
 
 export function NebulaCore({ featured = false }: { featured?: boolean } = {}) {
@@ -46,7 +46,7 @@ export function NebulaCore({ featured = false }: { featured?: boolean } = {}) {
         : null}
 
       {!reduce ? (
-        <motion.div
+        <m.div
           aria-hidden
           className="pointer-events-none absolute left-1/2 top-1/2 h-[70%] w-[70%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(48,227,255,0.12),transparent_68%)]"
           animate={{ opacity: [0.45, 0.85, 0.45], scale: [0.96, 1.04, 0.96] }}

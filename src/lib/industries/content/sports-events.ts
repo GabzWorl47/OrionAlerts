@@ -17,7 +17,7 @@ export const sportsEventsIndustryPage: IndustryPageRecord = {
     description:
       "AI video analytics for stadiums and venues: gate and concourse congestion by event phase, steward response times and camera availability during events.",
     canonicalPath: "/industries/sports-events",
-    image: "/Images/industries/sports-events.webp",
+    image: "/Images/industries/sports-events-hero.webp",
   },
   hero: {
     eyebrow: "Sports & Event Venues",
@@ -25,8 +25,8 @@ export const sportsEventsIndustryPage: IndustryPageRecord = {
     lede: "See gate and concourse congestion by event phase, track how quickly stewards acknowledge alerts, and confirm critical cameras stay available during live events at stadiums and venues.",
     media: {
       kind: "image",
-      src: "/Images/industries/sports-events.webp",
-      alt: "Football match with a player scoring in front of a packed stadium crowd",
+      src: "/Images/industries/sports-events-hero.webp",
+      alt: "Blurred stadium roof and floodlights at night, tinted dark blue",
     },
     primaryCta: industrySharedCtas.primary,
     secondaryCta: industrySharedCtas.secondaryHero,

@@ -72,6 +72,49 @@ The final audit covered all 95 pages:
 - Recommended follow-up: move Framer Motion to `LazyMotion` + `m` components, and lazy-load the "Ask Orion" assistant and the consent UI. This is a refactor across ~50 components.
 - Real-device Core Web Vitals (LCP, CLS, INP) couldn't be measured in this environment. Run PageSpeed Insights on the live URL after deploying.
 
+### Open-task pass (26 Oct 2026, after the first push)
+
+**Images**
+- **Baked-in claims removed:** I created cleaned `-clean` copies; the originals were replaced and then deleted.
+  - "99.9% uptime" and other uptime figures removed.
+  - CP Plus at "96%" relabelled "CCTV Services".
+  - Third-party brand logo tiles replaced with neutral labels.
+  - SMS alert channels relabelled "Push" or "Mobile app".
+  - "End-to-end encrypted" changed to "Secure connections".
+  - AI-generator watermark removed from the homepage poster.
+- **Solution diagrams:**
+  - The AI diagram is hidden, because it showed AI processing in a central off-site core.
+  - Health: WhatsApp, Teams and the example counts removed.
+  - VMS: the cloud backup removed.
+  - AMC: the slogan removed.
+- **Solution hero images:** the baked-in headline is removed from Health, Asset Tracking and AMC, so it no longer repeats the H1.
+- **Industry heroes:**
+  - 13 replaced with branded backgrounds. They were off-topic, or showed brands, likenesses or emblems: sports, commercial buildings, food & FMCG, banking, education, polymers, utilities, retail, textile, pulp & paper, government, dark stores, automotive.
+  - 13 cropped to remove an AI-generator watermark.
+  - All share images regenerated.
+- **Unsplash:** no Unsplash images remain anywhere. The solution video section now uses local stills.
+
+**Performance**
+- Framer Motion now uses `LazyMotion` (`domAnimation`, strict; `domMax` only on /faqs).
+- "Ask Orion", the cookie banner and the demo modal load on demand.
+- Result: about 13 KB less JS on every page, and the solution hero is converted too.
+- Nebula OS video:
+  - Re-encoded from 18 to 11.5 MB (MP4) and from 19 to 10.5 MB (WebM).
+  - It now loads only when it scrolls into view.
+  - Fixed a bug where the WebM source was never used, because the `<video>` also had a `src` attribute.
+  - Deleted the duplicate `video.mp4`.
+
+**Cleanup**
+- Deleted 23 dead modules (3,725 lines), including the unused component with unverified SOC 2 / HIPAA / 99.9% claims.
+- Deleted 61 unreferenced media files.
+- `public/` is down to 63 MB.
+
+**Still in images, deliberately left (for the team):**
+- CP Plus logos and model numbers on equipment, since CP Plus is the stated technology partner.
+- Incidental hardware brand/model names: TP-Link, Cisco, Dell, Hikvision models and an "EAM PRO" label.
+- Sample dashboard numbers: per-device uptime, "98% Camera Coverage".
+- A fictional vendor list (Cisco, eSSL, Dell, HP, Lenovo, Honeywell) in the renewal-alerts image.
+
 ### Pre-push editorial review (26 Oct 2026)
 
 Five reviewers proofread and fact-checked every new or rewritten page against the site's original copy (git `HEAD`). They fixed errors directly and added no new claims.

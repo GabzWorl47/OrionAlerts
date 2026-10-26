@@ -123,7 +123,7 @@ export function Footer() {
             <li><Link href="/partners" className={linkClass}>Partner program</Link></li>
             <li>
               <Link href="/book-demo" className="font-semibold text-cyan transition hover:text-blue">
-                Book a demo
+                Book a Demo
               </Link>
             </li>
           </ul>
