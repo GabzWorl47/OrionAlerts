@@ -130,7 +130,7 @@ export function FeatureCard({
   index?: number;
 }) {
   return (
-    <article className="rounded-[20px] border border-line bg-surface p-6 transition-smooth hover:-translate-y-1.5 hover:border-blue/35 hover:shadow-[0_16px_36px_rgba(126,200,255,0.22)]">
+    <article className="rounded-[20px] border border-line bg-surface p-6 card-lift hover:border-blue/35 hover:shadow-[0_16px_36px_rgba(126,200,255,0.22)]">
       {typeof index === "number" ? (
         <p className="mb-3 font-display text-sm text-muted">{String(index + 1).padStart(2, "0")}</p>
       ) : null}

@@ -233,15 +233,15 @@ export function BlogArticle({ post, related }: BlogArticleProps) {
                 <Link
                   key={item.slug}
                   href={`/blogs/${item.slug}`}
-                  className="group overflow-hidden rounded-[20px] border border-line bg-white transition hover:-translate-y-1 hover:border-blue/25"
+                  className="group card-lift focus-ring overflow-hidden rounded-[20px] border border-line bg-white hover:border-blue/25"
                 >
-                  <div className="relative aspect-[16/10]">
+                  <div className="relative aspect-[16/10] overflow-hidden">
                     <Image
                       src={mediumImage(item.image)}
                       alt={item.imageAlt || item.title}
                       fill
                       sizes="(max-width: 768px) 100vw, 40vw"
-                      className="object-cover transition duration-500 group-hover:scale-105"
+                      className="object-cover card-media"
                     />
                   </div>
                   <div className="p-5">

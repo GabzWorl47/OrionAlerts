@@ -10,12 +10,14 @@ import {
 import { ChevronDown, Menu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState, type FocusEvent, type ReactNode } from "react";
-import { solutions, industries } from "@/lib/site";
 import { featureDeepLink } from "@/lib/feature-anchors";
 import {
   RESOURCES_HUB_HREF,
+  industryHref,
   resourceMenuItems,
   resourceRoutePrefixes,
+  solutionHref,
+  type HeaderNavData,
 } from "@/lib/mega-menu";
 import { SolutionsMegaMenu } from "@/components/SolutionsMegaMenu";
 import { IndustriesMegaMenu } from "@/components/IndustriesMegaMenu";
@@ -26,7 +28,8 @@ type MegaKey = "solutions" | "industries" | "resources";
 
 type NavLinkItem = { label: string; href: string; mega?: MegaKey };
 
-const defaultSolutionsMegaId = solutions[0]?.slug ?? "vms";
+/** The mobile drawer lists only the first few industries, then "View all". */
+const MOBILE_INDUSTRY_COUNT = 5;
 
 // No "Home" item: the logo links home.
 const navLinks: NavLinkItem[] = [
@@ -98,7 +101,9 @@ function MegaPanel({
   );
 }
 
-export function Header() {
+export function Header({ nav }: { nav: HeaderNavData }) {
+  const { solutions, industries } = nav;
+  const defaultSolutionsMegaId = solutions[0]?.slug ?? "vms";
   const pathname = usePathname();
   const reduce = useSafeReducedMotion();
   const [open, setOpen] = useState(false);
@@ -188,6 +193,7 @@ export function Header() {
     if (key === "solutions") {
       return (
         <SolutionsMegaMenu
+          solutions={solutions}
           activeId={activeMegaId}
           onActiveChange={setActiveMegaId}
           onClose={closeMenus}
@@ -195,7 +201,9 @@ export function Header() {
         />
       );
     }
-    if (key === "industries") return <IndustriesMegaMenu onClose={closeMenus} />;
+    if (key === "industries") {
+      return <IndustriesMegaMenu industries={industries} onClose={closeMenus} />;
+    }
     return <ResourcesMenu onClose={closeMenus} />;
   }
 
@@ -342,7 +350,7 @@ export function Header() {
                           <div key={solution.slug} className="border-b border-line/60 last:border-b-0">
                             <div className="flex items-center gap-1">
                               <Link
-                                href={`/solutions/${solution.slug}`}
+                                href={solutionHref(solution.slug)}
                                 prefetch
                                 className="min-w-0 flex-1 rounded-[10px] px-2 py-2.5 text-sm font-medium text-text hover:bg-surface-2 hover:text-blue"
                                 onClick={() => {
@@ -352,12 +360,12 @@ export function Header() {
                                   setMobileSolutionSlug(null);
                                 }}
                               >
-                                {solution.shortName}
+                                {solution.label}
                               </Link>
                               <button
                                 type="button"
                                 aria-expanded={expanded}
-                                aria-label={`${expanded ? "Hide" : "Show"} ${solution.shortName} capabilities`}
+                                aria-label={`${expanded ? "Hide" : "Show"} ${solution.label} capabilities`}
                                 className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-[10px] text-muted hover:bg-surface-2 hover:text-blue"
                                 onClick={() =>
                                   setMobileSolutionSlug((current) =>
@@ -381,8 +389,8 @@ export function Header() {
                                 >
                                   {solution.features.map((feature) => (
                                     <Link
-                                      key={feature.title}
-                                      href={featureDeepLink(solution.slug, feature.title)}
+                                      key={feature}
+                                      href={featureDeepLink(solution.slug, feature)}
                                       prefetch
                                       className="block rounded-[10px] px-2 py-2 text-[13px] font-medium leading-snug text-muted-strong hover:bg-surface-2 hover:text-blue"
                                       onClick={() => {
@@ -392,7 +400,7 @@ export function Header() {
                                         setMobileSolutionSlug(null);
                                       }}
                                     >
-                                      {feature.title}
+                                      {feature}
                                     </Link>
                                   ))}
                                 </m.div>
@@ -438,10 +446,10 @@ export function Header() {
                       exit={{ height: 0, opacity: 0 }}
                       className="overflow-hidden pl-3"
                     >
-                      {industries.slice(0, 5).map((industry) => (
+                      {industries.slice(0, MOBILE_INDUSTRY_COUNT).map((industry) => (
                         <Link
                           key={industry.slug}
-                          href={`/industries/${industry.slug}`}
+                          href={industryHref(industry.slug)}
                           className="block rounded-[10px] px-2 py-2.5 text-sm text-muted-strong hover:text-blue"
                           onClick={() => setOpen(false)}
                         >

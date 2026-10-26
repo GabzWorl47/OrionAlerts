@@ -4,7 +4,7 @@ import { getHeadingIds, stripInlineMarkdown, type BlogPost, type BlogSection } f
 const INLINE_TOKEN = /(\[[^\]]+\]\([^)\s]+\)|\*\*[^*]+\*\*|\*[^*]+\*|`[^`]+`)/g;
 const MARKDOWN_LINK = /^\[([^\]]+)\]\(([^)\s]+)\)$/;
 const linkClass =
-  "font-medium text-blue underline decoration-blue/30 underline-offset-[3px] transition hover:decoration-blue";
+  "link-inline font-medium text-blue";
 
 /** Light inline markdown: [links](/path), **bold**, *italic*, `code`. */
 export function InlineText({ text }: { text: string }) {

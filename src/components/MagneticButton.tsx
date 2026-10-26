@@ -12,15 +12,15 @@ type MagneticButtonProps = {
   className?: string;
 };
 
-// transition-smooth / focus-ring come from globals.css so every button
+// btn-motion / focus-ring come from globals.css (Motion section) so every button
 // (and any future primitive) eases and focuses the same way.
 const variants = {
   solid:
-    "rounded-[10px] border border-cyan/50 bg-cyan px-5 py-3 text-sm font-semibold !text-blue shadow-[0_10px_28px_rgba(12,34,56,0.12)] transition-smooth focus-ring hover:-translate-y-0.5 hover:bg-white hover:!text-blue hover:shadow-[0_16px_36px_rgba(126,200,255,0.35)]",
+    "rounded-[10px] border border-cyan/50 bg-cyan px-5 py-3 text-sm font-semibold !text-blue shadow-[0_10px_28px_rgba(12,34,56,0.12)] btn-motion focus-ring hover:-translate-y-0.5 hover:bg-white hover:!text-blue hover:shadow-[0_16px_36px_rgba(126,200,255,0.35)]",
   outline:
-    "rounded-[10px] border border-line bg-white px-5 py-3 text-sm font-semibold text-text shadow-[0_10px_28px_rgba(12,34,56,0.06)] transition-smooth focus-ring hover:-translate-y-0.5 hover:border-blue/25 hover:text-blue hover:shadow-[0_14px_32px_rgba(126,200,255,0.22)]",
+    "rounded-[10px] border border-line bg-white px-5 py-3 text-sm font-semibold text-text shadow-[0_10px_28px_rgba(12,34,56,0.06)] btn-motion focus-ring hover:-translate-y-0.5 hover:border-blue/25 hover:text-blue hover:shadow-[0_14px_32px_rgba(126,200,255,0.22)]",
   ghost:
-    "rounded-[10px] border border-transparent bg-transparent px-5 py-3 text-sm font-semibold text-muted transition-smooth focus-ring hover:-translate-y-0.5 hover:text-text",
+    "rounded-[10px] border border-transparent bg-transparent px-5 py-3 text-sm font-semibold text-muted btn-motion focus-ring hover:-translate-y-0.5 hover:text-text",
 };
 
 export function MagneticButton({

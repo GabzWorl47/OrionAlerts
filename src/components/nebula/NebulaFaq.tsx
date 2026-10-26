@@ -21,7 +21,7 @@ export function NebulaFaq({ heading = DEFAULT_HEADING }: { heading?: string }) {
         {nebulaFaqs.map((faq) => (
           <details
             key={faq.question}
-            className="group border-b border-blue/[0.07] last:border-b-0"
+            className="group accordion-fade border-b border-blue/[0.07] last:border-b-0"
           >
             <summary className="flex cursor-pointer list-none items-start justify-between gap-4 px-5 py-5 transition-smooth-fast focus-ring hover:bg-white/70 sm:px-7 sm:py-6 [&::-webkit-details-marker]:hidden">
               <h3 className="min-w-0 text-[0.9375rem] font-semibold leading-snug tracking-[-0.01em] text-text sm:text-base">

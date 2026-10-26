@@ -21,14 +21,22 @@ export type ComparisonTable = {
 
 export type RelatedLink = { label: string; href: string };
 
+/**
+ * A raster diagram, or the key of an inline SVG diagram component
+ * (rendered by SolutionHowItWorks from src/components/diagrams).
+ */
+export type SolutionDiagram =
+  | { src: string; alt: string; width: number; height: number }
+  | { component: "ai-analytics-architecture" };
+
 export type SolutionPageContent = {
   /** How the module is named in running copy, e.g. "Industries that use …". */
   topic: string;
   outcomesHeading: string;
   howItWorksHeading: string;
   howItWorksLede: string;
-  /** Diagram shown under the numbered steps. */
-  diagram?: { src: string; alt: string; width: number; height: number };
+  /** Diagram shown under the numbered steps: a raster image or an inline SVG component. */
+  diagram?: SolutionDiagram;
   faqHeading: string;
   comparison: ComparisonTable;
   /** Industry slugs (resolved to names from site.ts). */
@@ -189,10 +197,11 @@ const content: Record<string, SolutionPageContent> = {
     howItWorksHeading: "How OrionAlerts AI video analytics works",
     howItWorksLede:
       "AI runs on the cameras you already record. Setting it up is a matter of choosing cameras, zones and rules.",
-    // Hidden: architecture-ai-analytics.webp shows remote sites sending video
-    // over VPN/Internet to a central "Vision AI Core", which contradicts the
-    // copy (video and AI stay on the on-site Nebula OS node). Re-export first.
-    diagram: undefined,
+    // Inline SVG (src/components/diagrams/AiAnalyticsArchitecture.tsx). The old
+    // architecture-ai-analytics.webp showed video going over VPN/Internet to a
+    // central "Vision AI Core", which contradicts the copy (video and AI stay
+    // on the on-site Nebula OS node), so it is no longer used.
+    diagram: { component: "ai-analytics-architecture" },
     faqHeading: "AI video analytics FAQs",
     comparison: {
       heading: "Motion detection vs AI video analytics",

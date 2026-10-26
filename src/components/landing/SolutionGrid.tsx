@@ -240,7 +240,7 @@ export function SolutionGrid() {
                 >
                   <Link
                     href={`/solutions/${solution.slug}`}
-                    className="group relative block h-full overflow-hidden rounded-[22px] bg-[#07111f] shadow-[0_18px_40px_-28px_rgba(7,17,31,0.55)] ring-1 ring-black/5 transition-[box-shadow,ring-color,ring-width] duration-300 hover:shadow-[0_28px_55px_-24px_rgba(7,17,31,0.7)] hover:ring-2 hover:ring-cyan"
+                    className="group focus-ring relative block h-full overflow-hidden rounded-[22px] bg-[#07111f] shadow-[0_18px_40px_-28px_rgba(7,17,31,0.55)] ring-1 ring-black/5 transition-[box-shadow,ring-color,ring-width] duration-300 hover:shadow-[0_28px_55px_-24px_rgba(7,17,31,0.7)] hover:ring-2 hover:ring-cyan"
                   >
                     <div className="relative aspect-[3/4] overflow-hidden">
                       <Image
@@ -249,7 +249,7 @@ export function SolutionGrid() {
                         fill
                         quality={90}
                         sizes="(max-width: 640px) 45vw, (max-width: 1024px) 30vw, 18vw"
-                        className="object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.12]"
+                        className="object-cover card-media"
                       />
 
                       <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#07111f] via-[#07111f]/45 to-transparent opacity-95" />
@@ -267,12 +267,12 @@ export function SolutionGrid() {
                           {solution.oneLiner}
                         </span>
 
-                        <span className="mt-3 inline-flex items-center gap-1 text-[12px] font-semibold text-cyan transition duration-300 group-hover:gap-2 sm:text-[13px]">
+                        <span className="mt-3 inline-flex items-center gap-1 text-[12px] font-semibold text-cyan sm:text-[13px]">
                           Explore
                           <ChevronRight
                             size={15}
                             strokeWidth={2.4}
-                            className="shrink-0 transition-transform duration-300 group-hover:translate-x-0.5"
+                            className="shrink-0 arrow-nudge"
                           />
                         </span>
                       </div>

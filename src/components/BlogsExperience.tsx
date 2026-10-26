@@ -282,7 +282,7 @@ function FeaturedArticle({ post }: { post: BlogPost }) {
           fill
           priority
           sizes="(max-width: 1024px) 100vw, 55vw"
-          className="object-cover transition duration-700 group-hover:scale-[1.03]"
+          className="object-cover card-media"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#0c2238] via-[#0c2238]/25 to-transparent lg:bg-gradient-to-r lg:from-transparent lg:via-[#0c2238]/35 lg:to-[#0c2238]" />
       </div>
@@ -307,8 +307,8 @@ function FeaturedArticle({ post }: { post: BlogPost }) {
               </p>
             </div>
           </div>
-          <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-cyan transition group-hover:gap-2.5">
-            Read article <ArrowRight size={15} />
+          <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-cyan">
+            Read article <ArrowRight size={15} aria-hidden className="arrow-nudge" />
           </span>
         </div>
       </div>
@@ -316,12 +316,11 @@ function FeaturedArticle({ post }: { post: BlogPost }) {
   );
 }
 
-function ArticleCard({ post, index }: { post: BlogPost; index: number }) {
+function ArticleCard({ post }: { post: BlogPost; index: number }) {
   return (
     <Link
       href={`/blogs/${post.slug}`}
-      className="group flex h-full flex-col overflow-hidden rounded-[22px] border border-line bg-white transition duration-300 hover:-translate-y-1 hover:border-blue/25 hover:shadow-[0_24px_50px_-28px_rgba(15,61,120,0.35)]"
-      style={{ transitionDelay: `${Math.min(index, 6) * 20}ms` }}
+      className="group card-lift focus-ring flex h-full flex-col overflow-hidden rounded-[22px] border border-line bg-white hover:border-blue/25 hover:shadow-[0_24px_50px_-28px_rgba(15,61,120,0.35)]"
     >
       <div className="relative aspect-[16/10] overflow-hidden">
         <Image
@@ -329,7 +328,7 @@ function ArticleCard({ post, index }: { post: BlogPost; index: number }) {
           alt={post.imageAlt || post.title}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1280px) 45vw, 30vw"
-          className="object-cover transition duration-700 group-hover:scale-105"
+          className="object-cover card-media"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#0c2238]/40 via-transparent to-transparent" />
         <span className="absolute left-3.5 top-3.5 rounded-full bg-white/92 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-blue backdrop-blur">
@@ -353,8 +352,8 @@ function ArticleCard({ post, index }: { post: BlogPost; index: number }) {
             <AuthorAvatar name={post.author} size="sm" />
             <p className="truncate text-sm font-semibold text-text">{post.author}</p>
           </div>
-          <span className="inline-flex shrink-0 items-center gap-1 text-sm font-semibold text-blue transition group-hover:gap-1.5">
-            Read <ArrowRight size={14} />
+          <span className="inline-flex shrink-0 items-center gap-1 text-sm font-semibold text-blue">
+            Read <ArrowRight size={14} aria-hidden className="arrow-nudge" />
           </span>
         </div>
       </div>

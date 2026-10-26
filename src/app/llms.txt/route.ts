@@ -2,6 +2,7 @@ import { getSiteOrigin } from "@/lib/industries/site-origin";
 import { getPublishedBlogPosts } from "@/lib/blog-store";
 import { site, solutions } from "@/lib/site";
 import { nebulaFaqs, nebulaSectionCopy } from "@/lib/nebula-os";
+import { GLOSSARY_PATH, glossaryTerms } from "@/lib/glossary";
 import {
   COMPANY_LINKS,
   RESOURCE_LINKS,
@@ -58,6 +59,14 @@ export async function GET() {
   lines.push("");
   lines.push(...industryLines(url));
   lines.push(`- [All industries](${url("/industries")})`);
+  lines.push("");
+
+  lines.push("## Glossary");
+  lines.push("");
+  for (const term of glossaryTerms) {
+    lines.push(`- [${term.term}](${url(`${GLOSSARY_PATH}/${term.slug}`)}): ${term.shortDefinition}`);
+  }
+  lines.push(`- [All glossary terms](${url(GLOSSARY_PATH)})`);
   lines.push("");
 
   lines.push("## Key questions answered");

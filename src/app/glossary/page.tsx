@@ -45,7 +45,7 @@ export default function GlossaryHubPage() {
         <SectionHeading
           eyebrow={`${glossaryTerms.length} terms`}
           title="Terms A–Z"
-          lede="Each entry opens with a neutral definition, followed by how OrionAlerts handles it and short answers to common questions."
+          lede="Each entry opens with a neutral definition, notes how OrionAlerts handles it where relevant, and answers common questions."
           compact
         />
         <LinkCardGrid

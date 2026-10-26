@@ -16,7 +16,7 @@ import {
   Utensils,
   type LucideIcon,
 } from "lucide-react";
-import { industries } from "@/lib/site";
+import { industryHref, type NavIndustry } from "@/lib/mega-menu";
 
 const industryIcons: Record<string, LucideIcon> = {
   manufacturing: Factory,
@@ -52,6 +52,8 @@ const industryIcons: Record<string, LucideIcon> = {
 };
 
 type IndustriesMegaMenuProps = {
+  /** Slim link data built on the server (see buildHeaderNav); already capped at 15. */
+  industries: NavIndustry[];
   onClose: () => void;
 };
 
@@ -68,7 +70,7 @@ function IndustryItem({
 
   return (
     <Link
-      href={`/industries/${slug}`}
+      href={industryHref(slug)}
       onClick={onClose}
       className="group flex gap-3 rounded-[10px] px-2 py-2 transition hover:bg-white/8 focus-visible:bg-white/8"
     >
@@ -86,13 +88,8 @@ function IndustryItem({
   );
 }
 
-/** Desktop mega menu is 3 columns — five rows = 15 industries. */
-const MEGA_MENU_ROWS = 5;
-const MEGA_MENU_COLS = 3;
-const MEGA_MENU_PREVIEW = MEGA_MENU_ROWS * MEGA_MENU_COLS;
-
-export function IndustriesMegaMenu({ onClose }: IndustriesMegaMenuProps) {
-  const preview = industries.slice(0, MEGA_MENU_PREVIEW);
+/** Desktop mega menu is 3 columns x 5 rows = 15 industries (INDUSTRIES_MENU_COUNT). */
+export function IndustriesMegaMenu({ industries, onClose }: IndustriesMegaMenuProps) {
 
   return (
     <div className="relative min-h-0 overflow-visible px-2 pt-5 xl:px-4">
@@ -101,7 +98,7 @@ export function IndustriesMegaMenu({ onClose }: IndustriesMegaMenuProps) {
       </p>
 
       <div className="mt-3 grid grid-cols-1 gap-x-6 gap-y-1 sm:grid-cols-2 lg:grid-cols-3">
-        {preview.map((industry) => (
+        {industries.map((industry) => (
           <IndustryItem
             key={industry.slug}
             slug={industry.slug}

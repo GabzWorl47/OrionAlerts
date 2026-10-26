@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Outfit } from "next/font/google";
 import { SiteChrome } from "@/components/SiteChrome";
+import { RouteTransition } from "@/components/RouteTransition";
 import { site } from "@/lib/site";
 import { getSiteOrigin } from "@/lib/industries/site-origin";
 import {
@@ -47,11 +48,9 @@ export const metadata: Metadata = {
     description: SITE_DEFAULT_DESCRIPTION,
     images: [DEFAULT_OG_IMAGE],
   },
-  icons: {
-    icon: [{ url: "/Images/favicon.png", type: "image/png" }],
-    apple: [{ url: "/apple-icon.png", sizes: "180x180", type: "image/png" }],
-    shortcut: "/Images/favicon.png",
-  },
+  // No `icons` here: the file conventions emit them. src/app/icon.png is a 48px
+  // favicon and src/app/apple-icon.png the 180px touch icon; the 192/512 PNGs
+  // in public/Images are referenced only by the web manifest (manifest.ts).
 };
 
 export const viewport: Viewport = {
@@ -76,6 +75,7 @@ export default function RootLayout({
         */}
         <JsonLdScript data={organizationJsonLd()} />
         <SiteChrome>{children}</SiteChrome>
+        <RouteTransition />
       </body>
     </html>
   );

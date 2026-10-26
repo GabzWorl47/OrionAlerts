@@ -1,7 +1,5 @@
-"use client";
-
 import Link from "next/link";
-import { openCookieSettings } from "@/components/consent/ConsentProvider";
+import { CookieSettingsLink } from "@/components/consent/CookieSettingsLink";
 import { legalMeta } from "@/lib/legal";
 import { industries, site, solutions } from "@/lib/site";
 
@@ -40,6 +38,10 @@ const headingClass = "text-[11px] font-semibold uppercase tracking-[0.16em] text
 const listClass = "mt-4 space-y-2 text-sm text-muted-strong";
 const linkClass = "transition hover:text-blue";
 
+/**
+ * Server component: the footer's links come from `@/lib/site`, which must not
+ * end up in the shared client bundle (see SiteChrome).
+ */
 export function Footer() {
   return (
     <footer className="border-t border-line bg-surface">
@@ -140,13 +142,8 @@ export function Footer() {
           <div className="flex flex-wrap gap-4">
             <Link href="/privacy" className="transition hover:text-blue">Privacy Policy</Link>
             <Link href="/cookies" className="transition hover:text-blue">Cookie Notice</Link>
-            <button
-              type="button"
-              onClick={openCookieSettings}
-              className="transition hover:text-blue"
-            >
-              Cookie Settings
-            </button>
+            {/* The only interactive bit of the footer: a tiny client island. */}
+            <CookieSettingsLink className="transition hover:text-blue" />
             <Link href="/terms" className="transition hover:text-blue">Terms of Service</Link>
           </div>
         </div>

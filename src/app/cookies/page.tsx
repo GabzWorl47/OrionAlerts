@@ -113,7 +113,7 @@ export default function CookieNoticePage() {
             <>
               <p id="settings">
                 Open{" "}
-                <CookieSettingsLink className="font-semibold text-blue hover:underline">
+                <CookieSettingsLink className="link-inline font-semibold text-blue">
                   Cookie Settings
                 </CookieSettingsLink>{" "}
                 anytime from this page or the site footer to review categories, Accept/Reject
@@ -129,13 +129,13 @@ export default function CookieNoticePage() {
               />
               <p>
                 For privacy questions beyond cookies, see the{" "}
-                <Link href="/privacy" className="font-semibold text-blue hover:underline">
+                <Link href="/privacy" className="link-inline font-semibold text-blue">
                   Privacy Policy
                 </Link>{" "}
                 or email{" "}
                 <a
                   href={`mailto:${legalMeta.privacyEmail}`}
-                  className="font-semibold text-blue hover:underline"
+                  className="link-inline font-semibold text-blue"
                 >
                   {legalMeta.privacyEmail}
                 </a>

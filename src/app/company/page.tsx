@@ -4,6 +4,7 @@ import { PageShell } from "@/components/PageShell";
 import { CtaBand, Section } from "@/components/ui";
 import { ContentHero } from "@/components/content/ContentHero";
 import { LinkPills } from "@/components/content/LinkCards";
+import { DeploymentModels } from "@/components/diagrams/DeploymentModels";
 import { aboutPageJsonLd } from "@/components/content/structured-data";
 import { companyFacts, companyPage, COMPANY_PATH } from "@/lib/company";
 import { site } from "@/lib/site";
@@ -94,6 +95,18 @@ export default function CompanyPage() {
             </div>
           ))}
         </dl>
+        <figure className="mt-8">
+          <figcaption className="mb-4 text-sm font-semibold text-text">
+            Deployment models at a glance{" "}
+            <Link
+              href="/docs#deployment"
+              className="font-medium text-blue underline decoration-cyan/60 underline-offset-4 hover:decoration-blue"
+            >
+              (details)
+            </Link>
+          </figcaption>
+          <DeploymentModels idPrefix="company-deploy" />
+        </figure>
       </Section>
 
       <Section compact className="pt-0">

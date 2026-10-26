@@ -425,7 +425,7 @@ function HelpCard({
   return (
     <Link
       href={href}
-      className={`group block overflow-hidden rounded-[22px] border p-5 transition duration-300 hover:-translate-y-1 ${
+      className={`group card-lift focus-ring block overflow-hidden rounded-[22px] border p-5 ${
         accent
           ? "border-blue/20 bg-gradient-to-br from-[#1a5fb0] via-[#2b8cff] to-[#30e3ff] text-white shadow-[0_20px_50px_-24px_rgba(43,140,255,0.65)]"
           : "border-line bg-white hover:border-blue/25 hover:shadow-[0_18px_40px_-28px_rgba(15,61,120,0.4)]"
@@ -452,7 +452,7 @@ function HelpCard({
         }`}
       >
         {cta}
-        <ArrowRight size={14} className="transition group-hover:translate-x-0.5" />
+        <ArrowRight size={14} aria-hidden className="arrow-nudge" />
       </span>
     </Link>
   );

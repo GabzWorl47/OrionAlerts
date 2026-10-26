@@ -29,7 +29,7 @@ export function QaList({
       {items.map((item, index) => (
         <details
           key={item.question}
-          className="group border-b border-line last:border-b-0"
+          className="group accordion-fade border-b border-line last:border-b-0"
           open={index === 0}
         >
           <summary className="flex cursor-pointer list-none items-start justify-between gap-4 px-5 py-5 transition-smooth-fast focus-ring hover:bg-surface-2/60 sm:px-7 sm:py-6 [&::-webkit-details-marker]:hidden">

@@ -226,13 +226,16 @@
    ============================================================ */
 
 .transition-smooth {
-  transition-property: transform, opacity, box-shadow, background-color, border-color, color;
+  /* Tailwind 4's translate, scale and rotate utilities set the individual
+     `translate`/`scale`/`rotate` properties, not `transform` — list them too
+     or hover lifts like `hover:-translate-y-0.5` jump instead of easing. */
+  transition-property: transform, translate, scale, rotate, opacity, box-shadow, background-color, border-color, color;
   transition-duration: var(--dur-base);
   transition-timing-function: var(--ease-soft);
 }
 
 .transition-smooth-fast {
-  transition-property: transform, opacity, box-shadow, background-color, border-color, color;
+  transition-property: transform, translate, scale, rotate, opacity, box-shadow, background-color, border-color, color;
   transition-duration: var(--dur-fast);
   transition-timing-function: var(--ease-swift);
 }
@@ -240,7 +243,10 @@
 .focus-ring {
   outline: 2px solid transparent;
   outline-offset: 3px;
-  transition: outline-color var(--dur-fast) var(--ease-swift);
+  /* No `transition` shorthand here: it is unlayered, so it used to replace the
+     transition-property list of every element that paired focus-ring with
+     transition-smooth / a Tailwind transition utility (buttons, cards and
+     summaries lost their hover easing). The ring itself should appear instantly. */
 }
 
 .focus-ring:focus-visible {
@@ -337,10 +343,6 @@
     0 12px 32px rgba(126, 200, 255, 0.22);
 }
 
-.section-alt {
-  background: var(--surface-2);
-}
-
 .grid-texture {
   background-image:
     linear-gradient(rgba(43, 140, 255, 0.04) 1px, transparent 1px),
@@ -421,13 +423,6 @@
   background-clip: unset;
 }
 
-.text-blue-gradient {
-  color: var(--text);
-  background: none;
-  -webkit-background-clip: unset;
-  background-clip: unset;
-}
-
 .panel {
   background: var(--surface);
   border: 1px solid var(--line);
@@ -449,10 +444,6 @@
 
 .ai-glow {
   box-shadow: 0 0 40px rgba(126, 200, 255, 0.18);
-}
-
-.command-panel {
-  background: linear-gradient(145deg, #071018, #0c2238, #0e2740);
 }
 
 @keyframes data-pulse {
@@ -491,20 +482,6 @@
 
 .certificate-marquee-track--slow {
   animation-duration: 40s;
-}
-
-@keyframes certificate-marquee-ltr {
-  from {
-    transform: translateX(-50%);
-  }
-  to {
-    transform: translateX(0);
-  }
-}
-
-.certificate-marquee-track--ltr {
-  animation-name: certificate-marquee-ltr;
-  animation-duration: 55s;
 }
 
 /* Industry pages — README v2 visual contract */
@@ -630,12 +607,6 @@
   grid-column: span 8;
 }
 
-.industry-card__number {
-  color: var(--industry-accent-strong);
-  font-variant-numeric: tabular-nums;
-  font-weight: 700;
-}
-
 .industry-tree {
   display: grid;
   grid-template-columns: repeat(5, minmax(148px, 1fr));
@@ -694,66 +665,6 @@
   background: rgba(25, 184, 255, 0.12);
 }
 
-.industry-score {
-  grid-column: span 4;
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  padding: 24px;
-  border: 1px solid var(--industry-line);
-  border-radius: var(--industry-radius-md);
-  background: var(--industry-surface-raised);
-  box-shadow: 0 8px 24px rgba(7, 18, 37, 0.05);
-}
-
-.industry-score__value {
-  color: var(--industry-accent-strong);
-  font-size: clamp(2rem, 4vw, 3rem);
-  font-weight: 700;
-  line-height: 1;
-}
-
-.industry-score > p:last-of-type {
-  flex: 1 1 auto;
-}
-
-.industry-score__bar {
-  height: 8px;
-  margin-top: 18px;
-  overflow: hidden;
-  border-radius: 99px;
-  background: #dce7f2;
-}
-
-.industry-score__bar > span {
-  display: block;
-  width: var(--score, 0%);
-  height: 100%;
-  border-radius: inherit;
-  background: linear-gradient(90deg, var(--industry-accent), var(--industry-success));
-}
-
-@keyframes industry-scan {
-  0% {
-    background-position: 0 0;
-  }
-  100% {
-    background-position: 56px 0;
-  }
-}
-
-.industry-score__bar--pending {
-  background-image: repeating-linear-gradient(
-    115deg,
-    rgba(25, 184, 255, 0.16) 0px,
-    rgba(25, 184, 255, 0.16) 7px,
-    transparent 7px,
-    transparent 14px
-  );
-  background-color: #dce7f2;
-  animation: industry-scan 2.4s linear infinite;
-}
-
 @keyframes industry-flow {
   0% {
     left: -2%;
@@ -799,8 +710,7 @@
   }
 
   .industry-card,
-  .industry-card--wide,
-  .industry-score {
+  .industry-card--wide {
     grid-column: 1 / -1;
   }
 
@@ -826,7 +736,6 @@
     animation: none !important;
   }
 
-  .industry-score__bar--pending,
   .industry-tree__flow {
     animation: none !important;
   }
@@ -851,5 +760,171 @@
   .glow-cyan-hover,
   .focus-ring {
     transition-duration: 0.01ms !important;
+  }
+}
+
+/* ============================================================
+   Motion — micro-interactions + route transition
+   ------------------------------------------------------------
+   One place for hover/focus feedback so cards, buttons and links
+   feel like one system. Rules:
+   - Only transform-family properties (translate/scale), opacity,
+     colour and shadow. Nothing here touches layout.
+   - Hover states sit behind (hover: hover) so touch devices never get
+     a "stuck" lift; :focus-visible mirrors hover for keyboard users.
+   - Nothing here hides content before hydration: these are all
+     interaction states, and the route fade is started from JS only on
+     client-side navigations (see RouteTransition.tsx), never first paint.
+   - Everything is neutralised under prefers-reduced-motion (bottom).
+   - Layered as components so per-card utilities (hover:shadow-[…],
+     hover:border-…) still win.
+
+   .card-lift        Card hover/focus: 2px rise + soft shadow.
+   .card-media       Image inside an overflow-hidden frame of a
+                     .card-lift / .group card: gentle zoom on hover/focus.
+   .arrow-nudge      Arrow icon in a link/card: nudges right on hover/focus.
+   .arrow-nudge-diag Same for ArrowUpRight icons (up and right).
+   .btn-motion       Buttons: 200ms colour/shadow/lift + a tiny press.
+   .link-inline      Long-form inline text links: underline always visible,
+                     strengthens on hover/focus.
+   .accordion-fade   On a <details>: answer fades in when opened (where
+                     ::details-content is supported; elsewhere it's instant).
+   ============================================================ */
+
+:root {
+  --dur-hover: 200ms;
+  --dur-media: 300ms;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --lift-y: -2px;
+  --lift-shadow: 0 16px 36px -18px rgba(12, 34, 56, 0.3);
+}
+
+@layer components {
+  .card-lift {
+    transition-property: translate, box-shadow, border-color, background-color, color;
+    transition-duration: 240ms;
+    transition-timing-function: var(--ease-out);
+  }
+
+  .card-lift:focus-visible,
+  .card-lift:has(:focus-visible) {
+    translate: 0 var(--lift-y);
+    box-shadow: var(--lift-shadow);
+  }
+
+  .card-media {
+    transition:
+      scale var(--dur-media) var(--ease-out),
+      opacity var(--dur-media) var(--ease-out);
+  }
+
+  :is(.card-lift, .group):focus-visible .card-media,
+  .card-lift:has(:focus-visible) .card-media {
+    scale: 1.04;
+  }
+
+  .arrow-nudge,
+  .arrow-nudge-diag {
+    transition: translate var(--dur-hover) var(--ease-out);
+  }
+
+  :is(a, button, .group):focus-visible .arrow-nudge,
+  .card-lift:has(:focus-visible) .arrow-nudge {
+    translate: 3px 0;
+  }
+
+  :is(a, button, .group):focus-visible .arrow-nudge-diag,
+  .card-lift:has(:focus-visible) .arrow-nudge-diag {
+    translate: 2px -2px;
+  }
+
+  .btn-motion {
+    transition-property: color, background-color, border-color, box-shadow, translate, scale;
+    transition-duration: var(--dur-hover);
+    transition-timing-function: var(--ease-out);
+  }
+
+  .btn-motion:active {
+    scale: 0.98;
+  }
+
+  .link-inline {
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.22em;
+    text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
+    transition-property: color, text-decoration-color, text-underline-offset;
+    transition-duration: var(--dur-hover);
+    transition-timing-function: var(--ease-out);
+  }
+
+  .link-inline:focus-visible {
+    text-decoration-color: currentColor;
+    text-underline-offset: 0.3em;
+  }
+
+  @media (hover: hover) {
+    .card-lift:hover {
+      translate: 0 var(--lift-y);
+      box-shadow: var(--lift-shadow);
+    }
+
+    :is(.card-lift, .group):hover .card-media {
+      scale: 1.04;
+    }
+
+    :is(a, button, .group):hover .arrow-nudge {
+      translate: 3px 0;
+    }
+
+    :is(a, button, .group):hover .arrow-nudge-diag {
+      translate: 2px -2px;
+    }
+
+    .link-inline:hover {
+      text-decoration-color: currentColor;
+      text-underline-offset: 0.3em;
+    }
+  }
+
+  /* Native <details>: fade the answer in on open only. Closing stays instant
+     (the transition lives on the [open] state), and an answer that is open in
+     the server HTML never animates because there is no prior style to ease from. */
+  .accordion-fade::details-content {
+    opacity: 0;
+  }
+
+  .accordion-fade[open]::details-content {
+    opacity: 1;
+    transition: opacity 240ms var(--ease-out);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-lift,
+  .card-media,
+  .arrow-nudge,
+  .arrow-nudge-diag,
+  .btn-motion,
+  .link-inline {
+    transition-duration: 0.01ms !important;
+  }
+
+  .card-lift:is(:hover, :focus-visible, :has(:focus-visible)),
+  .btn-motion:is(:hover, :active) {
+    translate: none !important;
+    scale: none !important;
+  }
+
+  .card-media,
+  .arrow-nudge,
+  .arrow-nudge-diag {
+    translate: none !important;
+    scale: none !important;
+  }
+
+  .accordion-fade::details-content {
+    opacity: 1 !important;
+    transition: none !important;
   }
 }

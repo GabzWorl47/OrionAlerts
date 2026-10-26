@@ -21,7 +21,7 @@ function LinkList({ links }: { links: RelatedLink[] }) {
             <span>{link.label}</span>
             <ArrowUpRight
               size={14}
-              className="mt-0.5 shrink-0 text-blue/60 transition group-hover:text-blue"
+              className="arrow-nudge-diag mt-0.5 shrink-0 text-blue/60 transition group-hover:text-blue"
               aria-hidden
             />
           </Link>

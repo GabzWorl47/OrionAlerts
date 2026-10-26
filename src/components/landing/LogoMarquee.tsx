@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useSafeReducedMotion } from "@/lib/use-safe-reduced-motion";
 import { Reveal } from "@/components/Reveal";
-import { clients, type ClientLogo } from "@/lib/homepage";
+import { clients, type ClientLogo } from "@/lib/social-proof";
 
 function ClientItem({ client }: { client: ClientLogo }) {
   return (

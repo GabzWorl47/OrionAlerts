@@ -19,6 +19,7 @@ import {
   Zap,
 } from "lucide-react";
 import { useSafeReducedMotion } from "@/lib/use-safe-reduced-motion";
+import { responsiveSrcSet } from "@/lib/responsive-images";
 
 const DEFAULT_OUTCOMES = [
   "Multi-site visibility from one command view",
@@ -699,13 +700,17 @@ export function SolutionVideoSection({
                 transition={{ duration: 0.3 }}
               >
                 {poster ? (
-                  <Image
+                  // Plain <img>: with images.unoptimized next/image can't emit a
+                  // srcSet, and phones only need the 828px copy.
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
                     src={poster}
-                    alt={label}
-                    fill
+                    srcSet={responsiveSrcSet(poster)}
                     sizes="(max-width: 1024px) 100vw, 70vw"
-                    className="object-cover object-center"
-                    unoptimized
+                    alt={label}
+                    loading="lazy"
+                    decoding="async"
+                    className="absolute inset-0 h-full w-full object-cover object-center"
                   />
                 ) : (
                   <div className="flex h-full items-center justify-center bg-gradient-to-br from-[#15233a] to-[#0d1626] px-6 text-center">
@@ -786,13 +791,17 @@ export function SolutionVideoSection({
                     exit={reduce ? undefined : { opacity: 0 }}
                     transition={{ duration: 0.45, ease: "easeOut" }}
                   >
-                    <Image
+                    {/* Plain <img>: with images.unoptimized next/image can't emit a
+                        srcSet, and phones only need the 828px copy. */}
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
                       src={activeImage}
-                      alt={currentOutcome?.title ?? label}
-                      fill
+                      srcSet={responsiveSrcSet(activeImage)}
                       sizes="(max-width: 1024px) 100vw, 65vw"
-                      className="object-cover object-center"
-                      unoptimized
+                      alt={currentOutcome?.title ?? label}
+                      loading="lazy"
+                      decoding="async"
+                      className="absolute inset-0 h-full w-full object-cover object-center"
                     />
                     <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#07111f]/80 via-[#07111f]/20 to-transparent" />
                   </m.div>

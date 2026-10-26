@@ -27,7 +27,7 @@ export function LinkCardGrid({
         <li key={item.href}>
           <Link
             href={item.href}
-            className="group flex h-full flex-col rounded-[20px] border border-line bg-surface p-5 transition-smooth focus-ring hover:-translate-y-1 hover:border-blue/30 hover:shadow-[0_16px_36px_rgba(126,200,255,0.22)] sm:p-6"
+            className="group flex h-full flex-col rounded-[20px] border border-line bg-surface p-5 card-lift focus-ring hover:border-blue/30 hover:shadow-[0_16px_36px_rgba(126,200,255,0.22)] sm:p-6"
           >
             {item.meta ? <p className="eyebrow mb-2">{item.meta}</p> : null}
             <Heading className="text-[1.0625rem] font-semibold leading-snug tracking-[-0.015em] text-text">
@@ -41,7 +41,7 @@ export function LinkCardGrid({
               <ArrowRight
                 aria-hidden
                 size={14}
-                className="transition-transform duration-[var(--dur-fast)] group-hover:translate-x-0.5"
+                className="arrow-nudge"
               />
             </span>
           </Link>

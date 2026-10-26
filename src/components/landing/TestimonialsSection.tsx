@@ -3,7 +3,7 @@
 import { Quote, Star } from "lucide-react";
 import { useSafeReducedMotion } from "@/lib/use-safe-reduced-motion";
 import { Reveal } from "@/components/Reveal";
-import { testimonials, type Testimonial } from "@/lib/homepage";
+import { testimonials, type Testimonial } from "@/lib/social-proof";
 
 function Stars({ rating }: { rating: number }) {
   return (

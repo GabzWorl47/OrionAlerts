@@ -63,7 +63,7 @@ export default function SecurityPage() {
                 a product surface you are authorized to test, email{" "}
                 <a
                   href={`mailto:${legalMeta.securityEmail}`}
-                  className="font-semibold text-blue hover:underline"
+                  className="link-inline font-semibold text-blue"
                 >
                   {legalMeta.securityEmail}
                 </a>{" "}
@@ -84,7 +84,7 @@ export default function SecurityPage() {
                 orientation. Ask{" "}
                 <a
                   href="mailto:sales@orionalerts.com"
-                  className="font-semibold text-blue hover:underline"
+                  className="link-inline font-semibold text-blue"
                 >
                   sales@orionalerts.com
                 </a>{" "}
@@ -110,13 +110,13 @@ export default function SecurityPage() {
               <p>
                 A customer trust center and signed product subprocessor list are not published on
                 this website yet. For website processing see the{" "}
-                <Link href="/privacy" className="font-semibold text-blue hover:underline">
+                <Link href="/privacy" className="link-inline font-semibold text-blue">
                   Privacy Policy
                 </Link>
                 . For enterprise deployments, request details via{" "}
                 <a
                   href="mailto:sales@orionalerts.com"
-                  className="font-semibold text-blue hover:underline"
+                  className="link-inline font-semibold text-blue"
                 >
                   sales@orionalerts.com
                 </a>
@@ -133,21 +133,21 @@ export default function SecurityPage() {
               Security:{" "}
               <a
                 href={`mailto:${legalMeta.securityEmail}`}
-                className="font-semibold text-blue hover:underline"
+                className="link-inline font-semibold text-blue"
               >
                 {legalMeta.securityEmail}
               </a>
               . Privacy:{" "}
               <a
                 href={`mailto:${legalMeta.privacyEmail}`}
-                className="font-semibold text-blue hover:underline"
+                className="link-inline font-semibold text-blue"
               >
                 {legalMeta.privacyEmail}
               </a>
               . General:{" "}
               <a
                 href={`mailto:${legalMeta.generalEmail}`}
-                className="font-semibold text-blue hover:underline"
+                className="link-inline font-semibold text-blue"
               >
                 {legalMeta.generalEmail}
               </a>

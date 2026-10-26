@@ -5,6 +5,7 @@ import { PageShell } from "@/components/PageShell";
 import { CtaBand, Section } from "@/components/ui";
 import { ContentHero } from "@/components/content/ContentHero";
 import { LinkCardGrid, LinkPills } from "@/components/content/LinkCards";
+import { DeploymentModelDiagram, isDeploymentModelId } from "@/components/diagrams/DeploymentModels";
 import { nebulaDeployment, nebulaStack } from "@/lib/nebula-os";
 import { breadcrumbJsonLd, JsonLdScript } from "@/lib/jsonld";
 import { buildPageMetadata } from "@/lib/seo";
@@ -76,6 +77,11 @@ export default function DocsPage() {
         <div className="mt-6 grid gap-4 lg:grid-cols-3">
           {nebulaDeployment.models.map((model) => (
             <article key={model.id} className="panel-sm flex flex-col p-6">
+              {isDeploymentModelId(model.id) ? (
+                <div className="mb-5 rounded-[16px] bg-cyan/10 p-3">
+                  <DeploymentModelDiagram model={model.id} idPrefix="docs-deploy" className="mx-auto max-w-[22rem]" />
+                </div>
+              ) : null}
               <p className="eyebrow mb-2">{model.bestFor}</p>
               <h3 className="text-[1.0625rem] font-semibold leading-snug tracking-[-0.015em] text-text">
                 {model.name}

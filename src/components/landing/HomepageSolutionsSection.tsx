@@ -126,10 +126,10 @@ function SolutionBlock({
         </ul>
         <Link
           href={solution.ctaHref}
-          className="mt-7 inline-flex min-h-11 items-center gap-1.5 text-sm font-semibold text-blue transition hover:gap-2.5"
+          className="mt-7 inline-flex min-h-11 items-center gap-1.5 text-sm font-semibold text-blue transition"
         >
           {solution.ctaLabel}
-          <ArrowUpRight size={16} />
+          <ArrowUpRight size={16} aria-hidden className="arrow-nudge-diag" />
         </Link>
       </div>
 

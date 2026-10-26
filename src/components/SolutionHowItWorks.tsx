@@ -1,7 +1,17 @@
-import Image from "next/image";
+import type { ComponentType } from "react";
 import { WorkflowArchitectureStepper } from "@/components/WorkflowArchitectureStepper";
+import { AiAnalyticsArchitecture } from "@/components/diagrams/AiAnalyticsArchitecture";
 import type { Solution } from "@/lib/site";
-import type { SolutionPageContent } from "@/app/solutions/solution-page-content";
+import { responsiveSrcSet } from "@/lib/responsive-images";
+import type { SolutionDiagram, SolutionPageContent } from "@/app/solutions/solution-page-content";
+
+/** Inline SVG diagrams a solution can reference by key instead of an image. */
+const DIAGRAM_COMPONENTS: Record<
+  Extract<SolutionDiagram, { component: string }>["component"],
+  ComponentType
+> = {
+  "ai-analytics-architecture": AiAnalyticsArchitecture,
+};
 
 type SolutionHowItWorksProps = {
   solution: Solution;
@@ -10,12 +20,17 @@ type SolutionHowItWorksProps = {
 
 /**
  * "How it works": the workflow as a numbered list (text, not an image), the
- * diagram underneath with the architecture spelled out in its caption, and —
- * for Asset Tracking, which has no diagram — the benefits list alongside.
+ * diagram underneath (an image, or an inline SVG from components/diagrams) with
+ * the architecture spelled out in its caption, and — for Asset Tracking, which
+ * has no diagram, and for inline SVG diagrams — the benefits list alongside.
  */
 export function SolutionHowItWorks({ solution, content }: SolutionHowItWorksProps) {
   const { diagram } = content;
-  const showBenefits = !diagram && solution.benefits.length > 0;
+  const DiagramComponent =
+    diagram && "component" in diagram ? DIAGRAM_COMPONENTS[diagram.component] : null;
+  // Benefits sit beside the steps when there is no image diagram (Asset
+  // Tracking) and for inline SVG diagrams, which keep that list on the page.
+  const showBenefits = (!diagram || DiagramComponent !== null) && solution.benefits.length > 0;
 
   return (
     <section
@@ -71,14 +86,27 @@ export function SolutionHowItWorks({ solution, content }: SolutionHowItWorksProp
 
         {diagram ? (
           <figure className="mx-auto mt-10 max-w-6xl">
-            <Image
-              src={diagram.src}
-              alt={diagram.alt}
-              width={diagram.width}
-              height={diagram.height}
-              sizes="(max-width: 1024px) 100vw, 72rem"
-              className="h-auto w-full rounded-[22px] object-contain"
-            />
+            {DiagramComponent ? (
+              <div className="rounded-[22px] bg-white/70 p-4 ring-1 ring-blue/10 sm:p-6 lg:p-8">
+                <DiagramComponent />
+              </div>
+            ) : "src" in diagram ? (
+              // Plain <img>: with images.unoptimized next/image can't emit a
+              // srcSet, and phones only need the 828px copy. The figure is
+              // max-w-6xl (72rem) inside .container (100% - 2rem).
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={diagram.src}
+                srcSet={responsiveSrcSet(diagram.src)}
+                sizes="(max-width: 1184px) calc(100vw - 2rem), 72rem"
+                alt={diagram.alt}
+                width={diagram.width}
+                height={diagram.height}
+                loading="lazy"
+                decoding="async"
+                className="h-auto w-full rounded-[22px] object-contain"
+              />
+            ) : null}
             {solution.architecture.length > 0 ? (
               <figcaption className="mx-auto mt-4 max-w-4xl text-center text-sm text-muted-strong">
                 <span className="font-semibold text-text">Architecture, in order: </span>

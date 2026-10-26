@@ -9,6 +9,9 @@ import { ReactNode, useSyncExternalStore } from "react";
  */
 const ease = [0.16, 1, 0.3, 1] as const;
 
+/** One duration for Reveal and StaggerItem so section entrances match. */
+const REVEAL_DURATION = 0.6;
+
 /**
  * Direction variants: a soft fade + short translate + a whisper of scale.
  * The scale keeps things editorial rather than a plain slide, without
@@ -16,17 +19,17 @@ const ease = [0.16, 1, 0.3, 1] as const;
  * refinement, not an entrance effect.
  */
 const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 28, scale: 0.985 },
+  hidden: { opacity: 0, y: 24, scale: 0.985 },
   show: { opacity: 1, y: 0, scale: 1 },
 };
 
 const fadeLeft: Variants = {
-  hidden: { opacity: 0, x: -56, scale: 0.985 },
+  hidden: { opacity: 0, x: -40, scale: 0.985 },
   show: { opacity: 1, x: 0, scale: 1 },
 };
 
 const fadeRight: Variants = {
-  hidden: { opacity: 0, x: 56, scale: 0.985 },
+  hidden: { opacity: 0, x: 40, scale: 0.985 },
   show: { opacity: 1, x: 0, scale: 1 },
 };
 
@@ -81,7 +84,7 @@ export function Reveal({
       initial={animate ? "hidden" : false}
       whileInView={animate ? "show" : undefined}
       viewport={animate ? { once, amount, margin: "-10% 0px -8% 0px" } : undefined}
-      transition={{ duration: 0.7, delay, ease }}
+      transition={{ duration: REVEAL_DURATION, delay, ease }}
     >
       {children}
     </m.div>
@@ -134,7 +137,7 @@ export function StaggerItem({
     <m.div
       className={className}
       variants={map[direction]}
-      transition={{ duration: 0.6, ease }}
+      transition={{ duration: REVEAL_DURATION, ease }}
     >
       {children}
     </m.div>

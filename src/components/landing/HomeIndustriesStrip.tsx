@@ -40,10 +40,10 @@ export function HomeIndustriesStrip() {
           </div>
           <Link
             href="/industries"
-            className="inline-flex min-h-11 items-center gap-1.5 text-sm font-semibold text-blue transition hover:gap-2.5"
+            className="inline-flex min-h-11 items-center gap-1.5 text-sm font-semibold text-blue transition"
           >
             All industries
-            <ArrowRight size={16} aria-hidden />
+            <ArrowRight size={16} aria-hidden className="arrow-nudge" />
           </Link>
         </div>
 
@@ -52,7 +52,7 @@ export function HomeIndustriesStrip() {
             <li key={industry.slug}>
               <Link
                 href={`/industries/${industry.slug}`}
-                className="group relative block overflow-hidden rounded-[18px] border border-line bg-[#0b1220]"
+                className="group card-lift focus-ring relative block overflow-hidden rounded-[18px] border border-line bg-[#0b1220]"
               >
                 <div className="relative aspect-[4/3]">
                   <Image
@@ -60,7 +60,7 @@ export function HomeIndustriesStrip() {
                     alt=""
                     fill
                     sizes="(max-width: 1024px) 50vw, 25vw"
-                    className="object-cover opacity-80 transition duration-500 group-hover:scale-105 group-hover:opacity-95"
+                    className="object-cover opacity-80 card-media group-hover:opacity-95 group-focus-visible:opacity-95"
                   />
                   <div
                     aria-hidden

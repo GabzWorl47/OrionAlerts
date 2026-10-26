@@ -7,6 +7,7 @@ import { CtaBand, Section } from "@/components/ui";
 import { ContentHero } from "@/components/content/ContentHero";
 import { FaqSection } from "@/components/content/FaqSection";
 import { LinkCardGrid, LinkPills } from "@/components/content/LinkCards";
+import { DetectionFlow } from "@/components/diagrams/DetectionFlow";
 import { industryName, solutionLabel, solutionName } from "@/components/content/link-labels";
 import { getGlossaryTerm } from "@/lib/glossary";
 import {
@@ -156,6 +157,9 @@ export default async function UseCasePage({
               </figcaption>
             </figure>
           ) : null}
+        </div>
+        <div className="mt-10">
+          <DetectionFlow />
         </div>
       </Section>
 

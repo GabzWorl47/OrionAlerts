@@ -24,17 +24,17 @@ export function HomeLatestInsights({ posts }: { posts: BlogPost[] }) {
           </div>
           <Link
             href="/blogs"
-            className="inline-flex min-h-11 items-center gap-1.5 text-sm font-semibold text-blue transition hover:gap-2.5"
+            className="inline-flex min-h-11 items-center gap-1.5 text-sm font-semibold text-blue transition"
           >
             All articles
-            <ArrowRight size={16} aria-hidden />
+            <ArrowRight size={16} aria-hidden className="arrow-nudge" />
           </Link>
         </div>
 
         <ul className="mt-8 grid gap-5 md:grid-cols-3">
           {latest.map((post) => (
             <li key={post.slug}>
-              <article className="group relative h-full overflow-hidden rounded-[20px] border border-line bg-white transition hover:-translate-y-1 hover:border-blue/30 hover:shadow-[0_18px_40px_-28px_rgba(15,61,120,0.4)]">
+              <article className="group card-lift relative h-full overflow-hidden rounded-[20px] border border-line bg-white hover:border-blue/30 hover:shadow-[0_18px_40px_-28px_rgba(15,61,120,0.4)]">
                 {post.image ? (
                   <div className="relative aspect-[16/9] overflow-hidden bg-surface-2">
                     <Image
@@ -42,7 +42,7 @@ export function HomeLatestInsights({ posts }: { posts: BlogPost[] }) {
                       alt=""
                       fill
                       sizes="(max-width: 768px) 100vw, 33vw"
-                      className="object-cover transition duration-500 group-hover:scale-105"
+                      className="object-cover card-media"
                     />
                   </div>
                 ) : null}

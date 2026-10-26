@@ -109,19 +109,19 @@ export default function TermsOfServicePage() {
               Questions about these Terms:{" "}
               <a
                 href={`mailto:${legalMeta.generalEmail}`}
-                className="font-semibold text-blue hover:underline"
+                className="link-inline font-semibold text-blue"
               >
                 {legalMeta.generalEmail}
               </a>
               . Privacy questions:{" "}
               <a
                 href={`mailto:${legalMeta.privacyEmail}`}
-                className="font-semibold text-blue hover:underline"
+                className="link-inline font-semibold text-blue"
               >
                 {legalMeta.privacyEmail}
               </a>
               . See also our{" "}
-              <Link href="/privacy" className="font-semibold text-blue hover:underline">
+              <Link href="/privacy" className="link-inline font-semibold text-blue">
                 Privacy Policy
               </Link>
               .

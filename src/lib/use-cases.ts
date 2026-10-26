@@ -190,7 +190,7 @@ const sources: UseCaseSource[] = [
       "Schedules: rules must match when the area is genuinely restricted, or authorized staff will trigger alerts.",
     ],
     industries: ["data-centres", "banking", "pharma", "manufacturing", "commercial-buildings"],
-    relatedGlossary: ["video-analytics", "edge-ai-video-analytics"],
+    relatedGlossary: ["video-analytics", "line-crossing-detection", "edge-ai-video-analytics"],
     relatedUseCases: ["restricted-zone-monitoring", "perimeter-intrusion-detection", "loitering-detection"],
     faqs: [
       {
@@ -230,7 +230,7 @@ const sources: UseCaseSource[] = [
       "Weather and environment: rain, fog, dust, insects near infrared lamps and moving vegetation affect image quality.",
     ],
     industries: ["solar-renewable", "utilities", "telecom-remote", "oil-gas", "airports-ports-railways"],
-    relatedGlossary: ["video-analytics", "edge-ai-video-analytics", "camera-tampering-detection"],
+    relatedGlossary: ["video-analytics", "line-crossing-detection", "edge-ai-video-analytics", "camera-tampering-detection"],
     relatedUseCases: ["unauthorized-area-entry", "loitering-detection", "vehicle-detection"],
     faqs: [
       {
@@ -270,7 +270,7 @@ const sources: UseCaseSource[] = [
       "Zone design: thresholds should reflect the real capacity of each area, set with the operations team.",
     ],
     industries: ["sports-events", "airports-ports-railways", "retail-shopping", "education-campuses", "government"],
-    relatedGlossary: ["video-analytics", "edge-ai-video-analytics"],
+    relatedGlossary: ["video-analytics", "people-counting", "edge-ai-video-analytics"],
     relatedUseCases: ["loitering-detection", "abandoned-object-detection", "restricted-zone-monitoring"],
     faqs: [
       {
@@ -310,7 +310,7 @@ const sources: UseCaseSource[] = [
       "Time limits: limits should reflect normal behavior in each zone, such as queues or waiting areas.",
     ],
     industries: ["banking", "retail-shopping", "residential", "telecom-remote", "commercial-buildings"],
-    relatedGlossary: ["video-analytics", "edge-ai-video-analytics"],
+    relatedGlossary: ["video-analytics", "line-crossing-detection", "edge-ai-video-analytics"],
     relatedUseCases: ["perimeter-intrusion-detection", "unauthorized-area-entry", "abandoned-object-detection"],
     faqs: [
       {
@@ -395,7 +395,7 @@ const sources: UseCaseSource[] = [
       "Health checks run on the Nebula OS node itself. GPU acceleration is used where AI analytics are enabled; image, stream and recording checks need no extra camera hardware.",
     ],
     industries: ["telecom-remote", "banking", "quick-commerce", "dark-stores", "government"],
-    relatedGlossary: ["camera-health-monitoring", "camera-tampering-detection", "amc-annual-maintenance-contract"],
+    relatedGlossary: ["camera-health-monitoring", "camera-uptime", "camera-tampering-detection", "amc-annual-maintenance-contract"],
     relatedUseCases: ["camera-tampering-detection", "perimeter-intrusion-detection", "restricted-zone-monitoring"],
     faqs: [
       {

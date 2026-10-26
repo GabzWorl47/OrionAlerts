@@ -1,8 +1,8 @@
-import Image from "next/image";
 import Link from "next/link";
 import { Reveal } from "@/components/Reveal";
 import type { Solution, SolutionFeature } from "@/lib/site";
 import { featureAnchorAliases, featureAnchorId } from "@/lib/feature-anchors";
+import { responsiveSrcSet } from "@/lib/responsive-images";
 
 type FeatureMediaRow = SolutionFeature & {
   result?: string;
@@ -153,6 +153,7 @@ export function SolutionFeatureMediaRows({
         <div className="mt-8 space-y-10 md:mt-10 md:space-y-14">
           {rows.map((feature, index) => {
             const mediaFirst = index % 2 === 0;
+            const imageSrc = FEATURE_IMAGES[feature.title] ?? solution.image;
 
             return (
               <Reveal key={feature.title} delay={0.04}>
@@ -163,12 +164,17 @@ export function SolutionFeatureMediaRows({
                   }`}
                 >
                   <div className="relative aspect-[16/10] overflow-hidden rounded-[22px] bg-[#0b1628] shadow-[0_24px_60px_-40px_rgba(15,61,120,0.5)]">
-                    <Image
-                      src={FEATURE_IMAGES[feature.title] ?? solution.image}
-                      alt={`${feature.title} in OrionAlerts ${solution.shortName}`}
-                      fill
+                    {/* Plain <img>: with images.unoptimized next/image can't emit a
+                        srcSet, and phones only need the 828px copy. */}
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={imageSrc}
+                      srcSet={responsiveSrcSet(imageSrc)}
                       sizes="(max-width: 1024px) 100vw, 50vw"
-                      className="object-cover opacity-90"
+                      alt={`${feature.title} in OrionAlerts ${solution.shortName}`}
+                      loading="lazy"
+                      decoding="async"
+                      className="absolute inset-0 h-full w-full object-cover opacity-90"
                     />
                   </div>
 

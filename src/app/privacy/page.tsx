@@ -51,12 +51,12 @@ export default function PrivacyPolicyPage() {
                 To exercise privacy rights or ask a privacy question, email{" "}
                 <a
                   href={`mailto:${legalMeta.privacyEmail}`}
-                  className="font-semibold text-blue hover:underline"
+                  className="link-inline font-semibold text-blue"
                 >
                   {legalMeta.privacyEmail}
                 </a>{" "}
                 or use the{" "}
-                <Link href="/contact" className="font-semibold text-blue hover:underline">
+                <Link href="/contact" className="link-inline font-semibold text-blue">
                   contact form
                 </Link>{" "}
                 and select a privacy-related topic in your message.
@@ -192,7 +192,7 @@ export default function PrivacyPolicyPage() {
                 To make a request, email{" "}
                 <a
                   href={`mailto:${legalMeta.privacyEmail}`}
-                  className="font-semibold text-blue hover:underline"
+                  className="link-inline font-semibold text-blue"
                 >
                   {legalMeta.privacyEmail}
                 </a>
@@ -210,7 +210,7 @@ export default function PrivacyPolicyPage() {
               when applicable, India&apos;s Data Protection Board. Contact{" "}
               <a
                 href={`mailto:${legalMeta.privacyEmail}`}
-                className="font-semibold text-blue hover:underline"
+                className="link-inline font-semibold text-blue"
               >
                 {legalMeta.privacyEmail}
               </a>{" "}
@@ -226,7 +226,7 @@ export default function PrivacyPolicyPage() {
               We apply administrative and technical measures appropriate to the nature of website
               lead data, including HTTPS in production, HttpOnly session cookies for admin access,
               and rate-limiting on lead endpoints. See our{" "}
-              <Link href="/security" className="font-semibold text-blue hover:underline">
+              <Link href="/security" className="link-inline font-semibold text-blue">
                 Trust &amp; Security
               </Link>{" "}
               page for the program summary and responsible disclosure contact. No method of
