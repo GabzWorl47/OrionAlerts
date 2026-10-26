@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { motion, useMotionValue, useSpring, useReducedMotion } from "framer-motion";
+import { motion, useMotionValue, useSpring } from "framer-motion";
 import { ReactNode, useRef } from "react";
+import { useSafeReducedMotion } from "@/lib/use-safe-reduced-motion";
 
 type MagneticButtonProps = {
   href: string;
@@ -28,7 +29,7 @@ export function MagneticButton({
   variant = "solid",
   className = "",
 }: MagneticButtonProps) {
-  const reduce = useReducedMotion();
+  const reduce = useSafeReducedMotion();
   const ref = useRef<HTMLAnchorElement>(null);
   const x = useMotionValue(0);
   const y = useMotionValue(0);

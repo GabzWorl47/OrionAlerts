@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useReducedMotion } from "framer-motion";
+import { useSafeReducedMotion } from "@/lib/use-safe-reduced-motion";
 import { Reveal } from "@/components/Reveal";
 import { clients, type ClientLogo } from "@/lib/homepage";
 
@@ -29,7 +29,7 @@ function ClientItem({ client }: { client: ClientLogo }) {
 }
 
 export function LogoMarquee({ compact = false }: { compact?: boolean } = {}) {
-  const reduce = useReducedMotion();
+  const reduce = useSafeReducedMotion();
 
   return (
     <section
@@ -41,7 +41,11 @@ export function LogoMarquee({ compact = false }: { compact?: boolean } = {}) {
     >
       <div className="container">
         <Reveal>
-          <h2
+          {/*
+            A label, not a heading: this block renders on ~38 pages and an
+            identical H2 everywhere adds nothing to any page's outline.
+          */}
+          <p
             id="trusted-clients-heading"
             className={`text-center font-semibold leading-[1.1] tracking-[-0.03em] text-text ${
               compact
@@ -49,11 +53,7 @@ export function LogoMarquee({ compact = false }: { compact?: boolean } = {}) {
                 : "text-[clamp(1.6rem,3.5vw,2.4rem)]"
             }`}
           >
-            Trusted by Leading Organizations
-          </h2>
-          <p className="mx-auto mt-2.5 max-w-xl text-center text-sm text-muted">
-            Trusted technology for smarter, faster, and more connected security
-            operations.
+            Trusted by banks, retailers, public institutions and enterprises across India
           </p>
         </Reveal>
       </div>

@@ -66,7 +66,7 @@ export const cookieInventory: CookieInventoryRow[] = [
     category: "necessary",
     party: "first",
     notes:
-      "Not a HTTP cookie; first-party localStorage record without lead-form fields. region is always present and defaults to \"unspecified\" without geo detection.",
+      "Not an HTTP cookie: a first-party localStorage record of your cookie choices. It holds no form data, and region is stored as \"unspecified\" because we do not detect your location.",
   },
 ];
 
@@ -83,11 +83,11 @@ export type ProcessorRow = {
  */
 export const processorRegister: ProcessorRow[] = [
   {
-    name: "Website hosting (production provider)",
+    name: "Website hosting provider",
     role: "Processor / hosting",
     purpose: "Serve the public website and application APIs.",
     dataTypes: "HTTP request metadata; form submissions while processed by the app",
-    status: "planned",
+    status: "active",
   },
   {
     name: "CDN / edge delivery (when configured)",
@@ -106,8 +106,7 @@ export const processorRegister: ProcessorRow[] = [
   {
     name: "OrionAlerts sales operations",
     role: "Controller / sales follow-up",
-    purpose:
-      "Respond to leads via sales@orionalerts.com; durable CRM not integrated",
+    purpose: "Respond to leads via sales@orionalerts.com",
     dataTypes: "Name, work email, company, phone, message, interest/topic",
     status: "active",
   },
@@ -134,8 +133,9 @@ export const leadFormFields = [
   "Phone (optional)",
   "Message",
   "Product interest (demo) or contact topic (contact)",
+  "Number of sites and approximate camera count (demo, optional)",
 ] as const;
 
 export function privacyNoticeText() {
-  return `By submitting, you send the details above to ${legalMeta.controllerLegalName} (OrionAlerts) so we can respond to your request. We also record your IP address for rate-limiting and abuse prevention. Demo requests use Google reCAPTCHA. Submissions go to our application servers and are written to application logs; a separate CRM/ERP store is not connected yet. See our Privacy Policy for purposes, retention, rights, and how to contact us.`;
+  return `By submitting, you send the details above to ${legalMeta.controllerLegalName} (OrionAlerts) so we can respond to your request. We also record your IP address for rate-limiting and abuse prevention. Demo requests use Google reCAPTCHA. We use these details only to respond to your request. See our Privacy Policy for how long we keep them and your rights, or email ${legalMeta.privacyEmail} to request access or deletion.`;
 }

@@ -7,9 +7,9 @@ export function TechnologyChips() {
   return (
     <Reveal delay={0.06}>
       <div className="mt-12 text-center md:mt-14">
-        <h3 className="text-[clamp(1.25rem,2.4vw,1.65rem)] font-semibold leading-snug tracking-[-0.02em] text-text">
+        <h2 className="text-[clamp(1.25rem,2.4vw,1.65rem)] font-semibold leading-snug tracking-[-0.02em] text-text">
           {nebulaSectionCopy.platformHeadline}
-        </h3>
+        </h2>
         <p className="mx-auto mt-3 max-w-2xl text-[15px] leading-relaxed text-muted-strong md:text-base">
           {nebulaSectionCopy.platformCopy}
         </p>

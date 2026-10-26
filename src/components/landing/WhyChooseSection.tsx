@@ -77,7 +77,7 @@ export function WhyChooseSection() {
         <Reveal>
           <p className="eyebrow">Why ORION</p>
           <h2 className="display mt-3 max-w-3xl text-[clamp(1.9rem,4vw,3.2rem)] uppercase text-steel-gradient">
-            Why security and IT leaders choose ORION Alerts
+            Why security and IT leaders choose OrionAlerts
           </h2>
         </Reveal>
 

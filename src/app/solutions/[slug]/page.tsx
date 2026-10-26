@@ -1,35 +1,73 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import {
-  CtaBand,
-  Section,
-  SectionHeading,
-} from "@/components/ui";
+import { CtaBand, Section } from "@/components/ui";
 import { PageShell } from "@/components/PageShell";
+import { SolutionComparisonTable } from "@/components/SolutionComparisonTable";
+import { SolutionFaqs } from "@/components/SolutionFaqs";
 import { SolutionFeatureMediaRows } from "@/components/SolutionFeatureMediaRows";
-import { SolutionHero } from "@/components/SolutionHero";
+import { SolutionHero, type SolutionHeroData } from "@/components/SolutionHero";
+import { SolutionHowItWorks } from "@/components/SolutionHowItWorks";
 import { SolutionOverviewArt } from "@/components/SolutionOverviewArt";
+import { SolutionRelatedLinks } from "@/components/SolutionRelatedLinks";
 import { SolutionVideoSection } from "@/components/SolutionVideoSection";
-import { WorkflowArchitectureStepper } from "@/components/WorkflowArchitectureStepper";
-import { AmcArchitectureArt } from "@/components/AmcArchitectureArt";
-import { FinalCta } from "@/components/landing/FinalCta";
 import { LogoMarquee } from "@/components/landing/LogoMarquee";
 import { TestimonialsSection } from "@/components/landing/TestimonialsSection";
 import { HashScroll } from "@/components/HashScroll";
 import { getSolutionOutcomes } from "@/lib/solution-outcomes";
-import { getSolution, solutions } from "@/lib/site";
+import { getIndustry, getSolution, solutions, type Solution } from "@/lib/site";
 import { buildPageMetadata, solutionSeoDescriptions } from "@/lib/seo";
 import {
   breadcrumbJsonLd,
+  faqPageJsonLd,
   JsonLdScript,
   serviceJsonLd,
-  videoObjectJsonLd,
 } from "@/lib/jsonld";
-import { publicVideoAssets } from "@/lib/videos";
+import {
+  getSolutionPageContent,
+  type SolutionPageContent,
+} from "@/app/solutions/solution-page-content";
 
 export function generateStaticParams() {
   return solutions.map((s) => ({ slug: s.slug }));
+}
+
+/** 1200×630 social card per solution (generated into public/Images/og/solutions). */
+function socialImage(slug: string) {
+  return `/Images/og/solutions/${slug}.jpg`;
+}
+
+function metaDescription(solution: Solution) {
+  return (
+    solution.seoDescription ??
+    solutionSeoDescriptions[solution.slug] ??
+    solution.tagline ??
+    solution.summary
+  );
+}
+
+/** First sentence of the summary, capped for the hero lede. */
+function shortLede(summary: string) {
+  const first = summary.split(/(?<=[.!?])\s+/)[0]?.trim();
+  if (!first) return summary;
+  return first.length > 140 ? `${first.slice(0, 137)}…` : first;
+}
+
+/**
+ * SolutionHero is a client component, so its props ship in the RSC payload.
+ * Send only what it renders instead of the whole Solution (§6.9).
+ */
+function heroData(solution: Solution): SolutionHeroData {
+  return {
+    slug: solution.slug,
+    name: solution.name,
+    seoTitle: solution.seoTitle,
+    shortName: solution.shortName,
+    tagline: solution.tagline,
+    headline: solution.headline,
+    image: solution.image,
+    lede: shortLede(solution.summary),
+  };
 }
 
 export async function generateMetadata({
@@ -40,14 +78,48 @@ export async function generateMetadata({
   const { slug } = await params;
   const solution = getSolution(slug);
   if (!solution) return {};
-  return buildPageMetadata({
-    title: solution.name,
-    description:
-      solutionSeoDescriptions[solution.slug] ?? solution.tagline ?? solution.summary,
+  const image = socialImage(solution.slug);
+  const imageAlt = `OrionAlerts ${solution.seoTitle ?? solution.name}`;
+  const metadata = buildPageMetadata({
+    title: solution.seoTitle ?? solution.name,
+    description: metaDescription(solution),
     pathname: `/solutions/${solution.slug}`,
-    image: solution.image,
-    imageAlt: solution.name,
+    image,
+    imageAlt,
   });
+  return {
+    ...metadata,
+    openGraph: {
+      ...metadata.openGraph,
+      images: [{ url: image, width: 1200, height: 630, alt: imageAlt }],
+    },
+  };
+}
+
+/**
+ * Service node for the module, extending the shared helper (same `@id`,
+ * provider → `/#organization`, areaServed India) with the names, category and
+ * audience an assistant matches on. No `offers`: there is no public pricing.
+ */
+function solutionServiceJsonLd(solution: Solution, content: SolutionPageContent) {
+  const base = serviceJsonLd({
+    name: solution.name,
+    description: metaDescription(solution),
+    path: `/solutions/${solution.slug}`,
+    image: solution.image,
+  });
+  const featureNames = solution.features.map((feature) => feature.title).join("; ");
+  return {
+    ...base,
+    alternateName: content.service.alternateName,
+    serviceType: content.service.serviceType,
+    category: content.service.serviceType,
+    description: `${metaDescription(solution)} Features: ${featureNames}.`,
+    audience: {
+      "@type": "BusinessAudience",
+      audienceType: content.service.audience,
+    },
+  };
 }
 
 export default async function SolutionDetailPage({
@@ -57,10 +129,13 @@ export default async function SolutionDetailPage({
 }) {
   const { slug } = await params;
   const solution = getSolution(slug);
-  if (!solution) notFound();
-  const pageVideos = publicVideoAssets.filter(
-    (video) => video.pagePath === `/solutions/${solution.slug}`,
-  );
+  const content = getSolutionPageContent(slug);
+  if (!solution || !content) notFound();
+
+  const industries = content.usedIn
+    .map((industrySlug) => getIndustry(industrySlug))
+    .filter((industry): industry is NonNullable<typeof industry> => Boolean(industry))
+    .map((industry) => ({ label: industry.name, href: `/industries/${industry.slug}` }));
 
   return (
     <PageShell>
@@ -72,29 +147,12 @@ export default async function SolutionDetailPage({
             { name: solution.name, path: `/solutions/${solution.slug}` },
           ])}
         />
-        <JsonLdScript
-          data={serviceJsonLd({
-            name: solution.name,
-            description:
-              solutionSeoDescriptions[solution.slug] ?? solution.headline,
-            path: `/solutions/${solution.slug}`,
-            image: solution.image,
-          })}
-        />
-        {pageVideos.map((video) => (
-          <JsonLdScript
-            key={video.id}
-            data={videoObjectJsonLd({
-              name: video.name,
-              description: video.description,
-              contentPath: video.contentPath,
-              thumbnailPath: video.thumbnailPath,
-              pagePath: video.pagePath,
-            })}
-          />
-        ))}
+        <JsonLdScript data={solutionServiceJsonLd(solution, content)} />
+        {solution.faqs.length ? <JsonLdScript data={faqPageJsonLd(solution.faqs)} /> : null}
+        {/* No VideoObject JSON-LD here: these pages render no <video>. Re-add it
+            only if solution.introVideo is embedded on the page. */}
         <HashScroll />
-        <SolutionHero solution={solution} />
+        <SolutionHero solution={heroData(solution)} />
 
         <LogoMarquee compact />
 
@@ -104,148 +162,29 @@ export default async function SolutionDetailPage({
           label={`${solution.shortName} overview`}
           poster={solution.image}
           cinematicEntrance
+          heading={content.outcomesHeading}
           outcomes={getSolutionOutcomes(solution)}
           gap="1.5rem"
-          workflowSteps={
-            solution.slug === "vms"
-              ? [
-                  {
-                    title: "Live wall",
-                    description: "Watch every site from one command view",
-                    preview: "livewall",
-                  },
-                  {
-                    title: "AI alert",
-                    description: "Critical exceptions surface instantly",
-                    preview: "alert",
-                  },
-                  {
-                    title: "Evidence search",
-                    description: "Pull evidence without scrubbing footage",
-                    preview: "search",
-                  },
-                  {
-                    title: "Multi-site ops",
-                    description: "Keep plants and campuses in sync",
-                    preview: "multisite",
-                  },
-                ]
-              : solution.slug === "ai-analytics"
-                ? [
-                    {
-                      title: "Select cameras",
-                      description: "Choose streams and detection zones",
-                      preview: "livewall",
-                    },
-                    {
-                      title: "Enable rules",
-                      description: "Turn on packs, thresholds, and policies",
-                      preview: "alert",
-                    },
-                    {
-                      title: "Validate alerts",
-                      description: "Pilot windows before full rollout",
-                      preview: "search",
-                    },
-                    {
-                      title: "Scale sites",
-                      description: "Push the same rules across locations",
-                      preview: "multisite",
-                    },
-                  ]
-                : solution.slug === "amc-management"
-                  ? [
-                      {
-                        title: "Import contracts",
-                        description: "Bring in assets and active AMCs",
-                        preview: "livewall",
-                      },
-                      {
-                        title: "Set SLAs",
-                        description: "Define SLA and preventive plans",
-                        preview: "search",
-                      },
-                      {
-                        title: "Dispatch tickets",
-                        description: "Send work to partners and technicians",
-                        preview: "alert",
-                      },
-                      {
-                        title: "Review renewals",
-                        description: "Track performance and upcoming renewals",
-                        preview: "multisite",
-                      },
-                    ]
-                  : undefined
-          }
         />
 
-        {solution.slug === "amc-management" ? <AmcArchitectureArt /> : null}
-
-        {solution.slug === "ai-analytics" ||
-        solution.slug === "vms" ||
-        solution.slug === "health-monitoring" ? (
-          <section className="relative w-full overflow-hidden px-3 sm:px-4 md:px-6">
-            {/* eslint-disable-next-line @next/next/no-img-element -- diagram asset with spaces in filename */}
-            <img
-              src={
-                solution.slug === "vms"
-                  ? "/Images/ChatGPT%20Image%20Sep%208%2C%202026%2C%2003_19_19%20PM.png"
-                  : solution.slug === "health-monitoring"
-                    ? "/Images/ChatGPT%20Image%20Sep%208%2C%202026%2C%2004_00_26%20PM.png"
-                    : "/Images/ChatGPT%20Image%20Sep%208%2C%202026%2C%2003_08_55%20PM.png"
-              }
-              alt={
-                solution.slug === "vms"
-                  ? "VMS System Architecture"
-                  : solution.slug === "health-monitoring"
-                    ? "Surveillance Health Monitoring System Architecture"
-                    : "Vision AI System Architecture"
-              }
-              className="block h-auto w-full object-cover object-center"
-            />
-          </section>
-        ) : null}
+        <SolutionHowItWorks solution={solution} content={content} />
 
         <SolutionFeatureMediaRows solution={solution} />
 
-        {solution.slug === "asset-tracking" ? (
-          <Section
-            compact
-            className="bg-[linear-gradient(180deg,#e8f6ff_0%,#f0fbff_55%,#eaf4ff_100%)]"
-          >
-            <div className="grid gap-8 md:grid-cols-2 md:gap-10">
-              <div>
-                <SectionHeading
-                  compact
-                  eyebrow="Process"
-                  title="How teams run Asset Tracking"
-                />
-                <WorkflowArchitectureStepper steps={solution.workflow} />
-              </div>
-              <div>
-                <SectionHeading
-                  compact
-                  eyebrow="Outcomes"
-                  title="What changes for operators"
-                />
-                <ul className="space-y-2.5">
-                  {solution.benefits.map((benefit) => (
-                    <li
-                      key={benefit}
-                      className="surface rounded-[16px] px-4 py-2.5 text-sm text-muted"
-                    >
-                      {benefit}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </Section>
-        ) : null}
+        <SolutionComparisonTable table={content.comparison} />
+
+        <SolutionFaqs heading={content.faqHeading} faqs={solution.faqs} />
+
+        <SolutionRelatedLinks
+          solutionLabel={content.topic}
+          industries={industries}
+          furtherReading={content.furtherReading}
+          glossary={content.glossary}
+        />
 
         <TestimonialsSection compact />
 
+        {/* One CTA band only: the hero already carries "Book a Demo". */}
         <Section>
           <p className="mb-4 text-sm text-muted">
             Explore other solutions:{" "}
@@ -259,9 +198,13 @@ export default async function SolutionDetailPage({
                   {i < arr.length - 1 ? " · " : ""}
                 </span>
               ))}
+            {" · "}
+            <Link href="/solutions" className="font-medium text-blue hover:underline">
+              Compare all solutions
+            </Link>
           </p>
           <CtaBand
-            title={`See ${solution.shortName} in action`}
+            title={content.ctaTitle}
             lede="Book a demo for a guided walkthrough tailored to your sites and operators."
             primaryHref="/book-demo"
             primaryLabel="Book a Demo"
@@ -269,7 +212,6 @@ export default async function SolutionDetailPage({
             secondaryLabel="Contact Us"
           />
         </Section>
-        <FinalCta />
       </>
     </PageShell>
   );

@@ -15,6 +15,7 @@ export const metadata: Metadata = buildPageMetadata({
 export default function TermsOfServicePage() {
   return (
     <LegalDoc
+      path="/terms"
       eyebrow="Legal"
       title="Terms of Service"
       description={`These terms govern access to and use of the ${site.name} public website. Product subscriptions and customer deployments are covered by separate agreements.`}
@@ -48,8 +49,8 @@ export default function TermsOfServicePage() {
             <p>
               Site content, branding, logos, product names, documentation excerpts, and software
               interfaces displayed here are owned by OrionAlerts or its licensors. You may not copy,
-              scrape, reverse engineer, or reuse materials except for personal evaluation or with
-              prior written permission, except for brief quotations with attribution for editorial
+              scrape, reverse engineer, or reuse these materials without prior written permission,
+              other than for personal evaluation or brief quotations with attribution for editorial
               coverage.
             </p>
           ),

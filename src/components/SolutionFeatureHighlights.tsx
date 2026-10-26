@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   BarChart3,
   ChevronDown,
@@ -18,6 +18,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { featureAnchorId } from "@/lib/feature-anchors";
+import { useSafeReducedMotion } from "@/lib/use-safe-reduced-motion";
 
 type Feature = {
   title: string;
@@ -53,7 +54,7 @@ function featurePreviewText(feature: Feature) {
 }
 
 export function SolutionFeatureHighlights({ features }: { features: Feature[] }) {
-  const reduce = useReducedMotion();
+  const reduce = useSafeReducedMotion();
   const [openId, setOpenId] = useState<string | null>(null);
 
   return (

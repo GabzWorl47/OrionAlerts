@@ -1,8 +1,9 @@
 "use client";
 
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { MagneticButton } from "@/components/MagneticButton";
+import { useSafeReducedMotion } from "@/lib/use-safe-reduced-motion";
 
 const nodes = [
   {
@@ -34,7 +35,7 @@ const nodes = [
 
 export function ArchitectureSection() {
   const [active, setActive] = useState<string | null>("ai");
-  const reduce = useReducedMotion();
+  const reduce = useSafeReducedMotion();
   const selected = nodes.find((n) => n.id === active) ?? nodes[1];
 
   return (

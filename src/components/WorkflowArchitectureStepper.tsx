@@ -3,27 +3,31 @@
 import { useRef } from "react";
 import {
   motion,
-  useReducedMotion,
   useScroll,
   useSpring,
   useTransform,
   type MotionValue,
 } from "framer-motion";
+import { useSafeReducedMotion } from "@/lib/use-safe-reduced-motion";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
 type WorkflowArchitectureStepperProps = {
   steps: string[];
+  /** Optional one-line description per step (same order as `steps`). */
+  details?: string[];
 };
 
 function VerticalStep({
   step,
+  detail,
   index,
   total,
   progress,
   reduce,
 }: {
   step: string;
+  detail?: string;
   index: number;
   total: number;
   progress: MotionValue<number>;
@@ -60,7 +64,12 @@ function VerticalStep({
       </motion.span>
 
       <div className="min-w-0 flex-1 rounded-[16px] border border-blue/15 bg-white px-4 py-3.5 shadow-[0_10px_24px_rgba(26,115,232,0.08)]">
-        <p className="text-sm font-semibold text-text">{step}</p>
+        <h3 className="text-sm font-semibold text-text md:text-[15px]">{step}</h3>
+        {detail ? (
+          <p className="mt-1 text-[13px] leading-relaxed text-muted-strong md:text-sm">
+            {detail}
+          </p>
+        ) : null}
       </div>
     </motion.li>
   );
@@ -68,8 +77,9 @@ function VerticalStep({
 
 export function WorkflowArchitectureStepper({
   steps,
+  details,
 }: WorkflowArchitectureStepperProps) {
-  const reduce = useReducedMotion();
+  const reduce = useSafeReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -98,6 +108,7 @@ export function WorkflowArchitectureStepper({
           <VerticalStep
             key={step}
             step={step}
+            detail={details?.[index]}
             index={index}
             total={steps.length}
             progress={progress}

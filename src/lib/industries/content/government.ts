@@ -1,8 +1,6 @@
 import {
   INDUSTRY_SCHEMA_VERSION,
-  industrySharedCopy,
   industrySharedCtas,
-  industrySharedFaqs,
 } from "@/lib/industries/shared";
 import type { IndustryPageRecord } from "@/lib/industries/types";
 
@@ -10,30 +8,25 @@ export const governmentIndustryPage: IndustryPageRecord = {
   slug: "government",
   name: "Government & Public Infrastructure",
   cardLabel: "Government",
-  cardSummary:
-    "Use Vision Copilot to connect mapped camera observations with decisions about service-counter pressure and accountable facility review.",
+  siteNoun: { one: "public facility", many: "public facilities" },
   schemaVersion: INDUSTRY_SCHEMA_VERSION,
   contentVersion: 2,
   status: "reviewed",
   seo: {
-    title: "Public Infrastructure Video Analytics | OrionAlerts",
+    title: "AI Video Analytics for Public Infrastructure",
     description:
-      "Explore public facilities with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
+      "AI video analytics for public infrastructure: service-counter queues, route obstructions and recording availability across facilities, with human review.",
     canonicalPath: "/industries/government",
-    ogTitle: "Public Infrastructure Video Analytics | OrionAlerts",
-    ogDescription:
-      "Explore public facilities with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
     image: "/Images/industries/government.webp",
   },
   hero: {
     eyebrow: "Government & Public Infrastructure",
-    h1: "Vision Copilot for Public Facilities",
-    lede: "Map cameras to the places your team manages and ask Vision Copilot about service-counter pressure and accountable facility review. OrionAlerts analyses scenes over time to surface alerts, recommendations and operational scores that help you decide what to review today and what to improve next.",
+    h1: "AI Video Analytics for Public Infrastructure",
+    lede: "Watch service-counter queues, obstructions on public routes and recording availability across public facilities, with every flagged event reviewed by the responsible department.",
     media: {
       kind: "image",
       src: "/Images/industries/government.webp",
-      alt: "Illustrative public administrative building photograph used for government industry context",
-      demonstrationLabel: "Illustrative photograph — not a verified customer deployment",
+      alt: "Government of India administrative building with cars parked in front",
     },
     primaryCta: industrySharedCtas.primary,
     secondaryCta: industrySharedCtas.secondaryHero,
@@ -41,7 +34,7 @@ export const governmentIndustryPage: IndustryPageRecord = {
   context: {
     heading: "Specify the operational need before selecting the technology.",
     paragraphs: [
-      "Public buildings and infrastructure have different users, operators and procurement requirements. A department may need queue visibility or perimeter review without needing broad citywide surveillance. Define the facility, event, permitted use and response team first. Avoid vague claims about predicting crime or identifying suspicious citizens.",
+      "Public buildings and infrastructure have different users, operators and procurement requirements. A department may need queue visibility at a service counter or perimeter review at one facility, and the right deployment starts with that need. Define the facility, event, permitted use and response team first, and keep every flagged event in human review.",
     ],
     buyers: [
       "Departmental facilities and security",
@@ -51,8 +44,6 @@ export const governmentIndustryPage: IndustryPageRecord = {
     ],
   },
   locationContext: {
-    heading: "Your operation, mapped",
-    body: "Organise views around the places the team recognises. Select the location to establish the context for scene observations and Copilot questions. This example uses the shared hierarchy; map the actual site rather than inventing rooms or camera coverage.",
     hierarchyExample: [
       { label: "Site", example: "Public Site" },
       { label: "Building", example: "Administrative Building" },
@@ -64,15 +55,13 @@ export const governmentIndustryPage: IndustryPageRecord = {
       "Cameras are mapped to the selected service-counter or common route so questions about the public service-counter area start from recognisable operational context.",
   },
   copilot: {
-    heading: "Ask Vision Copilot",
-    body: industrySharedCopy.copilotIntro,
     prompts: [
+      "Summarise the facility changes that should be considered by the responsible team.",
       "Show observations from the public service-counter area today.",
       "Which covered facilities show repeated common-route obstructions?",
-      "Summarise the facility changes that should be considered by the responsible team.",
     ],
     exampleAnswer:
-      "Illustrative example — not a live product result. Repeated queue and obstruction observations occur around a shared service approach. Suggested next step: review queue guidance and temporary storage with the facility manager; keep service-entitlement decisions outside the analytics workflow.",
+      "Repeated queue and obstruction observations occur around a shared service approach. Suggested next step: review queue guidance and temporary storage with the facility manager; keep service-entitlement decisions outside the analytics workflow.",
     exampleStatus: "illustrative",
   },
   sceneIntelligence: {
@@ -81,8 +70,6 @@ export const governmentIndustryPage: IndustryPageRecord = {
     recommendation:
       "Review queue guidance and temporary storage with the facility manager; keep service-entitlement decisions outside the analytics workflow.",
     decisionOwner: "Facility manager / departmental operations",
-    followUpPrompt:
-      "Revisit the same area and comparable period to assess observations, coverage and score movement.",
   },
   scorecards: {
     heading: "See what needs attention—and what changes after action.",
@@ -125,49 +112,42 @@ export const governmentIndustryPage: IndustryPageRecord = {
   useCases: [
     {
       id: "location-into-decision",
-      title: "Bring the right location into the decision",
-      body: "Connect service-counter pressure and accountable facility review to the building tree and its mapped cameras. The team can start with a named operational area instead of trying to remember which camera covers it, making observations easier to interpret and discuss.",
+      title: "Map counters, routes and controlled areas",
+      body: "Cameras are organised by public site, administrative building and service zone, so a question about the counter area goes to the cameras that cover it.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["building-hierarchy", "vision-copilot"],
     },
     {
       id: "search-observations",
-      title: "Search visual observations in everyday language",
-      body: 'Ask Vision Copilot, “Show observations from the public service-counter area today.” Use the location and review period to focus the search on relevant available observations. The purpose is to reach useful context without manually working through unrelated camera views.',
+      title: "Check a service counter today",
+      body: "Ask Vision Copilot, “Show observations from the public service-counter area today,” to see how the counter area looked across the day.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["vision-copilot", "scene-analysis"],
     },
     {
       id: "recurring-conditions",
-      title: "Identify recurring conditions across scenes",
-      body: 'Ask, “Which covered facilities show repeated common-route obstructions?” Ongoing scene analysis supports review of patterns across the available observations. Use the recurring condition to frame the next investigation rather than treating one isolated alert as the whole operational picture.',
+      title: "Find repeated route obstructions",
+      body: "Ask, “Which covered facilities show repeated common-route obstructions?” to compare public routes across facilities for the same period.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["scene-analysis", "vision-copilot"],
     },
     {
       id: "improvement-decision",
-      title: "Turn analysis into an improvement decision",
-      body: 'Ask, “Summarise the facility changes that should be considered by the responsible team.” Review the recommendation alongside the underlying observations and the team\'s operating knowledge. The example below shows a practical next step; it is a suggested action for human consideration, not an automatic instruction to change equipment or procedures.',
+      title: "Brief the facility manager on changes",
+      body: "Ask, “Summarise the facility changes that should be considered by the responsible team.” Suggestions such as queue guidance or temporary storage come with their observations; service-entitlement decisions stay with the department.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["recommendations"],
     },
     {
       id: "score-led-review",
-      title: "Use scores to structure the next review",
-      body: "Use 0–100 scores to organise attention across public-facility operational areas, not citizen risk, eligibility or enforcement scores. Review the contributing observations and coverage before acting. The proposed dimensions for this industry are Service-Counter Flow, Public-Route Readiness and Controlled-Area Practices; use the approved product methodology when demonstrating actual values.",
+      title: "Prioritise facility areas for review",
+      body: "Scores out of 100 for service-counter flow, public-route readiness and controlled-area practices show which facility areas need attention first.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["operational-scores"],
     },
   ],
-  workflow: {
-    heading: "From scenes to decisions",
-    scenario:
-      "Illustrative decision story — not a customer result. Observe: Repeated queue and obstruction observations occur around a shared service approach. Ask: “Summarise the facility changes that should be considered by the responsible team.” Suggested recommendation: Review queue guidance and temporary storage with the facility manager; keep service-entitlement decisions outside the analytics workflow. Decide: The responsible team reviews the evidence and agrees an action. Follow up: Revisit the same area and comparable period to assess observations, coverage and score movement. A subsequent change is not proof of causation.",
-    steps: industrySharedCopy.workflowLabels.map((label) => ({ label })),
-  },
   deployment: {
-    heading: industrySharedCopy.deploymentHeading,
-    body: `${industrySharedCopy.deploymentIntroduction} Create a procurement evidence checklist for the exact product versions and hardware. Confirm data governance, retention, network boundaries and which departments can access each view. Do not expose sensitive operational maps in public marketing.`,
+    body: "Build a procurement evidence checklist for the exact product versions and hardware. Confirm data governance, retention, network boundaries and which departments can access each view.",
     requiredInputs: [
       "Mapped hierarchy for pilot service counters, public routes and controlled areas",
       "Procurement evidence checklist for exact product versions and hardware",
@@ -177,7 +157,7 @@ export const governmentIndustryPage: IndustryPageRecord = {
   },
   standards: {
     publicCopy:
-      "STQC's CCTV/IoT scheme provides product assessment routes and certified-product information. Verify exact products and applicable procurement requirements; do not extend a camera certificate to an entire AI platform. Privacy obligations for public-facility monitoring also require specific review.",
+      "Tenders check exact products, versions and certificate scope against STQC's CCTV/IoT scheme where it applies. Public-facility monitoring also gets a dedicated privacy review under India's data protection framework.",
     frameworkIds: ["C19", "C9"],
     reviewedAt: "2026-09-11",
   },
@@ -204,39 +184,55 @@ export const governmentIndustryPage: IndustryPageRecord = {
   solutions: [
     {
       solutionSlug: "ai-analytics",
-      body: `${industrySharedCopy.solutionBasis["ai-analytics"]} For public facilities, focus on location-aware search, recommendations and score-led review of defined facility events.`,
+      body: "Location-aware search, recommendations and score-led review of counter queues, route obstructions and controlled-area events.",
     },
     {
       solutionSlug: "vms",
-      body: `${industrySharedCopy.solutionBasis.vms} Use it for authorised multi-site review across agreed cameras.`,
+      body: "Authorised multi-site review across agreed cameras, with each department's access set by role.",
     },
     {
       solutionSlug: "health-monitoring",
-      body: `${industrySharedCopy.solutionBasis["health-monitoring"]} Prioritise camera-estate continuity so missing coverage is visible across facilities.`,
+      body: "Tracks usable recording minutes at each facility, so missing coverage shows up across the estate.",
     },
   ],
   faqs: [
     {
+      question: "How can government facilities use AI video analytics?",
+      answer:
+        "Start with a defined facility need, such as service-counter queues, obstructions on public routes or entry to controlled areas. OrionAlerts flags those observable events from existing cameras for the responsible department to review, and tracks usable recording availability at each facility so gaps in coverage are visible.",
+    },
+    {
+      question: "Can OrionAlerts measure queues at public service counters?",
+      answer:
+        "Yes. It estimates queue and occupancy levels at mapped service-counter areas, and pilots compare those estimates with manual samples for the same window. Repeated queue and obstruction observations help the facility manager review queue guidance and temporary storage, while service-entitlement decisions stay with the department.",
+    },
+    {
       question: "Is the entire platform automatically STQC certified?",
       answer:
-        "No. Verify the actual certificate, product/version and scope rather than relying on a logo or a component's approval.",
+        "No. An STQC certificate applies to the specific product, version and scope named on it, so a camera's certificate does not extend to the whole OrionAlerts platform. Procurement teams check those details on the certificate itself rather than relying on a logo or a component's approval, and confirm what the tender requires.",
     },
     {
       question: "Does this predict criminal behaviour?",
       answer:
-        "No. The proposed use cases concern observable events and human review.",
+        "No. OrionAlerts flags observable events, such as service-counter queues, route obstructions and entry to controlled areas, for the responsible department to review. Predicting behaviour, identifying citizens and scoring risk or eligibility are outside its scope, and every flagged event stays with a human reviewer before any action.",
     },
     {
       question: "Can procurement requirements differ?",
       answer:
-        "Yes. Review the specific tender, product category, jurisdiction and deployment scope.",
+        "Yes. Requirements depend on the specific tender, product category, jurisdiction and deployment scope, so each procurement is reviewed on its own terms. A procurement evidence checklist for the exact product versions and hardware, together with data governance, retention and departmental access rules, is prepared before the pilot expands.",
     },
-    ...industrySharedFaqs,
   ],
-  relatedIndustrySlugs: ["airports-ports-railways", "utilities", "sports-events"],
+  limits:
+    "OrionAlerts flags observable events for human review; it does not predict crime or behaviour, identify citizens or score risk, eligibility or enforcement. A camera's Standardisation Testing and Quality Certification (STQC) certificate covers that product only, not the whole platform.",
+  furtherReading: {
+    blogs: ["why-traditional-cctv-monitoring-is-no-longer-enough", "vms-vs-nvr"],
+    glossary: ["vms", "video-analytics"],
+    useCases: ["crowd-detection", "restricted-zone-monitoring"],
+  },
+  relatedIndustrySlugs: ["banking", "airports-ports-railways", "solar-renewable", "sports-events"],
   finalCta: {
     heading: "Ask Vision Copilot about your public facilities.",
-    body: "See how Vision Copilot connects a mapped area with visual search, recommendations and scores for public facilities.",
+    body: "Bring counter queues, route obstructions and recording availability for every public facility into one review.",
   },
   sources: [
     "README v2 §9.27",

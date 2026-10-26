@@ -1,8 +1,6 @@
 import {
   INDUSTRY_SCHEMA_VERSION,
-  industrySharedCopy,
   industrySharedCtas,
-  industrySharedFaqs,
 } from "@/lib/industries/shared";
 import type { IndustryPageRecord } from "@/lib/industries/types";
 
@@ -10,38 +8,33 @@ export const bankingIndustryPage: IndustryPageRecord = {
   slug: "banking",
   name: "Banking & Financial Institutions",
   cardLabel: "Banking",
-  cardSummary:
-    "Use Vision Copilot to connect mapped camera observations with decisions about branch-event review and regional follow-up.",
+  siteNoun: { one: "bank branch", many: "bank branches" },
   schemaVersion: INDUSTRY_SCHEMA_VERSION,
   contentVersion: 2,
   status: "reviewed",
   seo: {
-    title: "Banking Video Analytics | OrionAlerts",
+    title: "Bank Branch CCTV Monitoring & AI Alerts",
     description:
-      "Explore bank branch networks with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
+      "Monitor CCTV across every bank branch: after-hours alerts, offline camera and recording-gap detection, and fast clip retrieval for regional security teams.",
     canonicalPath: "/industries/banking",
-    ogTitle: "Banking Video Analytics | OrionAlerts",
-    ogDescription:
-      "Explore bank branch networks with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
     image: "/Images/industries/banking.webp",
   },
   hero: {
     eyebrow: "Banking & Financial Institutions",
-    h1: "Vision Copilot for Bank Branch Networks",
-    lede: "Map cameras to the places your team manages and ask Vision Copilot about branch-event review and regional follow-up. OrionAlerts analyses scenes over time to surface alerts, recommendations and operational scores that help you decide what to review today and what to improve next.",
+    h1: "Bank Branch CCTV Monitoring & AI Alerts",
+    lede: "Watch every branch from one place: get after-hours entry alerts at branch entrances, see which cameras and recorders have stopped recording, and pull the right lobby clip fast for regional security.",
     media: {
       kind: "image",
       src: "/Images/industries/banking.webp",
-      alt: "Illustrative bank branch exterior photograph used for industry context",
-      demonstrationLabel: "Illustrative photograph — not a verified customer deployment",
+      alt: "Illustration of a bank building surrounded by banking service icons, a phone and a laptop",
     },
     primaryCta: industrySharedCtas.primary,
     secondaryCta: industrySharedCtas.secondaryHero,
   },
   context: {
-    heading: "Review a physical event without inferring financial wrongdoing.",
+    heading: "See every branch camera, alert and recording from one place.",
     paragraphs: [
-      "Branch networks need consistent surveillance availability and a clear way to investigate incidents across locations. Video can show movement or a visible condition, but it cannot establish fraud, identify a criminal or verify financial authorisation on its own. Focus on neutral event definitions and controlled access to footage. Different financial institutions may fall under different regulatory scopes.",
+      "Branch networks need two things from CCTV: every camera recording, and a clear way to investigate a physical event across many locations. OrionAlerts reports what cameras show at the branch, such as entry, movement and visible conditions, using neutral event definitions and controlled access to footage. Regulatory scope differs between financial institutions, so each bank applies its own controls.",
     ],
     buyers: [
       "Physical security",
@@ -51,8 +44,6 @@ export const bankingIndustryPage: IndustryPageRecord = {
     ],
   },
   locationContext: {
-    heading: "Your operation, mapped",
-    body: "Organise views around the places the team recognises. Select the location to establish the context for scene observations and Copilot questions. This example uses the shared hierarchy; map the actual site rather than inventing rooms or camera coverage.",
     hierarchyExample: [
       { label: "Site", example: "Branch Site" },
       { label: "Building", example: "Branch Building" },
@@ -64,15 +55,13 @@ export const bankingIndustryPage: IndustryPageRecord = {
       "Cameras are mapped to the selected branch lobby or service zone so questions about the selected branch lobby start from recognisable operational context.",
   },
   copilot: {
-    heading: "Ask Vision Copilot",
-    body: industrySharedCopy.copilotIntro,
     prompts: [
+      "Summarise the physical events regional security should review today.",
       "Show observations from the selected branch lobby this week.",
       "Which covered branches had recurring after-hours observations?",
-      "Summarise the physical events regional security should review today.",
     ],
     exampleAnswer:
-      "Illustrative example — not a live product result. After-hours observations recur at a branch entrance used for service visits. Suggested next step: review the service schedule and entry procedure with branch security; establish authorisation before further action.",
+      "After-hours observations recur at a branch entrance used for service visits. Suggested next step: review the service schedule and entry procedure with branch security; establish authorisation before further action.",
     exampleStatus: "illustrative",
   },
   sceneIntelligence: {
@@ -81,8 +70,6 @@ export const bankingIndustryPage: IndustryPageRecord = {
     recommendation:
       "Review the service schedule and entry procedure with branch security; establish authorisation before further action.",
     decisionOwner: "Regional security / branch operations",
-    followUpPrompt:
-      "Revisit the same area and comparable period to assess observations, coverage and score movement.",
   },
   scorecards: {
     heading: "See what needs attention—and what changes after action.",
@@ -125,49 +112,42 @@ export const bankingIndustryPage: IndustryPageRecord = {
   useCases: [
     {
       id: "location-into-decision",
-      title: "Bring the right location into the decision",
-      body: "Connect branch-event review and regional follow-up to the building tree and its mapped cameras. The team can start with a named operational area instead of trying to remember which camera covers it, making observations easier to interpret and discuss.",
+      title: "Name the branch, zone and lobby first",
+      body: "Each camera is mapped to its branch, service zone and entrance lobby, so regional security reviews an event by place instead of by camera number.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["building-hierarchy", "vision-copilot"],
     },
     {
       id: "search-observations",
-      title: "Search visual observations in everyday language",
-      body: 'Ask Vision Copilot, “Show observations from the selected branch lobby this week.” Use the location and review period to focus the search on relevant available observations. The purpose is to reach useful context without manually working through unrelated camera views.',
+      title: "Search a branch lobby in plain words",
+      body: "Ask Vision Copilot, “Show observations from the selected branch lobby this week,” and get the matching observations for that lobby and period.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["vision-copilot", "scene-analysis"],
     },
     {
       id: "recurring-conditions",
-      title: "Identify recurring conditions across scenes",
-      body: 'Ask, “Which covered branches had recurring after-hours observations?” Ongoing scene analysis supports review of patterns across the available observations. Use the recurring condition to frame the next investigation rather than treating one isolated alert as the whole operational picture.',
+      title: "Spot after-hours patterns across branches",
+      body: "Ask, “Which covered branches had recurring after-hours observations?” to see where entry outside opening hours keeps repeating across the network.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["scene-analysis", "vision-copilot"],
     },
     {
       id: "improvement-decision",
-      title: "Turn analysis into an improvement decision",
-      body: 'Ask, “Summarise the physical events regional security should review today.” Review the recommendation alongside the underlying observations and the team\'s operating knowledge. The example below shows a practical next step; it is a suggested action for human consideration, not an automatic instruction to change equipment or procedures.',
+      title: "Turn today's events into a review list",
+      body: "Ask, “Summarise the physical events regional security should review today.” Each suggestion, such as checking a service schedule, comes with the observations behind it for branch security to decide on.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["recommendations"],
     },
     {
       id: "score-led-review",
-      title: "Use scores to structure the next review",
-      body: "Use 0–100 scores to organise attention across covered branch areas and equivalent periods, not fraud likelihood or customer risk. Review the contributing observations and coverage before acting. The proposed dimensions for this industry are Branch Access Practices, Service-Area Readiness and Physical Observation Review; use the approved product methodology when demonstrating actual values.",
+      title: "Rank branch areas for the next review",
+      body: "Scores out of 100 for branch access practices and service-area readiness show regional teams which covered branch areas to review first in comparable periods.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["operational-scores"],
     },
   ],
-  workflow: {
-    heading: "From scenes to decisions",
-    scenario:
-      "Illustrative decision story — not a customer result. Observe: After-hours observations recur at a branch entrance used for service visits. Ask: “Summarise the physical events regional security should review today.” Suggested recommendation: Review the service schedule and entry procedure with branch security; establish authorisation before further action. Decide: The responsible team reviews the evidence and agrees an action. Follow up: Revisit the same area and comparable period to assess observations, coverage and score movement. A subsequent change is not proof of causation.",
-    steps: industrySharedCopy.workflowLabels.map((label) => ({ label })),
-  },
   deployment: {
-    heading: industrySharedCopy.deploymentHeading,
-    body: `${industrySharedCopy.deploymentIntroduction} Avoid recording PIN entry, customer documents or sensitive screens unnecessarily. Confirm role controls, retention, export procedures and the bank's hosting and security requirements.`,
+    body: "Place cameras to cover entrances, lobbies and service areas while keeping PIN entry, customer documents and sensitive screens out of view. Confirm role controls, retention, export procedures and the bank's hosting and security requirements during solution design.",
     requiredInputs: [
       "Mapped hierarchy for pilot branch lobbies and service zones",
       "Neutral physical-event definitions without fraud or intent labelling",
@@ -177,7 +157,7 @@ export const bankingIndustryPage: IndustryPageRecord = {
   },
   standards: {
     publicCopy:
-      "RBI IT governance directions apply to specified regulated entities and controls; they are not a general product approval. Do not label OrionAlerts as RBI certified. Information-security and privacy frameworks also require institution-specific assessment.",
+      "Banks apply Reserve Bank of India (RBI) IT governance directions to their own controls, alongside institution-specific information-security and privacy assessments. OrionAlerts supports that work with role-based access and retention settings managed per camera, zone or site.",
     frameworkIds: ["C18", "C11", "C9"],
     reviewedAt: "2026-09-11",
   },
@@ -204,39 +184,60 @@ export const bankingIndustryPage: IndustryPageRecord = {
   solutions: [
     {
       solutionSlug: "ai-analytics",
-      body: `${industrySharedCopy.solutionBasis["ai-analytics"]} For banking, focus on location-aware search, recommendations and score-led review of neutral physical events.`,
+      body: "Location-aware search, recommendations and score-led review of after-hours entry and other neutral physical events at each branch.",
     },
     {
       solutionSlug: "vms",
-      body: `${industrySharedCopy.solutionBasis.vms} Use it for branch review across agreed cameras.`,
+      body: "Live and recorded video from every branch camera in one view for regional security review.",
     },
     {
       solutionSlug: "health-monitoring",
-      body: `${industrySharedCopy.solutionBasis["health-monitoring"]} Prioritise network surveillance availability so regional teams can restore coverage promptly.`,
+      body: "Flags offline cameras and recording gaps by branch, so regional teams can restore coverage before footage is needed.",
     },
   ],
   faqs: [
     {
+      question: "How can banks monitor CCTV across hundreds of branches?",
+      answer:
+        "A central team needs two things: alerts for after-hours activity at branch entrances, and confirmation that every branch camera and recorder is recording. OrionAlerts combines AI video alerts with camera health monitoring, so regional security sees offline cameras, recording gaps and flagged events by branch instead of checking each DVR.",
+    },
+    {
+      question: "Can OrionAlerts alert on after-hours entry at a branch?",
+      answer:
+        "Yes. Entry into a defined closed or restricted branch area outside the agreed schedule is flagged with the branch, camera and clip, and sent to the dashboard, mobile app and email for regional security. Reviewers check the clip against service visits and branch schedules before deciding on any action.",
+    },
+    {
+      question: "How do regional teams find the right branch clip?",
+      answer:
+        "Every question starts from the branch and the lobby rather than a camera number. An authorised reviewer selects the branch, area and time window, or asks Vision Copilot in plain language, and gets the matching observations with their clips. Pilots time this retrieval against the bank's current process.",
+    },
+    {
       question: "Can video analytics detect banking fraud?",
       answer:
-        "This scope concerns physical events. Fraud determination requires appropriate financial evidence and authorised investigation.",
+        "No. OrionAlerts reports physical events at the branch, such as entry, movement and visible conditions, using neutral event definitions without fraud or intent labels. Deciding whether fraud occurred needs financial evidence and an authorised investigation; the clip, with its branch, camera and time, can support that investigation under your access controls.",
     },
     {
       question: "Is OrionAlerts RBI approved?",
       answer:
-        "No such approval is established by this research. Any specific approval claim requires direct evidence and scope.",
+        "No. OrionAlerts does not claim RBI approval or certification. RBI IT governance directions apply to regulated entities and their own controls rather than serving as a product approval. Each bank decides how OrionAlerts' role-based access, audit trail and retention settings support those controls, and this is confirmed with your security and compliance teams during solution design.",
     },
     {
       question: "Can all branches use one retention period?",
       answer:
-        "Follow the institution's applicable policy and obligations; do not assume a universal duration from this content.",
+        "Not necessarily. Retention follows your bank's own policy and the obligations that apply to it, so periods can differ by branch type or camera. OrionAlerts manages retention per camera, zone or site, and the settings for each branch category are confirmed with your security and compliance teams during solution design.",
     },
-    ...industrySharedFaqs,
   ],
-  relatedIndustrySlugs: ["data-centres", "commercial-buildings", "government"],
+  limits:
+    "OrionAlerts reports physical events at branches. Fraud findings, identifying an offender and verifying financial authorisation need financial evidence and an authorised investigation. Branch scores rank review priorities only; they do not measure fraud likelihood or customer risk.",
+  furtherReading: {
+    blogs: ["cctv-camera-health-monitoring", "why-traditional-cctv-monitoring-is-no-longer-enough"],
+    glossary: ["camera-health-monitoring", "vms"],
+    useCases: ["unauthorized-area-entry", "no-motion-black-screen-alert"],
+  },
+  relatedIndustrySlugs: ["data-centres", "retail-shopping", "government"],
   finalCta: {
-    heading: "Ask Vision Copilot about your bank branch networks.",
-    body: "See how Vision Copilot connects a mapped area with visual search, recommendations and scores for bank branch networks.",
+    heading: "Ask Vision Copilot about your branch network.",
+    body: "Bring after-hours alerts, camera health and clip retrieval for every branch into one regional view.",
   },
   sources: [
     "README v2 §9.25",

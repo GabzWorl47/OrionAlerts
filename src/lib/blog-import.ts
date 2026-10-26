@@ -16,6 +16,7 @@ function stripMd(text: string) {
     .replace(/^#{1,6}\s+/, "")
     .replace(/^\>\s?/, "")
     .replace(/^[-*•]\s+/, "")
+    .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, "$1")
     .replace(/\*\*(.*?)\*\*/g, "$1")
     .replace(/\*(.*?)\*/g, "$1")
     .replace(/`([^`]+)`/g, "$1")
@@ -25,10 +26,8 @@ function stripMd(text: string) {
 function normalizeBodyMarkdown(text: string) {
   return text
     .replace(/\r\n/g, "\n")
-    .replace(/^######\s+/gm, "## ")
-    .replace(/^#####\s+/gm, "## ")
-    .replace(/^####\s+/gm, "## ")
-    .replace(/^###\s+/gm, "## ")
+    // H2 = sections, H3 = sub-sections (kept, so the TOC and outline survive import).
+    .replace(/^#{4,6}\s+/gm, "### ")
     .replace(/^#\s+/gm, "## ")
     .replace(/\n{3,}/g, "\n\n")
     .trim();
@@ -146,7 +145,9 @@ export function htmlToImportMarkdown(html: string) {
   const text = withBreaks
     .replace(/<h1[^>]*>/gi, "# ")
     .replace(/<h2[^>]*>/gi, "## ")
-    .replace(/<h3[^>]*>/gi, "## ")
+    .replace(/<h3[^>]*>/gi, "### ")
+    .replace(/<h[4-6][^>]*>/gi, "### ")
+    .replace(/<\/h[4-6]>/gi, "\n\n")
     .replace(/<li[^>]*>/gi, "- ")
     .replace(/<blockquote[^>]*>/gi, "> ")
     .replace(/<\/?ul[^>]*>/gi, "\n")
@@ -155,6 +156,8 @@ export function htmlToImportMarkdown(html: string) {
     .replace(/<\/?b[^>]*>/gi, "")
     .replace(/<\/?em[^>]*>/gi, "")
     .replace(/<\/?i[^>]*>/gi, "")
+    // Keep hyperlinks as Markdown links; the article renderer supports [text](url).
+    .replace(/<a[^>]*href="([^"]+)"[^>]*>(.*?)<\/a>/gi, "[$2]($1)")
     .replace(/<a[^>]*>(.*?)<\/a>/gi, "$1")
     .replace(/<[^>]+>/g, "")
     .replace(/&nbsp;/g, " ")

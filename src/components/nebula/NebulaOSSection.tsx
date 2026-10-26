@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useReducedMotion } from "framer-motion";
+import { useSafeReducedMotion } from "@/lib/use-safe-reduced-motion";
 import { MagneticButton } from "@/components/MagneticButton";
 import { Reveal } from "@/components/Reveal";
 import { NebulaCore } from "@/components/nebula/NebulaCore";
@@ -10,7 +10,7 @@ import { nebulaSectionCopy, nebulaVideo } from "@/lib/nebula-os";
 function NebulaVideoBox() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const boxRef = useRef<HTMLDivElement>(null);
-  const reduce = useReducedMotion();
+  const reduce = useSafeReducedMotion();
   const [visible, setVisible] = useState(false);
   const canPlay = nebulaVideo.available && Boolean(nebulaVideo.src);
 
@@ -61,7 +61,7 @@ function NebulaVideoBox() {
           // eslint-disable-next-line @next/next/no-img-element -- poster fallback until video ships
           <img
             src={nebulaVideo.poster}
-            alt="Nebula OS platform overview"
+            alt="Operator monitoring a street camera feed with AI boxes marking people, vehicles and anomaly alerts"
             className="absolute inset-0 h-full w-full object-cover object-center"
           />
         )}
@@ -93,7 +93,7 @@ export function NebulaOSSection() {
           <header className="mx-auto max-w-5xl text-center">
             <h2
               id={headingId}
-              className="whitespace-nowrap text-[clamp(1.2rem,3.8vw,3rem)] font-semibold uppercase leading-[1.1] tracking-[-0.03em] text-blue underline decoration-cyan/50 decoration-2 underline-offset-[0.35em]"
+              className="text-balance text-[clamp(1.5rem,3.4vw,2.6rem)] font-semibold leading-[1.15] tracking-[-0.03em] text-blue"
             >
               {nebulaSectionCopy.heading}
             </h2>

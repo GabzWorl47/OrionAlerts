@@ -1,3 +1,4 @@
+import { SolutionFactStrip } from "@/components/SolutionFactStrip";
 import type { Solution } from "@/lib/site";
 
 const overviewArtBySlug: Record<
@@ -14,11 +15,11 @@ const overviewArtBySlug: Record<
   },
   "asset-tracking": {
     watermark: "ASSET",
-    lead: "Know where every asset is — and why it matters.",
+    lead: "Know what you own, where it is and who has it.",
   },
   "amc-management": {
     watermark: "AMC",
-    lead: "Keep every contract alive — before downtime finds you.",
+    lead: "Every contract, warranty and service ticket in one place.",
   },
   "health-monitoring": {
     watermark: "HEALTH",
@@ -58,36 +59,28 @@ export function SolutionOverviewArt({ solution }: SolutionOverviewArtProps) {
               <span className="h-px w-8 bg-gradient-to-l from-transparent to-cyan/70" aria-hidden />
             </div>
 
-            <h2 className="font-display text-[clamp(1.55rem,3.2vw,2.35rem)] font-semibold leading-[1.08] tracking-[-0.035em] text-text">
-              What this solution{" "}
-              <span className="relative inline-block text-blue">
-                delivers
-                <svg
-                  className="pointer-events-none absolute -bottom-2 left-0 w-full text-cyan"
-                  viewBox="0 0 120 10"
-                  fill="none"
-                  aria-hidden
-                >
-                  <path
-                    d="M2 7C28 2.5 52 1.5 78 3.5C94 4.7 108 6.2 118 5"
-                    stroke="currentColor"
-                    strokeWidth="2.2"
-                    strokeLinecap="round"
-                    opacity="0.85"
-                  />
-                </svg>
-              </span>
+            <h2
+              id="what-is"
+              className="font-display text-[clamp(1.55rem,3.2vw,2.35rem)] font-semibold leading-[1.08] tracking-[-0.035em] text-text"
+            >
+              {solution.definition.question}
             </h2>
 
-            <p className="mt-5 font-display text-[clamp(1.05rem,2.2vw,1.35rem)] italic font-medium leading-snug tracking-[-0.02em] text-blue/80">
-              {art.lead}
+            {/* Definition-first answer (40–60 words) directly under the question. */}
+            <p className="mx-auto mt-5 max-w-2xl text-base leading-[1.75] text-text md:text-lg">
+              {solution.definition.answer}
             </p>
           </div>
 
-          <p className="mx-auto max-w-2xl text-base leading-[1.75] text-muted md:text-lg">
+          <p className="font-display text-[clamp(1.05rem,2.2vw,1.35rem)] italic font-medium leading-snug tracking-[-0.02em] text-blue/80">
+            {art.lead}
+          </p>
+          <p className="mx-auto mt-3 max-w-2xl text-[15px] leading-[1.75] text-muted md:text-base">
             {solution.overview}
           </p>
         </div>
+
+        <SolutionFactStrip className="mx-auto mt-8 max-w-5xl" />
       </div>
     </section>
   );

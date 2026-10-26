@@ -1,10 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useSafeReducedMotion } from "@/lib/use-safe-reduced-motion";
 
 export function NebulaCore({ featured = false }: { featured?: boolean } = {}) {
-  const reduce = useReducedMotion();
+  const reduce = useSafeReducedMotion();
 
   return (
     <div
@@ -55,11 +56,10 @@ export function NebulaCore({ featured = false }: { featured?: boolean } = {}) {
 
       <div className="relative z-10 flex flex-col items-center text-center">
         <Image
-          src="/Images/nebula.png"
-          alt="Nebula OS"
+          src="/Images/nebula.webp"
+          alt="Nebula OS logo, the operating system behind OrionAlerts"
           width={720}
           height={200}
-          priority={featured}
           className={`h-auto w-full object-contain ${
             featured
               ? "max-h-[5.5rem] max-w-[min(100%,56rem)] md:max-h-[6.5rem] md:max-w-[min(100%,68rem)] lg:max-h-[7.5rem]"

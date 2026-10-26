@@ -14,7 +14,7 @@ const featuredCertificates = [
     id: "soc-2",
     name: "SOC 2",
     label: "SOC 2",
-    logoSrc: "/Images/certificates/soc2.png",
+    logoSrc: "/Images/certificates/soc2.webp",
   },
   {
     id: "onvif",

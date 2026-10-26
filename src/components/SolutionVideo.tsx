@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { useReducedMotion } from "framer-motion";
+import { useSafeReducedMotion } from "@/lib/use-safe-reduced-motion";
 
 type SolutionVideoProps = {
   src: string;
@@ -20,7 +20,7 @@ export function SolutionVideo({
   playing = true,
 }: SolutionVideoProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const reduce = useReducedMotion();
+  const reduce = useSafeReducedMotion();
   const shouldPlay = playing && !reduce;
 
   useEffect(() => {

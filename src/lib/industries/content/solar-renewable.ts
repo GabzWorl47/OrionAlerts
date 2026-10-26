@@ -1,8 +1,6 @@
 import {
   INDUSTRY_SCHEMA_VERSION,
-  industrySharedCopy,
   industrySharedCtas,
-  industrySharedFaqs,
 } from "@/lib/industries/shared";
 import type { IndustryPageRecord } from "@/lib/industries/types";
 
@@ -10,30 +8,25 @@ export const solarRenewableIndustryPage: IndustryPageRecord = {
   slug: "solar-renewable",
   name: "Solar & Renewable Energy Facilities",
   cardLabel: "Renewables",
-  cardSummary:
-    "Use Vision Copilot to connect mapped camera observations with decisions about remote equipment-compound review and O&M priorities.",
+  siteNoun: { one: "renewable site", many: "solar and renewable sites" },
   schemaVersion: INDUSTRY_SCHEMA_VERSION,
   contentVersion: 2,
   status: "reviewed",
   seo: {
-    title: "Solar and Renewable Site Video Analytics | OrionAlerts",
+    title: "AI Video Analytics for Solar & Renewable Sites",
     description:
-      "Explore renewable energy sites with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
+      "Remote CCTV analytics for solar and renewable sites: verified perimeter alerts at gates and equipment compounds, plus camera outage tracking.",
     canonicalPath: "/industries/solar-renewable",
-    ogTitle: "Solar and Renewable Site Video Analytics | OrionAlerts",
-    ogDescription:
-      "Explore renewable energy sites with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
     image: "/Images/industries/renewables.webp",
   },
   hero: {
     eyebrow: "Solar & Renewable Energy Facilities",
-    h1: "Vision Copilot for Renewable Energy Sites",
-    lede: "Map cameras to the places your team manages and ask Vision Copilot about remote equipment-compound review and O&M priorities. OrionAlerts analyses scenes over time to surface alerts, recommendations and operational scores that help you decide what to review today and what to improve next.",
+    h1: "AI Video Analytics for Solar & Renewable Sites",
+    lede: "Verify gate, boundary and equipment-compound alerts at remote solar and renewable sites, and track which cameras have dropped offline before deciding whether to send the operations and maintenance (O&M) team.",
     media: {
       kind: "image",
       src: "/Images/industries/renewables.webp",
-      alt: "Illustrative solar farm photograph used for renewable energy industry context",
-      demonstrationLabel: "Illustrative photograph — not a verified customer deployment",
+      alt: "Solar panels, wind turbines and a hydro dam in a green valley",
     },
     primaryCta: industrySharedCtas.primary,
     secondaryCta: industrySharedCtas.secondaryHero,
@@ -41,7 +34,7 @@ export const solarRenewableIndustryPage: IndustryPageRecord = {
   context: {
     heading: "Separate site security from energy-performance diagnosis.",
     paragraphs: [
-      "Renewable facilities can cover extensive areas with limited on-site presence. A camera event may help an operator decide whether a site visit is needed. The strongest initial case is verification at gates, boundaries and equipment compounds. Panel output, electrical faults and turbine condition require appropriate measurement or specialist inspection, not assumptions from surveillance video.",
+      "Renewable facilities cover large areas with few people on site. The strongest starting point is verifying events at gates, boundaries and equipment compounds, so an operator can decide whether a site visit is needed. Panel output, electrical faults and turbine condition stay with measurement and specialist inspection.",
     ],
     buyers: [
       "Renewable asset owners",
@@ -51,8 +44,6 @@ export const solarRenewableIndustryPage: IndustryPageRecord = {
     ],
   },
   locationContext: {
-    heading: "Your operation, mapped",
-    body: "Organise views around the places the team recognises. Select the location to establish the context for scene observations and Copilot questions. This example uses the shared hierarchy; map the actual site rather than inventing rooms or camera coverage.",
     hierarchyExample: [
       { label: "Site", example: "Energy Site" },
       { label: "Building", example: "Control Building" },
@@ -64,15 +55,13 @@ export const solarRenewableIndustryPage: IndustryPageRecord = {
       "Cameras are mapped to the selected equipment compound or access point so questions about the equipment compound start from recognisable operational context.",
   },
   copilot: {
-    heading: "Ask Vision Copilot",
-    body: industrySharedCopy.copilotIntro,
     prompts: [
+      "What should the O&M team inspect before changing the site arrangement?",
       "Show observations from the equipment compound during the last week.",
       "Which covered access points have recurring observations around service periods?",
-      "What should the O&M team inspect before changing the site arrangement?",
     ],
     exampleAnswer:
-      "Illustrative example — not a live product result. Entry observations recur at an equipment compound during repeated service visits. Suggested next step: review visit coordination, gate arrangement and camera coverage with O&M before requesting a site change.",
+      "Entry observations recur at an equipment compound during repeated service visits. Suggested next step: review visit coordination, gate arrangement and camera coverage with O&M before requesting a site change.",
     exampleStatus: "illustrative",
   },
   sceneIntelligence: {
@@ -81,8 +70,6 @@ export const solarRenewableIndustryPage: IndustryPageRecord = {
     recommendation:
       "Review visit coordination, gate arrangement and camera coverage with O&M before requesting a site change.",
     decisionOwner: "O&M / operations centre",
-    followUpPrompt:
-      "Revisit the same area and comparable period to assess observations, coverage and score movement.",
   },
   scorecards: {
     heading: "See what needs attention—and what changes after action.",
@@ -125,49 +112,42 @@ export const solarRenewableIndustryPage: IndustryPageRecord = {
   useCases: [
     {
       id: "location-into-decision",
-      title: "Bring the right location into the decision",
-      body: "Connect remote equipment-compound review and O&M priorities to the building tree and its mapped cameras. The team can start with a named operational area instead of trying to remember which camera covers it, making observations easier to interpret and discuss.",
+      title: "Map compounds and gates across each site",
+      body: "Cameras are grouped by energy site, control building and equipment compound, so an alert at a compound entry points to a place the O&M team knows.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["building-hierarchy", "vision-copilot"],
     },
     {
       id: "search-observations",
-      title: "Search visual observations in everyday language",
-      body: 'Ask Vision Copilot, “Show observations from the equipment compound during the last week.” Use the location and review period to focus the search on relevant available observations. The purpose is to reach useful context without manually working through unrelated camera views.',
+      title: "Search the equipment compound by week",
+      body: "Ask Vision Copilot, “Show observations from the equipment compound during the last week,” to review compound activity without opening each remote feed.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["vision-copilot", "scene-analysis"],
     },
     {
       id: "recurring-conditions",
-      title: "Identify recurring conditions across scenes",
-      body: 'Ask, “Which covered access points have recurring observations around service periods?” Ongoing scene analysis supports review of patterns across the available observations. Use the recurring condition to frame the next investigation rather than treating one isolated alert as the whole operational picture.',
+      title: "See entry patterns around service visits",
+      body: "Ask, “Which covered access points have recurring observations around service periods?” to separate routine service-visit entry from activity that needs a closer look.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["scene-analysis", "vision-copilot"],
     },
     {
       id: "improvement-decision",
-      title: "Turn analysis into an improvement decision",
-      body: 'Ask, “What should the O&M team inspect before changing the site arrangement?” Review the recommendation alongside the underlying observations and the team\'s operating knowledge. The example below shows a practical next step; it is a suggested action for human consideration, not an automatic instruction to change equipment or procedures.',
+      title: "Check before changing the site layout",
+      body: "Ask, “What should the O&M team inspect before changing the site arrangement?” Suggestions such as reviewing the gate arrangement or camera coverage come with their observations, and O&M makes the call.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["recommendations"],
     },
     {
       id: "score-led-review",
-      title: "Use scores to structure the next review",
-      body: "Use 0–100 scores to organise attention across covered site observations only, not panel health, generation efficiency or yield-loss scores. Review the contributing observations and coverage before acting. The proposed dimensions for this industry are Site Access Practices, Equipment-Area Orderliness and O&M Observation Review; use the approved product methodology when demonstrating actual values.",
+      title: "Prioritise compounds for the next visit",
+      body: "Scores out of 100 across covered site observations show which access points and compounds the operations centre should review first.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["operational-scores"],
     },
   ],
-  workflow: {
-    heading: "From scenes to decisions",
-    scenario:
-      "Illustrative decision story — not a customer result. Observe: Entry observations recur at an equipment compound during repeated service visits. Ask: “What should the O&M team inspect before changing the site arrangement?” Suggested recommendation: Review visit coordination, gate arrangement and camera coverage with O&M before requesting a site change. Decide: The responsible team reviews the evidence and agrees an action. Follow up: Revisit the same area and comparable period to assess observations, coverage and score movement. A subsequent change is not proof of causation.",
-    steps: industrySharedCopy.workflowLabels.map((label) => ({ label })),
-  },
   deployment: {
-    heading: industrySharedCopy.deploymentHeading,
-    body: `${industrySharedCopy.deploymentIntroduction} Test dawn/dusk glare, rain, vegetation growth, dust and long-distance views. Assess power and network resilience and confirm actual local recording/processing behaviour during outages.`,
+    body: "Test dawn and dusk glare, rain, vegetation growth, dust and long-distance views. Assess power and network resilience, and confirm how local recording and processing behave during outages.",
     requiredInputs: [
       "Mapped hierarchy for pilot gates, boundaries and equipment compounds",
       "Power and network resilience plan for remote cameras",
@@ -177,7 +157,7 @@ export const solarRenewableIndustryPage: IndustryPageRecord = {
   },
   standards: {
     publicCopy:
-      "Electrical-safety context applies to covered renewable installations. Camera monitoring does not establish solar-module product certification, electrical inspection status or energy-performance guarantees.",
+      "Central Electricity Authority (CEA) electrical-safety regulations give context for covered renewable installations. Camera monitoring adds a security and access record alongside module certification, electrical inspection and energy-performance data from the right instruments.",
     frameworkIds: ["C14"],
     reviewedAt: "2026-09-11",
   },
@@ -204,39 +184,55 @@ export const solarRenewableIndustryPage: IndustryPageRecord = {
   solutions: [
     {
       solutionSlug: "ai-analytics",
-      body: `${industrySharedCopy.solutionBasis["ai-analytics"]} For renewable sites, focus on location-aware search, recommendations and score-led review of defined site events.`,
+      body: "Location-aware search, recommendations and score-led review of gate, boundary and compound events.",
     },
     {
       solutionSlug: "vms",
-      body: `${industrySharedCopy.solutionBasis.vms} Use it for remote review across agreed cameras.`,
+      body: "Remote review of agreed site cameras from the operations centre.",
     },
     {
       solutionSlug: "health-monitoring",
-      body: `${industrySharedCopy.solutionBasis["health-monitoring"]} Prioritise distributed surveillance coverage so connectivity loss is not mistaken for an absence of events.`,
+      body: "Shows connectivity loss and camera outages as coverage gaps, so a dark feed reads as a gap rather than a quiet site.",
     },
   ],
   faqs: [
     {
+      question: "How can solar operators verify a remote intrusion without a site visit?",
+      answer:
+        "A perimeter or compound-entry alert arrives with the camera, location and clip. The operations centre checks it against planned O&M visits and decides whether to dispatch anyone. Camera and connectivity outages are tracked as unavailable hours, so a lost feed is visible instead of looking like a quiet site.",
+    },
+    {
+      question: "Which areas of a solar or wind site should cameras cover first?",
+      answer:
+        "Start with gates, boundaries and equipment compounds, where verification helps decide whether a visit is needed. Map those cameras to the site, control building and compound, test them across glare, rain, vegetation and long-distance views, and measure useful perimeter alerts across weather conditions during the pilot.",
+    },
+    {
       question: "Can these cameras identify faulty solar cells?",
       answer:
-        "General CCTV is not a substitute for validated thermography, electrical testing or specialist inspection.",
+        "No. Cameras here cover site security and access, not panel condition. Faulty cells are found through validated thermography, electrical testing or specialist inspection, and generation data shows where output has dropped. Site video can add context about access to an equipment compound around the same period, which helps O&M plan a visit.",
     },
     {
       question: "Can video prove equipment theft?",
       answer:
-        "It may provide relevant context. A removal event, ownership and authorisation require human investigation and other evidence.",
+        "Not on its own: video can provide clips of a removal event at a covered compound, with the location and time, for the operations centre to review. Whether it was theft, and who owned or authorised the equipment's removal, is established through human investigation, maintenance records and other evidence.",
     },
     {
       question: "Does this measure lost generation?",
       answer:
-        "No. Generation and loss analysis require appropriate energy and equipment data.",
+        "No. Generation and loss analysis use energy and equipment data from the site's monitoring systems. Video adds context about site access around the same period, such as a compound entry during an unplanned visit, which the operations centre can review alongside the generation record when output drops.",
     },
-    ...industrySharedFaqs,
   ],
+  limits:
+    "Surveillance video does not diagnose panel faults, measure generation or turbine condition, or prove theft on its own. Scores cover site observations only, not panel health or yield.",
+  furtherReading: {
+    blogs: ["cctv-camera-health-monitoring", "alert-fatigue-is-an-ops-problem"],
+    glossary: ["camera-health-monitoring", "video-analytics"],
+    useCases: ["perimeter-intrusion-detection", "no-motion-black-screen-alert"],
+  },
   relatedIndustrySlugs: ["utilities", "telecom-remote", "government"],
   finalCta: {
-    heading: "Ask Vision Copilot about your renewable energy sites.",
-    body: "See how Vision Copilot connects a mapped area with visual search, recommendations and scores for renewable energy sites.",
+    heading: "Ask Vision Copilot about your renewable sites.",
+    body: "Verify compound and boundary events across every remote energy site before you dispatch O&M.",
   },
   sources: [
     "README v2 §9.28",

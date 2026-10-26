@@ -3,7 +3,7 @@
 import type { CSSProperties, ReactNode } from "react";
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { AnimatePresence, motion, useInView, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion, useInView } from "framer-motion";
 import {
   Activity,
   ArrowLeft,
@@ -18,6 +18,7 @@ import {
   X,
   Zap,
 } from "lucide-react";
+import { useSafeReducedMotion } from "@/lib/use-safe-reduced-motion";
 
 const DEFAULT_OUTCOMES = [
   "Multi-site visibility from one command view",
@@ -47,7 +48,7 @@ const DEFAULT_WORKFLOW: WorkflowStep[] = [
   },
   {
     title: "Event search",
-    description: "Find evidence in seconds",
+    description: "Find evidence without scrubbing footage",
     preview: "search",
   },
   {
@@ -177,6 +178,8 @@ type SolutionVideoSectionProps = {
   caption?: string;
   outcomes?: Array<string | OutcomeItem>;
   workflowSteps?: WorkflowStep[];
+  /** Outcomes heading. Pass a page-specific one; the default is generic. */
+  heading?: string;
   gap?: string;
   sideWidth?: string;
   /** Wide intro video, then zoom out as side panels slide in */
@@ -185,7 +188,7 @@ type SolutionVideoSectionProps = {
 
 function MiniFeedVideo({ src, poster }: { src: string; poster?: string }) {
   const ref = useRef<HTMLVideoElement>(null);
-  const reduce = useReducedMotion();
+  const reduce = useSafeReducedMotion();
 
   useEffect(() => {
     const video = ref.current;
@@ -472,11 +475,12 @@ export function SolutionVideoSection({
   caption,
   outcomes = DEFAULT_OUTCOMES,
   workflowSteps = DEFAULT_WORKFLOW,
+  heading = "What operators notice first",
   gap = "1.5rem",
   sideWidth = "16.5rem",
   cinematicEntrance = false,
 }: SolutionVideoSectionProps) {
-  const reduce = useReducedMotion();
+  const reduce = useSafeReducedMotion();
   const sectionRef = useRef<HTMLElement>(null);
   const enteredView = useInView(sectionRef, { once: true, amount: 0.35 });
   const useCinematic = cinematicEntrance && !reduce;
@@ -588,7 +592,7 @@ export function SolutionVideoSection({
         Outcomes
       </p>
       <h3 className="display mt-2 text-[1.35rem] normal-case tracking-[-0.03em] text-text">
-        What operators notice first
+        {heading}
       </h3>
       <p className="mt-2 text-xs text-muted">
         Tap an outcome to open its dedicated video clip.
@@ -741,7 +745,7 @@ export function SolutionVideoSection({
             <div className="max-w-2xl">
               <p className="eyebrow mb-3">Outcomes</p>
               <h2 className="display text-3xl normal-case text-steel-gradient md:text-4xl">
-                What operators notice first
+                {heading}
               </h2>
             </div>
             {outcomeItems.length > 1 ? (

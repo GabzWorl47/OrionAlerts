@@ -5,3 +5,4 @@ export * from "@/lib/industries/frameworks";
 export * from "@/lib/industries/ledger";
 export * from "@/lib/industries/registry";
 export * from "@/lib/industries/site-origin";
+export * from "@/lib/industries/further-reading";

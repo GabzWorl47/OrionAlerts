@@ -1,8 +1,6 @@
 import {
   INDUSTRY_SCHEMA_VERSION,
-  industrySharedCopy,
   industrySharedCtas,
-  industrySharedFaqs,
 } from "@/lib/industries/shared";
 import type { IndustryPageRecord } from "@/lib/industries/types";
 
@@ -10,30 +8,26 @@ export const constructionIndustryPage: IndustryPageRecord = {
   slug: "construction",
   name: "Construction Sites",
   cardLabel: "Construction",
-  cardSummary:
-    "Use Vision Copilot to connect mapped camera observations with decisions about changing routes and supervision across project areas.",
+  siteNoun: { one: "construction site", many: "construction sites" },
   schemaVersion: INDUSTRY_SCHEMA_VERSION,
   contentVersion: 2,
   status: "reviewed",
   seo: {
-    title: "Construction Site Video Analytics | OrionAlerts",
+    title: "AI Video Analytics for Construction Sites",
     description:
-      "Explore construction projects with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
+      "Construction site CCTV analytics: PPE observations at site entries, zone-entry alerts that follow layout changes, and event acknowledgement times.",
     canonicalPath: "/industries/construction",
-    ogTitle: "Construction Site Video Analytics | OrionAlerts",
-    ogDescription:
-      "Explore construction projects with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
     image: "/Images/industries/construction.webp",
   },
   hero: {
     eyebrow: "Construction Sites",
-    h1: "Vision Copilot for Construction Projects",
-    lede: "Map cameras to the places your team manages and ask Vision Copilot about changing routes and supervision across project areas. OrionAlerts analyses scenes over time to surface alerts, recommendations and operational scores that help you decide what to review today and what to improve next.",
+    h1: "AI Video Analytics for Construction Sites",
+    lede:
+      "Review PPE at site entries and entry into equipment and lifting zones, with zone rules that follow each layout change. Ask Vision Copilot what the supervisor should review after this week's changes.",
     media: {
       kind: "image",
       src: "/Images/industries/construction.webp",
-      alt: "Illustrative construction site photograph used for industry context",
-      demonstrationLabel: "Illustrative photograph — not a verified customer deployment",
+      alt: "Engineers in hard hats reviewing a multi-storey building under construction with a tower crane",
     },
     primaryCta: industrySharedCtas.primary,
     secondaryCta: industrySharedCtas.secondaryHero,
@@ -41,7 +35,7 @@ export const constructionIndustryPage: IndustryPageRecord = {
   context: {
     heading: "Update the monitoring plan as the work changes.",
     paragraphs: [
-      "Temporary routes, equipment movement and changing work areas make construction monitoring different from a fixed factory. A rule that was useful last month may now cover a different activity. Vehicle and struck-by hazards are established construction concerns. Keep cameras, zone definitions and response responsibilities aligned with the current site plan.",
+      "Temporary routes, equipment movement and changing work areas make construction monitoring different from a fixed factory. A rule that was useful last month may now cover a different activity. Keep cameras, zone definitions and response responsibilities aligned with the current site plan.",
     ],
     buyers: [
       "Project managers",
@@ -51,8 +45,6 @@ export const constructionIndustryPage: IndustryPageRecord = {
     ],
   },
   locationContext: {
-    heading: "Your operation, mapped",
-    body: "Organise views around the places the team recognises. Select the location to establish the context for scene observations and Copilot questions. This example uses the shared hierarchy; map the actual site rather than inventing rooms or camera coverage.",
     hierarchyExample: [
       { label: "Site", example: "Project Site" },
       { label: "Building", example: "Building" },
@@ -64,15 +56,13 @@ export const constructionIndustryPage: IndustryPageRecord = {
       "Cameras are mapped to the selected equipment-access or work zone so questions about the current equipment-access zone start from recognisable operational context.",
   },
   copilot: {
-    heading: "Ask Vision Copilot",
-    body: industrySharedCopy.copilotIntro,
     prompts: [
+      "What should the supervisor review after this week's layout change?",
       "Show observations from the current equipment-access zone today.",
       "Which covered work zones have recurring entry observations?",
-      "What should the supervisor review after this week's layout change?",
     ],
     exampleAnswer:
-      "Illustrative example — not a live product result. Repeated zone-entry observations appear after an access route changes. Suggested next step: review the current route, boundary definition and camera mapping with the supervisor before treating the pattern as a new behavioural issue.",
+      "Repeated zone-entry observations appear after an access route changes. Suggested next step: review the current route, boundary definition and camera mapping with the supervisor before treating the pattern as a new behavioural issue.",
     exampleStatus: "illustrative",
   },
   sceneIntelligence: {
@@ -81,8 +71,6 @@ export const constructionIndustryPage: IndustryPageRecord = {
     recommendation:
       "Review the current route, boundary definition and camera mapping with the supervisor before treating the pattern as a new behavioural issue.",
     decisionOwner: "Site supervisor / EHS",
-    followUpPrompt:
-      "Revisit the same area and comparable period to assess observations, coverage and score movement.",
   },
   scorecards: {
     heading: "See what needs attention—and what changes after action.",
@@ -125,49 +113,43 @@ export const constructionIndustryPage: IndustryPageRecord = {
   useCases: [
     {
       id: "location-into-decision",
-      title: "Bring the right location into the decision",
-      body: "Connect changing routes and supervision across project areas to the building tree and its mapped cameras. The team can start with a named operational area instead of trying to remember which camera covers it, making observations easier to interpret and discuss.",
+      title: "Keep zones in step with the site plan",
+      body: "Equipment-access and work zones are mapped to the current site plan, so a question about today's equipment-access zone opens the cameras that cover it.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["building-hierarchy", "vision-copilot"],
     },
     {
       id: "search-observations",
-      title: "Search visual observations in everyday language",
-      body: 'Ask Vision Copilot, “Show observations from the current equipment-access zone today.” Use the location and review period to focus the search on relevant available observations. The purpose is to reach useful context without manually working through unrelated camera views.',
+      title: "Check today's equipment-access zone",
+      body: "Ask Vision Copilot, “Show observations from the current equipment-access zone today,” to review entries and activity there.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["vision-copilot", "scene-analysis"],
     },
     {
       id: "recurring-conditions",
-      title: "Identify recurring conditions across scenes",
-      body: 'Ask, “Which covered work zones have recurring entry observations?” Ongoing scene analysis supports review of patterns across the available observations. Use the recurring condition to frame the next investigation rather than treating one isolated alert as the whole operational picture.',
+      title: "Spot repeat entries in work zones",
+      body: "Ask, “Which covered work zones have recurring entry observations?” Patterns across the week show whether entries started after an access route changed.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["scene-analysis", "vision-copilot"],
     },
     {
       id: "improvement-decision",
-      title: "Turn analysis into an improvement decision",
-      body: 'Ask, “What should the supervisor review after this week\'s layout change?” Review the recommendation alongside the underlying observations and the team\'s operating knowledge. The example below shows a practical next step; it is a suggested action for human consideration, not an automatic instruction to change equipment or procedures.',
+      title: "Review the route after a layout change",
+      body: "Ask, “What should the supervisor review after this week's layout change?” A suggested step, such as checking the current route, boundary definition and camera mapping, goes to the site supervisor and EHS.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["recommendations"],
     },
     {
       id: "score-led-review",
-      title: "Use scores to structure the next review",
-      body: "Use 0–100 scores to organise attention across zones under the same layout version; avoid direct comparison after unrecorded site changes. Review the contributing observations and coverage before acting. The proposed dimensions for this industry are Visible PPE Practices, Work-Zone Control and Shared-Route Readiness; use the approved product methodology when demonstrating actual values.",
+      title: "Score zones under one layout version",
+      body: "Scores out of 100 compare zones under the same layout version, with each site change recorded so comparisons stay fair.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["operational-scores"],
     },
   ],
-  workflow: {
-    heading: "From scenes to decisions",
-    scenario:
-      "Illustrative decision story — not a customer result. Observe: Repeated zone-entry observations appear after an access route changes. Ask: “What should the supervisor review after this week's layout change?” Suggested recommendation: Review the current route, boundary definition and camera mapping with the supervisor before treating the pattern as a new behavioural issue. Decide: The responsible team reviews the evidence and agrees an action. Follow up: Revisit the same area and comparable period to assess observations, coverage and score movement. A subsequent change is not proof of causation.",
-    steps: industrySharedCopy.workflowLabels.map((label) => ({ label })),
-  },
   deployment: {
-    heading: industrySharedCopy.deploymentHeading,
-    body: `${industrySharedCopy.deploymentIntroduction} Revalidate zones after each material layout change. Plan power, network access, mounting and temporary-camera maintenance. Test dust, weather, changing heights and occlusion.`,
+    body:
+      "Revalidate zones after each material layout change. Plan power, network access, mounting and temporary-camera maintenance. Test dust, weather, changing heights and occlusion.",
     requiredInputs: [
       "Mapped hierarchy aligned to the current site plan",
       "Zone revalidation after each material layout change",
@@ -177,7 +159,7 @@ export const constructionIndustryPage: IndustryPageRecord = {
   },
   standards: {
     publicCopy:
-      "Review project-specific worker-safety, premises and fire requirements with the responsible contractor and local authority. Occupational health and safety management context and premises/fire planning provide supporting boundaries; this page does not establish a complete state-specific statutory checklist.",
+      "Worker-safety, premises and fire requirements are reviewed project by project with the responsible contractor and local authority. Site video supports those reviews within an occupational health and safety programme and premises and fire planning.",
     frameworkIds: ["C1", "C8"],
     reviewedAt: "2026-09-11",
   },
@@ -204,39 +186,56 @@ export const constructionIndustryPage: IndustryPageRecord = {
   solutions: [
     {
       solutionSlug: "ai-analytics",
-      body: `${industrySharedCopy.solutionBasis["ai-analytics"]} For construction, focus on location-aware search, recommendations and score-led review of defined site events under the current layout.`,
+      body: "PPE observations at site entries and zone-entry alerts that follow layout changes, with Vision Copilot search by zone.",
     },
     {
       solutionSlug: "vms",
-      body: `${industrySharedCopy.solutionBasis.vms} Use it for incident review across agreed cameras.`,
+      body: "Incident review across the agreed site cameras, live or recorded.",
     },
     {
       solutionSlug: "health-monitoring",
-      body: `${industrySharedCopy.solutionBasis["health-monitoring"]} Prioritise temporary camera availability so coverage gaps are visible as the site changes.`,
+      body: "Shows when temporary site cameras go offline, so coverage gaps are visible as the site changes.",
     },
   ],
   faqs: [
     {
+      question: "How can AI CCTV help on a construction site?",
+      answer:
+        "It reviews visible PPE at stable site entries, flags entry into configured ground-level equipment or lifting zones, and checks that shared crossings stay clear. Alerts go to the site supervisor and EHS with the clip and location, and zones are revalidated whenever the layout changes.",
+    },
+    {
+      question: "What does a construction site pilot need?",
+      answer:
+        "A mapped hierarchy aligned to the current site plan, a power, network, mounting and maintenance plan for temporary cameras, and owners for each alert. Zones are revalidated after each material layout change, and views are tested through dust, weather, height changes and occlusion.",
+    },
+    {
       question: "Can a camera prove a harness is correctly attached?",
       answer:
-        "General CCTV cannot reliably verify every attachment and safety condition. Use the required physical inspection and supervision.",
+        "No. Harness attachment and other safety conditions are confirmed by physical inspection and supervision. Video adds context on visible practices, such as PPE at stable site entries or entry into a configured lifting zone, so supervisors know where to look. It works alongside the site's inspection regime rather than replacing it.",
     },
     {
       question: "How often should zones be updated?",
       answer:
-        "Whenever the monitored layout or work activity changes materially, followed by a validation check.",
+        "Whenever the monitored layout or work activity changes materially. After each change, zones are redrawn against the current site plan and checked with a short validation run so alerts stay relevant. Scores are compared only within the same layout version, and every layout change is logged against its date.",
     },
     {
       question: "Can footage prove structural safety?",
       answer:
-        "No. Structural assessment requires the appropriate engineering methods and authorised professionals.",
+        "No. Structural assessment uses the appropriate engineering methods and authorised professionals. Site video can show visible conditions around a work area, such as an obstructed route or entry into a lifting zone, but loads, deflection and material condition are measured and judged by engineers and the responsible contractor.",
     },
-    ...industrySharedFaqs,
   ],
-  relatedIndustrySlugs: ["cement", "manufacturing", "residential"],
+  limits:
+    "Video reviews visible practices and zone entries under the current layout. Harness attachment, structural safety and statutory checklists stay with physical inspection, engineers and the responsible contractor.",
+  furtherReading: {
+    blogs: ["ai-ppe-detection-factories", "cctv-camera-health-monitoring"],
+    glossary: ["ppe-detection", "camera-health-monitoring"],
+    useCases: ["safety-compliance-detection", "restricted-zone-monitoring"],
+  },
+  relatedIndustrySlugs: ["cement", "residential", "commercial-buildings"],
   finalCta: {
-    heading: "Ask Vision Copilot about your construction projects.",
-    body: "See how Vision Copilot connects a mapped area with visual search, recommendations and scores for construction projects.",
+    heading: "Ask Vision Copilot about your construction site.",
+    body:
+      "Start with one stable site entry and one equipment-access zone.",
   },
   sources: [
     "README v2 §9.21",

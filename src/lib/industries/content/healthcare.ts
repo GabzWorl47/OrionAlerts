@@ -1,8 +1,6 @@
 import {
   INDUSTRY_SCHEMA_VERSION,
-  industrySharedCopy,
   industrySharedCtas,
-  industrySharedFaqs,
 } from "@/lib/industries/shared";
 import type { IndustryPageRecord } from "@/lib/industries/types";
 
@@ -10,30 +8,25 @@ export const healthcareIndustryPage: IndustryPageRecord = {
   slug: "healthcare",
   name: "Healthcare & Hospitals",
   cardLabel: "Healthcare",
-  cardSummary:
-    "Use Vision Copilot to connect mapped camera observations with decisions about non-clinical common-area review and facilities priorities.",
+  siteNoun: { one: "hospital", many: "hospitals" },
   schemaVersion: INDUSTRY_SCHEMA_VERSION,
   contentVersion: 2,
   status: "reviewed",
   seo: {
-    title: "Hospital Video Analytics | OrionAlerts",
+    title: "AI Video Analytics for Hospitals & Healthcare",
     description:
-      "Explore hospital operations with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
+      "Hospital CCTV analytics for non-clinical areas: waiting-area congestion, access and pathway events, and authorised incident retrieval for security teams.",
     canonicalPath: "/industries/healthcare",
-    ogTitle: "Hospital Video Analytics | OrionAlerts",
-    ogDescription:
-      "Explore hospital operations with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
     image: "/Images/industries/healthcare.webp",
   },
   hero: {
     eyebrow: "Healthcare & Hospitals",
-    h1: "Vision Copilot for Hospital Operations",
-    lede: "Map cameras to the places your team manages and ask Vision Copilot about non-clinical common-area review and facilities priorities. OrionAlerts analyses scenes over time to surface alerts, recommendations and operational scores that help you decide what to review today and what to improve next.",
+    h1: "AI Video Analytics for Hospitals & Healthcare",
+    lede: "Watch waiting areas, entrances and non-clinical routes with the cameras the hospital already has. Facilities and security get congestion and pathway alerts with the location and clip, and authorised staff can retrieve an incident quickly.",
     media: {
       kind: "image",
       src: "/Images/industries/healthcare.webp",
-      alt: "Illustrative hospital common-area photograph used for healthcare industry context",
-      demonstrationLabel: "Illustrative photograph — not a verified customer deployment",
+      alt: "Nurses and doctors at a hospital nursing station and reception area",
     },
     primaryCta: industrySharedCtas.primary,
     secondaryCta: industrySharedCtas.secondaryHero,
@@ -41,7 +34,7 @@ export const healthcareIndustryPage: IndustryPageRecord = {
   context: {
     heading: "Give the right team context without expanding monitoring unnecessarily.",
     paragraphs: [
-      "Hospitals combine public access, urgent activity and sensitive care. Security and facilities teams may need to inspect congestion or an entry event, but patient observation requires a much more specific purpose and validation. Begin with public interfaces and controlled service zones. Do not position general CCTV analytics as a clinical monitoring device.",
+      "Hospitals combine public access, urgent activity and sensitive care. Security and facilities teams need to see congestion at entrances and waiting areas, obstructions in service routes and entry into utility or storage rooms. Start with public interfaces and controlled service zones, where the purpose of monitoring is clear and agreed with hospital leadership.",
     ],
     buyers: [
       "Hospital administration",
@@ -51,8 +44,6 @@ export const healthcareIndustryPage: IndustryPageRecord = {
     ],
   },
   locationContext: {
-    heading: "Your operation, mapped",
-    body: "Organise views around the places the team recognises. Select the location to establish the context for scene observations and Copilot questions. This example uses the shared hierarchy; map the actual site rather than inventing rooms or camera coverage.",
     hierarchyExample: [
       { label: "Site", example: "Hospital Site" },
       { label: "Building", example: "Hospital Building" },
@@ -64,15 +55,13 @@ export const healthcareIndustryPage: IndustryPageRecord = {
       "Cameras are mapped to the selected public waiting area or non-clinical route so questions about the public waiting area start from recognisable operational context.",
   },
   copilot: {
-    heading: "Ask Vision Copilot",
-    body: industrySharedCopy.copilotIntro,
     prompts: [
+      "Summarise today's facilities issues without making clinical recommendations.",
       "Show observations from the public waiting area this afternoon.",
       "Which covered non-clinical routes had recurring obstruction observations?",
-      "Summarise today's facilities issues without making clinical recommendations.",
     ],
     exampleAnswer:
-      "Illustrative example — not a live product result. Recurring objects are observed in a designated non-clinical access route. Suggested next step: ask facilities to review equipment staging and route clearance; clinical priorities remain with hospital staff.",
+      "Recurring objects are observed in a designated non-clinical access route. Suggested next step: ask facilities to review equipment staging and route clearance; clinical priorities remain with hospital staff.",
     exampleStatus: "illustrative",
   },
   sceneIntelligence: {
@@ -81,8 +70,6 @@ export const healthcareIndustryPage: IndustryPageRecord = {
     recommendation:
       "Ask facilities to review equipment staging and route clearance; clinical priorities remain with hospital staff.",
     decisionOwner: "Facilities / hospital security",
-    followUpPrompt:
-      "Revisit the same area and comparable period to assess observations, coverage and score movement.",
   },
   scorecards: {
     heading: "See what needs attention—and what changes after action.",
@@ -125,49 +112,42 @@ export const healthcareIndustryPage: IndustryPageRecord = {
   useCases: [
     {
       id: "location-into-decision",
-      title: "Bring the right location into the decision",
-      body: "Connect non-clinical common-area review and facilities priorities to the building tree and its mapped cameras. The team can start with a named operational area instead of trying to remember which camera covers it, making observations easier to interpret and discuss.",
+      title: "Start from the waiting area, not a camera",
+      body: "Cameras map to hospital buildings, public zones and waiting areas, so a security or facilities question starts from a named place.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["building-hierarchy", "vision-copilot"],
     },
     {
       id: "search-observations",
-      title: "Search visual observations in everyday language",
-      body: 'Ask Vision Copilot, “Show observations from the public waiting area this afternoon.” Use the location and review period to focus the search on relevant available observations. The purpose is to reach useful context without manually working through unrelated camera views.',
+      title: "Search the public waiting area by time",
+      body: "Ask Vision Copilot, “Show observations from the public waiting area this afternoon,” and review that area's clips for the period.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["vision-copilot", "scene-analysis"],
     },
     {
       id: "recurring-conditions",
-      title: "Identify recurring conditions across scenes",
-      body: 'Ask, “Which covered non-clinical routes had recurring obstruction observations?” Ongoing scene analysis supports review of patterns across the available observations. Use the recurring condition to frame the next investigation rather than treating one isolated alert as the whole operational picture.',
+      title: "Find routes that keep getting blocked",
+      body: "Ask which covered non-clinical routes had recurring obstruction observations, then check whether equipment staging is the cause.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["scene-analysis", "vision-copilot"],
     },
     {
       id: "improvement-decision",
-      title: "Turn analysis into an improvement decision",
-      body: 'Ask, “Summarise today\'s facilities issues without making clinical recommendations.” Review the recommendation alongside the underlying observations and the team\'s operating knowledge. The example below shows a practical next step; it is a suggested action for human consideration, not an automatic instruction to change equipment or procedures.',
+      title: "Turn obstructions into a facilities task",
+      body: "Ask for a summary of today's facilities issues. A typical suggestion is for facilities to review equipment staging and route clearance, while clinical priorities stay with hospital staff.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["recommendations"],
     },
     {
       id: "score-led-review",
-      title: "Use scores to structure the next review",
-      body: "Use 0–100 scores to organise attention across covered non-clinical areas, not patient health, clinical urgency or treatment quality. Review the contributing observations and coverage before acting. The proposed dimensions for this industry are Public-Area Flow, Non-Clinical Route Readiness and Service-Area Control; use the approved product methodology when demonstrating actual values.",
+      title: "Score public-area flow and route readiness",
+      body: "0–100 scores cover public-area flow, non-clinical route readiness and service-area access in the covered areas.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["operational-scores"],
     },
   ],
-  workflow: {
-    heading: "From scenes to decisions",
-    scenario:
-      "Illustrative decision story — not a customer result. Observe: Recurring objects are observed in a designated non-clinical access route. Ask: “Summarise today's facilities issues without making clinical recommendations.” Suggested recommendation: Ask facilities to review equipment staging and route clearance; clinical priorities remain with hospital staff. Decide: The responsible team reviews the evidence and agrees an action. Follow up: Revisit the same area and comparable period to assess observations, coverage and score movement. A subsequent change is not proof of causation.",
-    steps: industrySharedCopy.workflowLabels.map((label) => ({ label })),
-  },
   deployment: {
-    heading: industrySharedCopy.deploymentHeading,
-    body: `${industrySharedCopy.deploymentIntroduction} Agree excluded spaces and access permissions with hospital leadership. Avoid treatment-room, ward or bedside expansion without a separate purpose and assessment. Confirm incident export and retention controls before sensitive footage is used.`,
+    body: "Agree the monitored spaces, excluded spaces and access permissions with hospital leadership, and confirm incident export and retention controls before sensitive footage is used. Any treatment-room or ward use needs its own purpose and assessment.",
     requiredInputs: [
       "Mapped hierarchy for pilot public and non-clinical service areas",
       "Agreed excluded spaces and access permissions with hospital leadership",
@@ -177,7 +157,7 @@ export const healthcareIndustryPage: IndustryPageRecord = {
   },
   standards: {
     publicCopy:
-      "NABH accreditation evaluates the healthcare organisation under applicable programme standards. Video may support selected reviews but does not confer accreditation or validate clinical performance. Privacy obligations for hospital monitoring also require specific review.",
+      "National Accreditation Board for Hospitals & Healthcare Providers (NABH) accreditation evaluates the hospital as an organisation against its programme standards, and privacy obligations shape how cameras in public and service areas are used. Video from non-clinical areas can support selected facilities and security reviews; it does not confer accreditation.",
     frameworkIds: ["C13", "C9"],
     reviewedAt: "2026-09-11",
   },
@@ -204,39 +184,54 @@ export const healthcareIndustryPage: IndustryPageRecord = {
   solutions: [
     {
       solutionSlug: "ai-analytics",
-      body: `${industrySharedCopy.solutionBasis["ai-analytics"]} For hospitals, focus on location-aware search, recommendations and score-led review of non-clinical events.`,
+      body: "Location-aware search, recommendations and score-led review of non-clinical events such as waiting-area congestion and blocked routes.",
     },
     {
       solutionSlug: "vms",
-      body: `${industrySharedCopy.solutionBasis.vms} Use it for authorised security review across agreed cameras.`,
+      body: "Authorised security review of live and recorded video across the agreed hospital cameras.",
     },
     {
       solutionSlug: "health-monitoring",
-      body: `${industrySharedCopy.solutionBasis["health-monitoring"]} Prioritise selected hospital camera coverage so authorised investigations retain usable footage.`,
+      body: "Keeps selected hospital cameras recording, so authorised investigations retain usable footage.",
     },
   ],
   faqs: [
     {
+      question: "How can hospitals use CCTV analytics without monitoring patients?",
+      answer:
+        "Start with public and non-clinical areas: entrances, waiting areas, service routes and utility or storage rooms. OrionAlerts flags congestion, route obstructions and entry into configured service areas for facilities and security, while wards, treatment rooms and bedsides stay outside the agreed scope unless a separate purpose is assessed.",
+    },
+    {
+      question: "Which hospital areas should cameras cover first?",
+      answer:
+        "Public entrances and waiting areas, where congestion builds during busy periods, plus the non-clinical routes that equipment and staff move through. These views give security and facilities a clear purpose, a named response owner and footage that authorised reviewers can retrieve quickly by time window and area.",
+    },
+    {
       question: "Can this replace a patient fall alarm?",
       answer:
-        "Not under this scope. A clinical or patient-monitoring use requires specifically validated capabilities and a separate assessment.",
+        "No. OrionAlerts is built for public and non-clinical areas and for facilities and security teams, not as a patient-monitoring system. A clinical or patient-monitoring use, such as fall detection at the bedside, would need specifically validated capabilities and a separate assessment with clinical leadership before it could be considered.",
     },
     {
       question: "Does NABH require OrionAlerts?",
       answer:
-        "No. Accreditation requirements do not constitute endorsement of this product.",
+        "No. NABH accreditation evaluates the hospital against NABH's programme standards, and accreditation is not an endorsement of OrionAlerts. Footage from OrionAlerts can support selected facilities and security reviews the hospital chooses to run, alongside its own records, while accreditation decisions stay entirely with NABH and the hospital.",
     },
     {
       question: "Can all hospital staff view footage?",
       answer:
-        "Access should follow purpose and authorisation. Verify the needed technical permission controls before deployment.",
+        "No. Access follows purpose and authorisation: role-based access gives security, facilities and other named users only the sites, cameras and functions they need. Those permissions, along with incident export and retention controls, are agreed with hospital leadership before deployment and before any sensitive footage is used.",
     },
-    ...industrySharedFaqs,
   ],
-  relatedIndustrySlugs: ["pharma", "commercial-buildings", "education-campuses"],
+  limits: "OrionAlerts covers public and non-clinical areas for facilities and security teams. Patient monitoring, fall alarms and clinical decisions stay with validated clinical systems and hospital staff, and scores describe observed conditions rather than patient health or treatment quality.",
+  furtherReading: {
+    blogs: ["why-traditional-cctv-monitoring-is-no-longer-enough", "cctv-camera-health-monitoring"],
+    glossary: ["video-analytics", "vms"],
+    useCases: ["crowd-detection", "abandoned-object-detection", "restricted-zone-monitoring"],
+  },
+  relatedIndustrySlugs: ["education-campuses", "pharma", "hotels-hospitality"],
   finalCta: {
-    heading: "Ask Vision Copilot about your hospital operations.",
-    body: "See how Vision Copilot connects a mapped area with visual search, recommendations and scores for hospital operations.",
+    heading: "Ask Vision Copilot about your hospital.",
+    body: "Pick a waiting area and a service route for the pilot, and see what facilities and security would review each day.",
   },
   sources: [
     "README v2 §9.17",

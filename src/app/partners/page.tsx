@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Button, CtaBand, FeatureCard, Section, SectionHeading } from "@/components/ui";
 import { PageShell } from "@/components/PageShell";
+import { breadcrumbJsonLd, JsonLdScript } from "@/lib/jsonld";
 import { buildPageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = buildPageMetadata({
-  title: "Become a Partner",
+  title: "Partner Program for System Integrators",
   description:
-    "Join the OrionAlerts partner ecosystem for system integrators and technology partners—enablement, packaging, and joint delivery.",
+    "Join the OrionAlerts partner program. System integrators and AMC providers deploy AI video analytics, VMS and CCTV health monitoring for their clients.",
   pathname: "/partners",
 });
 
@@ -14,7 +16,7 @@ export const metadata: Metadata = buildPageMetadata({
 const partnerTracks = [
   {
     title: "System integrators",
-    description: "Design, deploy, and support multi-site OrionAlerts estates with commercial upside.",
+    description: "Design, deploy and support multi-site OrionAlerts deployments for your clients.",
   },
   {
     title: "Technology partners",
@@ -22,7 +24,7 @@ const partnerTracks = [
   },
   {
     title: "White-label programs",
-    description: "Deliver branded experiences where partner rules and packaging allow.",
+    description: "Branded delivery for your clients, where partner terms and packaging allow.",
   },
 ];
 
@@ -49,7 +51,7 @@ const enablement = [
   },
   {
     title: "Co-selling support",
-    description: "Joint pursuit models for enterprise and critical-infrastructure opportunities.",
+    description: "Joint pursuit of enterprise and critical-infrastructure opportunities.",
   },
 ];
 
@@ -57,15 +59,36 @@ export default function PartnersPage() {
   return (
     <PageShell>
       <>
+      <JsonLdScript
+        data={breadcrumbJsonLd([
+          { name: "Home", path: "/" },
+          { name: "Partners", path: "/partners" },
+        ])}
+      />
       <Section className="pt-14">
-        <p className="eyebrow">Channel & ecosystem</p>
-        <h1 className="display mt-3 max-w-3xl text-4xl text-text md:text-6xl">Become a Partner</h1>
+        <p className="eyebrow">Partner program</p>
+        <h1 className="display mt-3 max-w-3xl text-3xl text-text md:text-5xl">
+          OrionAlerts partner program for system integrators and AMC providers
+        </h1>
         <p className="lede mt-4">
-          Grow with OrionAlerts as a system integrator or technology partner — with enablement,
-          portal access, and clear commercial rails.
+          Deploy OrionAlerts for your clients and run their CCTV service delivery on the same
+          platform, with camera health, asset records and AMC SLA tracking for each client.
+        </p>
+        <p className="mt-4 max-w-3xl text-[1.0625rem] leading-[1.72] text-muted">
+          Grow with OrionAlerts as a system integrator or technology partner, with enablement,
+          clear commercial terms and deal registration. Partners work with the same{" "}
+          <Link href="/solutions" className="font-semibold text-blue hover:underline">
+            five OrionAlerts modules
+          </Link>{" "}
+          — VMS, AI video analytics, camera health monitoring, asset tracking and AMC management —
+          running on{" "}
+          <Link href="/nebula-os" className="font-semibold text-blue hover:underline">
+            Nebula OS
+          </Link>
+          .
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
-          <Button href="/contact">Apply to partner</Button>
+          <Button href="/contact?topic=partner">Become a Partner</Button>
         </div>
       </Section>
 
@@ -82,7 +105,7 @@ export default function PartnersPage() {
         <SectionHeading
           eyebrow="Program"
           title="What partners get"
-          lede="Enablement, packaging support, and joint delivery paths for system integrators and technology partners."
+          lede="Enablement, packaging support and joint delivery for system integrators and technology partners."
         />
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {enablement.map((item, index) => (
@@ -95,8 +118,8 @@ export default function PartnersPage() {
         <CtaBand
           title="Start a partner conversation"
           lede="Tell us your region, specialties, and whether you’re SI-led, technology-led, or both."
-          primaryHref="/contact"
-          primaryLabel="Contact Us"
+          primaryHref="/contact?topic=partner"
+          primaryLabel="Become a Partner"
           secondaryHref="/faqs"
           secondaryLabel="Read FAQs"
         />

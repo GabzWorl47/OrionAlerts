@@ -28,7 +28,11 @@ import { sportsEventsIndustryPage } from "@/lib/industries/content/sports-events
 import { telecomRemoteIndustryPage } from "@/lib/industries/content/telecom-remote";
 import { textileIndustryPage } from "@/lib/industries/content/textile";
 import { utilitiesIndustryPage } from "@/lib/industries/content/utilities";
-import type { IndustryPageRecord, IndustryPublicationStatus } from "@/lib/industries/types";
+import type {
+  IndustryPageRecord,
+  IndustryPublicationStatus,
+  PublicIndustryPage,
+} from "@/lib/industries/types";
 
 /** Only reviewed/published records render on the migrated path. */
 const industryPageRecords: IndustryPageRecord[] = [
@@ -72,6 +76,13 @@ export function getIndustryPageRecord(slug: string) {
 
 export function listIndustryPageRecords() {
   return industryPageRecords;
+}
+
+/** Strip internal-only fields before handing a record to a client component. */
+export function toPublicIndustryPage(record: IndustryPageRecord): PublicIndustryPage {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { scorecards, scorePresentation, sources, review, ...publicPage } = record;
+  return publicPage;
 }
 
 export function isMigratedIndustryStatus(status: IndustryPublicationStatus) {

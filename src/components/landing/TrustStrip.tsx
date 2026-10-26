@@ -1,8 +1,9 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { Activity, Eye, Lock, Network, Radar } from "lucide-react";
 import { Stagger, StaggerItem } from "@/components/Reveal";
+import { useSafeReducedMotion } from "@/lib/use-safe-reduced-motion";
 
 const items = [
   { label: "AI-Powered Detection", icon: Radar },
@@ -13,7 +14,7 @@ const items = [
 ];
 
 export function TrustStrip() {
-  const reduce = useReducedMotion();
+  const reduce = useSafeReducedMotion();
 
   return (
     <section className="relative overflow-hidden border-y border-line bg-surface">

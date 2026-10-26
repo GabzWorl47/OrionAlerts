@@ -1,8 +1,6 @@
 import {
   INDUSTRY_SCHEMA_VERSION,
-  industrySharedCopy,
   industrySharedCtas,
-  industrySharedFaqs,
 } from "@/lib/industries/shared";
 import type { IndustryPageRecord } from "@/lib/industries/types";
 
@@ -10,30 +8,25 @@ export const utilitiesIndustryPage: IndustryPageRecord = {
   slug: "utilities",
   name: "Utilities & Infrastructure",
   cardLabel: "Utilities",
-  cardSummary:
-    "Use Vision Copilot to connect mapped camera observations with decisions about remote-site access and field-inspection priorities.",
+  siteNoun: { one: "utility site", many: "substations and utility sites" },
   schemaVersion: INDUSTRY_SCHEMA_VERSION,
   contentVersion: 2,
   status: "reviewed",
   seo: {
-    title: "Utility Infrastructure Video Analytics | OrionAlerts",
+    title: "Substation & Utility Site CCTV Analytics",
     description:
-      "Explore utility infrastructure with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
+      "CCTV analytics for substations and remote utility sites: verified perimeter events, remote-view outage hours and field-team acknowledgement times.",
     canonicalPath: "/industries/utilities",
-    ogTitle: "Utility Infrastructure Video Analytics | OrionAlerts",
-    ogDescription:
-      "Explore utility infrastructure with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
     image: "/Images/industries/utilities.webp",
   },
   hero: {
     eyebrow: "Utilities & Infrastructure",
-    h1: "Vision Copilot for Utility Infrastructure",
-    lede: "Map cameras to the places your team manages and ask Vision Copilot about remote-site access and field-inspection priorities. OrionAlerts analyses scenes over time to surface alerts, recommendations and operational scores that help you decide what to review today and what to improve next.",
+    h1: "Substation & Utility Site CCTV Analytics",
+    lede: "Verify perimeter and equipment-zone entry at substations and remote utility sites before dispatching a field team, and see which remote cameras have gone offline and for how long.",
     media: {
       kind: "image",
       src: "/Images/industries/utilities.webp",
-      alt: "Illustrative utility infrastructure photograph used for industry context",
-      demonstrationLabel: "Illustrative photograph — not a verified customer deployment",
+      alt: "Illustration of power lines, a water treatment plant and gas pipelines beside a monitoring dashboard",
     },
     primaryCta: industrySharedCtas.primary,
     secondaryCta: industrySharedCtas.secondaryHero,
@@ -41,18 +34,16 @@ export const utilitiesIndustryPage: IndustryPageRecord = {
   context: {
     heading: "Verify a remote event before dispatching the right team.",
     paragraphs: [
-      "Distributed utility assets can be difficult to inspect quickly. A boundary event may be routine maintenance, an animal or an unexplained entry. Useful remote video helps an operator establish context and prioritise a response. It does not show whether a circuit is isolated, equipment is energised or a process is safe.",
+      "Distributed utility assets are hard to inspect quickly, and a boundary event may be routine maintenance, an animal or an unexplained entry. Remote video gives the operator the context to prioritise a response: what is visible at the equipment-zone entrance, whether a visit was planned and which team should go.",
     ],
     buyers: [
       "Utility operations",
       "Security",
       "Substation and site managers",
-      "OT engineering",
+      "Operational technology (OT) engineering",
     ],
   },
   locationContext: {
-    heading: "Your operation, mapped",
-    body: "Organise views around the places the team recognises. Select the location to establish the context for scene observations and Copilot questions. This example uses the shared hierarchy; map the actual site rather than inventing rooms or camera coverage.",
     hierarchyExample: [
       { label: "Site", example: "Utility Site" },
       { label: "Building", example: "Control Building" },
@@ -64,15 +55,13 @@ export const utilitiesIndustryPage: IndustryPageRecord = {
       "Cameras are mapped to the selected equipment-zone entrance or access area so questions about the equipment-zone entrance start from recognisable operational context.",
   },
   copilot: {
-    heading: "Ask Vision Copilot",
-    body: industrySharedCopy.copilotIntro,
     prompts: [
+      "Summarise the observations for today's field-team briefing.",
       "Find observations at the selected equipment-zone entrance this week.",
       "Which covered sites show repeated access observations outside planned review windows?",
-      "Summarise the observations for today's field-team briefing.",
     ],
     exampleAnswer:
-      "Illustrative example — not a live product result. Repeated entry observations appear around an equipment-zone access point. Suggested next step: review the visit schedule, boundary arrangement and camera placement before deciding on a field inspection.",
+      "Repeated entry observations appear around an equipment-zone access point. Suggested next step: review the visit schedule, boundary arrangement and camera placement before deciding on a field inspection.",
     exampleStatus: "illustrative",
   },
   sceneIntelligence: {
@@ -81,8 +70,6 @@ export const utilitiesIndustryPage: IndustryPageRecord = {
     recommendation:
       "Review the visit schedule, boundary arrangement and camera placement before deciding on a field inspection.",
     decisionOwner: "Utility operations / field team lead",
-    followUpPrompt:
-      "Revisit the same area and comparable period to assess observations, coverage and score movement.",
   },
   scorecards: {
     heading: "See what needs attention—and what changes after action.",
@@ -125,49 +112,42 @@ export const utilitiesIndustryPage: IndustryPageRecord = {
   useCases: [
     {
       id: "location-into-decision",
-      title: "Bring the right location into the decision",
-      body: "Connect remote-site access and field-inspection priorities to the building tree and its mapped cameras. The team can start with a named operational area instead of trying to remember which camera covers it, making observations easier to interpret and discuss.",
+      title: "Map each equipment zone and access area",
+      body: "Cameras sit under their utility site, control building and equipment zone, so an operator reviews an entry event at the place the field team knows.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["building-hierarchy", "vision-copilot"],
     },
     {
       id: "search-observations",
-      title: "Search visual observations in everyday language",
-      body: 'Ask Vision Copilot, “Find observations at the selected equipment-zone entrance this week.” Use the location and review period to focus the search on relevant available observations. The purpose is to reach useful context without manually working through unrelated camera views.',
+      title: "Ask about an equipment-zone entrance",
+      body: "Ask Vision Copilot, “Find observations at the selected equipment-zone entrance this week,” to review that entrance for the period in question.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["vision-copilot", "scene-analysis"],
     },
     {
       id: "recurring-conditions",
-      title: "Identify recurring conditions across scenes",
-      body: 'Ask, “Which covered sites show repeated access observations outside planned review windows?” Ongoing scene analysis supports review of patterns across the available observations. Use the recurring condition to frame the next investigation rather than treating one isolated alert as the whole operational picture.',
+      title: "Find repeated entry outside planned windows",
+      body: "Ask, “Which covered sites show repeated access observations outside planned review windows?” to see which sites keep showing entry the visit schedule leaves unexplained.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["scene-analysis", "vision-copilot"],
     },
     {
       id: "improvement-decision",
-      title: "Turn analysis into an improvement decision",
-      body: 'Ask, “Summarise the observations for today\'s field-team briefing.” Review the recommendation alongside the underlying observations and the team\'s operating knowledge. The example below shows a practical next step; it is a suggested action for human consideration, not an automatic instruction to change equipment or procedures.',
+      title: "Prepare the field-team briefing",
+      body: "Ask, “Summarise the observations for today's field-team briefing.” Suggestions such as reviewing the visit schedule or camera placement arrive with the observations behind them, and the field team lead decides.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["recommendations"],
     },
     {
       id: "score-led-review",
-      title: "Use scores to structure the next review",
-      body: "Use 0–100 scores to organise attention across covered utility locations and periods; never electrical isolation or installation-safety certification. Review the contributing observations and coverage before acting. The proposed dimensions for this industry are Site Access Practices, Equipment-Area Orderliness and Field Observation Review; use the approved product methodology when demonstrating actual values.",
+      title: "Prioritise sites for field inspection",
+      body: "Scores out of 100 across covered utility locations show where access observations need a field inspection first, compared over consistent periods.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["operational-scores"],
     },
   ],
-  workflow: {
-    heading: "From scenes to decisions",
-    scenario:
-      "Illustrative decision story — not a customer result. Observe: Repeated entry observations appear around an equipment-zone access point. Ask: “Summarise the observations for today's field-team briefing.” Suggested recommendation: Review the visit schedule, boundary arrangement and camera placement before deciding on a field inspection. Decide: The responsible team reviews the evidence and agrees an action. Follow up: Revisit the same area and comparable period to assess observations, coverage and score movement. A subsequent change is not proof of causation.",
-    steps: industrySharedCopy.workflowLabels.map((label) => ({ label })),
-  },
   deployment: {
-    heading: industrySharedCopy.deploymentHeading,
-    body: `${industrySharedCopy.deploymentIntroduction} Review power and connectivity resilience, access for maintenance and cyber/network boundaries. Confirm the actual behaviour during connectivity loss and the suitability of all equipment for the installation.`,
+    body: "Review power and connectivity resilience, maintenance access and cyber and network boundaries with OT owners. Confirm how cameras behave during connectivity loss and that all equipment suits the installation.",
     requiredInputs: [
       "Mapped hierarchy for pilot utility sites and equipment zones",
       "Power and connectivity resilience plan for remote cameras",
@@ -177,7 +157,7 @@ export const utilitiesIndustryPage: IndustryPageRecord = {
   },
   standards: {
     publicCopy:
-      "CEA safety regulations provide relevant electrical-safety context in India. Analytics does not replace electrical protection, permit systems or required inspections. Specialised hazardous sites may also require separate hazardous-area equipment assessment.",
+      "Central Electricity Authority (CEA) safety regulations set electrical-safety context for covered installations in India, and specialised hazardous sites may also need a separate hazardous-area equipment assessment. Camera evidence supports the operator's site review alongside the utility's own protection, permit and inspection systems.",
     frameworkIds: ["C14", "C5"],
     reviewedAt: "2026-09-11",
   },
@@ -191,52 +171,68 @@ export const utilitiesIndustryPage: IndustryPageRecord = {
     {
       label: "Remote-view unavailable hours",
       definition:
-        "Hours of required remote camera or recording unavailability for priority sites during agreed monitoring windows.",
+        "Hours during agreed monitoring windows when a priority substation or site camera, or its recording, was unavailable.",
       sourceOfTruth: "Device and connectivity logs",
     },
     {
       label: "Acknowledgement time for reviewed events",
       definition:
-        "Acknowledgement timestamp minus delivered or available alert timestamp for reviewed remote-site events.",
+        "Time from an alert being delivered or available to its acknowledgement by the control room, for reviewed substation and remote-site events.",
       sourceOfTruth: "Control-room acknowledgement records",
     },
   ],
   solutions: [
     {
       solutionSlug: "ai-analytics",
-      body: `${industrySharedCopy.solutionBasis["ai-analytics"]} For utilities, focus on location-aware search, recommendations and score-led review of remote zone events.`,
+      body: "Location-aware search, recommendations and score-led review of remote equipment-zone and perimeter events.",
     },
     {
       solutionSlug: "vms",
-      body: `${industrySharedCopy.solutionBasis.vms} Use it for scene verification across agreed cameras.`,
+      body: "Remote scene verification across agreed substation and site cameras before a crew is sent.",
     },
     {
       solutionSlug: "health-monitoring",
-      body: `${industrySharedCopy.solutionBasis["health-monitoring"]} Prioritise distributed camera coverage so loss of remote visibility is visible to the maintenance team.`,
+      body: "Shows the maintenance team which distributed cameras have lost remote visibility, and for how long.",
     },
   ],
   faqs: [
     {
+      question: "How can utilities verify a substation intrusion remotely?",
+      answer:
+        "An entry alert at a perimeter or equipment-zone access point arrives with the site, camera and clip. The operator checks it against the visit schedule and boundary arrangement, then decides whether a field team is needed. Remote-view outage hours are tracked separately, so a lost feed shows up as a coverage gap.",
+    },
+    {
+      question: "Which utility site areas should cameras cover first?",
+      answer:
+        "Start with the gates, perimeter and equipment-zone entrances at remote sites where an unexplained entry would trigger a field visit. Map those cameras to the utility site, control building and equipment zone, agree who acknowledges each alert, and measure useful perimeter events and acknowledgement time during the pilot.",
+    },
+    {
       question: "Can video show that equipment is de-energised?",
       answer:
-        "No. Electrical isolation must be confirmed through the approved procedures and instruments.",
+        "No. Electrical isolation and de-energisation are confirmed through the approved procedures and instruments, with permits issued under the utility's own system. Video shows the visible scene around the equipment, such as activity at an equipment-zone entrance, which helps the operator decide whether a field team needs to attend.",
     },
     {
       question: "Can camera events be linked to SCADA?",
       answer:
-        "Only after a specific supported integration and its security boundaries are assessed.",
+        "Only through a separate integration. Linking camera events to SCADA is scoped after its security and network boundaries have been assessed with your OT owners, and it is not assumed in the pilot. Until then, operators compare camera events with SCADA data using the site, equipment zone and time window.",
     },
     {
       question: "Can analytics replace patrols?",
       answer:
-        "It can support prioritisation in covered areas. Staffing and inspection requirements need an independent operational assessment.",
+        "No. It helps prioritise patrols and site visits in covered areas by showing where entry outside planned windows keeps recurring and which remote cameras have gone offline. Staffing and inspection requirements stay with an independent operational assessment, and any change to patrol schedules is decided by the utility, not the analytics.",
     },
-    ...industrySharedFaqs,
   ],
-  relatedIndustrySlugs: ["solar-renewable", "telecom-remote", "oil-gas"],
+  limits:
+    "Video shows what is visible at a site. Electrical isolation, energisation and process safety are confirmed through approved procedures and instruments, and scores are not installation-safety certification. Links to supervisory control and data acquisition (SCADA) systems and changes to patrol staffing need their own assessment.",
+  furtherReading: {
+    blogs: ["cctv-camera-health-monitoring", "why-traditional-cctv-monitoring-is-no-longer-enough"],
+    glossary: ["camera-health-monitoring", "video-analytics"],
+    useCases: ["perimeter-intrusion-detection", "restricted-zone-monitoring", "no-motion-black-screen-alert"],
+  },
+  relatedIndustrySlugs: ["metals-mining", "oil-gas", "solar-renewable", "telecom-remote"],
   finalCta: {
-    heading: "Ask Vision Copilot about your utility infrastructure.",
-    body: "See how Vision Copilot connects a mapped area with visual search, recommendations and scores for utility infrastructure.",
+    heading: "Ask Vision Copilot about your utility sites.",
+    body: "Verify remote entry events and see which substation cameras are online from one control room.",
   },
   sources: [
     "README v2 §9.20",

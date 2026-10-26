@@ -1,11 +1,41 @@
 "use client";
 
 import Link from "next/link";
-import { FormEvent, useState } from "react";
+import { FormEvent, useId, useState } from "react";
 import { GoogleRecaptcha } from "@/components/GoogleRecaptcha";
 import { legalMeta } from "@/lib/legal";
 
 type LeadKind = "demo" | "contact";
+
+/** Values of the contact form's "Reason for reaching out" select. */
+export type ContactTopic = "sales" | "support" | "partner" | "press" | "privacy" | "other";
+
+/**
+ * Optional demo-form ranges. Values must stay in sync with the allow-lists in
+ * `src/app/api/leads/route.ts`, which rejects anything else.
+ */
+const SITE_COUNT_OPTIONS = [
+  { value: "1", label: "1" },
+  { value: "2-5", label: "2–5" },
+  { value: "6-20", label: "6–20" },
+  { value: "21-100", label: "21–100" },
+  { value: "100+", label: "100+" },
+] as const;
+
+const CAMERA_COUNT_OPTIONS = [
+  { value: "under-50", label: "Under 50" },
+  { value: "50-200", label: "50–200" },
+  { value: "200-1000", label: "200–1,000" },
+  { value: "1000+", label: "1,000+" },
+] as const;
+
+function RequiredMark() {
+  return (
+    <span aria-hidden="true" className="text-alert">
+      *
+    </span>
+  );
+}
 
 type LeadFormProps = {
   kind: LeadKind;
@@ -13,16 +43,29 @@ type LeadFormProps = {
   subtitle: string;
   /** Use h2 when the page already has an H1 (e.g. contact). */
   titleAs?: "h1" | "h2";
+  /** Preselects the contact topic, e.g. from `/contact?topic=partner`. */
+  defaultTopic?: ContactTopic;
 };
 
-export function LeadForm({ kind, title, subtitle, titleAs = "h1" }: LeadFormProps) {
+export function LeadForm({
+  kind,
+  title,
+  subtitle,
+  titleAs = "h1",
+  defaultTopic,
+}: LeadFormProps) {
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [message, setMessage] = useState("");
   const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
   const [recaptchaReset, setRecaptchaReset] = useState(0);
   const requireCaptcha = kind === "demo";
   const TitleTag = titleAs;
-  const formTitleId = "lead-form-title";
+  const formTitleId = useId();
+  const captchaHintId = useId();
+  const awaitingCaptcha = requireCaptcha && !recaptchaToken;
+  // Without a site key the widget shows its own notice instead of a checkbox.
+  const captchaConfigured = Boolean(process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY);
+  const showCaptchaHint = awaitingCaptcha && captchaConfigured;
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -49,7 +92,7 @@ export function LeadForm({ kind, title, subtitle, titleAs = "h1" }: LeadFormProp
         }),
       });
 
-      const json = (await res.json()) as { ok?: boolean; error?: string };
+      const json = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string };
 
       if (!res.ok || !json.ok) {
         throw new Error(json.error || "Submission failed");
@@ -86,28 +129,54 @@ export function LeadForm({ kind, title, subtitle, titleAs = "h1" }: LeadFormProp
           {title}
         </TitleTag>
         <p className="mt-2 text-muted">{subtitle}</p>
-        <p className="mt-3 text-xs uppercase tracking-[0.14em] text-cyan">
-          {kind === "demo" ? "Demo request" : "Contact request"} · processed by OrionAlerts
+        <p className="mt-3 text-xs text-muted">
+          Fields marked <span className="text-alert">*</span> are required.
         </p>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
         <label className="text-sm font-medium text-text">
-          Full name
+          Full name <RequiredMark />
           <input name="name" required className={fieldClass} autoComplete="name" />
         </label>
         <label className="text-sm font-medium text-text">
-          Work email
+          Work email <RequiredMark />
           <input name="email" type="email" required className={fieldClass} autoComplete="email" />
         </label>
         <label className="text-sm font-medium text-text">
-          Company
+          Company <RequiredMark />
           <input name="company" required className={fieldClass} autoComplete="organization" />
         </label>
         <label className="text-sm font-medium text-text">
-          Phone
+          Phone (optional)
           <input name="phone" className={fieldClass} autoComplete="tel" />
         </label>
+        {kind === "demo" ? (
+          <>
+            <label className="text-sm font-medium text-text">
+              Number of sites (optional)
+              <select name="siteCount" className={fieldClass} defaultValue="">
+                <option value="">Select a range</option>
+                {SITE_COUNT_OPTIONS.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label className="text-sm font-medium text-text">
+              Approximate camera count (optional)
+              <select name="cameraCount" className={fieldClass} defaultValue="">
+                <option value="">Select a range</option>
+                {CAMERA_COUNT_OPTIONS.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </>
+        ) : null}
         {kind === "demo" ? (
           <label className="text-sm font-medium text-text sm:col-span-2">
             Solutions of interest
@@ -126,12 +195,12 @@ export function LeadForm({ kind, title, subtitle, titleAs = "h1" }: LeadFormProp
         ) : (
           <label className="text-sm font-medium text-text sm:col-span-2">
             Reason for reaching out
-            <select name="topic" className={fieldClass} defaultValue="">
+            <select name="topic" className={fieldClass} defaultValue={defaultTopic ?? ""}>
               <option value="" disabled>
                 Choose a topic
               </option>
-              <option value="sales">Sales conversation</option>
-              <option value="support">Support / ticket</option>
+              <option value="sales">Sales inquiry</option>
+              <option value="support">Customer support</option>
               <option value="partner">Partnership</option>
               <option value="press">Press / investor</option>
               <option value="privacy">Privacy request</option>
@@ -140,7 +209,8 @@ export function LeadForm({ kind, title, subtitle, titleAs = "h1" }: LeadFormProp
           </label>
         )}
         <label className="text-sm font-medium text-text sm:col-span-2">
-          {kind === "demo" ? "What should we cover in the demo?" : "How can we help?"}
+          {kind === "demo" ? "What should we cover in the demo?" : "How can we help?"}{" "}
+          <RequiredMark />
           <textarea
             name="message"
             rows={4}
@@ -148,7 +218,7 @@ export function LeadForm({ kind, title, subtitle, titleAs = "h1" }: LeadFormProp
             className={`${fieldClass} resize-y`}
             placeholder={
               kind === "demo"
-                ? "Sites, camera count, timelines, or use cases…"
+                ? "Use cases, timelines, or questions you want answered…"
                 : "Share context so we route you correctly…"
             }
           />
@@ -160,22 +230,17 @@ export function LeadForm({ kind, title, subtitle, titleAs = "h1" }: LeadFormProp
           <GoogleRecaptcha onChange={setRecaptchaToken} resetSignal={recaptchaReset} />
           <p className="mt-2 text-xs text-muted">Protected by Google reCAPTCHA.</p>
         </div>
-      ) : (
-        <p className="mt-4 text-xs text-muted">
-          Submissions are rate-limited by IP.
-        </p>
-      )}
+      ) : null}
 
       <p className="mt-5 text-xs leading-relaxed text-muted" data-privacy-notice>
-        By submitting, you send these details to OrionAlerts so we can respond to your request. We
-        also record your IP address for rate-limiting and abuse prevention
-        {requireCaptcha ? ", and Google processes reCAPTCHA data for bot protection" : ""}.
-        Submissions go to our application servers and are written to application logs; a separate
-        CRM/ERP store is not connected yet. See our{" "}
+        By submitting, you send these details to OrionAlerts. We use them only to respond to your
+        request. We also record your IP address for rate-limiting and abuse prevention
+        {requireCaptcha ? ", and Google processes reCAPTCHA data for bot protection" : ""}. See
+        our{" "}
         <Link href="/privacy" className="text-blue hover:underline">
           Privacy Policy
         </Link>{" "}
-        for retention and your rights, or email{" "}
+        for how long we keep your details and your rights, or email{" "}
         <a href={`mailto:${legalMeta.privacyEmail}`} className="text-blue hover:underline">
           {legalMeta.privacyEmail}
         </a>{" "}
@@ -184,11 +249,17 @@ export function LeadForm({ kind, title, subtitle, titleAs = "h1" }: LeadFormProp
 
       <button
         type="submit"
-        disabled={status === "submitting" || (requireCaptcha && !recaptchaToken)}
+        disabled={status === "submitting" || awaitingCaptcha}
+        aria-describedby={showCaptchaHint ? captchaHintId : undefined}
         className="mt-5 inline-flex items-center justify-center rounded-[14px] bg-blue px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#1f7aef] disabled:cursor-not-allowed disabled:opacity-60"
       >
-        {status === "submitting" ? "Sending…" : kind === "demo" ? "Request demo" : "Send message"}
+        {status === "submitting" ? "Sending…" : kind === "demo" ? "Request a Demo" : "Send Message"}
       </button>
+      {showCaptchaHint ? (
+        <p id={captchaHintId} className="mt-2 text-xs text-muted">
+          Complete the reCAPTCHA check to submit.
+        </p>
+      ) : null}
 
       {message ? (
         <p

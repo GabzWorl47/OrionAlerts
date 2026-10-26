@@ -1,3 +1,5 @@
+import type { BlogSlug, GlossarySlug, UseCaseSlug } from "@/lib/industries/further-reading";
+
 export type IndustryPublicationStatus = "legacy" | "draft" | "reviewed" | "published";
 
 export type CapabilityStatus =
@@ -42,11 +44,6 @@ export type IndustryUseCaseRecord = {
   constraints?: string;
 };
 
-export type IndustryWorkflowStep = {
-  label: string;
-  description?: string;
-};
-
 export type IndustryMetric = {
   label: string;
   definition: string;
@@ -56,6 +53,13 @@ export type IndustryMetric = {
 export type IndustrySolutionBlurb = {
   solutionSlug: string;
   body: string;
+};
+
+export type IndustryFurtherReading = {
+  blogs: BlogSlug[];
+  glossary: GlossarySlug[];
+  /** Only events the page's own content already discusses. */
+  useCases: UseCaseSlug[];
 };
 
 export type IndustryFaq = {
@@ -76,7 +80,12 @@ export type IndustryPageRecord = {
   slug: string;
   name: string;
   cardLabel: string;
-  cardSummary: string;
+  /**
+   * How the page names one site and several sites of this industry, used to
+   * put the industry into section headings ("Your cement plant, mapped",
+   * "Use cases for cement plants").
+   */
+  siteNoun: { one: string; many: string };
   schemaVersion: number;
   contentVersion: number;
   status: IndustryPublicationStatus;
@@ -95,14 +104,11 @@ export type IndustryPageRecord = {
     buyers: string[];
   };
   locationContext: {
-    heading: string;
-    body: string;
     hierarchyExample: HierarchyLevel[];
     cameraMappingCopy: string;
   };
   copilot: {
-    heading: string;
-    body: string;
+    /** prompts[0] is the question that exampleAnswer answers; the others are shown as further prompts. */
     prompts: [string, string, string];
     exampleAnswer: string;
     exampleStatus: "illustrative";
@@ -111,7 +117,6 @@ export type IndustryPageRecord = {
     observedPattern: string;
     recommendation: string;
     decisionOwner: string;
-    followUpPrompt: string;
   };
   scorecards: {
     heading: string;
@@ -130,13 +135,7 @@ export type IndustryPageRecord = {
     trendBasis: string;
   };
   useCases: IndustryUseCaseRecord[];
-  workflow: {
-    heading: string;
-    scenario: string;
-    steps: IndustryWorkflowStep[];
-  };
   deployment: {
-    heading: string;
     body: string;
     requiredInputs: string[];
   };
@@ -147,7 +146,11 @@ export type IndustryPageRecord = {
   };
   metrics: IndustryMetric[];
   solutions: IndustrySolutionBlurb[];
+  /** Industry-specific Q&As only; these feed the page's FAQPage JSON-LD. */
   faqs: IndustryFaq[];
+  /** One short, plain statement of what the page's capabilities do not cover. */
+  limits: string;
+  furtherReading: IndustryFurtherReading;
   relatedIndustrySlugs: string[];
   finalCta: {
     heading: string;
@@ -161,6 +164,16 @@ export type IndustryPageRecord = {
     reviewedAt?: string;
   };
 };
+
+/**
+ * The subset of a record that is sent to the client page component. Score
+ * methodology placeholders, source notes and review metadata are internal and
+ * must not reach the rendered HTML (including the RSC payload).
+ */
+export type PublicIndustryPage = Omit<
+  IndustryPageRecord,
+  "scorecards" | "scorePresentation" | "sources" | "review"
+>;
 
 export type MigrationLedgerEntry = {
   slug: string;

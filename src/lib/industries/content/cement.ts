@@ -1,8 +1,6 @@
 import {
   INDUSTRY_SCHEMA_VERSION,
-  industrySharedCopy,
   industrySharedCtas,
-  industrySharedFaqs,
 } from "@/lib/industries/shared";
 import type { IndustryPageRecord } from "@/lib/industries/types";
 
@@ -10,30 +8,26 @@ export const cementIndustryPage: IndustryPageRecord = {
   slug: "cement",
   name: "Cement & Building Materials",
   cardLabel: "Cement",
-  cardSummary:
-    "Use Vision Copilot to connect mapped camera observations with decisions about truck staging and material-transfer visibility.",
+  siteNoun: { one: "cement plant", many: "cement plants" },
   schemaVersion: INDUSTRY_SCHEMA_VERSION,
   contentVersion: 2,
   status: "reviewed",
   seo: {
-    title: "Cement Plant AI Video Analytics | OrionAlerts",
+    title: "AI Video Analytics for Cement Plants",
     description:
-      "Explore cement plants with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
+      "AI CCTV for cement plants: truck queues at loading bays, conveyor and transfer-point zone entry, and camera health monitoring in dusty conditions.",
     canonicalPath: "/industries/cement",
-    ogTitle: "Cement Plant AI Video Analytics | OrionAlerts",
-    ogDescription:
-      "Explore cement plants with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
     image: "/Images/industries/cement.webp",
   },
   hero: {
     eyebrow: "Cement & Building Materials",
-    h1: "Vision Copilot for Cement Plants",
-    lede: "Map cameras to the places your team manages and ask Vision Copilot about truck staging and material-transfer visibility. OrionAlerts analyses scenes over time to surface alerts, recommendations and operational scores that help you decide what to review today and what to improve next.",
+    h1: "AI Video Analytics for Cement Plants",
+    lede:
+      "Watch truck queues at loading bays, entry into conveyor and transfer-point zones, and camera health through dust and vibration. Ask Vision Copilot where loading-area congestion recurred this week and which change dispatch should try first.",
     media: {
       kind: "image",
       src: "/Images/industries/cement.webp",
-      alt: "Illustrative cement plant and construction materials photograph used for industry context",
-      demonstrationLabel: "Illustrative photograph — not a verified customer deployment",
+      alt: "Worker shovelling cement beside a concrete mixer and cement bags on a building site",
     },
     primaryCta: industrySharedCtas.primary,
     secondaryCta: industrySharedCtas.secondaryHero,
@@ -41,8 +35,8 @@ export const cementIndustryPage: IndustryPageRecord = {
   context: {
     heading: "Make dusty, distributed plant areas easier to review.",
     paragraphs: [
-      "Material transfer, bagging and vehicle dispatch create multiple points where a small interruption can become an operational problem. Dust, vibration and changing daylight also make camera coverage less reliable. A useful system needs realistic detection boundaries and a plan for keeping views clear. Start with specific events that operators can verify and act upon.",
-      "A reference deployment positions cameras at loading bays, material-transfer points and conveyor-side access, often connected over longer cable runs or wireless links given the size of a typical plant footprint. Retention should match dispatch and safety-review cycles rather than an indefinite archive, with loading and transfer alerts routed to dispatch and plant operations. Where a weighbridge or dispatch system is in use, align review timestamps with its vehicle records instead of treating video as a standalone log.",
+      "Material transfer, bagging and vehicle dispatch create multiple points where a small interruption can become an operational problem. Dust, vibration and changing daylight also make camera coverage less reliable, so plan lens cleaning and expect the system to report low-visibility periods rather than guess. Start with specific events that operators can verify and act upon.",
+      "A reference deployment positions cameras at loading bays, material-transfer points and conveyor-side access, often connected over longer cable runs or wireless links given the size of a typical plant footprint. Retention matches dispatch and safety-review cycles, with loading and transfer alerts routed to dispatch and plant operations. Where a weighbridge or dispatch system is in use, align review timestamps with its vehicle records so each clip lines up with the truck's dispatch entry.",
     ],
     buyers: [
       "Plant heads",
@@ -52,8 +46,6 @@ export const cementIndustryPage: IndustryPageRecord = {
     ],
   },
   locationContext: {
-    heading: "Your operation, mapped",
-    body: "Organise views around the places the team recognises. Select the location to establish the context for scene observations and Copilot questions. This example uses the shared hierarchy; map the actual site rather than inventing rooms or camera coverage.",
     hierarchyExample: [
       { label: "Site", example: "Plant" },
       { label: "Building", example: "Dispatch Building" },
@@ -65,15 +57,13 @@ export const cementIndustryPage: IndustryPageRecord = {
       "Cameras are mapped to the selected loading bay or transfer point so questions about Loading Bay 3 start from recognisable operational context.",
   },
   copilot: {
-    heading: "Ask Vision Copilot",
-    body: industrySharedCopy.copilotIntro,
     prompts: [
+      "Which loading-area changes should the dispatch team assess first?",
       "Show observations from Loading Bay 3 this morning.",
       "Where did loading-area congestion recur this week?",
-      "Which loading-area changes should the dispatch team assess first?",
     ],
     exampleAnswer:
-      "Illustrative example — not a live product result. The same loading approach repeatedly contains waiting vehicles during the morning dispatch period. Suggested next step: review vehicle staging and bay allocation with dispatch, using the observations to select a targeted trial.",
+      "The same loading approach repeatedly contains waiting vehicles during the morning dispatch period. Suggested next step: review vehicle staging and bay allocation with dispatch, using the observations to select a targeted trial.",
     exampleStatus: "illustrative",
   },
   sceneIntelligence: {
@@ -82,8 +72,6 @@ export const cementIndustryPage: IndustryPageRecord = {
     recommendation:
       "Review vehicle staging and bay allocation with dispatch, using the observations to select a targeted trial.",
     decisionOwner: "Dispatch / plant operations",
-    followUpPrompt:
-      "Revisit the same area and comparable period to assess observations, coverage and score movement.",
   },
   scorecards: {
     heading: "See what needs attention—and what changes after action.",
@@ -126,49 +114,43 @@ export const cementIndustryPage: IndustryPageRecord = {
   useCases: [
     {
       id: "location-into-decision",
-      title: "Bring the right location into the decision",
-      body: "Connect truck staging and material-transfer visibility to the building tree and its mapped cameras. The team can start with a named operational area instead of trying to remember which camera covers it, making observations easier to interpret and discuss.",
+      title: "Name Loading Bay 3 and each transfer point",
+      body: "Loading bays, transfer points and conveyor-side access are mapped in the plant hierarchy, so dispatch asks about Loading Bay 3 and sees the cameras that cover it.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["building-hierarchy", "vision-copilot"],
     },
     {
       id: "search-observations",
-      title: "Search visual observations in everyday language",
-      body: 'Ask Vision Copilot, “Show observations from Loading Bay 3 this morning.” Use the location and review period to focus the search on relevant available observations. The purpose is to reach useful context without manually working through unrelated camera views.',
+      title: "Ask about this morning's dispatch",
+      body: "Ask Vision Copilot, “Show observations from Loading Bay 3 this morning,” to review truck staging and transfer-point observations for that bay and period.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["vision-copilot", "scene-analysis"],
     },
     {
       id: "recurring-conditions",
-      title: "Identify recurring conditions across scenes",
-      body: 'Ask, “Where did loading-area congestion recur this week?” Ongoing scene analysis supports review of patterns across the available observations. Use the recurring condition to frame the next investigation rather than treating one isolated alert as the whole operational picture.',
+      title: "Find where truck queues keep forming",
+      body: "Ask, “Where did loading-area congestion recur this week?” Observations across the week show whether waiting vehicles build up at the same approach during each morning dispatch.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["scene-analysis", "vision-copilot"],
     },
     {
       id: "improvement-decision",
-      title: "Turn analysis into an improvement decision",
-      body: 'Ask, “Which loading-area changes should the dispatch team assess first?” Review the recommendation alongside the underlying observations and the team\'s operating knowledge. The example below shows a practical next step; it is a suggested action for human consideration, not an automatic instruction to change equipment or procedures.',
+      title: "Give dispatch a staging change to trial",
+      body: "Ask, “Which loading-area changes should the dispatch team assess first?” A suggested step, such as reviewing vehicle staging and bay allocation, goes to dispatch and plant operations to decide on a trial.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["recommendations"],
     },
     {
       id: "score-led-review",
-      title: "Use scores to structure the next review",
-      body: "Use 0–100 scores to organise attention across loading zones across comparable dispatch periods, with dust and visibility conditions noted. Review the contributing observations and coverage before acting. The proposed dimensions for this industry are Loading-Area Orderliness, Material-Transfer Flow and Work-Zone Control; use the approved product methodology when demonstrating actual values.",
+      title: "Compare loading zones by dispatch period",
+      body: "Scores out of 100 compare loading zones across comparable dispatch periods, with dust and visibility conditions noted beside each result.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["operational-scores"],
     },
   ],
-  workflow: {
-    heading: "From scenes to decisions",
-    scenario:
-      "Illustrative decision story — not a customer result. Observe: The same loading approach repeatedly contains waiting vehicles during the morning dispatch period. Ask: “Which loading-area changes should the dispatch team assess first?” Suggested recommendation: Review vehicle staging and bay allocation with dispatch, using the observations to select a targeted trial. Decide: The responsible team reviews the evidence and agrees an action. Follow up: Revisit the same area and comparable period to assess observations, coverage and score movement. A subsequent change is not proof of causation.",
-    steps: industrySharedCopy.workflowLabels.map((label) => ({ label })),
-  },
   deployment: {
-    heading: industrySharedCopy.deploymentHeading,
-    body: `${industrySharedCopy.deploymentIntroduction} Test cameras during dusty production conditions, night shifts and vehicle movement. Confirm cleaning access, mounting stability and exposure settings. Position hardware outside hazardous conditions unless it carries the approvals required for that installation.`,
+    body:
+      "Test cameras during dusty production conditions, night shifts and vehicle movement. Confirm cleaning access, mounting stability and exposure settings. Position hardware outside hazardous conditions unless it carries the approvals required for that installation.",
     requiredInputs: [
       "Mapped hierarchy for pilot loading bays and material-transfer zones",
       "Agreed response owners for staging, transfer and work-zone events",
@@ -179,7 +161,7 @@ export const cementIndustryPage: IndustryPageRecord = {
   },
   standards: {
     publicCopy:
-      "Applicable BIS product certification requirements concern the cement or building-material product. Camera monitoring does not certify product quality. Assess the relevant product category and current quality-control order separately from plant safety monitoring.",
+      "BIS product certification and quality-control orders cover the cement or building-material product itself. Plant camera monitoring supports safety and dispatch reviews alongside that product-quality process.",
     frameworkIds: ["C3"],
     reviewedAt: "2026-09-13",
   },
@@ -206,39 +188,56 @@ export const cementIndustryPage: IndustryPageRecord = {
   solutions: [
     {
       solutionSlug: "ai-analytics",
-      body: `${industrySharedCopy.solutionBasis["ai-analytics"]} For cement plants, focus on location-aware search, recommendations and score-led review of loading and material-transfer events.`,
+      body: "Truck-staging, transfer-point and conveyor-zone alerts, with Vision Copilot search by bay and dispatch period.",
     },
     {
       solutionSlug: "vms",
-      body: `${industrySharedCopy.solutionBasis.vms} Use it for loading and transfer review across agreed cameras.`,
+      body: "Loading and transfer review across the agreed plant cameras, live or recorded.",
     },
     {
       solutionSlug: "health-monitoring",
-      body: `${industrySharedCopy.solutionBasis["health-monitoring"]} Prioritise surveillance availability in dusty and vibration-heavy conditions so critical views remain usable.`,
+      body: "Tracks camera and recording availability in dusty, vibration-heavy areas so critical views stay usable.",
     },
   ],
   faqs: [
     {
-      question: "Can CCTV measure dust emissions?",
+      question: "How can AI CCTV improve safety in a cement plant?",
       answer:
-        "Ordinary video is not a calibrated dust or emissions instrument. Use appropriate monitoring equipment for those measurements.",
+        "AI video analytics watches CCTV views for events the shift team can act on: people entering configured conveyor or transfer-point zones, trucks queuing at loading bays and, where a pilot confirms the view supports it, visible helmet or hi-vis exceptions at selected entries. Each alert carries the camera, location and clip.",
     },
     {
-      question: "Will analytics work through heavy dust?",
+      question: "Does video analytics work in dusty conditions?",
       answer:
-        "Visibility can fall below useful levels. Pilot the actual scene and include periods where the system should report insufficient coverage rather than a confident result.",
+        "It can, but visibility drops in heavy dust, so results depend on camera placement, cleaning access and exposure settings. Where visibility falls below useful levels, the system should report insufficient coverage rather than a confident result. The pilot includes the dustiest periods, so the team sees how each view performs before rollout.",
+    },
+    {
+      question: "Can AI video analytics monitor truck queues at loading bays?",
+      answer:
+        "Yes. Cameras at the loading approach and bays show waiting vehicles, and dwell at selected loading lanes is compared with dispatch observations during the pilot. Where a weighbridge or dispatch system is in use, review timestamps are aligned with its vehicle records so each queue can be traced to dispatch.",
+    },
+    {
+      question: "Can CCTV measure dust emissions?",
+      answer:
+        "No. Dust and emissions are measured with calibrated monitoring equipment, and ordinary video is not a calibrated instrument. What video shows is the visible scene around them, such as material accumulation at a transfer point or a view that has become obscured, which helps the team decide where to look and when to check the instruments.",
     },
     {
       question: "Can this predict conveyor failure?",
       answer:
-        "A visible interruption may prompt investigation. Predictive mechanical maintenance requires additional signals and a separately validated model.",
+        "No. A visible interruption at a conveyor, such as material piling up at a transfer point, can prompt the team to investigate. Predicting conveyor failure needs additional machine signals and a separately validated model, so predictive maintenance is scoped as its own project alongside the camera pilot.",
     },
-    ...industrySharedFaqs,
   ],
-  relatedIndustrySlugs: ["metals-mining", "manufacturing", "construction"],
+  limits:
+    "Video shows visible activity at mapped bays and transfer points. Dust emissions, product quality and conveyor-failure prediction need calibrated instruments, Bureau of Indian Standards (BIS) certification processes and machine data.",
+  furtherReading: {
+    blogs: ["cctv-camera-health-monitoring", "add-ai-to-existing-cctv-cameras"],
+    glossary: ["camera-health-monitoring", "video-analytics"],
+    useCases: ["vehicle-detection", "restricted-zone-monitoring", "safety-compliance-detection"],
+  },
+  relatedIndustrySlugs: ["metals-mining", "construction", "oil-gas"],
   finalCta: {
-    heading: "Ask Vision Copilot about your cement plants.",
-    body: "See how Vision Copilot connects a mapped area with visual search, recommendations and scores for cement plants.",
+    heading: "Ask Vision Copilot about your cement plant.",
+    body:
+      "Start with one loading bay and one transfer point, and test them through a dusty shift.",
   },
   sources: [
     "README v2 §9.3",

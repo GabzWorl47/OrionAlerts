@@ -5,7 +5,7 @@ import { Section, SectionHeading } from "@/components/ui";
 import { nebulaAudiences } from "@/lib/nebula-os";
 
 /**
- * Compact 4-up audience grid (2-up on tablet, stacked on mobile).
+ * Compact 3-up audience grid (2-up on tablet, stacked on mobile).
  */
 export function NebulaAudiences() {
   return (
@@ -16,11 +16,11 @@ export function NebulaAudiences() {
         compact
       />
 
-      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
+      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
         {nebulaAudiences.map((audience, index) => (
           <Reveal
             key={audience.id}
-            delay={0.04 * (index % 4)}
+            delay={0.04 * (index % 3)}
             className="h-full"
           >
             <article className="h-full rounded-[28px] border border-blue/10 bg-white/50 p-6 backdrop-blur-sm shadow-[0_18px_50px_-34px_rgba(43,140,255,0.4)]">

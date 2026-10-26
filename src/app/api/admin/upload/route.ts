@@ -19,6 +19,27 @@ function extensionFor(type: string, fileName: string) {
   return fromName || "jpg";
 }
 
+/** Verify file signature so a renamed/mislabelled payload can't be stored as an image. */
+function matchesSignature(type: string, bytes: Buffer) {
+  if (type === "image/jpeg") {
+    return bytes.length > 3 && bytes[0] === 0xff && bytes[1] === 0xd8 && bytes[2] === 0xff;
+  }
+  if (type === "image/png") {
+    return bytes.subarray(0, 8).equals(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]));
+  }
+  if (type === "image/gif") {
+    const head = bytes.subarray(0, 6).toString("ascii");
+    return head === "GIF87a" || head === "GIF89a";
+  }
+  if (type === "image/webp") {
+    return (
+      bytes.subarray(0, 4).toString("ascii") === "RIFF" &&
+      bytes.subarray(8, 12).toString("ascii") === "WEBP"
+    );
+  }
+  return false;
+}
+
 export async function POST(request: Request) {
   if (!(await isAdminAuthenticated())) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -47,6 +68,12 @@ export async function POST(request: Request) {
     }
 
     const bytes = Buffer.from(await file.arrayBuffer());
+    if (!matchesSignature(file.type, bytes)) {
+      return NextResponse.json(
+        { error: "File contents do not match a JPG, PNG, WEBP, or GIF image." },
+        { status: 400 },
+      );
+    }
     const ext = extensionFor(file.type, file.name);
     const fileName = `${Date.now()}-${randomBytes(4).toString("hex")}.${ext}`;
     const uploadDir = path.join(process.cwd(), "public", "uploads", "blogs");

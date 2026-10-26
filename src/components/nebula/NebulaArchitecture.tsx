@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useSafeReducedMotion } from "@/lib/use-safe-reduced-motion";
 import {
   nebulaCapabilities,
   cloudLayer,
@@ -13,17 +14,33 @@ import { NebulaCore } from "@/components/nebula/NebulaCore";
 
 export function NebulaArchitecture() {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
-  const reduce = useReducedMotion();
+  const reduce = useSafeReducedMotion();
 
   return (
-    <div id="nebula-architecture" className="relative mt-10 md:mt-12">
+    <div
+      id="nebula-architecture"
+      aria-labelledby="nebula-architecture-heading"
+      role="region"
+      className="relative mt-10 md:mt-12"
+    >
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 -z-10 rounded-[32px] bg-[radial-gradient(ellipse_at_50%_20%,rgba(43,140,255,0.08),transparent_55%)]"
       />
 
-      <div className="hidden space-y-5 md:block">
-        <div className="relative rounded-[32px] border border-blue/10 bg-white/50 p-4 shadow-[0_18px_50px_-34px_rgba(43,140,255,0.4)] backdrop-blur-sm md:p-6">
+      {/*
+        One responsive layout for every breakpoint (previously a desktop and a
+        mobile copy were both in the DOM, duplicating every heading).
+      */}
+      <div className="space-y-4 md:space-y-5">
+        <h2
+          id="nebula-architecture-heading"
+          className="text-center text-[clamp(1.25rem,2.4vw,1.75rem)] font-semibold leading-snug tracking-[-0.02em] text-text"
+        >
+          Nebula OS architecture: core engines, five modules and the cloud layer
+        </h2>
+
+        <div className="relative rounded-[24px] border border-blue/10 bg-white/50 p-3 shadow-[0_18px_50px_-34px_rgba(43,140,255,0.4)] backdrop-blur-sm sm:p-4 md:rounded-[32px] md:p-6">
           <NebulaCore />
 
           <div className="mt-4">
@@ -66,35 +83,7 @@ export function NebulaArchitecture() {
           <ArchitectureLayer title="Cloud Layer" items={cloudLayer} tone="cloud" />
         </motion.div>
 
-        <p className="text-center text-[12px] font-medium tracking-[0.04em] text-muted md:text-[13px]">
-          Cameras → SDKs → Drivers → Nebula OS → Cloud / Command Center
-        </p>
-      </div>
-
-      <div className="space-y-4 md:hidden">
-        <NebulaCore />
-
-        <ArchitectureLayer
-          title="Core Engines"
-          items={nebulaCoreEngines}
-          tone="core"
-        />
-
-        <div className="space-y-3">
-          {nebulaCapabilities.map((capability) => (
-            <CapabilityCard
-              key={capability.id}
-              capability={capability}
-              active={hoveredId === capability.id}
-              dimmed={hoveredId !== null && hoveredId !== capability.id}
-              onHover={setHoveredId}
-            />
-          ))}
-        </div>
-
-        <ArchitectureLayer title="Cloud Layer" items={cloudLayer} tone="cloud" />
-
-        <p className="text-center text-[12px] font-medium leading-relaxed tracking-[0.03em] text-muted">
+        <p className="text-center text-[12px] font-medium leading-relaxed tracking-[0.03em] text-muted md:text-[13px] md:tracking-[0.04em]">
           Cameras → SDKs → Drivers → Nebula OS → Cloud / Command Center
         </p>
       </div>

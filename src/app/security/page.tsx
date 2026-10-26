@@ -16,6 +16,7 @@ export default function SecurityPage() {
 
   return (
     <LegalDoc
+      path="/security"
       eyebrow="Trust"
       title="Trust & Security"
       description="A concise summary of how we protect the OrionAlerts website and product surfaces visitors interact with today."
@@ -32,15 +33,16 @@ export default function SecurityPage() {
           content: (
             <>
               <p>
-                OrionAlerts is building enterprise video and operations software. For the public
-                website and current lead intake path, we apply the following baseline controls:
+                OrionAlerts provides enterprise video intelligence software. This page summarises
+                how we protect this website and the data you submit through it. For the public
+                website and lead forms, we apply the following baseline controls:
               </p>
               <LegalList
                 items={[
-                  "HTTPS for production traffic once TLS is correctly configured on the canonical host.",
+                  "All production traffic is served over HTTPS.",
                   "HttpOnly, SameSite=Lax admin session cookie (oa_admin_session) with a 12-hour lifetime after successful login.",
                   "Server-side rate limiting on lead submissions and Google reCAPTCHA on the demo form.",
-                  "Separation of demo and contact lead kinds in application handling (durable CRM/ERP storage not yet connected).",
+                  "Separation of demo and contact lead kinds in application handling.",
                   "Least-privilege access to admin publishing tools via password-gated sessions.",
                 ]}
               />
@@ -68,11 +70,7 @@ export default function SecurityPage() {
                 with steps to reproduce, impact assessment, and your contact details. Please do not
                 access or modify other customers’ data, or disrupt production services.
               </p>
-              <p>
-                We do not currently operate a public bug-bounty program. Responsible disclosure is
-                welcome at the security email above. Do not access customer data or disrupt
-                production services.
-              </p>
+              <p>We do not currently operate a public bug-bounty program.</p>
             </>
           ),
         },
@@ -102,7 +100,7 @@ export default function SecurityPage() {
           content: (
             <>
               <p>
-                Website-related processors currently reflected in code or planned for production:
+                Service providers that process data for this website:
               </p>
               <LegalList
                 items={activeOrPlanned.map(

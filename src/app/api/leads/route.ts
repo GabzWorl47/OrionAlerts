@@ -10,8 +10,26 @@ type LeadPayload = {
   message?: string;
   interest?: string;
   topic?: string;
+  siteCount?: string;
+  cameraCount?: string;
   recaptchaToken?: string;
 };
+
+/** Allowed demo-form ranges; keep in sync with the selects in `LeadForm.tsx`. */
+const SITE_COUNT_VALUES = new Set(["1", "2-5", "6-20", "21-100", "100+"]);
+const CAMERA_COUNT_VALUES = new Set(["under-50", "50-200", "200-1000", "1000+"]);
+
+/**
+ * Optional select value: absent/empty → null; anything outside the allow-list
+ * → `false` so the caller can reject the request.
+ */
+function optionalChoice(value: unknown, allowed: Set<string>): string | null | false {
+  if (value === undefined || value === null || value === "") return null;
+  if (typeof value !== "string") return false;
+  const trimmed = value.trim();
+  if (!trimmed) return null;
+  return allowed.has(trimmed) ? trimmed : false;
+}
 
 /**
  * Process-local IP rate limiter.
@@ -112,6 +130,9 @@ export async function POST(request: Request) {
   } catch {
     return NextResponse.json({ ok: false, error: "Invalid JSON body." }, { status: 400 });
   }
+  if (!body || typeof body !== "object") {
+    return NextResponse.json({ ok: false, error: "Invalid JSON body." }, { status: 400 });
+  }
 
   const kind = body.kind === "demo" || body.kind === "contact" ? body.kind : null;
   if (!kind) {
@@ -125,6 +146,8 @@ export async function POST(request: Request) {
   const message = clean(body.message, LIMITS.message);
   const interest = clean(body.interest, LIMITS.interest) || null;
   const topic = clean(body.topic, LIMITS.topic) || null;
+  const siteCount = optionalChoice(body.siteCount, SITE_COUNT_VALUES);
+  const cameraCount = optionalChoice(body.cameraCount, CAMERA_COUNT_VALUES);
 
   if (!name || !email || !company || !message) {
     return NextResponse.json({ ok: false, error: "Missing required fields." }, { status: 400 });
@@ -132,6 +155,20 @@ export async function POST(request: Request) {
 
   if (!isValidEmail(email)) {
     return NextResponse.json({ ok: false, error: "Enter a valid work email." }, { status: 400 });
+  }
+
+  if (siteCount === false) {
+    return NextResponse.json(
+      { ok: false, error: "Choose a number of sites from the list." },
+      { status: 400 },
+    );
+  }
+
+  if (cameraCount === false) {
+    return NextResponse.json(
+      { ok: false, error: "Choose an approximate camera count from the list." },
+      { status: 400 },
+    );
   }
 
   if (kind === "demo") {
@@ -152,6 +189,8 @@ export async function POST(request: Request) {
     phone,
     interest,
     topic,
+    siteCount,
+    cameraCount,
     messageLength: message.length,
     // Redact full message body from default logs; keep length for ops debugging.
     ip,

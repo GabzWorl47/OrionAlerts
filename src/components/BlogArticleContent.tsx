@@ -1,12 +1,38 @@
-import type { BlogPost, BlogSection } from "@/lib/blogs";
+import Link from "next/link";
+import { getHeadingIds, stripInlineMarkdown, type BlogPost, type BlogSection } from "@/lib/blogs";
 
-/** Light inline markdown: **bold**, *italic*, `code`. */
+const INLINE_TOKEN = /(\[[^\]]+\]\([^)\s]+\)|\*\*[^*]+\*\*|\*[^*]+\*|`[^`]+`)/g;
+const MARKDOWN_LINK = /^\[([^\]]+)\]\(([^)\s]+)\)$/;
+const linkClass =
+  "font-medium text-blue underline decoration-blue/30 underline-offset-[3px] transition hover:decoration-blue";
+
+/** Light inline markdown: [links](/path), **bold**, *italic*, `code`. */
 export function InlineText({ text }: { text: string }) {
-  const parts = text.split(/(\*\*[^*]+\*\*|\*[^*]+\*|`[^`]+`)/g).filter(Boolean);
+  const parts = text.split(INLINE_TOKEN).filter(Boolean);
 
   return (
     <>
       {parts.map((part, index) => {
+        const link = MARKDOWN_LINK.exec(part);
+        if (link) {
+          const [, label, href] = link;
+          if (href.startsWith("/") || href.startsWith("#")) {
+            return (
+              <Link key={index} href={href} className={linkClass}>
+                {label}
+              </Link>
+            );
+          }
+          if (/^(https?:|mailto:)/i.test(href)) {
+            return (
+              <a key={index} href={href} target="_blank" rel="noopener" className={linkClass}>
+                {label}
+              </a>
+            );
+          }
+          // Anything else (e.g. javascript:) renders as plain text.
+          return <span key={index}>{label}</span>;
+        }
         if (part.startsWith("**") && part.endsWith("**")) {
           return (
             <strong key={index} className="font-semibold text-text">
@@ -14,14 +40,14 @@ export function InlineText({ text }: { text: string }) {
             </strong>
           );
         }
-        if (part.startsWith("*") && part.endsWith("*")) {
+        if (part.startsWith("*") && part.endsWith("*") && part.length > 2) {
           return (
             <em key={index} className="italic text-text/90">
               {part.slice(1, -1)}
             </em>
           );
         }
-        if (part.startsWith("`") && part.endsWith("`")) {
+        if (part.startsWith("`") && part.endsWith("`") && part.length > 2) {
           return (
             <code
               key={index}
@@ -37,6 +63,9 @@ export function InlineText({ text }: { text: string }) {
   );
 }
 
+/** Headings sit under the fixed header when reached from the contents links. */
+const headingAnchorOffset = "scroll-mt-[calc(var(--header-h)+1.5rem)]";
+
 export function BlogArticleContent({
   takeaways,
   sections,
@@ -45,6 +74,7 @@ export function BlogArticleContent({
   sections: BlogSection[];
 }) {
   const firstParagraphIndex = sections.findIndex((section) => section.type === "paragraph");
+  const headingIds = getHeadingIds(sections);
 
   return (
     <div className="mx-auto max-w-3xl lg:mx-0">
@@ -76,19 +106,21 @@ export function BlogArticleContent({
               return (
                 <h3
                   key={`${section.type}-${index}`}
-                  className="pt-3 font-display text-[1.2rem] font-semibold normal-case leading-snug tracking-[-0.02em] text-text md:text-[1.35rem]"
+                  id={headingIds[index] ?? undefined}
+                  className={`${headingAnchorOffset} pt-3 font-display text-[1.2rem] font-semibold normal-case leading-snug tracking-[-0.02em] text-text md:text-[1.35rem]`}
                 >
                   <span className="mr-2 inline-block h-2 w-2 rounded-full bg-cyan align-middle" />
-                  {section.text}
+                  <InlineText text={section.text} />
                 </h3>
               );
             }
             return (
               <h2
                 key={`${section.type}-${index}`}
-                className="display border-t border-line pt-8 text-[clamp(1.45rem,2.4vw,1.9rem)] normal-case leading-[1.2] tracking-[-0.03em] text-text first:border-t-0 first:pt-2"
+                id={headingIds[index] ?? undefined}
+                className={`${headingAnchorOffset} display border-t border-line pt-8 text-[clamp(1.45rem,2.4vw,1.9rem)] normal-case leading-[1.2] tracking-[-0.03em] text-text first:border-t-0 first:pt-2`}
               >
-                {section.text}
+                <InlineText text={section.text} />
               </h2>
             );
           }
@@ -109,6 +141,52 @@ export function BlogArticleContent({
                   <InlineText text={section.text} />
                 </p>
               </blockquote>
+            );
+          }
+
+          if (section.type === "table") {
+            return (
+              <div
+                key={`${section.type}-${index}`}
+                className="overflow-x-auto rounded-[18px] border border-line bg-white"
+              >
+                <table className="w-full min-w-[560px] border-collapse text-left text-[14px] leading-relaxed md:text-[15px]">
+                  <thead className="bg-surface">
+                    <tr>
+                      {section.headers.map((header, cellIndex) => (
+                        <th
+                          key={cellIndex}
+                          scope="col"
+                          className="border-b border-line px-4 py-3 align-bottom font-semibold text-text"
+                        >
+                          <InlineText text={header} />
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {section.rows.map((row, rowIndex) => (
+                      <tr key={rowIndex} className="border-b border-line/70 last:border-b-0">
+                        {row.map((cell, cellIndex) =>
+                          cellIndex === 0 ? (
+                            <th
+                              key={cellIndex}
+                              scope="row"
+                              className="px-4 py-3 align-top font-semibold text-text"
+                            >
+                              <InlineText text={cell} />
+                            </th>
+                          ) : (
+                            <td key={cellIndex} className="px-4 py-3 align-top text-muted-strong">
+                              <InlineText text={cell} />
+                            </td>
+                          ),
+                        )}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             );
           }
 
@@ -170,28 +248,33 @@ export function BlogArticleContent({
 }
 
 export function BlogArticleToc({ sections }: { sections: BlogPost["sections"] }) {
-  const headings = sections.filter(
-    (section): section is Extract<BlogSection, { type: "heading" }> =>
-      section.type === "heading" && section.level !== 3,
-  );
+  const headingIds = getHeadingIds(sections);
+  const allHeadings = sections
+    .map((section, index) => ({ section, id: headingIds[index] }))
+    .filter(
+      (item): item is { section: Extract<BlogSection, { type: "heading" }>; id: string } =>
+        item.section.type === "heading" && Boolean(item.id),
+    );
+  // Prefer top-level sections; posts written only with ### headings fall back to those.
+  const topLevel = allHeadings.filter((item) => item.section.level !== 3);
+  const headings = topLevel.length ? topLevel : allHeadings;
+  if (!headings.length) return null;
 
   return (
-    <div className="rounded-[20px] border border-line bg-white p-5">
+    <nav aria-label="In this article" className="rounded-[20px] border border-line bg-white p-5">
       <p className="text-xs font-semibold uppercase tracking-[0.14em] text-caption">
         In this article
       </p>
-      {headings.length ? (
-        <ul className="mt-4 space-y-2.5">
-          {headings.map((section) => (
-            <li key={section.text} className="flex gap-2.5 text-sm leading-snug text-muted-strong">
-              <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-blue/50" />
-              {section.text}
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p className="mt-4 text-sm text-muted">Section headings will appear here.</p>
-      )}
-    </div>
+      <ul className="mt-4 space-y-2.5">
+        {headings.map(({ section, id }) => (
+          <li key={id} className="flex gap-2.5 text-sm leading-snug text-muted-strong">
+            <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-blue/50" />
+            <a href={`#${id}`} className="transition hover:text-blue">
+              {stripInlineMarkdown(section.text)}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
   );
 }

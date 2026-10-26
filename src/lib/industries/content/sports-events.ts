@@ -1,8 +1,6 @@
 import {
   INDUSTRY_SCHEMA_VERSION,
-  industrySharedCopy,
   industrySharedCtas,
-  industrySharedFaqs,
 } from "@/lib/industries/shared";
 import type { IndustryPageRecord } from "@/lib/industries/types";
 
@@ -10,39 +8,34 @@ export const sportsEventsIndustryPage: IndustryPageRecord = {
   slug: "sports-events",
   name: "Sports & Event Venues",
   cardLabel: "Sports & Events",
-  cardSummary:
-    "Use Vision Copilot to connect mapped camera observations with decisions about event-phase congestion and stewarding decisions.",
+  siteNoun: { one: "venue", many: "stadiums and venues" },
   schemaVersion: INDUSTRY_SCHEMA_VERSION,
   contentVersion: 2,
   status: "reviewed",
   seo: {
-    title: "Stadium and Event Video Analytics | OrionAlerts",
+    title: "AI Video Analytics for Stadiums & Event Venues",
     description:
-      "Explore sports and event venues with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
+      "AI video analytics for stadiums and venues: gate and concourse congestion by event phase, steward response times and camera availability during events.",
     canonicalPath: "/industries/sports-events",
-    ogTitle: "Stadium and Event Video Analytics | OrionAlerts",
-    ogDescription:
-      "Explore sports and event venues with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
     image: "/Images/industries/sports-events.webp",
   },
   hero: {
     eyebrow: "Sports & Event Venues",
-    h1: "Vision Copilot for Sports and Event Venues",
-    lede: "Map cameras to the places your team manages and ask Vision Copilot about event-phase congestion and stewarding decisions. OrionAlerts analyses scenes over time to surface alerts, recommendations and operational scores that help you decide what to review today and what to improve next.",
+    h1: "AI Video Analytics for Stadiums & Event Venues",
+    lede: "See gate and concourse congestion by event phase, track how quickly stewards acknowledge alerts, and confirm critical cameras stay available during live events at stadiums and venues.",
     media: {
       kind: "image",
       src: "/Images/industries/sports-events.webp",
-      alt: "Illustrative sports venue and crowd photograph used for industry context",
-      demonstrationLabel: "Illustrative photograph — not a verified customer deployment",
+      alt: "Football match with a player scoring in front of a packed stadium crowd",
     },
     primaryCta: industrySharedCtas.primary,
     secondaryCta: industrySharedCtas.secondaryHero,
   },
   context: {
-    heading: "Combine visible crowd conditions with trained operational judgment.",
+    heading: "Combine visible crowd conditions with trained operational judgement.",
     paragraphs: [
-      "Arrival, intervals and dispersal create different crowd patterns within a single event. A count or congestion observation is useful only when staff understand the area and have a response plan. Crowd safety depends on planning, staffing and coordinated action, not a dashboard threshold alone. NDMA guidance addresses organised crowd-management planning.",
-      "A reference deployment covers gates, concourse pinch points and egress routes, on a network sized for the peak load of arrival and dispersal rather than an average day. Retention should match the event debrief and any incident-review window, with congestion alerts routed to the stewarding and security control room that owns crowd response. Where a ticketing or access-control system is in use, align review timestamps with its gate records instead of treating a camera count as the only measure of crowd conditions.",
+      "Arrival, intervals and dispersal create different crowd patterns within a single event. A count or congestion observation is most useful when staff understand the area and have a response plan, because crowd safety rests on planning, staffing and coordinated action. National Disaster Management Authority (NDMA) guidance addresses organised crowd-management planning.",
+      "A reference deployment covers gates, concourse pinch points and egress routes, on a network sized for the peak load of arrival and dispersal. Retention matches the event debrief and incident-review window, with congestion alerts routed to the stewarding and security control room that owns crowd response. Where a ticketing or access-control system is in use, review timestamps align with its gate records so camera counts sit alongside other measures.",
     ],
     buyers: [
       "Venue operators",
@@ -52,8 +45,6 @@ export const sportsEventsIndustryPage: IndustryPageRecord = {
     ],
   },
   locationContext: {
-    heading: "Your operation, mapped",
-    body: "Organise views around the places the team recognises. Select the location to establish the context for scene observations and Copilot questions. This example uses the shared hierarchy; map the actual site rather than inventing rooms or camera coverage.",
     hierarchyExample: [
       { label: "Site", example: "Venue Site" },
       { label: "Building", example: "Stand Building" },
@@ -65,25 +56,21 @@ export const sportsEventsIndustryPage: IndustryPageRecord = {
       "Cameras are mapped to the selected gate or concourse so questions about Gate 4 start from recognisable operational context.",
   },
   copilot: {
-    heading: "Ask Vision Copilot",
-    body: industrySharedCopy.copilotIntro,
     prompts: [
+      "What should event operations review before the next comparable event?",
       "Show observations from Gate 4 during yesterday's arrival period.",
       "Which covered concourses had repeated congestion during the interval?",
-      "What should event operations review before the next comparable event?",
     ],
     exampleAnswer:
-      "Illustrative example — not a live product result. Congestion repeatedly appears at the same concourse junction during intervals. Suggested next step: review steward positions and passenger guidance with event operations under the venue plan; assess the next comparable event phase.",
+      "Congestion repeatedly appears at the same concourse junction during intervals. Suggested next step: review steward positions and spectator guidance with event operations under the venue plan; assess the next comparable event phase.",
     exampleStatus: "illustrative",
   },
   sceneIntelligence: {
     observedPattern:
       "Congestion repeatedly appears at the same concourse junction during intervals.",
     recommendation:
-      "Review steward positions and passenger guidance with event operations under the venue plan; assess the next comparable event phase.",
+      "Review steward positions and spectator guidance with event operations under the venue plan; assess the next comparable event phase.",
     decisionOwner: "Event operations / stewarding",
-    followUpPrompt:
-      "Revisit the same area and comparable period to assess observations, coverage and score movement.",
   },
   scorecards: {
     heading: "See what needs attention—and what changes after action.",
@@ -126,49 +113,42 @@ export const sportsEventsIndustryPage: IndustryPageRecord = {
   useCases: [
     {
       id: "location-into-decision",
-      title: "Bring the right location into the decision",
-      body: "Connect event-phase congestion and stewarding decisions to the building tree and its mapped cameras. The team can start with a named operational area instead of trying to remember which camera covers it, making observations easier to interpret and discuss.",
+      title: "Map gates, stands and concourse levels",
+      body: "Cameras sit under the venue site, stand building and concourse level, so a question about Gate 4 goes straight to its views.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["building-hierarchy", "vision-copilot"],
     },
     {
       id: "search-observations",
-      title: "Search visual observations in everyday language",
-      body: 'Ask Vision Copilot, “Show observations from Gate 4 during yesterday\'s arrival period.” Use the location and review period to focus the search on relevant available observations. The purpose is to reach useful context without manually working through unrelated camera views.',
+      title: "Replay Gate 4's arrival period",
+      body: "Ask Vision Copilot, “Show observations from Gate 4 during yesterday's arrival period,” to review how entry built up at that gate.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["vision-copilot", "scene-analysis"],
     },
     {
       id: "recurring-conditions",
-      title: "Identify recurring conditions across scenes",
-      body: 'Ask, “Which covered concourses had repeated congestion during the interval?” Ongoing scene analysis supports review of patterns across the available observations. Use the recurring condition to frame the next investigation rather than treating one isolated alert as the whole operational picture.',
+      title: "Find concourse junctions that jam at intervals",
+      body: "Ask, “Which covered concourses had repeated congestion during the interval?” to compare the same junctions across event phases.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["scene-analysis", "vision-copilot"],
     },
     {
       id: "improvement-decision",
-      title: "Turn analysis into an improvement decision",
-      body: 'Ask, “What should event operations review before the next comparable event?” Review the recommendation alongside the underlying observations and the team\'s operating knowledge. The example below shows a practical next step; it is a suggested action for human consideration, not an automatic instruction to change equipment or procedures.',
+      title: "Debrief before the next event",
+      body: "Ask, “What should event operations review before the next comparable event?” Suggestions such as moving steward positions or adding spectator guidance come with their observations, decided under the venue plan.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["recommendations"],
     },
     {
       id: "score-led-review",
-      title: "Use scores to structure the next review",
-      body: "Use 0–100 scores to organise attention across comparable event phases and covered zones, not an automated crowd-safety authorisation. Review the contributing observations and coverage before acting. The proposed dimensions for this industry are Entrance Flow, Concourse Readiness and Service-Area Control; use the approved product methodology when demonstrating actual values.",
+      title: "Prioritise zones by event phase",
+      body: "Scores out of 100 for entrance flow, concourse readiness and service-area control compare covered zones across comparable event phases.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["operational-scores"],
     },
   ],
-  workflow: {
-    heading: "From scenes to decisions",
-    scenario:
-      "Illustrative decision story — not a customer result. Observe: Congestion repeatedly appears at the same concourse junction during intervals. Ask: “What should event operations review before the next comparable event?” Suggested recommendation: Review steward positions and passenger guidance with event operations under the venue plan; assess the next comparable event phase. Decide: The responsible team reviews the evidence and agrees an action. Follow up: Revisit the same area and comparable period to assess observations, coverage and score movement. A subsequent change is not proof of causation.",
-    steps: industrySharedCopy.workflowLabels.map((label) => ({ label })),
-  },
   deployment: {
-    heading: industrySharedCopy.deploymentHeading,
-    body: `${industrySharedCopy.deploymentIntroduction} Validate separately for arrival, live event and dispersal. Test darkness, flashing lights, flags and occlusion. Establish staffed response ownership and confirm how camera outages are reported during an event.`,
+    body: "Validate separately for arrival, live event and dispersal, and test darkness, flashing lights, flags and occlusion. Set staffed response ownership and agree how camera outages are reported during an event.",
     requiredInputs: [
       "Mapped hierarchy for pilot gates, concourses and service zones",
       "Agreed response owners for arrival, interval and dispersal phases",
@@ -179,7 +159,7 @@ export const sportsEventsIndustryPage: IndustryPageRecord = {
   },
   standards: {
     publicCopy:
-      "Use NDMA crowd-management guidance and premises/fire planning context. Event permissions and operating limits are venue- and jurisdiction-specific; camera analytics does not certify crowd safety.",
+      "NDMA crowd-management guidance and premises and fire planning shape how venues plan for crowds. Event permissions and operating limits are set per venue and jurisdiction, and camera observations feed into that plan.",
     frameworkIds: ["C21", "C8"],
     reviewedAt: "2026-09-13",
   },
@@ -206,39 +186,55 @@ export const sportsEventsIndustryPage: IndustryPageRecord = {
   solutions: [
     {
       solutionSlug: "ai-analytics",
-      body: `${industrySharedCopy.solutionBasis["ai-analytics"]} For sports and event venues, focus on location-aware search, recommendations and score-led review of event-phase congestion and access observations.`,
+      body: "Location-aware search, recommendations and score-led review of event-phase congestion and access observations.",
     },
     {
       solutionSlug: "vms",
-      body: `${industrySharedCopy.solutionBasis.vms} Use it for event control-room review across agreed cameras.`,
+      body: "Event control-room review across agreed gate, concourse and egress cameras.",
     },
     {
       solutionSlug: "health-monitoring",
-      body: `${industrySharedCopy.solutionBasis["health-monitoring"]} Prioritise live-event camera continuity so stewarding and control-room teams retain usable footage.`,
+      body: "Keeps critical cameras available through the live event, so stewarding and control-room teams have usable footage.",
     },
   ],
   faqs: [
     {
+      question: "How can stadiums monitor crowd congestion with existing CCTV?",
+      answer:
+        "Cameras at gates, concourse pinch points and egress routes estimate occupancy and queues by event phase, and congestion alerts go to the stewarding and security control room. Pilots compare those estimates with manual samples and track steward acknowledgement time, so the venue knows how far to rely on each view.",
+    },
+    {
+      question: "What happens if a camera fails during an event?",
+      answer:
+        "Camera availability is tracked through the live event, and outages are reported to the team that owns them. Pilots measure the share of critical-camera windows that stayed usable, so the control room knows which views it can rely on during arrival, intervals and dispersal.",
+    },
+    {
       question: "Can analytics guarantee crowd safety?",
       answer:
-        "No. It supports situational awareness alongside trained staff, operating limits and established plans.",
+        "No. Analytics supports situational awareness alongside trained staff, operating limits and the venue's established crowd plan. Crowd safety stays with that plan and the people running it; camera estimates and alerts help stewards see where congestion is building so they can act under the plan, not instead of it.",
     },
     {
       question: "Can the same threshold be used for every event?",
       answer:
-        "It needs validation for layout, audience flow, lighting and the response plan. A technical threshold is not a safety authorisation.",
+        "No. Each event layout, audience flow, lighting condition and response plan gets its own validated threshold, checked separately for arrival, live play and dispersal. A technical threshold supports the venue plan rather than authorising safety, and counts are compared with manual samples before the control room relies on them.",
     },
     {
       question: "Can video replace ticket checks?",
       answer:
-        "No. Ticket validity and access credentials require the appropriate systems and staff process.",
+        "No. Ticket validity and access credentials are checked by the venue's ticketing systems and staff. Video adds context at the gate, such as how quickly entry is building during arrival, and where a ticketing or access-control system is in use, review timestamps can be aligned with its gate records.",
     },
-    ...industrySharedFaqs,
   ],
+  limits:
+    "Analytics supports situational awareness; it does not guarantee crowd safety, authorise operating limits or validate tickets. Thresholds need validation for each layout and event phase.",
+  furtherReading: {
+    blogs: ["alert-fatigue-is-an-ops-problem", "cctv-camera-health-monitoring"],
+    glossary: ["video-analytics", "camera-health-monitoring"],
+    useCases: ["crowd-detection"],
+  },
   relatedIndustrySlugs: ["airports-ports-railways", "government", "education-campuses"],
   finalCta: {
-    heading: "Ask Vision Copilot about your sports and event venues.",
-    body: "See how Vision Copilot connects a mapped area with visual search, recommendations and scores for sports and event venues.",
+    heading: "Ask Vision Copilot about your venue.",
+    body: "Track gate and concourse congestion and camera availability through every phase of your next event.",
   },
   sources: [
     "README v2 §9.30",

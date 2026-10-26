@@ -1,8 +1,6 @@
 import {
   INDUSTRY_SCHEMA_VERSION,
-  industrySharedCopy,
   industrySharedCtas,
-  industrySharedFaqs,
 } from "@/lib/industries/shared";
 import type { IndustryPageRecord } from "@/lib/industries/types";
 
@@ -10,30 +8,25 @@ export const darkStoresIndustryPage: IndustryPageRecord = {
   slug: "dark-stores",
   name: "Dark Stores & Micro-Fulfilment",
   cardLabel: "Dark Stores",
-  cardSummary:
-    "Use Vision Copilot to connect mapped camera observations with decisions about compact stockroom layout and local dispatch pressure.",
+  siteNoun: { one: "dark store", many: "dark stores" },
   schemaVersion: INDUSTRY_SCHEMA_VERSION,
   contentVersion: 2,
   status: "reviewed",
   seo: {
-    title: "Dark Store Video Analytics | OrionAlerts",
+    title: "AI Video Analytics for Dark Stores",
     description:
-      "Explore dark stores with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
+      "Dark store CCTV analytics: spot aisle obstructions and dispatch-handoff congestion, and retrieve usable clips fast, without scoring individual pickers.",
     canonicalPath: "/industries/dark-stores",
-    ogTitle: "Dark Store Video Analytics | OrionAlerts",
-    ogDescription:
-      "Explore dark stores with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
     image: "/Images/industries/dark-stores.webp",
   },
   hero: {
     eyebrow: "Dark Stores & Micro-Fulfilment",
-    h1: "Vision Copilot for Dark Stores",
-    lede: "Map cameras to the places your team manages and ask Vision Copilot about compact stockroom layout and local dispatch pressure. OrionAlerts analyses scenes over time to surface alerts, recommendations and operational scores that help you decide what to review today and what to improve next.",
+    h1: "AI Video Analytics for Dark Stores",
+    lede: "Spot aisle obstructions and dispatch-handoff congestion in a compact store, and pull the right clip fast when an order is disputed. Alerts go to the store manager, who can act during the same peak.",
     media: {
       kind: "image",
       src: "/Images/industries/dark-stores.webp",
-      alt: "Illustrative dark-store and micro-fulfilment photograph used for industry context",
-      demonstrationLabel: "Illustrative photograph — not a verified customer deployment",
+      alt: "Staff picking grocery orders from labelled aisles in a dark store",
     },
     primaryCta: industrySharedCtas.primary,
     secondaryCta: industrySharedCtas.secondaryHero,
@@ -41,8 +34,8 @@ export const darkStoresIndustryPage: IndustryPageRecord = {
   context: {
     heading: "Make compact operating spaces easier to manage.",
     paragraphs: [
-      "Dark stores combine dense storage, frequent picking and rapid dispatch in limited space. A short-lived obstruction or unclear handoff may be missed during a busy period. The immediate need is practical site visibility rather than broad network performance claims. Choose camera views that help the store manager understand what happened without turning surveillance into individual productivity scoring.",
-      "A reference deployment covers the dispatch handoff point, high-traffic aisles and any restricted stock area, typically on the store's existing small-site network with limited redundancy. Keep retention short and tied to the stated business purpose, and route obstruction and handoff alerts to the store manager rather than a distant network-operations queue that cannot act in time. Where an order-management or dispatch system is available, align review timestamps with its handoff records instead of relying on video alone.",
+      "Dark stores combine dense storage, frequent picking and rapid dispatch in limited space, so a short-lived obstruction or unclear handoff is easy to miss during a busy period. Camera views at the handoff point and the busiest aisles show the store manager what happened in each space, with the focus on aisles, stock areas and process rather than individual pickers.",
+      "A reference deployment covers the dispatch handoff point, high-traffic aisles and any restricted stock area, typically on the store's existing small-site network. Retention stays short and tied to the stated business purpose, and obstruction and handoff alerts go to the store manager, who can act in time. Where an order-management or dispatch system is available, align review timestamps with its handoff records.",
     ],
     buyers: [
       "Dark-store operators",
@@ -52,8 +45,6 @@ export const darkStoresIndustryPage: IndustryPageRecord = {
     ],
   },
   locationContext: {
-    heading: "Your operation, mapped",
-    body: "Organise views around the places the team recognises. Select the location to establish the context for scene observations and Copilot questions. This example uses the shared hierarchy; map the actual site rather than inventing rooms or camera coverage.",
     hierarchyExample: [
       { label: "Site", example: "Local Site" },
       { label: "Building", example: "Store Building" },
@@ -65,15 +56,13 @@ export const darkStoresIndustryPage: IndustryPageRecord = {
       "Cameras are mapped to the selected dispatch handoff area or aisle so questions about the handoff area start from recognisable operational context.",
   },
   copilot: {
-    heading: "Ask Vision Copilot",
-    body: industrySharedCopy.copilotIntro,
     prompts: [
+      "What should this store manager change or inspect before tomorrow's peak?",
       "Show observations from the dispatch handoff area during today's peak.",
       "Which aisles had repeated obstruction observations?",
-      "What should this store manager change or inspect before tomorrow's peak?",
     ],
     exampleAnswer:
-      "Illustrative example — not a live product result. Temporary order staging repeatedly occupies the same compact aisle near dispatch. Suggested next step: review a dedicated staging position and the handoff arrangement with the store manager.",
+      "Temporary order staging repeatedly occupies the same compact aisle near dispatch. Suggested next step: review a dedicated staging position and the handoff arrangement with the store manager.",
     exampleStatus: "illustrative",
   },
   sceneIntelligence: {
@@ -82,8 +71,6 @@ export const darkStoresIndustryPage: IndustryPageRecord = {
     recommendation:
       "Review a dedicated staging position and the handoff arrangement with the store manager.",
     decisionOwner: "Store manager / operations",
-    followUpPrompt:
-      "Revisit the same area and comparable period to assess observations, coverage and score movement.",
   },
   scorecards: {
     heading: "See what needs attention—and what changes after action.",
@@ -126,49 +113,42 @@ export const darkStoresIndustryPage: IndustryPageRecord = {
   useCases: [
     {
       id: "location-into-decision",
-      title: "Bring the right location into the decision",
-      body: "Connect compact stockroom layout and local dispatch pressure to the building tree and its mapped cameras. The team can start with a named operational area instead of trying to remember which camera covers it, making observations easier to interpret and discuss.",
+      title: "Start from the handoff area",
+      body: "Cameras map to the dispatch zone, handoff area, aisles and stock rooms, so questions start from a place the store manager knows.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["building-hierarchy", "vision-copilot"],
     },
     {
       id: "search-observations",
-      title: "Search visual observations in everyday language",
-      body: 'Ask Vision Copilot, “Show observations from the dispatch handoff area during today\'s peak.” Use the location and review period to focus the search on relevant available observations. The purpose is to reach useful context without manually working through unrelated camera views.',
+      title: "Search today's peak at the handoff point",
+      body: "Ask Vision Copilot, “Show observations from the dispatch handoff area during today's peak,” to see what happened while orders queued.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["vision-copilot", "scene-analysis"],
     },
     {
       id: "recurring-conditions",
-      title: "Identify recurring conditions across scenes",
-      body: 'Ask, “Which aisles had repeated obstruction observations?” Ongoing scene analysis supports review of patterns across the available observations. Use the recurring condition to frame the next investigation rather than treating one isolated alert as the whole operational picture.',
+      title: "Find aisles that keep getting blocked",
+      body: "Ask which aisles had repeated obstruction observations, for example where temporary order staging keeps spilling into the same walkway.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["scene-analysis", "vision-copilot"],
     },
     {
       id: "improvement-decision",
-      title: "Turn analysis into an improvement decision",
-      body: 'Ask, “What should this store manager change or inspect before tomorrow\'s peak?” Review the recommendation alongside the underlying observations and the team\'s operating knowledge. The example below shows a practical next step; it is a suggested action for human consideration, not an automatic instruction to change equipment or procedures.',
+      title: "Fix staging before tomorrow's peak",
+      body: "Ask what the store manager should change or inspect before tomorrow's peak. A typical suggestion is a dedicated staging position near dispatch and a clearer handoff arrangement.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["recommendations"],
     },
     {
       id: "score-led-review",
-      title: "Use scores to structure the next review",
-      body: "Use 0–100 scores to organise attention across areas within a store and comparable peak windows, without ranking individual pickers. Review the contributing observations and coverage before acting. The proposed dimensions for this industry are Aisle Readiness, Dispatch-Area Flow and Stock-Area Control; use the approved product methodology when demonstrating actual values.",
+      title: "Score aisles and handoffs, not pickers",
+      body: "0–100 scores compare areas within the store across comparable peak windows, so the manager sees which aisle or handoff point needs attention.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["operational-scores"],
     },
   ],
-  workflow: {
-    heading: "From scenes to decisions",
-    scenario:
-      "Illustrative decision story — not a customer result. Observe: Temporary order staging repeatedly occupies the same compact aisle near dispatch. Ask: “What should this store manager change or inspect before tomorrow's peak?” Suggested recommendation: Review a dedicated staging position and the handoff arrangement with the store manager. Decide: The responsible team reviews the evidence and agrees an action. Follow up: Revisit the same area and comparable period to assess observations, coverage and score movement. A subsequent change is not proof of causation.",
-    steps: industrySharedCopy.workflowLabels.map((label) => ({ label })),
-  },
   deployment: {
-    heading: industrySharedCopy.deploymentHeading,
-    body: `${industrySharedCopy.deploymentIntroduction} Test camera occlusion from shelves and staff at peak periods. Limit the field of view to the business purpose and plan short, justified retention rather than collecting footage indefinitely.`,
+    body: "Test camera occlusion from shelves and staff at peak periods. Keep the field of view to the business purpose and plan short, justified retention.",
     requiredInputs: [
       "Mapped hierarchy for pilot aisles, stock areas and dispatch handoff zones",
       "Agreed response owners for obstruction, access and handoff events",
@@ -179,7 +159,7 @@ export const darkStoresIndustryPage: IndustryPageRecord = {
   },
   standards: {
     publicCopy:
-      "For food storage and distribution, assess the operation's applicable FSSAI obligations. Apply premises and privacy considerations for building monitoring. These do not amount to a dark-store AI certificate.",
+      "Dark stores that store or distribute food assess their applicable Food Safety and Standards Authority of India (FSSAI) obligations, alongside premises safety and data-privacy duties for in-store cameras. Purpose-limited views and short retention are part of that privacy assessment.",
     frameworkIds: ["C7", "C8", "C9"],
     reviewedAt: "2026-09-13",
   },
@@ -206,39 +186,54 @@ export const darkStoresIndustryPage: IndustryPageRecord = {
   solutions: [
     {
       solutionSlug: "ai-analytics",
-      body: `${industrySharedCopy.solutionBasis["ai-analytics"]} For dark stores, focus on location-aware search, recommendations and score-led review of defined local events.`,
+      body: "Location-aware search, recommendations and score-led review of aisle, stockroom and handoff events.",
     },
     {
       solutionSlug: "vms",
-      body: `${industrySharedCopy.solutionBasis.vms} Use it for store incident review across agreed cameras.`,
+      body: "Store incident review across the agreed cameras, including the dispatch handoff point.",
     },
     {
       solutionSlug: "health-monitoring",
-      body: `${industrySharedCopy.solutionBasis["health-monitoring"]} Prioritise consistency of small-site camera coverage so local investigations retain usable footage.`,
+      body: "Shows when a small-site camera or recorder drops, so local investigations retain usable footage.",
     },
   ],
   faqs: [
     {
+      question: "What should CCTV cover in a dark store?",
+      answer:
+        "Cover the dispatch handoff point, the busiest picking aisles and any high-value or restricted stock area. These views show where orders queue, where staging blocks a walkway and when a stock room was entered, and alerts go to the store manager, who can act during the same peak.",
+    },
+    {
+      question: "How does video help resolve a disputed handoff?",
+      answer:
+        "The handoff camera is mapped to the dispatch area, so the store manager retrieves the clip for a specific time window instead of scrolling through a recorder. Where an order-management or dispatch system is available, review timestamps can be aligned with its handoff records to check the order in question.",
+    },
+    {
       question: "Will this identify the wrong item in a bag?",
       answer:
-        "Not from ordinary CCTV alone. Item verification needs suitable views, models and a verified order/item data source.",
+        "Not from ordinary store CCTV. Checking items in a bag needs suitable close-up views, a trained model and a verified order or item data source, which would be scoped separately. Store cameras show the handoff itself, such as when an order was handed to a rider, which helps the manager review a disputed order.",
     },
     {
       question: "Can managers compare individual pickers?",
       answer:
-        "This specification does not propose worker productivity scoring. Evaluate space, process exceptions and response effectiveness.",
+        "No. OrionAlerts looks at aisles, handoff areas and stockrooms rather than individual pickers' speed, and there is no worker productivity score. Managers use it to evaluate space, process exceptions such as blocked aisles, and how quickly the store responds to an alert, with scores comparing areas within the store.",
     },
     {
       question: "How is this different from quick commerce?",
       answer:
-        "Dark-store content concerns the individual facility. Quick-commerce content addresses consistent event handling across a distributed operating network.",
+        "Dark-store monitoring focuses on one facility: its aisles, stockroom and dispatch handoff, reviewed by the store manager. Quick commerce monitoring looks across a network of stores, with consistent event definitions, site-by-site comparisons and regional review. Running many dark stores? See the Quick Commerce page for network-level monitoring.",
     },
-    ...industrySharedFaqs,
   ],
-  relatedIndustrySlugs: ["quick-commerce", "ecommerce-fulfilment", "retail-shopping"],
+  limits: "Dark-store analytics covers spaces and process events at aisles, stock areas and the handoff point. Item-level order checks need close-up views and order data, and scores compare areas within a store, never individual pickers.",
+  furtherReading: {
+    blogs: ["alert-fatigue-is-an-ops-problem"],
+    glossary: ["video-analytics", "nvr-vs-dvr-vs-vms"],
+    useCases: ["crowd-detection", "unauthorized-area-entry"],
+  },
+  relatedIndustrySlugs: ["ecommerce-fulfilment", "quick-commerce", "retail-shopping"],
   finalCta: {
-    heading: "Ask Vision Copilot about your dark stores.",
-    body: "See how Vision Copilot connects a mapped area with visual search, recommendations and scores for dark stores.",
+    heading: "Ask Vision Copilot about your dark store.",
+    body: "Map one store's handoff point and busiest aisles, and see what the manager would review after a peak.",
   },
   sources: [
     "README v2 §9.9",

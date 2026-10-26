@@ -78,14 +78,15 @@ function normalizePost(raw: Partial<BlogPost>): BlogPost | null {
     readTime: raw.readTime || estimateReadTime(sections, takeaways),
     author: raw.author || "OrionAlerts Team",
     authorRole: raw.authorRole || "Editorial",
-    image:
-      raw.image ||
-      "https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=1400&q=80",
+    image: raw.image || "/visuals/solutions/ai-vision.webp",
     takeaways,
     sections,
     published: raw.published !== false,
     updatedAt: raw.updatedAt ?? null,
     publishedAt,
+    ...(raw.seoTitle ? { seoTitle: raw.seoTitle } : {}),
+    ...(raw.imageAlt ? { imageAlt: raw.imageAlt } : {}),
+    ...(Array.isArray(raw.tags) && raw.tags.length ? { tags: raw.tags.filter(Boolean) } : {}),
   };
 }
 
@@ -149,7 +150,11 @@ async function writeStoreFile(posts: BlogPost[], categories: string[] = []) {
     ),
     updatedAt: new Date().toISOString(),
   };
-  await fs.writeFile(STORE_PATH, JSON.stringify(next, null, 2), "utf8");
+  // Write-then-rename so a crash mid-write can't leave truncated JSON (which would
+  // make readStoreFile fall back to seed posts and the next save drop real posts).
+  const tmpPath = `${STORE_PATH}.${process.pid}.${Date.now()}.tmp`;
+  await fs.writeFile(tmpPath, JSON.stringify(next, null, 2), "utf8");
+  await fs.rename(tmpPath, STORE_PATH);
   return next;
 }
 
@@ -201,6 +206,10 @@ function buildPostFromInput(input: BlogInput, existing?: BlogPost): BlogPost {
     published: input.published ?? existing?.published ?? false,
     updatedAt: new Date().toISOString(),
     publishedAt: publishedAtFromDate(date, existing?.publishedAt),
+    // The admin form doesn't edit these yet; keep them across saves.
+    ...(existing?.seoTitle ? { seoTitle: existing.seoTitle } : {}),
+    ...(existing?.imageAlt ? { imageAlt: existing.imageAlt } : {}),
+    ...(existing?.tags?.length ? { tags: existing.tags } : {}),
   };
 }
 

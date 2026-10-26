@@ -4,19 +4,21 @@ import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { ArrowRight, ArrowUpRight, Search } from "lucide-react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import {
-  formatRelativeTime,
+  formatBlogDateShort,
   getBlogCategoryCounts,
+  getBlogUpdatedDay,
   getFilterCategories,
   type BlogPost,
 } from "@/lib/blogs";
 import { CtaBand } from "@/components/ui";
+import { useSafeReducedMotion } from "@/lib/use-safe-reduced-motion";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
 export function BlogsExperience({ posts }: { posts: BlogPost[] }) {
-  const reduce = useReducedMotion();
+  const reduce = useSafeReducedMotion();
   const [category, setCategory] = useState("All");
   const [query, setQuery] = useState("");
   const filterCategories = useMemo(() => getFilterCategories(posts), [posts]);
@@ -32,11 +34,17 @@ export function BlogsExperience({ posts }: { posts: BlogPost[] }) {
           post.title.toLowerCase().includes(normalized) ||
           post.excerpt.toLowerCase().includes(normalized) ||
           post.author.toLowerCase().includes(normalized) ||
-          post.category.toLowerCase().includes(normalized);
+          post.category.toLowerCase().includes(normalized) ||
+          (post.tags ?? []).some((tag) => tag.toLowerCase().includes(normalized));
         return matchesCategory && matchesQuery;
       })
       .sort((a, b) => (a.date < b.date ? 1 : -1));
   }, [category, query, posts]);
+
+  const latestDate = posts.reduce<string | null>(
+    (latest, post) => (post.date && (!latest || post.date > latest) ? post.date : latest),
+    null,
+  );
 
   const featured = filtered[0];
   const rest = filtered.slice(1);
@@ -63,14 +71,18 @@ export function BlogsExperience({ posts }: { posts: BlogPost[] }) {
               Blog
             </p>
             <h1 className="mt-3 font-display text-[clamp(2rem,4.4vw,3.25rem)] font-semibold normal-case leading-[1.05] tracking-[-0.03em] text-white">
-              Insights for operators who can&apos;t afford noise.
+              OrionAlerts Blog: AI video analytics, VMS and CCTV operations
             </h1>
-            <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-white/70 md:text-base">
-              Practical perspectives on AI Vision, Smart Search, multi-site video ops, and keeping
-              surveillance estates reliable.
+            <p className="mt-3 font-display text-[clamp(1.1rem,1.9vw,1.4rem)] font-semibold leading-snug tracking-[-0.02em] text-white/85">
+              Insights for operators who can&apos;t afford noise.
+            </p>
+            <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-white/70 md:text-base">
+              Practical guidance on AI video analytics, multi-site VMS, camera health monitoring and
+              AMC operations for enterprise and industrial sites.
             </p>
             <p className="mt-5 text-sm font-medium text-white/45">
-              {posts.length} articles · Updated regularly
+              {posts.length} {posts.length === 1 ? "article" : "articles"}
+              {latestDate ? ` · Last published ${formatBlogDateShort(latestDate)}` : ""}
             </p>
           </motion.div>
         </div>
@@ -248,7 +260,7 @@ export function BlogsExperience({ posts }: { posts: BlogPost[] }) {
             primaryHref="/book-demo"
             primaryLabel="Book a Demo"
             secondaryHref="/contact"
-            secondaryLabel="Connect With Us"
+            secondaryLabel="Contact Us"
           />
         </div>
       </section>
@@ -265,7 +277,7 @@ function FeaturedArticle({ post }: { post: BlogPost }) {
       <div className="relative min-h-[240px] lg:min-h-[360px]">
         <Image
           src={post.image}
-          alt={post.title}
+          alt={post.imageAlt || post.title}
           fill
           priority
           sizes="(max-width: 1024px) 100vw, 55vw"
@@ -290,8 +302,7 @@ function FeaturedArticle({ post }: { post: BlogPost }) {
             <div>
               <p className="text-sm font-semibold text-white">{post.author}</p>
               <p className="text-xs text-white/55">
-                Posted {formatRelativeTime(post.publishedAt || post.date).toLowerCase()} ·{" "}
-                {post.readTime}
+                <PostDates post={post} /> · {post.readTime}
               </p>
             </div>
           </div>
@@ -314,7 +325,7 @@ function ArticleCard({ post, index }: { post: BlogPost; index: number }) {
       <div className="relative aspect-[16/10] overflow-hidden">
         <Image
           src={post.image}
-          alt={post.title}
+          alt={post.imageAlt || post.title}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1280px) 45vw, 30vw"
           className="object-cover transition duration-700 group-hover:scale-105"
@@ -327,8 +338,7 @@ function ArticleCard({ post, index }: { post: BlogPost; index: number }) {
 
       <div className="flex flex-1 flex-col p-5 md:p-6">
         <p className="text-xs font-medium text-caption">
-          Posted {formatRelativeTime(post.publishedAt || post.date).toLowerCase()} ·{" "}
-          {post.readTime}
+          <PostDates post={post} /> · {post.readTime}
         </p>
         <h3 className="display mt-2 text-[1.2rem] normal-case leading-snug text-text transition group-hover:text-blue md:text-[1.3rem]">
           {post.title}
@@ -348,6 +358,22 @@ function ArticleCard({ post, index }: { post: BlogPost; index: number }) {
         </div>
       </div>
     </Link>
+  );
+}
+
+/** "4 Aug 2026", plus "· Updated 26 Oct 2026" when the post was revised later. */
+function PostDates({ post }: { post: BlogPost }) {
+  const updatedDay = getBlogUpdatedDay(post);
+  return (
+    <>
+      <time dateTime={post.date}>{formatBlogDateShort(post.date)}</time>
+      {updatedDay ? (
+        <>
+          {" · Updated "}
+          <time dateTime={updatedDay}>{formatBlogDateShort(updatedDay)}</time>
+        </>
+      ) : null}
+    </>
   );
 }
 

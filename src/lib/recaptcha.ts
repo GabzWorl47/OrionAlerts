@@ -32,16 +32,23 @@ export async function verifyRecaptchaToken(
     body.set("remoteip", remoteIp);
   }
 
-  const response = await fetch("https://www.google.com/recaptcha/api/siteverify", {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body,
-  });
-
-  const data = (await response.json()) as {
-    success?: boolean;
-    "error-codes"?: string[];
-  };
+  let data: { success?: boolean; "error-codes"?: string[] };
+  try {
+    const response = await fetch("https://www.google.com/recaptcha/api/siteverify", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body,
+      signal: AbortSignal.timeout(8_000),
+    });
+    data = (await response.json()) as typeof data;
+  } catch {
+    // Network failure, timeout, or non-JSON reply — fail closed with a clean error.
+    return {
+      ok: false,
+      error: "Could not verify reCAPTCHA right now. Please try again.",
+      status: 503,
+    };
+  }
 
   if (!data.success) {
     return {

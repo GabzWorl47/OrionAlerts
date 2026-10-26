@@ -1,8 +1,9 @@
 "use client";
 
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { Reveal } from "@/components/Reveal";
+import { useSafeReducedMotion } from "@/lib/use-safe-reduced-motion";
 
 const features = [
   {
@@ -35,7 +36,7 @@ const features = [
 
 export function FeatureCarousel() {
   const [active, setActive] = useState(0);
-  const reduce = useReducedMotion();
+  const reduce = useSafeReducedMotion();
 
   useEffect(() => {
     if (reduce) return;

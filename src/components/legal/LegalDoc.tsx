@@ -3,6 +3,7 @@ import { ReactNode } from "react";
 import { PageShell } from "@/components/PageShell";
 import { Section } from "@/components/ui";
 import { legalMeta } from "@/lib/legal";
+import { breadcrumbJsonLd, JsonLdScript } from "@/lib/jsonld";
 
 export type LegalSection = {
   id: string;
@@ -16,6 +17,8 @@ type LegalDocProps = {
   description: string;
   sections: LegalSection[];
   relatedLinks?: { href: string; label: string }[];
+  /** Page path (e.g. "/privacy"); emits Home → title BreadcrumbList JSON-LD. */
+  path?: string;
 };
 
 export function LegalDoc({
@@ -24,9 +27,18 @@ export function LegalDoc({
   description,
   sections,
   relatedLinks = [],
+  path,
 }: LegalDocProps) {
   return (
     <PageShell>
+      {path ? (
+        <JsonLdScript
+          data={breadcrumbJsonLd([
+            { name: "Home", path: "/" },
+            { name: title, path },
+          ])}
+        />
+      ) : null}
       <Section narrow className="pt-14">
         <p className="eyebrow">{eyebrow}</p>
         <h1 className="display mt-3 text-4xl text-text md:text-5xl">{title}</h1>

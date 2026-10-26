@@ -1,9 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { useEffect, useRef, useSyncExternalStore } from "react";
 import type { IndustryPageData } from "@/lib/industry-pages";
+import { useSafeReducedMotion } from "@/lib/use-safe-reduced-motion";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -18,7 +19,7 @@ function shortLede(summary: string) {
 }
 
 export function IndustryHero({ industry }: IndustryHeroProps) {
-  const reduce = useReducedMotion();
+  const reduce = useSafeReducedMotion();
   const hasVideo = Boolean(industry.introVideo);
   const videoRef = useRef<HTMLVideoElement>(null);
   const ref = useRef<HTMLElement>(null);

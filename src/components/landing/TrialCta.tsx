@@ -22,7 +22,7 @@ export function TrialCta() {
             className="panel mx-auto max-w-4xl overflow-hidden p-10 text-center md:p-14"
           >
             <h2 className="display text-[clamp(1.8rem,4vw,2.8rem)] uppercase text-steel-gradient">
-              Book your ORION Alerts demo
+              Book your OrionAlerts demo
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-muted">
               See the platform against your sites, camera estate, and operating model. Demo requests
@@ -34,7 +34,7 @@ export function TrialCta() {
                 href="/contact"
                 className="inline-flex items-center justify-center rounded-[14px] border border-line bg-white px-5 py-3 text-sm font-semibold text-text transition hover:border-blue hover:text-blue"
               >
-                Contact us
+                Contact Us
               </Link>
             </div>
           </motion.div>

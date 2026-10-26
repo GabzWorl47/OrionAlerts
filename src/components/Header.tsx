@@ -4,41 +4,55 @@ import Link from "next/link";
 import {
   AnimatePresence,
   motion,
-  useReducedMotion,
   useScroll,
   useMotionValueEvent,
 } from "framer-motion";
 import { ChevronDown, Menu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
-import { solutions, industries, resourceNavItems } from "@/lib/site";
+import { useEffect, useRef, useState, type FocusEvent, type ReactNode } from "react";
+import { solutions, industries } from "@/lib/site";
 import { featureDeepLink } from "@/lib/feature-anchors";
+import {
+  RESOURCES_HUB_HREF,
+  resourceMenuItems,
+  resourceRoutePrefixes,
+} from "@/lib/mega-menu";
 import { SolutionsMegaMenu } from "@/components/SolutionsMegaMenu";
 import { IndustriesMegaMenu } from "@/components/IndustriesMegaMenu";
 import { ResourcesMenu } from "@/components/ResourcesMenu";
+import { useSafeReducedMotion } from "@/lib/use-safe-reduced-motion";
 
 type MegaKey = "solutions" | "industries" | "resources";
 
+type NavLinkItem = { label: string; href: string; mega?: MegaKey };
+
 const defaultSolutionsMegaId = solutions[0]?.slug ?? "vms";
 
-const navLinks = [
-  { label: "Home", href: "/" },
-  { label: "Solutions", href: "/solutions", mega: "solutions" as const },
-  { label: "Industries", href: "/industries", mega: "industries" as const },
+// No "Home" item: the logo links home.
+const navLinks: NavLinkItem[] = [
+  { label: "Solutions", href: "/solutions", mega: "solutions" },
+  { label: "Industries", href: "/industries", mega: "industries" },
   { label: "Nebula OS", href: "/nebula-os" },
   { label: "Partners", href: "/partners" },
-  { label: "Resources", href: "#", mega: "resources" as const },
-  { label: "About Us", href: "/about" },
+  { label: "Resources", href: RESOURCES_HUB_HREF, mega: "resources" },
+  { label: "About", href: "/about" },
 ];
 
-function isNavLinkActive(pathname: string, href: string) {
-  if (href === "/" || href === "#") return pathname === "/" && href === "/";
-  if (href.startsWith("/#")) return false;
+function matchesRoute(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
-function isResourcesActive(pathname: string) {
-  return pathname.startsWith("/blogs") || pathname.startsWith("/faqs");
+function isNavLinkActive(pathname: string, href: string) {
+  if (href === "/") return pathname === "/";
+  if (href.startsWith("/#")) return false;
+  return matchesRoute(pathname, href);
+}
+
+function isMegaSectionActive(key: MegaKey, pathname: string) {
+  if (key === "resources") {
+    return resourceRoutePrefixes.some((prefix) => matchesRoute(pathname, prefix));
+  }
+  return matchesRoute(pathname, `/${key}`);
 }
 
 function navItemClass(active: boolean) {
@@ -47,19 +61,59 @@ function navItemClass(active: boolean) {
   }`;
 }
 
-const menuEase = [0.16, 1, 0.3, 1] as const;
+/**
+ * Desktop mega-menu panel. Always rendered (so its links are in the server
+ * HTML for crawlers) and hidden with `visibility` + `inert` while closed, which
+ * also keeps closed panels out of the tab order and the accessibility tree.
+ * It sits in the DOM right after its trigger, so Tab moves from the trigger
+ * into the open panel. Positioned against the fixed header.
+ */
+function MegaPanel({
+  id,
+  label,
+  open,
+  children,
+}: {
+  id: string;
+  label: string;
+  open: boolean;
+  children: ReactNode;
+}) {
+  return (
+    <div
+      id={id}
+      role="region"
+      aria-label={label}
+      inert={!open}
+      // Visibility flips instantly on open (so Tab can enter the panel straight
+      // away) and only after the fade on close.
+      className={`absolute inset-x-0 top-full hidden origin-top overflow-visible border-b border-white/10 bg-[#0f1c2e] shadow-[0_28px_70px_rgba(0,0,0,0.4)] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none lg:block ${
+        open
+          ? "visible translate-y-0 opacity-100 transition-[opacity,transform]"
+          : "pointer-events-none invisible -translate-y-3 opacity-0 transition-[opacity,transform,visibility]"
+      }`}
+    >
+      <div className="container py-2">{children}</div>
+    </div>
+  );
+}
 
 export function Header() {
   const pathname = usePathname();
-  const reduce = useReducedMotion();
+  const reduce = useSafeReducedMotion();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [openMega, setOpenMega] = useState<MegaKey | null>(null);
   const [activeMegaId, setActiveMegaId] = useState(defaultSolutionsMegaId);
+  // The solutions panel's overview image loads only after the menu is first opened.
+  const [solutionsMediaReady, setSolutionsMediaReady] = useState(false);
   const [mobileProductsOpen, setMobileProductsOpen] = useState(false);
   const [mobileIndustriesOpen, setMobileIndustriesOpen] = useState(false);
   const [mobileResourcesOpen, setMobileResourcesOpen] = useState(false);
   const [mobileSolutionSlug, setMobileSolutionSlug] = useState<string | null>(null);
+  const triggerRefs = useRef<Partial<Record<MegaKey, HTMLAnchorElement | null>>>({});
+  // Set when Escape hands focus back to a trigger, so its onFocus doesn't reopen the menu.
+  const skipFocusOpen = useRef(false);
   const { scrollY } = useScroll();
 
   useMotionValueEvent(scrollY, "change", (v) => {
@@ -90,6 +144,61 @@ export function Header() {
     };
   }, [open]);
 
+  // Escape closes an open mega menu and, if focus was inside it, returns focus
+  // to the menu's trigger.
+  useEffect(() => {
+    if (!openMega) return;
+    const key = openMega;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      setOpenMega(null);
+      const trigger = triggerRefs.current[key];
+      const item = trigger?.parentElement;
+      if (trigger && item?.contains(document.activeElement)) {
+        skipFocusOpen.current = document.activeElement !== trigger;
+        trigger.focus();
+      }
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [openMega]);
+
+  function openMenu(key: MegaKey) {
+    if (key === "solutions") {
+      setActiveMegaId(defaultSolutionsMegaId);
+      setSolutionsMediaReady(true);
+    }
+    setOpenMega(key);
+  }
+
+  function closeMenus() {
+    setOpenMega(null);
+  }
+
+  /** Close a menu when keyboard focus moves to something outside its nav item. */
+  function handleMegaItemBlur(key: MegaKey, event: FocusEvent<HTMLLIElement>) {
+    const next = event.relatedTarget as Node | null;
+    // `null` means focus left the document or went to a non-focusable area
+    // (e.g. a click on the panel background) — leave that to mouseleave.
+    if (!next || event.currentTarget.contains(next)) return;
+    setOpenMega((current) => (current === key ? null : current));
+  }
+
+  function renderMegaPanel(key: MegaKey) {
+    if (key === "solutions") {
+      return (
+        <SolutionsMegaMenu
+          activeId={activeMegaId}
+          onActiveChange={setActiveMegaId}
+          onClose={closeMenus}
+          showMedia={solutionsMediaReady}
+        />
+      );
+    }
+    if (key === "industries") return <IndustriesMegaMenu onClose={closeMenus} />;
+    return <ResourcesMenu onClose={closeMenus} />;
+  }
+
   return (
     <header
       className={`site-header fixed inset-x-0 top-0 z-50 border-b transition-[background-color,box-shadow,border-color] duration-300 ${
@@ -97,10 +206,10 @@ export function Header() {
           ? "border-[var(--nav-border)] bg-[var(--nav-bg-scrolled)] shadow-[0_10px_30px_rgba(8,24,42,0.35)]"
           : "border-[var(--nav-border)] bg-[var(--nav-bg)]"
       }`}
-      onMouseLeave={() => setOpenMega(null)}
+      onMouseLeave={closeMenus}
     >
       <div className="site-header-bar container flex h-[var(--header-h)] items-center gap-6">
-        <Link href="/" className="shrink-0" onClick={() => setOpen(false)}>
+        <Link href="/" className="shrink-0" aria-label="OrionAlerts home" onClick={() => setOpen(false)}>
           <span className="display text-lg tracking-tight text-white sm:text-xl">
             ORION <span className="text-cyan">Alerts</span>
           </span>
@@ -111,92 +220,68 @@ export function Header() {
           aria-label="Primary"
         >
           <ul className="flex items-center gap-2">
-            {navLinks.map((link) => (
-              <li key={link.label} className="flex shrink-0">
-                {link.mega === "solutions" ? (
+            {navLinks.map((link) => {
+              const mega = link.mega;
+              if (!mega) {
+                return (
+                  <li key={link.label} className="flex shrink-0">
+                    <Link
+                      href={link.href}
+                      className={navItemClass(isNavLinkActive(pathname, link.href))}
+                      onMouseEnter={closeMenus}
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                );
+              }
+
+              const isOpen = openMega === mega;
+              const panelId = `mega-panel-${mega}`;
+              return (
+                <li
+                  key={link.label}
+                  className="flex shrink-0"
+                  onBlur={(event) => handleMegaItemBlur(mega, event)}
+                >
                   <Link
-                    href={link.href}
-                    className={navItemClass(
-                      openMega === "solutions" || pathname.startsWith("/solutions"),
-                    )}
-                    aria-expanded={openMega === "solutions"}
-                    aria-haspopup="true"
-                    onMouseEnter={() => {
-                      setActiveMegaId(defaultSolutionsMegaId);
-                      setOpenMega("solutions");
+                    ref={(node) => {
+                      triggerRefs.current[mega] = node;
                     }}
+                    href={link.href}
+                    className={navItemClass(isOpen || isMegaSectionActive(mega, pathname))}
+                    aria-expanded={isOpen}
+                    aria-haspopup="true"
+                    aria-controls={panelId}
+                    onMouseEnter={() => openMenu(mega)}
                     onFocus={() => {
-                      setActiveMegaId(defaultSolutionsMegaId);
-                      setOpenMega("solutions");
+                      if (skipFocusOpen.current) {
+                        skipFocusOpen.current = false;
+                        return;
+                      }
+                      openMenu(mega);
                     }}
                     onClick={(e) => {
                       // First click opens the submenu; second click (while open) navigates.
-                      if (openMega !== "solutions") {
+                      if (!isOpen) {
                         e.preventDefault();
-                        setActiveMegaId(defaultSolutionsMegaId);
-                        setOpenMega("solutions");
+                        openMenu(mega);
                       }
                     }}
                   >
                     {link.label}
                     <ChevronDown
                       size={14}
-                      className={`transition-transform duration-200 ${openMega === "solutions" ? "rotate-180" : ""}`}
+                      aria-hidden
+                      className={`transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
                     />
                   </Link>
-                ) : link.mega === "industries" ? (
-                  <Link
-                    href={link.href}
-                    className={navItemClass(
-                      openMega === "industries" || pathname.startsWith("/industries"),
-                    )}
-                    aria-expanded={openMega === "industries"}
-                    aria-haspopup="true"
-                    onMouseEnter={() => setOpenMega("industries")}
-                    onFocus={() => setOpenMega("industries")}
-                    onClick={(e) => {
-                      if (openMega !== "industries") {
-                        e.preventDefault();
-                        setOpenMega("industries");
-                      }
-                    }}
-                  >
-                    {link.label}
-                    <ChevronDown
-                      size={14}
-                      className={`transition-transform duration-200 ${openMega === "industries" ? "rotate-180" : ""}`}
-                    />
-                  </Link>
-                ) : link.mega === "resources" ? (
-                  <button
-                    type="button"
-                    className={`${navItemClass(
-                      openMega === "resources" || isResourcesActive(pathname),
-                    )} m-0 cursor-pointer border-0 bg-transparent text-[inherit]`}
-                    aria-expanded={openMega === "resources"}
-                    aria-haspopup="true"
-                    onMouseEnter={() => setOpenMega("resources")}
-                    onClick={() =>
-                      setOpenMega((current) => (current === "resources" ? null : "resources"))
-                    }
-                  >
-                    {link.label}
-                    <ChevronDown
-                      size={14}
-                      className={`transition-transform duration-200 ${openMega === "resources" ? "rotate-180" : ""}`}
-                    />
-                  </button>
-                ) : (
-                  <Link
-                    href={link.href}
-                    className={navItemClass(isNavLinkActive(pathname, link.href))}
-                    onMouseEnter={() => setOpenMega(null)}
-                  >
-                    {link.label}
-                  </Link>
-                )}
-              </li>
-            ))}
+                  <MegaPanel id={panelId} label={`${link.label} menu`} open={isOpen}>
+                    {renderMegaPanel(mega)}
+                  </MegaPanel>
+                </li>
+              );
+            })}
           </ul>
         </nav>
 
@@ -221,52 +306,6 @@ export function Header() {
       </div>
 
       <AnimatePresence>
-        {openMega ? (
-          <motion.div
-            key="nav-mega-panel"
-            initial={
-              reduce
-                ? false
-                : { opacity: 0, y: -18 }
-            }
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -12 }}
-            transition={{
-              duration: 0.42,
-              ease: menuEase,
-              opacity: { duration: 0.3, ease: menuEase },
-            }}
-            className="absolute inset-x-0 top-full hidden origin-top overflow-visible border-b border-white/10 bg-[#0f1c2e] shadow-[0_28px_70px_rgba(0,0,0,0.4)] lg:block"
-            onMouseEnter={() => setOpenMega(openMega)}
-          >
-            <div className="container py-2">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={openMega}
-                  initial={reduce ? false : { opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -6 }}
-                  transition={{ duration: 0.28, ease: menuEase }}
-                >
-                  {openMega === "solutions" ? (
-                    <SolutionsMegaMenu
-                      activeId={activeMegaId}
-                      onActiveChange={setActiveMegaId}
-                      onClose={() => setOpenMega(null)}
-                    />
-                  ) : openMega === "industries" ? (
-                    <IndustriesMegaMenu onClose={() => setOpenMega(null)} />
-                  ) : (
-                    <ResourcesMenu onClose={() => setOpenMega(null)} />
-                  )}
-                </motion.div>
-              </AnimatePresence>
-            </div>
-          </motion.div>
-        ) : null}
-      </AnimatePresence>
-
-      <AnimatePresence>
         {open ? (
           <motion.div
             initial={reduce ? false : { opacity: 0 }}
@@ -277,15 +316,9 @@ export function Header() {
           >
             <div className="flex-1 overflow-y-auto px-4 py-6">
               <div className="flex flex-col gap-1">
-                <Link
-                  href="/"
-                  className="nav-link rounded-[10px] px-2 py-3 text-base font-medium"
-                  onClick={() => setOpen(false)}
-                >
-                  Home
-                </Link>
                 <button
                   type="button"
+                  aria-expanded={mobileProductsOpen}
                   className="nav-link flex w-full items-center justify-between rounded-[10px] px-2 py-3 text-left text-base font-medium"
                   onClick={() => setMobileProductsOpen((v) => !v)}
                 >
@@ -387,6 +420,7 @@ export function Header() {
 
                 <button
                   type="button"
+                  aria-expanded={mobileIndustriesOpen}
                   className="nav-link flex w-full items-center justify-between rounded-[10px] px-2 py-3 text-left text-base font-medium"
                   onClick={() => setMobileIndustriesOpen((v) => !v)}
                 >
@@ -427,6 +461,7 @@ export function Header() {
 
                 <button
                   type="button"
+                  aria-expanded={mobileResourcesOpen}
                   className="nav-link flex w-full items-center justify-between rounded-[10px] px-2 py-3 text-left text-base font-medium"
                   onClick={() => setMobileResourcesOpen((v) => !v)}
                 >
@@ -444,7 +479,7 @@ export function Header() {
                       exit={{ height: 0, opacity: 0 }}
                       className="overflow-hidden pl-3"
                     >
-                      {resourceNavItems.map((item) => (
+                      {resourceMenuItems.map((item) => (
                         <Link
                           key={item.href}
                           href={item.href}
@@ -459,7 +494,7 @@ export function Header() {
                 </AnimatePresence>
 
                 {navLinks
-                  .filter((l) => !l.mega && l.href !== "/")
+                  .filter((l) => !l.mega)
                   .map((link) => (
                     <Link
                       key={link.label}

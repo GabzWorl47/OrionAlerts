@@ -3,10 +3,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { Reveal, Stagger, StaggerItem } from "@/components/Reveal";
 import type { BlogPost } from "@/lib/blogs";
 import { getFeaturedFaqs } from "@/lib/faqs";
+import { useSafeReducedMotion } from "@/lib/use-safe-reduced-motion";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -17,7 +18,7 @@ const topics = [
 ];
 
 export function ResourcesPreview({ posts = [] }: { posts?: BlogPost[] }) {
-  const reduce = useReducedMotion();
+  const reduce = useSafeReducedMotion();
   const [featured, ...rest] = [...posts].sort((a, b) =>
     a.date < b.date ? 1 : -1,
   );
@@ -216,8 +217,8 @@ export function ResourcesPreview({ posts = [] }: { posts?: BlogPost[] }) {
                 href="/book-demo"
                 className="flex w-full flex-col justify-center rounded-[16px] bg-blue px-5 py-4 text-center transition hover:bg-[#1f7aef] md:min-w-[160px]"
               >
-                <span className="text-sm font-semibold text-white">Talk to an expert</span>
-                <span className="mt-1 text-xs text-white/80">Book a demo</span>
+                <span className="text-sm font-semibold text-white">Talk to an Expert</span>
+                <span className="mt-1 text-xs text-white/80">Book a Demo</span>
               </Link>
             </div>
           </div>

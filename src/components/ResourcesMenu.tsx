@@ -1,47 +1,37 @@
 "use client";
 
 import Link from "next/link";
-import { BookOpen, CircleHelp, type LucideIcon } from "lucide-react";
-import { resourceNavItems } from "@/lib/site";
-
-const resourceIcons: Record<string, LucideIcon> = {
-  Blogs: BookOpen,
-  FAQs: CircleHelp,
-};
+import { resourceMenuItems, type ResourceMenuItem } from "@/lib/mega-menu";
 
 type ResourcesMenuProps = {
   onClose: () => void;
 };
 
 function ResourceItem({
-  label,
-  description,
-  href,
+  item,
   onClose,
 }: {
-  label: string;
-  description: string;
-  href: string;
+  item: ResourceMenuItem;
   onClose: () => void;
 }) {
-  const Icon = resourceIcons[label] ?? BookOpen;
+  const Icon = item.icon;
 
   return (
     <Link
-      href={href}
+      href={item.href}
       onClick={onClose}
-      className="group flex gap-3 rounded-[10px] px-2 py-2 transition hover:bg-white/8"
+      className="group flex gap-3 rounded-[10px] px-2 py-2 transition hover:bg-white/8 focus-visible:bg-white/8"
     >
       <Icon
         size={20}
         strokeWidth={1.75}
-        className="mt-0.5 shrink-0 text-white/55 transition group-hover:text-cyan"
+        className="mt-0.5 shrink-0 text-white/55 transition group-hover:text-cyan group-focus-visible:text-cyan"
       />
       <div className="min-w-0">
-        <p className="text-[15px] font-semibold leading-snug text-white/90 transition group-hover:text-cyan">
-          {label}
+        <p className="text-[15px] font-semibold leading-snug text-white/90 transition group-hover:text-cyan group-focus-visible:text-cyan">
+          {item.label}
         </p>
-        <p className="mt-0.5 text-sm leading-snug text-white/45">{description}</p>
+        <p className="mt-0.5 text-sm leading-snug text-white/45">{item.description}</p>
       </div>
     </Link>
   );
@@ -54,17 +44,13 @@ export function ResourcesMenu({ onClose }: ResourcesMenuProps) {
         Resources
       </p>
 
-      <div className="mt-3 grid grid-cols-1 gap-x-6 gap-y-1 sm:grid-cols-2">
-        {resourceNavItems.map((item) => (
-          <ResourceItem
-            key={item.href}
-            label={item.label}
-            description={item.description}
-            href={item.href}
-            onClose={onClose}
-          />
+      <ul className="mt-3 grid grid-cols-1 gap-x-6 gap-y-1 sm:grid-cols-2 lg:grid-cols-3">
+        {resourceMenuItems.map((item) => (
+          <li key={item.href}>
+            <ResourceItem item={item} onClose={onClose} />
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   );
 }

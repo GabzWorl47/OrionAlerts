@@ -1,8 +1,6 @@
 import {
   INDUSTRY_SCHEMA_VERSION,
-  industrySharedCopy,
   industrySharedCtas,
-  industrySharedFaqs,
 } from "@/lib/industries/shared";
 import type { IndustryPageRecord } from "@/lib/industries/types";
 
@@ -10,38 +8,33 @@ export const residentialIndustryPage: IndustryPageRecord = {
   slug: "residential",
   name: "Residential Communities & Townships",
   cardLabel: "Residential",
-  cardSummary:
-    "Use Vision Copilot to connect mapped camera observations with decisions about shared-space events and property-management priorities.",
+  siteNoun: { one: "housing society", many: "housing societies" },
   schemaVersion: INDUSTRY_SCHEMA_VERSION,
   contentVersion: 2,
   status: "reviewed",
   seo: {
-    title: "Residential Community Video Analytics | OrionAlerts",
+    title: "AI CCTV for Housing Societies & Townships",
     description:
-      "Explore residential communities with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
+      "CCTV analytics for housing societies and townships: gate congestion, perimeter events and authorised incident retrieval, limited to common areas.",
     canonicalPath: "/industries/residential",
-    ogTitle: "Residential Community Video Analytics | OrionAlerts",
-    ogDescription:
-      "Explore residential communities with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
     image: "/Images/industries/residential.webp",
   },
   hero: {
     eyebrow: "Residential Communities & Townships",
-    h1: "Vision Copilot for Residential Communities",
-    lede: "Map cameras to the places your team manages and ask Vision Copilot about shared-space events and property-management priorities. OrionAlerts analyses scenes over time to surface alerts, recommendations and operational scores that help you decide what to review today and what to improve next.",
+    h1: "AI CCTV for Housing Societies & Townships",
+    lede: "Watch gate congestion and perimeter events in housing societies and townships, and pull the right common-area clip fast, with cameras limited to shared spaces.",
     media: {
       kind: "image",
       src: "/Images/industries/residential.webp",
-      alt: "Illustrative residential community photograph used for industry context",
-      demonstrationLabel: "Illustrative photograph — not a verified customer deployment",
+      alt: "Detached house with a garden path and a swimming pool",
     },
     primaryCta: industrySharedCtas.primary,
     secondaryCta: industrySharedCtas.secondaryHero,
   },
   context: {
-    heading: "Improve common-area awareness without monitoring private life.",
+    heading: "Keep shared spaces safe and private life private.",
     paragraphs: [
-      "Residential communities include residents, visitors, staff, deliveries and children using shared spaces. Security needs a clear reason to review an event and a proportionate way to respond. Focus on perimeter and facility conditions rather than tracking individual routines. The monitoring policy should explain who can access footage and how complaints or incidents are handled.",
+      "Residential communities include residents, visitors, staff, deliveries and children using shared spaces. Security needs a clear reason to review an event and a proportionate way to respond, so monitoring focuses on perimeter and facility conditions. The monitoring policy explains who can access footage and how complaints or incidents are handled.",
     ],
     buyers: [
       "Housing societies",
@@ -51,8 +44,6 @@ export const residentialIndustryPage: IndustryPageRecord = {
     ],
   },
   locationContext: {
-    heading: "Your operation, mapped",
-    body: "Organise views around the places the team recognises. Select the location to establish the context for scene observations and Copilot questions. This example uses the shared hierarchy; map the actual site rather than inventing rooms or camera coverage.",
     hierarchyExample: [
       { label: "Site", example: "Community Site" },
       { label: "Building", example: "Residential Building" },
@@ -64,15 +55,13 @@ export const residentialIndustryPage: IndustryPageRecord = {
       "Cameras are mapped to the selected common lobby or entrance so questions about Building 2's common lobby start from recognisable operational context.",
   },
   copilot: {
-    heading: "Ask Vision Copilot",
-    body: industrySharedCopy.copilotIntro,
     prompts: [
+      "What should the property team review before the evening peak?",
       "Find observations from Building 2's common lobby this week.",
       "Which covered entrances had repeated congestion?",
-      "What should the property team review before the evening peak?",
     ],
     exampleAnswer:
-      "Illustrative example — not a live product result. Congestion repeatedly appears where deliveries and resident entry share a common approach. Suggested next step: review delivery staging and visitor guidance with property management while preserving appropriate resident access.",
+      "Congestion repeatedly appears where deliveries and resident entry share a common approach. Suggested next step: review delivery staging and visitor guidance with property management while preserving appropriate resident access.",
     exampleStatus: "illustrative",
   },
   sceneIntelligence: {
@@ -81,8 +70,6 @@ export const residentialIndustryPage: IndustryPageRecord = {
     recommendation:
       "Review delivery staging and visitor guidance with property management while preserving appropriate resident access.",
     decisionOwner: "Property management / security supervisor",
-    followUpPrompt:
-      "Revisit the same area and comparable period to assess observations, coverage and score movement.",
   },
   scorecards: {
     heading: "See what needs attention—and what changes after action.",
@@ -125,49 +112,42 @@ export const residentialIndustryPage: IndustryPageRecord = {
   useCases: [
     {
       id: "location-into-decision",
-      title: "Bring the right location into the decision",
-      body: "Connect shared-space events and property-management priorities to the building tree and its mapped cameras. The team can start with a named operational area instead of trying to remember which camera covers it, making observations easier to interpret and discuss.",
+      title: "Map gates, lobbies and common routes",
+      body: "Cameras sit under the community site, residential building and common zone, so a question about Building 2's common lobby goes to the right views.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["building-hierarchy", "vision-copilot"],
     },
     {
       id: "search-observations",
-      title: "Search visual observations in everyday language",
-      body: 'Ask Vision Copilot, “Find observations from Building 2\'s common lobby this week.” Use the location and review period to focus the search on relevant available observations. The purpose is to reach useful context without manually working through unrelated camera views.',
+      title: "Search Building 2's lobby this week",
+      body: "Ask Vision Copilot, “Find observations from Building 2's common lobby this week,” to review that lobby for the period.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["vision-copilot", "scene-analysis"],
     },
     {
       id: "recurring-conditions",
-      title: "Identify recurring conditions across scenes",
-      body: 'Ask, “Which covered entrances had repeated congestion?” Ongoing scene analysis supports review of patterns across the available observations. Use the recurring condition to frame the next investigation rather than treating one isolated alert as the whole operational picture.',
+      title: "See which entrances congest repeatedly",
+      body: "Ask, “Which covered entrances had repeated congestion?” to compare gates and entrances across the same peak periods.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["scene-analysis", "vision-copilot"],
     },
     {
       id: "improvement-decision",
-      title: "Turn analysis into an improvement decision",
-      body: 'Ask, “What should the property team review before the evening peak?” Review the recommendation alongside the underlying observations and the team\'s operating knowledge. The example below shows a practical next step; it is a suggested action for human consideration, not an automatic instruction to change equipment or procedures.',
+      title: "Prepare for the evening peak",
+      body: "Ask, “What should the property team review before the evening peak?” Suggestions such as delivery staging or visitor guidance come with their observations for property management to decide.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["recommendations"],
     },
     {
       id: "score-led-review",
-      title: "Use scores to structure the next review",
-      body: "Use 0–100 scores to organise attention across common areas and periods, never resident behaviour or visitor trustworthiness. Review the contributing observations and coverage before acting. The proposed dimensions for this industry are Gate-Area Flow, Common-Route Readiness and Service-Area Control; use the approved product methodology when demonstrating actual values.",
+      title: "Prioritise gates and common areas",
+      body: "Scores out of 100 for gate-area flow, common-route readiness and service-area control show which shared areas need attention first.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["operational-scores"],
     },
   ],
-  workflow: {
-    heading: "From scenes to decisions",
-    scenario:
-      "Illustrative decision story — not a customer result. Observe: Congestion repeatedly appears where deliveries and resident entry share a common approach. Ask: “What should the property team review before the evening peak?” Suggested recommendation: Review delivery staging and visitor guidance with property management while preserving appropriate resident access. Decide: The responsible team reviews the evidence and agrees an action. Follow up: Revisit the same area and comparable period to assess observations, coverage and score movement. A subsequent change is not proof of causation.",
-    steps: industrySharedCopy.workflowLabels.map((label) => ({ label })),
-  },
   deployment: {
-    heading: industrySharedCopy.deploymentHeading,
-    body: `${industrySharedCopy.deploymentIntroduction} Avoid views into homes, balconies or other private spaces. Document purpose, notices, retention and access. Do not offer unrestricted live feeds to all residents.`,
+    body: "Position cameras to cover gates, lobbies and common routes while keeping homes, balconies and private spaces out of view. Document purpose, notices, retention and access, and give authorised reviewers controlled access in place of open live feeds for every resident.",
     requiredInputs: [
       "Mapped hierarchy for pilot gates, lobbies and common routes",
       "Camera placement that avoids homes, balconies and private spaces",
@@ -177,7 +157,7 @@ export const residentialIndustryPage: IndustryPageRecord = {
   },
   standards: {
     publicCopy:
-      "Apply the site's premises and privacy requirements for community monitoring. Video does not replace fire approvals or the community's security procedures, and there is no universal society-specific AI certificate established here.",
+      "Community monitoring follows the site's premises and privacy requirements and works alongside the community's fire approvals and security procedures.",
     frameworkIds: ["C8", "C9"],
     reviewedAt: "2026-09-11",
   },
@@ -204,39 +184,55 @@ export const residentialIndustryPage: IndustryPageRecord = {
   solutions: [
     {
       solutionSlug: "ai-analytics",
-      body: `${industrySharedCopy.solutionBasis["ai-analytics"]} For residential communities, focus on location-aware search, recommendations and score-led review of defined community events.`,
+      body: "Location-aware search, recommendations and score-led review of gate, lobby and perimeter events.",
     },
     {
       solutionSlug: "vms",
-      body: `${industrySharedCopy.solutionBasis.vms} Use it for controlled review across agreed cameras.`,
+      body: "Controlled review of agreed common-area cameras by authorised staff.",
     },
     {
       solutionSlug: "health-monitoring",
-      body: `${industrySharedCopy.solutionBasis["health-monitoring"]} Prioritise common-area camera continuity so missing coverage is recognised.`,
+      body: "Shows the property team when a common-area camera stops recording.",
     },
   ],
   faqs: [
     {
+      question: "How can housing societies use CCTV analytics?",
+      answer:
+        "Start with gates, perimeters and common lobbies. OrionAlerts flags perimeter events and gate congestion from existing cameras, sends alerts to the dashboard, mobile app and email for the security supervisor, and lets an authorised reviewer find a common-area clip by time window and lobby instead of scrolling through recordings.",
+    },
+    {
+      question: "Can OrionAlerts help with delivery congestion at the gate?",
+      answer:
+        "Yes. Repeated congestion where deliveries and resident entry share an approach shows up as a recurring observation at that gate or lobby. Property management can then review delivery staging and visitor guidance, and pilots measure gate congestion duration during comparable peaks to see whether the change helped.",
+    },
+    {
       question: "Can every resident view all cameras?",
       answer:
-        "Access should be limited by purpose and authorisation, with required controls verified in the selected setup.",
+        "No. Access is set by purpose and authorisation: authorised reviewers see the cameras their role needs, under controlled review rather than open live feeds for every resident. The permission model, notices and retention policy are documented by the society and verified in the selected setup before rollout.",
     },
     {
       question: "Does this recognise every visitor?",
       answer:
-        "No. Identity and authorisation are separate functions requiring a specific supported scope.",
+        "No. OrionAlerts reviews events in common areas, such as gate congestion and perimeter events, without identifying the people involved. Identifying and authorising visitors are separate functions, such as a visitor-management system at the gate, and would need their own specific supported scope.",
     },
     {
       question: "Can cameras watch inside homes?",
       answer:
-        "That is outside this blueprint. Position common-area cameras to avoid unnecessary intrusion into private spaces.",
+        "No. Deployments cover common areas such as gates, lobbies and shared routes, with cameras positioned to keep homes, balconies and other private spaces out of view. Camera placement, purpose, notices and retention are documented before installation, so residents know what is covered and who can review the footage.",
     },
-    ...industrySharedFaqs,
   ],
-  relatedIndustrySlugs: ["commercial-buildings", "hotels-hospitality", "construction"],
+  limits:
+    "Cameras cover shared spaces only, with no views into homes or balconies. OrionAlerts does not identify visitors or score resident behaviour, and footage access is limited to authorised reviewers.",
+  furtherReading: {
+    blogs: ["why-traditional-cctv-monitoring-is-no-longer-enough", "vms-vs-nvr"],
+    glossary: ["nvr-vs-dvr-vs-vms", "video-analytics"],
+    useCases: ["perimeter-intrusion-detection", "crowd-detection"],
+  },
+  relatedIndustrySlugs: ["construction", "hotels-hospitality", "education-campuses"],
   finalCta: {
-    heading: "Ask Vision Copilot about your residential communities.",
-    body: "See how Vision Copilot connects a mapped area with visual search, recommendations and scores for residential communities.",
+    heading: "Ask Vision Copilot about your housing society.",
+    body: "See gate congestion, perimeter events and common-area clips for every building in your community.",
   },
   sources: [
     "README v2 §9.26",

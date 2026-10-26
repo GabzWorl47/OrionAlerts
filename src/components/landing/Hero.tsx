@@ -2,16 +2,17 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useSafeReducedMotion } from "@/lib/use-safe-reduced-motion";
 
-const INTRO_VIDEO = "/Videos/video/Intro%20video.mp4";
-const HERO_POSTER = "/visuals/solutions/ai-vision.png";
+const INTRO_VIDEO = "/Videos/video/intro.mp4";
+const HERO_POSTER = "/visuals/solutions/ai-vision.webp";
 const HERO_VIDEOS = [INTRO_VIDEO, INTRO_VIDEO, INTRO_VIDEO, INTRO_VIDEO] as const;
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
 export function Hero() {
-  const reduce = useReducedMotion();
+  const reduce = useSafeReducedMotion();
   const videoRef = useRef<HTMLVideoElement>(null);
   const advancingRef = useRef(false);
   const [videoIndex, setVideoIndex] = useState(0);
@@ -147,9 +148,16 @@ export function Hero() {
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_20%_40%,rgba(43,140,255,0.22),transparent_50%),radial-gradient(ellipse_at_90%_50%,rgba(251,146,60,0.16),transparent_42%)]" />
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#061018]/55 via-transparent to-[#061018]/35" />
 
-      {/* Brand mark — fades for motion users; stays visible when reduced motion is on */}
-      <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center px-6">
-        <motion.h1
+      {/*
+        Decorative brand wordmark — fades for motion users; stays visible when
+        reduced motion is on. Deliberately not a heading: the page's H1 is the
+        persistent keyword line in the bottom bar below.
+      */}
+      <div
+        className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center px-6"
+        aria-hidden
+      >
+        <motion.div
           initial={reduce ? { opacity: 1 } : { opacity: 0, scale: 0.98 }}
           animate={
             reduce
@@ -176,7 +184,7 @@ export function Hero() {
           <span className="mt-1 block bg-[linear-gradient(105deg,#fdba74_0%,#ffffff_55%,#9fd4ff_100%)] bg-clip-text text-transparent md:mt-2">
             Alerts
           </span>
-        </motion.h1>
+        </motion.div>
       </div>
 
       {!reduce ? (
@@ -246,13 +254,15 @@ export function Hero() {
             initial={reduce ? false : { opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.55, delay: 0.12, ease }}
-            className="max-w-md"
+            className="max-w-xl"
           >
-            <p className="text-[clamp(1.15rem,1.8vw,1.45rem)] font-semibold leading-[1.2] tracking-[-0.02em] text-white">
-              Intelligent alerts for smarter, safer operations.
-            </p>
+            <h1 className="text-[clamp(1.05rem,1.6vw,1.35rem)] font-semibold leading-[1.25] tracking-[-0.02em] text-white">
+              AI video analytics, VMS and CCTV health monitoring for multi-site
+              enterprises
+            </h1>
             <p className="mt-1.5 text-sm text-white/75">
-              Enterprise VMS, AI video alerts, and camera health across sites.
+              Real-time alerts from the cameras you already own, across every
+              branch, plant and warehouse.
             </p>
           </motion.div>
           <motion.div
@@ -271,7 +281,7 @@ export function Hero() {
               href="/solutions"
               className="inline-flex items-center justify-center rounded-[14px] border border-white/25 bg-white/5 px-5 py-3 text-sm font-semibold text-white transition hover:border-white/45 hover:bg-white/10"
             >
-              Explore solutions
+              Explore Solutions
             </Link>
           </motion.div>
         </div>

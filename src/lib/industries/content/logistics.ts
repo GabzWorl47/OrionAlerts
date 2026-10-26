@@ -1,8 +1,6 @@
 import {
   INDUSTRY_SCHEMA_VERSION,
-  industrySharedCopy,
   industrySharedCtas,
-  industrySharedFaqs,
 } from "@/lib/industries/shared";
 import type { IndustryPageRecord } from "@/lib/industries/types";
 
@@ -10,30 +8,25 @@ export const logisticsIndustryPage: IndustryPageRecord = {
   slug: "logistics",
   name: "Logistics & Warehousing",
   cardLabel: "Logistics",
-  cardSummary:
-    "Use Vision Copilot to connect mapped camera observations with decisions about cross-aisle obstructions and loading-bay handoffs.",
+  siteNoun: { one: "warehouse", many: "warehouses" },
   schemaVersion: INDUSTRY_SCHEMA_VERSION,
   contentVersion: 2,
   status: "reviewed",
   seo: {
-    title: "Warehouse and Logistics Video Analytics | OrionAlerts",
+    title: "AI Video Analytics for Warehouses & Logistics",
     description:
-      "Explore warehouses and logistics with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
+      "Warehouse CCTV analytics for docks and cross-aisles: flag route exceptions where forklifts and pedestrians meet, track bay dwell and find clips fast.",
     canonicalPath: "/industries/logistics",
-    ogTitle: "Warehouse and Logistics Video Analytics | OrionAlerts",
-    ogDescription:
-      "Explore warehouses and logistics with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
     image: "/Images/industries/logistics.webp",
   },
   hero: {
     eyebrow: "Logistics & Warehousing",
-    h1: "Vision Copilot for Warehouses and Logistics",
-    lede: "Map cameras to the places your team manages and ask Vision Copilot about cross-aisle obstructions and loading-bay handoffs. OrionAlerts analyses scenes over time to surface alerts, recommendations and operational scores that help you decide what to review today and what to improve next.",
+    h1: "AI Video Analytics for Warehouses & Logistics",
+    lede: "Flag pedestrians in forklift lanes, blocked cross-aisles and dock dwell from the warehouse cameras you already run. Ask Vision Copilot what happened at Dock 4 last night, and send route alerts to the shift lead who can act.",
     media: {
       kind: "image",
       src: "/Images/industries/logistics.webp",
-      alt: "Illustrative warehouse loading-bay photograph used for logistics industry context",
-      demonstrationLabel: "Illustrative photograph — not a verified customer deployment",
+      alt: "Aerial view of a logistics hub with shipping containers, trucks at loading docks and a rail line",
     },
     primaryCta: industrySharedCtas.primary,
     secondaryCta: industrySharedCtas.secondaryHero,
@@ -41,8 +34,8 @@ export const logisticsIndustryPage: IndustryPageRecord = {
   context: {
     heading: "Focus on the interfaces where warehouse activity converges.",
     paragraphs: [
-      "Forklifts, pedestrians and goods often converge around docks and cross-aisles. Shift peaks make manual observation difficult, while missing video can delay an incident review. Material-handling and powered-vehicle hazards are documented warehouse concerns. Use camera observations to support intervention and investigation while retaining physical safety measures.",
-      "A reference deployment covers docks, cross-aisles and staging lanes, usually over PoE or wireless links sized for a large floor plate. Retention should match the window claims and incident investigations typically need, with route and dock alerts routed to the shift lead who can act immediately rather than a back-office queue. Where a WMS is in use, align review timestamps with its dock-scheduling records instead of treating video as a standalone log of dock activity.",
+      "Forklifts, pedestrians and goods converge around docks and cross-aisles, and shift peaks make manual observation difficult. Camera observations help the shift lead intervene at a crossing and help investigators find the right dock clip, alongside the site's physical safety measures.",
+      "A reference deployment covers docks, cross-aisles and staging lanes, usually over Power over Ethernet (PoE) cabling or wireless links sized for a large floor plate. Retention matches the window claims and incident investigations typically need, and route and dock alerts go to the shift lead who can act immediately rather than a back-office queue. Where a warehouse management system (WMS) is in use, align review timestamps with its dock-scheduling records so video and dock data tell one story.",
     ],
     buyers: [
       "Warehouse heads",
@@ -52,8 +45,6 @@ export const logisticsIndustryPage: IndustryPageRecord = {
     ],
   },
   locationContext: {
-    heading: "Your operation, mapped",
-    body: "Organise views around the places the team recognises. Select the location to establish the context for scene observations and Copilot questions. This example uses the shared hierarchy; map the actual site rather than inventing rooms or camera coverage.",
     hierarchyExample: [
       { label: "Site", example: "Warehouse Site" },
       { label: "Building", example: "Warehouse Building" },
@@ -65,15 +56,13 @@ export const logisticsIndustryPage: IndustryPageRecord = {
       "Cameras are mapped to the selected dock or cross-aisle so questions about Dock 4 start from recognisable operational context.",
   },
   copilot: {
-    heading: "Ask Vision Copilot",
-    body: industrySharedCopy.copilotIntro,
     prompts: [
+      "What layout or scheduling changes should the warehouse manager assess?",
       "Find observations from Dock 4 during the evening dispatch period.",
       "Which cross-aisles had repeated obstruction observations this week?",
-      "What layout or scheduling changes should the warehouse manager assess?",
     ],
     exampleAnswer:
-      "Illustrative example — not a live product result. A marked cross-aisle is repeatedly obstructed during dispatch staging. Suggested next step: review pallet staging locations and dispatch timing, then inspect observations from a comparable operating period.",
+      "A marked cross-aisle is repeatedly obstructed during dispatch staging. Suggested next step: review pallet staging locations and dispatch timing, then inspect observations from a comparable operating period.",
     exampleStatus: "illustrative",
   },
   sceneIntelligence: {
@@ -82,8 +71,6 @@ export const logisticsIndustryPage: IndustryPageRecord = {
     recommendation:
       "Review pallet staging locations and dispatch timing, then inspect observations from a comparable operating period.",
     decisionOwner: "Warehouse manager / shift lead",
-    followUpPrompt:
-      "Revisit the same area and comparable period to assess observations, coverage and score movement.",
   },
   scorecards: {
     heading: "See what needs attention—and what changes after action.",
@@ -126,49 +113,42 @@ export const logisticsIndustryPage: IndustryPageRecord = {
   useCases: [
     {
       id: "location-into-decision",
-      title: "Bring the right location into the decision",
-      body: "Connect cross-aisle obstructions and loading-bay handoffs to the building tree and its mapped cameras. The team can start with a named operational area instead of trying to remember which camera covers it, making observations easier to interpret and discuss.",
+      title: "Start from Dock 4, not a camera ID",
+      body: "Cameras map to dispatch zones, docks and cross-aisles, so a question about Dock 4 opens the views that actually cover it.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["building-hierarchy", "vision-copilot"],
     },
     {
       id: "search-observations",
-      title: "Search visual observations in everyday language",
-      body: 'Ask Vision Copilot, “Find observations from Dock 4 during the evening dispatch period.” Use the location and review period to focus the search on relevant available observations. The purpose is to reach useful context without manually working through unrelated camera views.',
+      title: "Search a dock's evening dispatch",
+      body: "Ask Vision Copilot, “Find observations from Dock 4 during the evening dispatch period,” and jump to the clips for that window.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["vision-copilot", "scene-analysis"],
     },
     {
       id: "recurring-conditions",
-      title: "Identify recurring conditions across scenes",
-      body: 'Ask, “Which cross-aisles had repeated obstruction observations this week?” Ongoing scene analysis supports review of patterns across the available observations. Use the recurring condition to frame the next investigation rather than treating one isolated alert as the whole operational picture.',
+      title: "Find cross-aisles that keep getting blocked",
+      body: "Ask which cross-aisles had repeated obstruction observations this week to see where pallet staging spills into marked routes.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["scene-analysis", "vision-copilot"],
     },
     {
       id: "improvement-decision",
-      title: "Turn analysis into an improvement decision",
-      body: 'Ask, “What layout or scheduling changes should the warehouse manager assess?” Review the recommendation alongside the underlying observations and the team\'s operating knowledge. The example below shows a practical next step; it is a suggested action for human consideration, not an automatic instruction to change equipment or procedures.',
+      title: "Rethink staging and dispatch timing",
+      body: "Ask what layout or scheduling changes the warehouse manager should assess. A typical suggestion is to move pallet staging or shift dispatch timing, then check a comparable operating period.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["recommendations"],
     },
     {
       id: "score-led-review",
-      title: "Use scores to structure the next review",
-      body: "Use 0–100 scores to organise attention across warehouse zones and shifts, with traffic exposure and camera coverage considered. Review the contributing observations and coverage before acting. The proposed dimensions for this industry are Shared-Route Practices, Dock-Area Flow and Storage-Area Orderliness; use the approved product methodology when demonstrating actual values.",
+      title: "Score routes, docks and storage areas",
+      body: "0–100 scores cover shared-route practices, dock-area flow and storage-area orderliness across warehouse zones and shifts.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["operational-scores"],
     },
   ],
-  workflow: {
-    heading: "From scenes to decisions",
-    scenario:
-      "Illustrative decision story — not a customer result. Observe: A marked cross-aisle is repeatedly obstructed during dispatch staging. Ask: “What layout or scheduling changes should the warehouse manager assess?” Suggested recommendation: Review pallet staging locations and dispatch timing, then inspect observations from a comparable operating period. Decide: The responsible team reviews the evidence and agrees an action. Follow up: Revisit the same area and comparable period to assess observations, coverage and score movement. A subsequent change is not proof of causation.",
-    steps: industrySharedCopy.workflowLabels.map((label) => ({ label })),
-  },
   deployment: {
-    heading: industrySharedCopy.deploymentHeading,
-    body: `${industrySharedCopy.deploymentIntroduction} Select stable dock and crossing views. Test peak traffic, tall loads, night operations and changing racking. Keep the first pilot focused on events with a clear supervisor response.`,
+    body: "Select stable dock and crossing views, then test peak traffic, tall loads, night operations and changing racking. Keep the first pilot on events with a clear supervisor response.",
     requiredInputs: [
       "Stable dock and crossing camera views",
       "Mapped hierarchy for pilot docks and cross-aisles",
@@ -179,7 +159,7 @@ export const logisticsIndustryPage: IndustryPageRecord = {
   },
   standards: {
     publicCopy:
-      "Review site fire and life-safety requirements alongside occupational safety context for warehouse operations. Handling food or pharmaceuticals adds the relevant product and storage obligations for those goods; a general warehouse page does not imply a universal logistics certificate.",
+      "Warehouses plan around site fire and life-safety requirements and occupational safety management. Sites handling food or pharmaceuticals add the product and storage obligations for those goods. Route and dock observations can feed the site's own safety reviews.",
     frameworkIds: ["C8", "C1"],
     reviewedAt: "2026-09-13",
   },
@@ -206,39 +186,49 @@ export const logisticsIndustryPage: IndustryPageRecord = {
   solutions: [
     {
       solutionSlug: "ai-analytics",
-      body: `${industrySharedCopy.solutionBasis["ai-analytics"]} For logistics, focus on location-aware search, recommendations and score-led review around docks and cross-aisles.`,
+      body: "Location-aware search, recommendations and score-led review of route exceptions and dock activity.",
     },
     {
       solutionSlug: "vms",
-      body: `${industrySharedCopy.solutionBasis.vms} Use it for dock and warehouse incident review across agreed cameras.`,
+      body: "Dock and warehouse incident review across the agreed cameras, live or recorded.",
     },
     {
       solutionSlug: "health-monitoring",
-      body: `${industrySharedCopy.solutionBasis["health-monitoring"]} Prioritise warehouse camera continuity so dock investigations have usable footage.`,
+      body: "Keeps dock and aisle cameras recording, so investigations have usable footage.",
     },
   ],
   faqs: [
     {
+      question: "Can AI cameras prevent forklift–pedestrian accidents?",
+      answer:
+        "Not on their own. They help by flagging pedestrians in configured forklift lanes, blocked cross-aisles and dock congestion, so the shift lead can step in. Start with two or three busy crossings and validate each view in the pilot. Physical segregation, speed controls, operator training and supervision remain the primary safety measures.",
+    },
+    {
+      question: "How does video analytics help with dock investigations?",
+      answer:
+        "Each dock camera is mapped to its bay, so an authorised reviewer can pull the right clip from a time window and bay number instead of searching a recorder. Where a WMS is in use, review timestamps can be aligned with its dock-scheduling records to investigate a specific dispatch window.",
+    },
+    {
+      question: "Which warehouse areas should we cover first?",
+      answer:
+        "Start with docks, cross-aisles where forklifts meet pedestrians, and staging lanes. These are the points where activity converges and where a clear view helps the shift lead act. Two or three busy crossings and one dock make a manageable first pilot, with a named supervisor owning each alert type.",
+    },
+    {
       question: "Can cameras identify every SKU?",
       answer:
-        "Not reliably from general warehouse CCTV. Item identity usually needs scanning, labelling or a verified WMS integration.",
+        "No. Item identity comes from scanning, labelling or a verified WMS integration, and general warehouse CCTV cannot read every SKU reliably. What the cameras show is where pallets, vehicles and people moved around docks and cross-aisles, which complements those records when a shipment or incident is investigated.",
     },
-    {
-      question: "Can this prevent forklift accidents?",
-      answer:
-        "It can support visibility and response for scoped events. It does not replace segregation, training, vehicle controls or supervision.",
-    },
-    {
-      question: "How does this differ from fulfilment-centre monitoring?",
-      answer:
-        "This page focuses on warehouse traffic and dock operations. The fulfilment page focuses on parcel-processing handoffs and investigation.",
-    },
-    ...industrySharedFaqs,
   ],
-  relatedIndustrySlugs: ["ecommerce-fulfilment", "cold-storage", "dark-stores"],
+  limits: "Warehouse CCTV analytics flags visible route and dock events. SKU identification needs scanning or a verified WMS integration, physical segregation, vehicle controls and training stay in place, and scores describe observed conditions in the covered zones.",
+  furtherReading: {
+    blogs: ["alert-fatigue-is-an-ops-problem", "add-ai-to-existing-cctv-cameras"],
+    glossary: ["video-analytics", "edge-ai-video-analytics"],
+    useCases: ["vehicle-detection", "restricted-zone-monitoring"],
+  },
+  relatedIndustrySlugs: ["cold-storage", "ecommerce-fulfilment", "automotive", "airports-ports-railways"],
   finalCta: {
-    heading: "Ask Vision Copilot about your warehouses and logistics.",
-    body: "See how Vision Copilot connects a mapped area with visual search, recommendations and scores for warehouses and logistics.",
+    heading: "Ask Vision Copilot about your warehouse.",
+    body: "Choose two busy crossings and one dock for the pilot, and see what the shift lead would receive.",
   },
   sources: ["README v2 §9.8", "README v2 §§3.1–3.3", "README v2 §7", "frameworks C1/C8"],
   review: {

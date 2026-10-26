@@ -1,18 +1,15 @@
-"use client";
-
 import Image from "next/image";
+import Link from "next/link";
 import { Reveal } from "@/components/Reveal";
-import type { Solution } from "@/lib/site";
-import { featureAnchorId } from "@/lib/feature-anchors";
+import type { Solution, SolutionFeature } from "@/lib/site";
+import { featureAnchorAliases, featureAnchorId } from "@/lib/feature-anchors";
 
-type FeatureMediaRow = {
-  title: string;
-  description: string;
+type FeatureMediaRow = SolutionFeature & {
   result?: string;
 };
 
 type SolutionFeatureMediaRowsProps = {
-  solution: Solution;
+  solution: Pick<Solution, "slug" | "shortName" | "headline" | "image" | "features">;
   features?: FeatureMediaRow[];
 };
 
@@ -22,19 +19,19 @@ const SECTION_COPY: Record<
 > = {
   "asset-tracking": {
     eyebrow: "Asset tracking capabilities",
-    title: "Enterprise asset tracking built for multi-site visibility",
+    title: "Asset tracking features for multi-site organizations",
     description:
       "Centralize inventory, ownership, location, warranty, and audit history so security and operations teams can manage every asset across sites—from registration to retirement—without spreadsheets.",
   },
   "amc-management": {
     eyebrow: "AMC management capabilities",
-    title: "AMC and warranty operations built for multi-site uptime",
+    title: "AMC and warranty management features",
     description:
       "Manage AMC coverage, warranties, preventive maintenance, vendors, and SLAs in one workspace—so maintenance teams protect asset availability and catch renewals before coverage gaps appear.",
   },
   vms: {
     eyebrow: "VMS capabilities",
-    title: "Enterprise VMS built for unified live monitoring and control",
+    title: "Enterprise video management system features",
     description:
       "Bring cameras, sites, and operators into one video management system—so security teams monitor live video, investigate incidents faster, and run multi-site surveillance without fragmented NVR workflows.",
   },
@@ -42,11 +39,11 @@ const SECTION_COPY: Record<
     eyebrow: "AI Vision capabilities",
     title: "AI video analytics built for real-time security and operations",
     description:
-      "Turn live camera streams into actionable detections for intrusion, PPE, occupancy, and operational events—so teams respond faster with higher signal and less manual monitoring.",
+      "Turn live camera streams into detections for intrusion, PPE, fire and smoke, loitering, and occupancy—so teams respond to real events with less manual monitoring.",
   },
   "health-monitoring": {
     eyebrow: "Health monitoring capabilities",
-    title: "Surveillance infrastructure health built for always-on estates",
+    title: "CCTV health monitoring features",
     description:
       "Monitor cameras, NVRs, servers, storage, and network connectivity in real time—so security teams detect failures early, protect recording continuity, and keep multi-site surveillance operational.",
   },
@@ -68,102 +65,53 @@ const FEATURE_IMAGES: Record<string, string> = {
   "Service Request Management": "/Images/solutions/service-request-management.webp",
   "Vendor Performance Monitoring": "/Images/solutions/vendor-performance-monitoring.webp",
   "SLA Compliance Tracking": "/Images/solutions/sla-compliance-tracking.webp",
-  "Renewal Alerts & Notifications": "/Images/solutions/renewal-alerts-notifications.webp",
+  "Renewal & PM Reminders": "/Images/solutions/renewal-alerts-notifications.webp",
   "Maintenance History": "/Images/solutions/maintenance-history.webp",
-  "Automated Reminders": "/Images/solutions/automated-reminders.webp",
 
   // VMS
-  "Centralized Live Monitoring & Playback": "/Images/solutions/centralized-live-monitoring-playback.png",
-  "Multi-Site Surveillance Management": "/Images/solutions/multi-site-surveillance-management.png",
-  "Video Search & Incident Investigation": "/Images/solutions/video-search-incident-investigation.png",
+  "Centralized Live Monitoring & Playback": "/Images/solutions/centralized-live-monitoring-playback.webp",
+  "Multi-Site Surveillance Management": "/Images/solutions/multi-site-surveillance-management.webp",
+  "Video Search & Incident Investigation": "/Images/solutions/video-search-incident-investigation.webp",
   "Secure Remote Access": "/Images/solutions/secure-remote-access.webp",
-  "Event & Alarm Management": "/Images/solutions/event-alarm-management.png",
-  "Open Integration with IP Cameras & Third-Party Systems": "/Images/solutions/open-integration-ip-cameras-third-party.png",
+  "Event & Alarm Management": "/Images/solutions/event-alarm-management.webp",
+  "Open Integration with IP Cameras & Third-Party Systems": "/Images/solutions/open-integration-ip-cameras-third-party.webp",
 
   // AI Analytics
-  "Real-Time AI Video Analytics": "/Images/solutions/real-time-ai-video-analytics.png",
-  "Instant Event Detection & Smart Alerts": "/Images/solutions/instant-event-detection-smart-alerts.png",
-  "Intrusion, PPE & Safety Monitoring": "/Images/solutions/intrusion-ppe-safety-monitoring.png",
-  "People, Vehicle & Occupancy Analytics": "/Images/solutions/people-vehicle-occupancy-analytics.png",
-  "Intrusion Detection": "/Images/solutions/intrusion-detection.png",
-  "Restricted Area Monitoring": "/Images/solutions/restricted-area-monitoring.webp",
+  "Real-Time AI Video Analytics": "/Images/solutions/real-time-ai-video-analytics.webp",
+  // Alert workflow: alert card, timeline and mobile notification.
+  "Instant Event Detection & Smart Alerts": "/Images/solutions/restricted-area-monitoring.webp",
+  "Intrusion & Restricted-Zone Detection": "/Images/solutions/intrusion-detection.webp",
+  "PPE & Safety Compliance Detection": "/Images/solutions/intrusion-ppe-safety-monitoring.webp",
+  // The only existing visual with fire / smoke detections on screen.
+  "Fire & Smoke Detection": "/Images/solutions/instant-event-detection-smart-alerts.webp",
+  // People tracked across a crossing: dwell and line-crossing context.
+  "Loitering & Line-Crossing Detection": "/visuals/solutions/ai-vision.webp",
+  "People, Vehicle & Occupancy Analytics": "/Images/solutions/people-vehicle-occupancy-analytics.webp",
 
   // Health Monitoring
   "Real-Time Device Health Monitoring": "/Images/solutions/real-time-device-health-monitoring.webp",
-  "Camera, NVR & Server Status": "/Images/solutions/camera-nvr-server-status.webp",
-  "Recording & Storage Health Monitoring": "/Images/solutions/recording-storage-health-monitoring.webp",
+  // Shows "Recording status" and not-recording counts per device.
+  "Recording Verification": "/Images/solutions/recording-storage-health-monitoring.webp",
+  // NVR disk usage, storage server and RAID status.
+  "Storage & Retention Monitoring": "/Images/solutions/camera-nvr-server-status.webp",
   "Network & Connectivity Monitoring": "/Images/solutions/network-connectivity-monitoring.webp",
-  "Instant Alerts & Notifications": "/Images/solutions/instant-alerts-notifications.webp",
+  // Camera offline / HDD error / network loss alerts on dashboard and mobile.
+  // (instant-alerts-notifications.webp is not used: it shows an SMS channel.)
+  "Device Failure Alerts": "/Images/health-monitoring-overview.webp",
   "Uptime & Availability Reports": "/Images/solutions/uptime-availability-reports.webp",
 };
 
+/**
+ * Optional "Outcome:" line under a feature. Only kept where it adds something
+ * the description does not already say — lines that repeated their description
+ * (and unsupported claims such as "in seconds" or "minutes, not hours") were
+ * removed.
+ */
 const FEATURE_RESULTS: Record<string, string> = {
-  "Centralized Asset Inventory":
-    "Outcome: one trusted estate-wide asset register—so operators stop chasing outdated spreadsheets and start working from live inventory data.",
-  "Asset Lifecycle Management":
-    "Outcome: complete lifecycle visibility from procurement to retirement, with every transfer and status change recorded for operations and finance.",
-  "Serial Number Tracking":
-    "Outcome: locate the exact device in seconds using serial, QR, or barcode—even after multi-site handoffs and ownership changes.",
-  "Location & Department Mapping":
-    "Outcome: know what is deployed where by site, floor, and department—so audits, moves, and capacity planning stay accurate.",
-  "Asset Assignment & Ownership":
-    "Outcome: clear accountability on every asset, so missing equipment, transfers, and handovers never leave ownership in doubt.",
-  "Warranty & Documentation Management":
-    "Outcome: warranty terms and supporting documents stay attached to each asset—ready for claims, renewals, and vendor reviews.",
-  "Audit Trail & Compliance Reports":
-    "Outcome: compliance-ready custody and access history you can export for audits without last-minute reconstruction.",
-  "AMC & Warranty Management":
-    "Outcome: every asset carries live AMC and warranty coverage—so renewals, claims, and vendor handoffs start from accurate contract data.",
-  "Preventive Maintenance Scheduling":
-    "Outcome: planned maintenance runs on schedule across sites, reducing unplanned downtime before it hits operations.",
-  "Service Request Management":
-    "Outcome: every ticket has a clear path from intake to close—no lost requests or endless vendor follow-ups.",
   "Vendor Performance Monitoring":
     "Outcome: compare partners on response time and completion quality so you renew the vendors who actually deliver.",
-  "SLA Compliance Tracking":
-    "Outcome: see SLA risk early enough to escalate, recover, and protect uptime commitments.",
-  "Renewal Alerts & Notifications":
-    "Outcome: contract and warranty renewals surface before expiry—so coverage never lapses unnoticed.",
-  "Maintenance History":
-    "Outcome: open a complete service timeline on any asset for audits, claims, and replacement planning.",
-  "Automated Reminders":
-    "Outcome: PM windows, renewals, and open tickets get proactive reminders before they become failures.",
-  "Centralized Live Monitoring & Playback":
-    "Outcome: operators watch live and recorded video from every site in one console—without hopping between tools.",
-  "Multi-Site Surveillance Management":
-    "Outcome: campuses, plants, and branches run from a single operator view with consistent control across locations.",
   "Video Search & Incident Investigation":
-    "Outcome: evidence is found in minutes, not hours—so investigations move from footage search to action faster.",
-  "Secure Remote Access":
-    "Outcome: authorized teams get secure remote live and playback access without exposing the camera estate.",
-  "Event & Alarm Management":
-    "Outcome: alarms are acknowledged, escalated, and cleared from one shared queue with clear operator ownership.",
-  "Open Integration with IP Cameras & Third-Party Systems":
-    "Outcome: keep your camera mix flexible as the estate grows, without locking into a closed hardware stack.",
-  "Real-Time AI Video Analytics":
-    "Outcome: continuous video becomes actionable detections—so operators respond to real events, not endless live walls.",
-  "Instant Event Detection & Smart Alerts":
-    "Outcome: the right team is notified the moment a threshold is crossed, with less noise and faster response.",
-  "Intrusion, PPE & Safety Monitoring":
-    "Outcome: unsafe conditions and compliance gaps are caught early—before they become incidents or audit failures.",
-  "People, Vehicle & Occupancy Analytics":
-    "Outcome: movement and occupancy patterns across sites become operational insight, not just recorded footage.",
-  "Intrusion Detection":
-    "Outcome: perimeter and unauthorized-entry events trigger response before incidents escalate on site.",
-  "Restricted Area Monitoring":
-    "Outcome: know the moment someone enters a restricted zone—and escalate while intervention is still possible.",
-  "Real-Time Device Health Monitoring":
-    "Outcome: continuous infrastructure health visibility—so teams act on device risk before operators lose live coverage.",
-  "Camera, NVR & Server Status":
-    "Outcome: one live status board for cameras, NVRs, and servers across every site in the estate.",
-  "Recording & Storage Health Monitoring":
-    "Outcome: catch recording gaps and storage pressure early—before evidence windows are lost.",
-  "Network & Connectivity Monitoring":
-    "Outcome: spot link and network failures that take cameras offline, with faster path to restore uptime.",
-  "Instant Alerts & Notifications":
-    "Outcome: the right team is notified the moment a device or service leaves healthy status.",
-  "Uptime & Availability Reports":
-    "Outcome: prove reliability with clear uptime trends and prioritize fixes where downtime risk is highest.",
+    "Outcome: evidence search without scrubbing footage, so investigations move from search to action sooner.",
 };
 
 export function SolutionFeatureMediaRows({
@@ -210,22 +158,31 @@ export function SolutionFeatureMediaRows({
               <Reveal key={feature.title} delay={0.04}>
                 <div
                   id={featureAnchorId(feature.title)}
-                  className={`scroll-mt-[calc(var(--header-h)+1.25rem)] grid items-center gap-6 lg:grid-cols-2 lg:gap-10 ${
+                  className={`relative scroll-mt-[calc(var(--header-h)+1.25rem)] grid items-center gap-6 lg:grid-cols-2 lg:gap-10 ${
                     mediaFirst ? "" : "lg:[&>*:first-child]:order-2"
                   }`}
                 >
                   <div className="relative aspect-[16/10] overflow-hidden rounded-[22px] bg-[#0b1628] shadow-[0_24px_60px_-40px_rgba(15,61,120,0.5)]">
                     <Image
                       src={FEATURE_IMAGES[feature.title] ?? solution.image}
-                      alt=""
+                      alt={`${feature.title} in OrionAlerts ${solution.shortName}`}
                       fill
                       sizes="(max-width: 1024px) 100vw, 50vw"
                       className="object-cover opacity-90"
-                      aria-hidden
                     />
                   </div>
 
                   <div className="max-w-xl">
+                    {/* Old ids from renamed / merged features keep deep links
+                        working; positioned against the row, not this column. */}
+                    {(featureAnchorAliases[feature.title] ?? []).map((alias) => (
+                      <span
+                        key={alias}
+                        id={alias}
+                        aria-hidden
+                        className="absolute left-0 top-0 h-px w-px scroll-mt-[calc(var(--header-h)+1.25rem)]"
+                      />
+                    ))}
                     <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-blue">
                       {String(index + 1).padStart(2, "0")}
                     </p>
@@ -235,6 +192,22 @@ export function SolutionFeatureMediaRows({
                     <p className="mt-3 text-[14px] leading-relaxed text-muted-strong md:text-[15px]">
                       {feature.description}
                     </p>
+                    {feature.links?.length ? (
+                      <p className="mt-3 text-sm text-muted-strong">
+                        <span className="font-medium text-text">Learn more: </span>
+                        {feature.links.map((link, linkIndex, links) => (
+                          <span key={link.href}>
+                            <Link
+                              href={link.href}
+                              className="font-medium text-blue hover:underline"
+                            >
+                              {link.label}
+                            </Link>
+                            {linkIndex < links.length - 1 ? " · " : ""}
+                          </span>
+                        ))}
+                      </p>
+                    ) : null}
                     {feature.result ? (
                       <p className="mt-3 border-l-2 border-cyan/70 pl-3.5 text-sm font-medium leading-relaxed text-text">
                         {feature.result}

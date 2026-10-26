@@ -1,7 +1,8 @@
 "use client";
 
-import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
+import { useSafeReducedMotion } from "@/lib/use-safe-reduced-motion";
 
 const rowA = [
   "Thermal Scan",
@@ -49,7 +50,7 @@ function Tile({ label, tone }: { label: string; tone: number }) {
 }
 
 export function SurveillanceMarquee() {
-  const reduce = useReducedMotion();
+  const reduce = useSafeReducedMotion();
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,

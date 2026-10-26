@@ -1,8 +1,6 @@
 import {
   INDUSTRY_SCHEMA_VERSION,
-  industrySharedCopy,
   industrySharedCtas,
-  industrySharedFaqs,
 } from "@/lib/industries/shared";
 import type { IndustryPageRecord } from "@/lib/industries/types";
 
@@ -10,30 +8,26 @@ export const manufacturingIndustryPage: IndustryPageRecord = {
   slug: "manufacturing",
   name: "Manufacturing",
   cardLabel: "Manufacturing",
-  cardSummary:
-    "Use Vision Copilot to connect mapped camera observations with decisions about shift handovers, PPE observations and recurring material build-up.",
+  siteNoun: { one: "factory", many: "factories" },
   schemaVersion: INDUSTRY_SCHEMA_VERSION,
   contentVersion: 2,
   status: "reviewed",
   seo: {
-    title: "AI Video Analytics for Manufacturing | OrionAlerts",
+    title: "AI Video Analytics for Manufacturing Plants",
     description:
-      "Explore manufacturing operations with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
+      "AI video analytics for factories: PPE and restricted-zone alerts, forklift–pedestrian crossings and material build-up, on compatible existing IP cameras.",
     canonicalPath: "/industries/manufacturing",
-    ogTitle: "AI Video Analytics for Manufacturing | OrionAlerts",
-    ogDescription:
-      "Explore manufacturing operations with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
     image: "/Images/industries/manufacturing.webp",
   },
   hero: {
     eyebrow: "Manufacturing",
-    h1: "Vision Copilot for Manufacturing Operations",
-    lede: "Map cameras to the places your team manages and ask Vision Copilot about shift handovers, PPE observations and recurring material build-up. OrionAlerts analyses scenes over time to surface alerts, recommendations and operational scores that help you decide what to review today and what to improve next.",
+    h1: "AI Video Analytics for Manufacturing Plants",
+    lede:
+      "Get alerts when PPE is missing at production entries, someone enters a machine or maintenance zone, or material piles up at a transfer point, on compatible cameras you already have. Ask Vision Copilot what happened last shift and who should act.",
     media: {
       kind: "image",
       src: "/Images/industries/manufacturing.webp",
-      alt: "Smart manufacturing facility with robotic arm packaging conveyor line",
-      demonstrationLabel: "Smart Manufacturing Operations",
+      alt: "Robotic arms and a conveyor packing boxes on a factory floor, with an engineer at a workstation",
     },
     primaryCta: industrySharedCtas.primary,
     secondaryCta: industrySharedCtas.secondaryHero,
@@ -41,8 +35,8 @@ export const manufacturingIndustryPage: IndustryPageRecord = {
   context: {
     heading: "See the exceptions that routine rounds can miss.",
     paragraphs: [
-      "A factory can have extensive CCTV coverage and still depend on someone noticing a problem at the right moment. Shift changes, shared vehicle routes and busy production areas make continuous manual observation difficult. Plant leaders need to know where an event happened, whether it needs intervention and which team owns the response. Focus video analytics on these decisions before expanding to more complex production analysis.",
-      "A reference deployment places cameras at production entries, vehicle-pedestrian crossings and one material-transfer point, on a network segment separated from plant OT systems. Retention should match the window a safety or quality review typically needs, with PPE and flow alerts routed to the production supervisor and EHS rather than a general security desk unfamiliar with the shift. Where a shift-scheduling system is available, align review timestamps with its records instead of relying on camera timestamps alone.",
+      "A factory can have extensive CCTV coverage and still depend on someone noticing a problem at the right moment. Shift changes, shared vehicle routes and busy production areas make continuous manual observation difficult. Plant leaders need to know where an event happened, whether it needs intervention and which team owns the response. Start video analytics with these decisions, then expand to more complex production analysis.",
+      "A reference deployment places cameras at production entries, vehicle-pedestrian crossings and one material-transfer point, on a network segment separated from the plant's operational technology (OT) systems. Retention matches the window a safety or quality review typically needs. Send PPE and flow alerts to the production supervisor and EHS, the people who know the shift. Where a shift-scheduling system is available, align review timestamps with its records as well as camera time.",
     ],
     buyers: [
       "Plant heads",
@@ -52,8 +46,6 @@ export const manufacturingIndustryPage: IndustryPageRecord = {
     ],
   },
   locationContext: {
-    heading: "Your operation, mapped",
-    body: "Organise views around the places the team recognises. Select the location to establish the context for scene observations and Copilot questions. This example uses the shared hierarchy; map the actual site rather than inventing rooms or camera coverage.",
     hierarchyExample: [
       { label: "Site", example: "Plant" },
       { label: "Building", example: "Production Building" },
@@ -65,15 +57,13 @@ export const manufacturingIndustryPage: IndustryPageRecord = {
       "Cameras are mapped to the selected location so questions about Assembly Zone start from recognisable operational context.",
   },
   copilot: {
-    heading: "Ask Vision Copilot",
-    body: industrySharedCopy.copilotIntro,
     prompts: [
+      "What should the plant team review before the next shift?",
       "Show observations from Assembly Zone during the last shift.",
       "Which covered production zones had recurring material build-up this week?",
-      "What should the plant team review before the next shift?",
     ],
     exampleAnswer:
-      "Illustrative example — not a live product result. Material build-up appears repeatedly around the same transfer point during shift handover. Suggested next step: review staging space and replenishment timing at that transfer point, then check the next comparable shift after the change.",
+      "Material build-up appears repeatedly around the same transfer point during shift handover. Suggested next step: review staging space and replenishment timing at that transfer point, then check the next comparable shift after the change.",
     exampleStatus: "illustrative",
   },
   sceneIntelligence: {
@@ -82,8 +72,6 @@ export const manufacturingIndustryPage: IndustryPageRecord = {
     recommendation:
       "Review staging space and replenishment timing at that transfer point; check the next comparable shift after the change.",
     decisionOwner: "Plant / production supervisor",
-    followUpPrompt:
-      "Revisit the same area and comparable period to assess observations, coverage and score movement.",
   },
   scorecards: {
     heading: "See what needs attention—and what changes after action.",
@@ -126,49 +114,43 @@ export const manufacturingIndustryPage: IndustryPageRecord = {
   useCases: [
     {
       id: "location-into-decision",
-      title: "Bring the right location into the decision",
-      body: "Connect shift handovers, PPE observations and recurring material build-up to the building tree and its mapped cameras. The team can start with a named operational area instead of trying to remember which camera covers it, making observations easier to interpret and discuss.",
+      title: "Open the Assembly Zone by name",
+      body: "Shift handovers, PPE observations and material build-up are tied to the plant's building tree, so a supervisor opens Assembly Zone or a workcell by name and sees the cameras that cover it.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["building-hierarchy", "vision-copilot"],
     },
     {
       id: "search-observations",
-      title: "Search visual observations in everyday language",
-      body: 'Ask Vision Copilot, “Show observations from Assembly Zone during the last shift.” Use the location and review period to focus the search on relevant available observations. The purpose is to reach useful context without manually working through unrelated camera views.',
+      title: "Search last shift's footage in plain words",
+      body: "Ask Vision Copilot, “Show observations from Assembly Zone during the last shift,” and get the observations for that zone and period instead of scrolling through every production camera.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["vision-copilot", "scene-analysis"],
     },
     {
       id: "recurring-conditions",
-      title: "Identify recurring conditions across scenes",
-      body: 'Ask, “Which covered production zones had recurring material build-up this week?” Ongoing scene analysis supports review of patterns across the available observations. Use the recurring condition to frame the next investigation rather than treating one isolated alert as the whole operational picture.',
+      title: "Spot build-up that keeps coming back",
+      body: "Ask, “Which covered production zones had recurring material build-up this week?” Ongoing scene analysis groups repeat observations by zone, so a recurring transfer-point problem stands out from a one-off alert.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["scene-analysis", "vision-copilot"],
     },
     {
       id: "improvement-decision",
-      title: "Turn analysis into an improvement decision",
-      body: 'Ask, “What should the plant team review before the next shift?” Review the recommendation alongside the underlying observations and the team\'s operating knowledge. The example below shows a practical next step; it is a suggested action for human consideration, not an automatic instruction to change equipment or procedures.',
+      title: "Plan the next shift from the evidence",
+      body: "Ask, “What should the plant team review before the next shift?” Vision Copilot suggests a next step, such as reviewing staging space and replenishment timing, and the production supervisor decides whether to act.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["recommendations"],
     },
     {
       id: "score-led-review",
-      title: "Use scores to structure the next review",
-      body: "Use 0–100 scores to organise attention across production zones and shifts, interpreted alongside PPE and material-flow observations. Review the contributing observations and coverage before acting. The proposed dimensions for this industry are Observed Safety Practices, Production-Area Flow and Work-Zone Control; use the approved product methodology when demonstrating actual values.",
+      title: "Compare production zones and shifts",
+      body: "Operational scores out of 100, built from PPE and material-flow observations, show which production zones and shifts to review first.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["operational-scores"],
     },
   ],
-  workflow: {
-    heading: "From scenes to decisions",
-    scenario:
-      "Illustrative decision story — not a customer result. Observe: Material build-up appears repeatedly around the same transfer point during shift handover. Ask: “What should the plant team review before the next shift?” Suggested recommendation: Review staging space and replenishment timing at that transfer point; check the next comparable shift after the change. Decide: The responsible team reviews the evidence and agrees an action. Follow up: Revisit the same area and comparable period to assess observations, coverage and score movement. A subsequent change is not proof of causation.",
-    steps: industrySharedCopy.workflowLabels.map((label) => ({ label })),
-  },
   deployment: {
-    heading: industrySharedCopy.deploymentHeading,
-    body: `${industrySharedCopy.deploymentIntroduction} Begin with stable camera views at production entries, crossings and one material-transfer area. Test each shift, including low light, occlusion and PPE variations. Agree who receives each alert and how camera outages will be handled.`,
+    body:
+      "Begin with stable camera views at production entries, crossings and one material-transfer area. Test each shift, including low light, occlusion and PPE variations. Agree who receives each alert and how camera outages are handled.",
     requiredInputs: [
       "Stable camera views at production entries and crossings",
       "Mapped hierarchy for the pilot production areas",
@@ -179,7 +161,7 @@ export const manufacturingIndustryPage: IndustryPageRecord = {
   },
   standards: {
     publicCopy:
-      "Video observations can support internal safety reviews associated with an occupational health and safety programme. ISO 45001 certification concerns the organisation's management system; OrionAlerts does not certify the factory or replace its safety controls.",
+      "Video observations give EHS time-stamped context for internal safety reviews within an occupational health and safety programme. ISO 45001 certification covers the organisation's management system and is assessed separately.",
     frameworkIds: ["C1"],
     reviewedAt: "2026-09-13",
   },
@@ -206,39 +188,61 @@ export const manufacturingIndustryPage: IndustryPageRecord = {
   solutions: [
     {
       solutionSlug: "ai-analytics",
-      body: `${industrySharedCopy.solutionBasis["ai-analytics"]} For manufacturing, focus on location-aware search, recommendations and score-led review of factory events.`,
+      body: "PPE, restricted-zone and material build-up alerts for each production zone, with Vision Copilot search across shifts.",
     },
     {
       solutionSlug: "vms",
-      body: `${industrySharedCopy.solutionBasis.vms} Use it for shift-level incident review across production areas.`,
+      body: "Live and recorded video for shift-level incident review across production areas.",
     },
     {
       solutionSlug: "health-monitoring",
-      body: `${industrySharedCopy.solutionBasis["health-monitoring"]} Prioritise production-area camera and recording coverage so investigations have usable footage.`,
+      body: "Flags offline cameras and recording gaps in production areas so investigations have usable footage.",
     },
   ],
   faqs: [
     {
-      question: "Can AI Vision calculate OEE from CCTV?",
+      question: "What can AI video analytics detect on a factory floor?",
       answer:
-        "Video can provide context for visible interruptions. Reliable OEE needs defined availability, performance and quality inputs, normally from production systems. Treat that as a separate integration scope.",
+        "Typical starting points are missing helmets or hi-vis vests at production entries, people entering configured machine or maintenance zones, and material piling up at a transfer point; pedestrians in vehicle lanes can be assessed in a pilot. Alerts reach the production supervisor or EHS with the clip and location. Machine OEE and product quality need production-system data.",
+    },
+    {
+      question: "Who receives factory alerts, and how?",
+      answer:
+        "Alerts go to the team that owns the area, typically the production supervisor and EHS for PPE and material-flow events. Each alert arrives on the dashboard, mobile app and email with the camera, location and clip, and the pilot agrees who handles camera outages before rollout.",
+    },
+    {
+      question: "How does Vision Copilot help at shift handover?",
+      answer:
+        "A supervisor can ask what the plant team should review before the next shift. Vision Copilot answers from observations in the mapped zones, for example material build-up recurring at one transfer point during handover, and suggests a next step such as checking staging space and replenishment timing.",
+    },
+    {
+      question: "Can AI video analytics calculate OEE from CCTV?",
+      answer:
+        "Not on its own: video shows visible stoppages and material build-up that add context to OEE losses. OEE itself needs defined availability, performance and quality data from your production systems, so linking camera observations to OEE is treated as a separate integration scope, agreed after the safety and flow pilot.",
     },
     {
       question: "Does PPE detection prove compliance?",
       answer:
-        "It identifies selected visible conditions in the covered scene. It cannot confirm every item, correct fit, equipment condition or whether all legal and site requirements were met.",
+        "No. It flags selected visible PPE exceptions, such as a missing helmet or hi-vis vest, at defined entry points for a supervisor to review. It cannot confirm every item, correct fit or equipment condition, so those checks, and full legal compliance, stay with your site's own inspections and safety processes.",
     },
     {
       question: "Where should a pilot begin?",
       answer:
-        "Choose one well-lit entrance, a clearly defined restricted area and an accountable response team. Expand only after representative shifts have been reviewed.",
+        "Choose one well-lit entrance, a clearly defined restricted area and an accountable response team. Test the views across every shift, including low light and occlusion, and agree who receives each alert and how camera outages are handled. Expand only after representative shifts have been reviewed with the production supervisor and EHS.",
     },
-    ...industrySharedFaqs,
   ],
-  relatedIndustrySlugs: ["automotive", "logistics", "cement"],
+  limits:
+    "Video covers visible conditions in each camera's view. Overall equipment effectiveness (OEE), product quality, PPE fit and legal compliance need production data and the site's own inspections.",
+  furtherReading: {
+    blogs: ["ai-ppe-detection-factories", "add-ai-to-existing-cctv-cameras"],
+    glossary: ["ppe-detection", "video-analytics"],
+    useCases: ["safety-compliance-detection", "restricted-zone-monitoring"],
+  },
+  relatedIndustrySlugs: ["automotive", "textile", "polymers-plastics", "pulp-paper"],
   finalCta: {
-    heading: "Ask Vision Copilot about your manufacturing operations.",
-    body: "See how Vision Copilot connects a mapped area with visual search, recommendations and scores for manufacturing operations.",
+    heading: "Ask Vision Copilot about your plant.",
+    body:
+      "Start with one production entry, one crossing and one transfer point on cameras you already have.",
   },
   sources: ["README v2 §9.1", "README v2 §§3.1–3.3", "README v2 §7", "framework C1"],
   review: {

@@ -10,7 +10,7 @@ import { solutions } from "@/lib/site";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
-const SOLUTIONS_HERO_IMAGE = "/Images/solutions-hero-datacenter.jpg";
+const SOLUTIONS_HERO_IMAGE = "/Images/solutions-hero-datacenter.webp";
 
 const clusters = [
   {
@@ -25,7 +25,7 @@ const clusters = [
   },
   {
     id: "estate",
-    label: "Assets & uptime",
+    label: "Maintenance & uptime",
     slugs: ["asset-tracking", "amc-management", "health-monitoring"],
   },
 ] as const;
@@ -80,21 +80,25 @@ export function SolutionGrid() {
   return (
     <>
       <section className="relative overflow-hidden bg-[#07111f]">
-        <div className="relative min-h-[min(92vh,52rem)] overflow-hidden pt-[var(--header-h)]">
+        <div className="relative min-h-[30rem] overflow-hidden pt-[var(--header-h)] md:min-h-[min(92vh,52rem)]">
           <div className="absolute inset-0">
             <Image
               src={SOLUTIONS_HERO_IMAGE}
-              alt=""
+              alt="Server racks with network cabling and status lights, the kind of infrastructure OrionAlerts monitors alongside cameras and recorders"
               fill
               priority
               quality={95}
               sizes="100vw"
               className="object-cover object-center"
+            />
+            {/* Keeps the hero copy legible where it overlaps the photo. */}
+            <div
+              className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#07111f] via-[#07111f]/55 to-[#07111f]/10"
               aria-hidden
             />
           </div>
-          <div className="container relative z-10 flex min-h-[min(78vh,44rem)] flex-col">
-            <div className="mt-auto max-w-2xl pb-10 pt-24 md:pb-14 md:pt-32">
+          <div className="container relative z-10 flex min-h-[24rem] flex-col md:min-h-[min(78vh,44rem)]">
+            <div className="mt-auto max-w-2xl pb-10 pt-10 md:pb-14 md:pt-32">
               <motion.p
                 className="font-display text-[clamp(1.05rem,2vw,1.35rem)] font-bold uppercase tracking-[0.14em] text-white"
                 initial={animate ? { opacity: 0, y: 12 } : false}
@@ -110,7 +114,7 @@ export function SolutionGrid() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={animate ? { duration: 0.55, delay: 0.05, ease } : { duration: 0 }}
               >
-                One platform. Critical capabilities.
+                Video surveillance software for multi-site operations
               </motion.h1>
 
               <motion.p
@@ -119,8 +123,9 @@ export function SolutionGrid() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={animate ? { duration: 0.5, delay: 0.1, ease } : { duration: 0 }}
               >
-                Connect live video, AI alerts, assets, maintenance, and infrastructure health — so
-                security and operations run from a single command layer.
+                VMS, AI video analytics, camera health monitoring, asset tracking and AMC
+                management on one platform, so security, IT and facilities teams work from one
+                system.
               </motion.p>
             </div>
           </div>
@@ -138,10 +143,10 @@ export function SolutionGrid() {
           transition={animate ? { duration: 0.5, ease } : { duration: 0 }}
         >
           <h2 className="text-[clamp(1.85rem,4vw,2.85rem)] font-semibold leading-[1.15] tracking-[-0.03em] text-text">
-            Capabilities built for critical operations
+            Five modules, one surveillance platform
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-[15px] leading-relaxed text-muted-strong md:text-base">
-            Explore the modules that power Orion Alerts — video and AI, asset visibility,
+            Explore the modules that power OrionAlerts — video and AI, asset visibility,
             maintenance workflows, and infrastructure health — each designed to work alone or as one
             connected platform. Every module runs on{" "}
             <Link href="/nebula-os" className="font-semibold text-blue hover:underline">
@@ -257,8 +262,9 @@ export function SolutionGrid() {
                           {solution.shortName}
                         </span>
 
-                        <span className="mt-1.5 max-h-0 overflow-hidden text-[11px] leading-snug text-white/70 opacity-0 transition-all duration-500 ease-out group-hover:max-h-16 group-hover:opacity-100 sm:text-xs">
-                          {solution.tagline}
+                        {/* Always visible (not hover-only) so touch users see it too. */}
+                        <span className="mt-1.5 text-[11px] leading-snug text-white/80 sm:text-xs">
+                          {solution.oneLiner}
                         </span>
 
                         <span className="mt-3 inline-flex items-center gap-1 text-[12px] font-semibold text-cyan transition duration-300 group-hover:gap-2 sm:text-[13px]">

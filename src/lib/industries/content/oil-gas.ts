@@ -1,8 +1,6 @@
 import {
   INDUSTRY_SCHEMA_VERSION,
-  industrySharedCopy,
   industrySharedCtas,
-  industrySharedFaqs,
 } from "@/lib/industries/shared";
 import type { IndustryPageRecord } from "@/lib/industries/types";
 
@@ -10,50 +8,44 @@ export const oilGasIndustryPage: IndustryPageRecord = {
   slug: "oil-gas",
   name: "Oil, Gas & Petrochemicals",
   cardLabel: "Oil & Gas",
-  cardSummary:
-    "Use Vision Copilot to connect mapped camera observations with decisions about tanker-area activity and controlled operational access.",
+  siteNoun: { one: "oil and gas terminal", many: "oil and gas terminals" },
   schemaVersion: INDUSTRY_SCHEMA_VERSION,
   contentVersion: 2,
   status: "reviewed",
   seo: {
-    title: "Oil and Gas AI Video Analytics | OrionAlerts",
+    title: "AI Video Analytics for Oil & Gas Terminals",
     description:
-      "Explore oil and gas facilities with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
+      "AI video analytics for oil and gas terminals: tanker-bay activity, controlled-area entry and perimeter alerts, verified by an operator before escalation.",
     canonicalPath: "/industries/oil-gas",
-    ogTitle: "Oil and Gas AI Video Analytics | OrionAlerts",
-    ogDescription:
-      "Explore oil and gas facilities with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
     image: "/Images/industries/oil-gas.webp",
   },
   hero: {
     eyebrow: "Oil, Gas & Petrochemicals",
-    h1: "Vision Copilot for Oil and Gas Facilities",
-    lede: "Map cameras to the places your team manages and ask Vision Copilot about tanker-area activity and controlled operational access. OrionAlerts analyses scenes over time to surface alerts, recommendations and operational scores that help you decide what to review today and what to improve next.",
+    h1: "AI Video Analytics for Oil & Gas Terminals",
+    lede:
+      "Review tanker-bay activity, controlled-area entry and after-hours perimeter events, each verified by an operator before escalation. Ask Vision Copilot what happened at Tanker Bay 2 during the evening loading window.",
     media: {
       kind: "image",
       src: "/Images/industries/oil-gas.webp",
-      alt: "Illustrative oil and gas facility photograph used for industry context",
-      demonstrationLabel: "Illustrative photograph — not a verified customer deployment",
+      alt: "Illustration of a coastal refinery, storage tanks, tanker terminal and offshore platform",
     },
     primaryCta: industrySharedCtas.primary,
     secondaryCta: industrySharedCtas.secondaryHero,
   },
   context: {
-    heading: "Separate useful visual awareness from safety-critical detection.",
+    heading: "Verify access, tanker-bay and perimeter events before you escalate.",
     paragraphs: [
-      "Refineries, terminals and petrochemical sites need to manage controlled access alongside vehicle and contractor activity. An operator benefits from seeing the scene around an event, but ordinary cameras cannot establish gas concentration, process pressure or safe isolation. Design the video workflow around verification and escalation, with a clear boundary between surveillance analytics and process safety.",
-      "A reference deployment covers tanker bays, controlled-access points and defined perimeter zones, with cabling and enclosures selected for the area's hazardous-area classification. Retention should match the window an HSE or security investigation typically needs, with access and tanker-area alerts routed to HSE and security rather than a general control room. Where a permit-to-work or access-control system is in use, align review timestamps with its records instead of treating video as a substitute for the permit process.",
+      "Refineries, terminals and petrochemical sites manage controlled access alongside vehicle and contractor activity. An operator benefits from seeing the scene around an event, while gas concentration, process pressure and safe isolation stay with process instruments. Design the video workflow around verification and escalation, with a clear line between surveillance analytics and process safety.",
+      "A reference deployment covers tanker bays, controlled-access points and defined perimeter zones, with cabling and enclosures selected for the area's hazardous-area classification. Retention matches the window an HSE or security investigation typically needs, with access and tanker-area alerts routed to HSE and security. Where a permit-to-work or access-control system is in use, align review timestamps with its records so each clip sits next to the permit it relates to.",
     ],
     buyers: [
       "Terminal/refinery operations",
       "HSE",
       "Security",
-      "Instrumentation and OT teams",
+      "Instrumentation and operational technology (OT) teams",
     ],
   },
   locationContext: {
-    heading: "Your operation, mapped",
-    body: "Organise views around the places the team recognises. Select the location to establish the context for scene observations and Copilot questions. This example uses the shared hierarchy; map the actual site rather than inventing rooms or camera coverage.",
     hierarchyExample: [
       { label: "Site", example: "Terminal" },
       { label: "Building", example: "Operations Building" },
@@ -65,15 +57,13 @@ export const oilGasIndustryPage: IndustryPageRecord = {
       "Cameras are mapped to the selected tanker bay or controlled zone so questions about Tanker Bay 2 start from recognisable operational context.",
   },
   copilot: {
-    heading: "Ask Vision Copilot",
-    body: industrySharedCopy.copilotIntro,
     prompts: [
+      "Summarise the terminal issues that need human review today.",
       "Show observations around Tanker Bay 2 during the evening loading window.",
       "Which controlled areas had recurring entry observations this week?",
-      "Summarise the terminal issues that need human review today.",
     ],
     exampleAnswer:
-      "Illustrative example — not a live product result. Entry observations recur near a tanker working area during overlapping service activity. Suggested next step: review scheduling and access arrangements with terminal operations; verify permits separately before deciding on an intervention.",
+      "Entry observations recur near a tanker working area during overlapping service activity. Suggested next step: review scheduling and access arrangements with terminal operations; verify permits separately before deciding on an intervention.",
     exampleStatus: "illustrative",
   },
   sceneIntelligence: {
@@ -82,8 +72,6 @@ export const oilGasIndustryPage: IndustryPageRecord = {
     recommendation:
       "Review scheduling and access arrangements with terminal operations; verify permits separately before deciding on an intervention.",
     decisionOwner: "Terminal operations / HSE",
-    followUpPrompt:
-      "Revisit the same area and comparable period to assess observations, coverage and score movement.",
   },
   scorecards: {
     heading: "See what needs attention—and what changes after action.",
@@ -126,60 +114,53 @@ export const oilGasIndustryPage: IndustryPageRecord = {
   useCases: [
     {
       id: "location-into-decision",
-      title: "Bring the right location into the decision",
-      body: "Connect tanker-area activity and controlled operational access to the building tree and its mapped cameras. The team can start with a named operational area instead of trying to remember which camera covers it, making observations easier to interpret and discuss.",
+      title: "Map Tanker Bay 2 and each controlled zone",
+      body: "Tanker bays, controlled-access points and perimeter zones are mapped with their cameras, so HSE asks about Tanker Bay 2 and gets the right views.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["building-hierarchy", "vision-copilot"],
     },
     {
       id: "search-observations",
-      title: "Search visual observations in everyday language",
-      body: 'Ask Vision Copilot, “Show observations around Tanker Bay 2 during the evening loading window.” Use the location and review period to focus the search on relevant available observations. The purpose is to reach useful context without manually working through unrelated camera views.',
+      title: "Pull the evening loading window",
+      body: "Ask Vision Copilot, “Show observations around Tanker Bay 2 during the evening loading window,” and review that bay for the selected window.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["vision-copilot", "scene-analysis"],
     },
     {
       id: "recurring-conditions",
-      title: "Identify recurring conditions across scenes",
-      body: 'Ask, “Which controlled areas had recurring entry observations this week?” Ongoing scene analysis supports review of patterns across the available observations. Use the recurring condition to frame the next investigation rather than treating one isolated alert as the whole operational picture.',
+      title: "See which controlled areas draw repeat entries",
+      body: "Ask, “Which controlled areas had recurring entry observations this week?” A week of observations shows whether entries cluster around overlapping service activity at one tanker area.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["scene-analysis", "vision-copilot"],
     },
     {
       id: "improvement-decision",
-      title: "Turn analysis into an improvement decision",
-      body: 'Ask, “Summarise the terminal issues that need human review today.” Review the recommendation alongside the underlying observations and the team\'s operating knowledge. The example below shows a practical next step; it is a suggested action for human consideration, not an automatic instruction to change equipment or procedures.',
+      title: "Prepare today's human-review list",
+      body: "Ask, “Summarise the terminal issues that need human review today.” Vision Copilot suggests a step, such as reviewing scheduling and access arrangements with terminal operations, while permits are verified through their own process.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["recommendations"],
     },
     {
       id: "score-led-review",
-      title: "Use scores to structure the next review",
-      body: "Use 0–100 scores to organise attention across selected terminal zones and periods; never a process-safety or explosion-risk certification. Review the contributing observations and coverage before acting. The proposed dimensions for this industry are Visible Site Practices, Tanker-Area Orderliness and Controlled-Zone Practices; use the approved product methodology when demonstrating actual values.",
+      title: "Rank terminal zones for the next review",
+      body: "Scores out of 100 compare selected terminal zones and periods, helping HSE and security decide where to look first.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["operational-scores"],
     },
   ],
-  workflow: {
-    heading: "From scenes to decisions",
-    scenario:
-      "Illustrative decision story — not a customer result. Observe: Entry observations recur near a tanker working area during overlapping service activity. Ask: “Summarise the terminal issues that need human review today.” Suggested recommendation: Review scheduling and access arrangements with terminal operations; verify permits separately before deciding on an intervention. Decide: The responsible team reviews the evidence and agrees an action. Follow up: Revisit the same area and comparable period to assess observations, coverage and score movement. A subsequent change is not proof of causation.",
-    steps: industrySharedCopy.workflowLabels.map((label) => ({ label })),
-  },
   deployment: {
-    heading: industrySharedCopy.deploymentHeading,
-    body: `${industrySharedCopy.deploymentIntroduction} Review hazardous-area classification before selecting cameras, enclosures or edge devices. Confirm network separation with OT/IT and document the limits of any integration. Test glare, night lighting, steam and weather before agreeing alert performance.`,
+    body:
+      "Review hazardous-area classification before selecting cameras, enclosures or edge devices. Confirm network separation with OT/IT and document the scope of any integration. Test glare, night lighting, steam and weather before agreeing alert performance.",
     requiredInputs: [
       "Mapped hierarchy for pilot tanker bays and controlled operational zones",
       "Agreed response owners for perimeter, access and verification events",
-      "Hazardous-area classification and hardware-approval check for proposed installs",
       "Representative testing across glare, night lighting, steam and weather",
-      "Hazardous-area classification confirmed for every proposed camera position and cable route before installation",
+      "Hazardous-area classification and hardware approvals confirmed for every proposed camera position and cable route before installation",
     ],
   },
   standards: {
     publicCopy:
-      "Equipment installed in hazardous areas may require PESO approval within its jurisdiction. IECEx certification and EU ATEX requirements have distinct scopes and do not automatically replace Indian approvals. Verify the exact model and installation conditions.",
+      "Petroleum and Explosives Safety Organisation (PESO) approval applies to equipment installed in hazardous areas within its jurisdiction, while IECEx and ATEX have their own scopes. Each proposed camera model and installation is checked against the approvals its zone requires.",
     frameworkIds: ["C5"],
     reviewedAt: "2026-09-13",
   },
@@ -206,39 +187,56 @@ export const oilGasIndustryPage: IndustryPageRecord = {
   solutions: [
     {
       solutionSlug: "ai-analytics",
-      body: `${industrySharedCopy.solutionBasis["ai-analytics"]} For oil and gas facilities, focus on location-aware search, recommendations and score-led review of perimeter and zone observations.`,
+      body: "Tanker-bay, controlled-zone and perimeter alerts, with Vision Copilot search by bay and loading window.",
     },
     {
       solutionSlug: "vms",
-      body: `${industrySharedCopy.solutionBasis.vms} Use it for incident context across agreed cameras.`,
+      body: "Incident context across the agreed terminal cameras, live or recorded, for operator verification.",
     },
     {
       solutionSlug: "health-monitoring",
-      body: `${industrySharedCopy.solutionBasis["health-monitoring"]} Prioritise surveillance availability so critical terminal views remain usable for verification.`,
+      body: "Keeps critical terminal views usable for verification by flagging camera and recording issues.",
     },
   ],
   faqs: [
     {
-      question: "Can AI Vision detect a gas leak?",
+      question: "How is AI CCTV used at petroleum terminals?",
       answer:
-        "Ordinary RGB video cannot establish gas concentration or reliably identify all leaks. Gas detection requires suitable instrumentation or separately validated specialist imaging.",
+        "Typical uses are controlled-zone entry, visible PPE exceptions, tanker approach lanes and after-hours perimeter events. An operator verifies each alert from the clip before escalating it to HSE or security. Cameras in classified hazardous areas need hardware approved for that zone, which is checked before installation.",
+    },
+    {
+      question: "How do operators verify an alert before escalating?",
+      answer:
+        "Each alert opens with the camera, mapped location and clip, so the operator sees the scene around the event before deciding to escalate. Where a permit-to-work or access-control system is in use, review timestamps are aligned with its records, keeping the permit process as the authority.",
+    },
+    {
+      question: "Can AI video analytics detect a gas leak?",
+      answer:
+        "Not with ordinary cameras. Gas leaks are detected by suitable gas instrumentation or separately validated specialist imaging, and ordinary CCTV video cannot measure gas concentration. What video adds is visual context for the operator reviewing the area, such as activity around a tanker bay when an instrument alarm is raised.",
     },
     {
       question: "Is OrionAlerts automatically ATEX or PESO approved?",
       answer:
-        "No blanket approval can be inferred from software use. Approval must be checked for the actual equipment and installation scope.",
+        "No. Hazardous-area approvals such as PESO, IECEx and ATEX apply to specific equipment and installations, so no blanket approval follows from using the software. Any camera or enclosure in a classified hazardous area must carry the approval its zone requires, and the classification is checked before hardware is chosen for each position.",
     },
     {
       question: "Can video analytics replace fire alarms?",
       answer:
-        "No. Any supported visual fire/smoke alert is supplementary and must not be represented as a replacement for the required fire and safety systems.",
+        "No. Any supported visual fire or smoke alert is a supplement to your required fire detection and safety systems, giving the operator a view of the area around an alarm. Whether a fire and smoke detector suits a particular view is assessed in the pilot, and the site's certified fire protection remains the primary system.",
     },
-    ...industrySharedFaqs,
   ],
-  relatedIndustrySlugs: ["metals-mining", "utilities", "polymers-plastics"],
+  limits:
+    "Ordinary video shows the visible scene. Gas concentration, process pressure, safe isolation and fire protection stay with instruments, permits and certified safety systems, and hazardous-area cameras need zone-appropriate approvals.",
+  furtherReading: {
+    blogs: ["alert-fatigue-is-an-ops-problem", "why-traditional-cctv-monitoring-is-no-longer-enough"],
+    glossary: ["video-analytics", "camera-health-monitoring"],
+    useCases: ["perimeter-intrusion-detection", "restricted-zone-monitoring", "fire-smoke-detection"],
+  },
+  relatedIndustrySlugs: ["metals-mining", "polymers-plastics", "utilities", "cement"],
   finalCta: {
-    heading: "Ask Vision Copilot about your oil and gas facilities.",
-    body: "See how Vision Copilot connects a mapped area with visual search, recommendations and scores for oil and gas facilities.",
+    heading: "Ask Vision Copilot about your terminal or plant.",
+    body:
+      "Start with one tanker bay and one controlled-access point, with hardware matched to the zone classification.",
   },
   sources: [
     "README v2 §9.5",

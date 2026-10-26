@@ -1,7 +1,7 @@
 "use client";
 
 import { Quote, Star } from "lucide-react";
-import { useReducedMotion } from "framer-motion";
+import { useSafeReducedMotion } from "@/lib/use-safe-reduced-motion";
 import { Reveal } from "@/components/Reveal";
 import { testimonials, type Testimonial } from "@/lib/homepage";
 
@@ -48,7 +48,7 @@ export function TestimonialsSection({
   className?: string;
   compact?: boolean;
 }) {
-  const reduce = useReducedMotion();
+  const reduce = useSafeReducedMotion();
   const items = testimonials.filter((item) => !item.placeholder);
 
   if (items.length === 0) return null;

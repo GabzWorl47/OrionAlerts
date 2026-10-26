@@ -3,14 +3,15 @@ import { notFound } from "next/navigation";
 import { CtaBand, Section } from "@/components/ui";
 import { PageShell } from "@/components/PageShell";
 import { BlogArticle } from "@/components/BlogArticle";
-import { getBlog, getPublishedBlogPosts, getRelatedPosts } from "@/lib/blog-store";
+import { countBlogWords, getRelatedPosts } from "@/lib/blogs";
+import { getBlogPostForDisplay, getBlogPostsForDisplay } from "../_lib/posts";
 import { articleJsonLd, breadcrumbJsonLd, JsonLdScript } from "@/lib/jsonld";
-import { buildPageMetadata, clipTitle } from "@/lib/seo";
+import { buildPageMetadata } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
 export async function generateStaticParams() {
-  const posts = await getPublishedBlogPosts();
+  const posts = await getBlogPostsForDisplay();
   return posts.map((post) => ({ slug: post.slug }));
 }
 
@@ -20,17 +21,19 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const post = await getBlog(slug);
+  const post = await getBlogPostForDisplay(slug);
   if (!post) return {};
   return buildPageMetadata({
-    title: clipTitle(post.title),
+    // buildPageMetadata owns clipping (suffix-aware); do not pre-clip here.
+    // seoTitle is the short search title for posts whose H1 runs past 60 chars.
+    title: post.seoTitle || post.title,
     description: post.excerpt,
     pathname: `/blogs/${post.slug}`,
     image: post.image,
-    imageAlt: post.title,
+    imageAlt: post.imageAlt || post.title,
     type: "article",
     publishedTime: post.date,
-    modifiedTime: post.date,
+    modifiedTime: post.updatedAt || post.date,
     authors: [post.author],
   });
 }
@@ -41,10 +44,11 @@ export default async function BlogDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const post = await getBlog(slug);
+  const posts = await getBlogPostsForDisplay();
+  const post = posts.find((item) => item.slug === slug);
   if (!post) notFound();
 
-  const related = await getRelatedPosts(slug, 2);
+  const related = getRelatedPosts(posts, slug, 2);
 
   return (
     <PageShell>
@@ -56,9 +60,12 @@ export default async function BlogDetailPage({
             slug: post.slug,
             image: post.image,
             datePublished: post.date,
-            dateModified: post.date,
+            dateModified: post.updatedAt || post.date,
             authorName: post.author,
             authorRole: post.authorRole,
+            wordCount: countBlogWords(post.sections, post.takeaways),
+            section: post.category,
+            ...(post.tags?.length ? { about: post.tags } : {}),
           })}
         />
         <JsonLdScript
@@ -76,7 +83,7 @@ export default async function BlogDetailPage({
             primaryHref="/book-demo"
             primaryLabel="Book a Demo"
             secondaryHref="/blogs"
-            secondaryLabel="More articles"
+            secondaryLabel="More Articles"
           />
         </Section>
       </>

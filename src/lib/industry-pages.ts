@@ -4,6 +4,8 @@ export type IndustryUseCase = {
   title: string;
   description: string;
   video?: string;
+  /** Lightweight WebP first-frame poster shown until the video plays. */
+  poster?: string;
 };
 
 export type IndustryStep = {
@@ -34,31 +36,35 @@ type Extras = {
   solutionBlurbs: Record<string, string>;
 };
 
-/** Content sourced from Updated Industries.docx — “How Orion Alerts Helps” → useCases */
+/** Content sourced from Updated Industries.docx — “How OrionAlerts Helps” → useCases */
 const extrasBySlug: Record<string, Extras> = {
   manufacturing: {
     headline: `Smarter Manufacturing Through AI-Powered Operational Intelligence`,
-    summary: `Modern manufacturing demands high productivity, worker safety, and reliable operations. Orion Alerts transforms existing CCTV into an AI-powered platform that delivers real-time monitoring, proactive alerts, and actionable insights to reduce downtime, improve compliance, and optimize production.`,
+    summary: `Modern manufacturing demands high productivity, worker safety, and reliable operations. OrionAlerts transforms existing CCTV into an AI-powered platform that delivers real-time monitoring, proactive alerts, and actionable insights to reduce downtime, improve compliance, and optimize production.`,
     useCases: [
       {
         title: `AI Workplace Safety`,
         description: `Detects PPE violations, restricted area access, and unsafe activities in real time.`,
         video: "/Videos/industries/manufacturing/usecases/ppe-safety.mp4",
+        poster: "/Videos/industries/manufacturing/usecases/ppe-safety.webp",
       },
       {
         title: `Production Monitoring`,
         description: `Identifies bottlenecks, machine idle time, workflow deviations, and process anomalies.`,
         video: "/Videos/industries/manufacturing/usecases/production-process.mp4",
+        poster: "/Videos/industries/manufacturing/usecases/production-process.webp",
       },
       {
         title: `Infrastructure Health`,
         description: `Monitors cameras, NVRs, servers, storage, and network devices to ensure uninterrupted operations.`,
         video: "/Videos/industries/manufacturing/usecases/equipment-health.mp4",
+        poster: "/Videos/industries/manufacturing/usecases/equipment-health.webp",
       },
       {
         title: `Instant Alerts & Investigation`,
         description: `Instantly notifies teams of critical events and enables AI-powered search to find incidents within seconds.`,
         video: "/Videos/industries/manufacturing/usecases/smart-incident.mp4",
+        poster: "/Videos/industries/manufacturing/usecases/smart-incident.webp",
       },
     ],
     processTitle: `How It Works`,
@@ -93,7 +99,7 @@ const extrasBySlug: Record<string, Extras> = {
   },
   automotive: {
     headline: `Precision Manufacturing with AI-Powered Operational Visibility`,
-    summary: `Automotive manufacturing requires synchronized production, consistent quality, and uninterrupted operations. Orion Alerts converts existing CCTV into an AI-powered monitoring platform that enhances safety, streamlines production, and improves operational visibility across assembly plants.`,
+    summary: `Automotive manufacturing requires synchronized production, consistent quality, and uninterrupted operations. OrionAlerts converts existing CCTV into an AI-powered monitoring platform that enhances safety, streamlines production, and improves operational visibility across assembly plants.`,
     useCases: [
       {
         title: `Production Monitoring`,
@@ -144,7 +150,7 @@ const extrasBySlug: Record<string, Extras> = {
   },
   "metals-mining": {
     headline: `AI-Powered Visibility for Safer Mining Operations`,
-    summary: `Mining operations demand continuous monitoring of worker safety, heavy equipment, and material handling. Orion Alerts enhances operational visibility with AI-driven monitoring, real-time alerts, and centralized intelligence across mines and processing facilities.`,
+    summary: `Mining operations demand continuous monitoring of worker safety, heavy equipment, and material handling. OrionAlerts enhances operational visibility with AI-driven monitoring, real-time alerts, and centralized intelligence across mines and processing facilities.`,
     useCases: [
       {
         title: `AI Safety Monitoring`,
@@ -195,7 +201,7 @@ const extrasBySlug: Record<string, Extras> = {
   },
   cement: {
     headline: `AI-Powered Intelligence for Safer Plant Operations`,
-    summary: `Cement plants require continuous monitoring of production, material handling, and worker safety. Orion Alerts delivers AI-powered monitoring, real-time alerts, and centralized visibility to improve operational efficiency and minimize risks.`,
+    summary: `Cement plants require continuous monitoring of production, material handling, and worker safety. OrionAlerts delivers AI-powered monitoring, real-time alerts, and centralized visibility to improve operational efficiency and minimize risks.`,
     useCases: [
       {
         title: `AI Safety Monitoring`,
@@ -246,7 +252,7 @@ const extrasBySlug: Record<string, Extras> = {
   },
   "oil-gas": {
     headline: `AI-Powered Intelligence for High-Risk Industrial Operations`,
-    summary: `Oil, gas, and petrochemical facilities require continuous monitoring of hazardous areas, critical assets, and site security. Orion Alerts provides AI-powered monitoring, real-time alerts, and centralized visibility to enhance safety, security, and operational reliability.`,
+    summary: `Oil, gas, and petrochemical facilities require continuous monitoring of hazardous areas, critical assets, and site security. OrionAlerts provides AI-powered monitoring, real-time alerts, and centralized visibility to enhance safety, security, and operational reliability.`,
     useCases: [
       {
         title: `AI Safety Monitoring`,
@@ -297,7 +303,7 @@ const extrasBySlug: Record<string, Extras> = {
   },
   "education-campuses": {
     headline: `Smarter Campus Security with AI-Powered Video Intelligence`,
-    summary: `From classrooms and playgrounds to school buses and entry gates, Orion Alerts uses AI to monitor critical campus activities, detect potential risks, and provide real-time alerts that strengthen safety and operational efficiency.`,
+    summary: `From classrooms and playgrounds to school buses and entry gates, OrionAlerts uses AI to monitor critical campus activities, detect potential risks, and provide real-time alerts that strengthen safety and operational efficiency.`,
     useCases: [
       {
         title: `Campus Security`,
@@ -348,7 +354,7 @@ const extrasBySlug: Record<string, Extras> = {
   },
   pharma: {
     headline: `Protecting Product Quality with Intelligent Video Analytics`,
-    summary: `Maintaining compliance and product integrity requires continuous visibility across every stage of pharmaceutical manufacturing. Orion Alerts delivers AI-powered monitoring, proactive alerts, and centralized oversight to support safer, more efficient operations.`,
+    summary: `Maintaining compliance and product integrity requires continuous visibility across every stage of pharmaceutical manufacturing. OrionAlerts delivers AI-powered monitoring, proactive alerts, and centralized oversight to support safer, more efficient operations.`,
     useCases: [
       {
         title: `GMP & Cleanroom Compliance`,
@@ -399,7 +405,7 @@ const extrasBySlug: Record<string, Extras> = {
   },
   "food-fmcg": {
     headline: `Ensuring Food Safety Through Intelligent Video Monitoring`,
-    summary: `Food and FMCG manufacturers must maintain strict hygiene, product quality, and production consistency. Orion Alerts uses AI-powered video intelligence to strengthen compliance, improve operational visibility, and support uninterrupted manufacturing.`,
+    summary: `Food and FMCG manufacturers must maintain strict hygiene, product quality, and production consistency. OrionAlerts uses AI-powered video intelligence to strengthen compliance, improve operational visibility, and support uninterrupted manufacturing.`,
     useCases: [
       {
         title: `Hygiene & PPE Compliance`,
@@ -450,7 +456,7 @@ const extrasBySlug: Record<string, Extras> = {
   },
   "quick-commerce": {
     headline: `AI-Powered Visibility for Dark Stores & Micro-Fulfillment`,
-    summary: `Quick commerce depends on hyperlocal micro-fulfillment centers—commonly called dark stores—placed close to customers so orders can be picked, packed, and handed to riders in minutes. Orion Alerts transforms existing CCTV infrastructure into an AI-powered operational intelligence platform that continuously monitors fulfillment floors, staging areas, and multi-outlet networks, with instant alerts and insights that protect SLAs, safety, and inventory.`,
+    summary: `Quick commerce depends on hyperlocal micro-fulfillment centers—commonly called dark stores—placed close to customers so orders can be picked, packed, and handed to riders in minutes. OrionAlerts transforms existing CCTV infrastructure into an AI-powered operational intelligence platform that continuously monitors fulfillment floors, staging areas, and multi-outlet networks, with instant alerts and insights that protect SLAs, safety, and inventory.`,
     useCases: [
       {
         title: `Pick-Floor & SLA Monitoring`,
@@ -502,7 +508,7 @@ const extrasBySlug: Record<string, Extras> = {
   },
   logistics: {
     headline: `Intelligent Visibility for Faster & Secure Logistics Operations`,
-    summary: `Warehouses and distribution centers require continuous visibility to ensure safe operations, inventory security, and on-time deliveries. Orion Alerts uses AI-powered video intelligence to optimize warehouse workflows, strengthen security, and improve operational efficiency.`,
+    summary: `Warehouses and distribution centers require continuous visibility to ensure safe operations, inventory security, and on-time deliveries. OrionAlerts uses AI-powered video intelligence to optimize warehouse workflows, strengthen security, and improve operational efficiency.`,
     useCases: [
       {
         title: `Warehouse Safety`,
@@ -553,7 +559,7 @@ const extrasBySlug: Record<string, Extras> = {
   },
   "airports-ports-railways": {
     headline: `Intelligent Monitoring for Modern Infrastructure`,
-    summary: `Airports, commercial buildings, business parks, and public facilities require continuous visibility to manage security, visitor movement, and daily operations. Orion Alerts delivers AI-powered intelligence that helps improve safety, operational efficiency, and facility performance.`,
+    summary: `Airports, commercial buildings, business parks, and public facilities require continuous visibility to manage security, visitor movement, and daily operations. OrionAlerts delivers AI-powered intelligence that helps improve safety, operational efficiency, and facility performance.`,
     useCases: [
       {
         title: `Access & Perimeter Security`,
@@ -604,7 +610,7 @@ const extrasBySlug: Record<string, Extras> = {
   },
   utilities: {
     headline: `Securing Distributed Infrastructure with AI`,
-    summary: `Critical infrastructure demands continuous monitoring to protect assets, maintain compliance, and minimize operational disruptions. Orion Alerts provides AI-driven insights and automated monitoring to improve security and operational continuity across remote facilities.`,
+    summary: `Critical infrastructure demands continuous monitoring to protect assets, maintain compliance, and minimize operational disruptions. OrionAlerts provides AI-driven insights and automated monitoring to improve security and operational continuity across remote facilities.`,
     useCases: [
       {
         title: `Perimeter & Asset Security`,
@@ -655,7 +661,7 @@ const extrasBySlug: Record<string, Extras> = {
   },
   "pulp-paper": {
     headline: `AI-Powered Intelligence for Continuous Manufacturing`,
-    summary: `Pulp, paper, and packaging plants rely on uninterrupted production, safe operations, and efficient material handling. Orion Alerts delivers AI-powered monitoring to improve productivity, enhance worker safety, and strengthen operational control across manufacturing facilities.`,
+    summary: `Pulp, paper, and packaging plants rely on uninterrupted production, safe operations, and efficient material handling. OrionAlerts delivers AI-powered monitoring to improve productivity, enhance worker safety, and strengthen operational control across manufacturing facilities.`,
     useCases: [
       {
         title: `Production Monitoring`,
@@ -706,7 +712,7 @@ const extrasBySlug: Record<string, Extras> = {
   },
   textile: {
     headline: `Enhancing Productivity Through Intelligent Video Analytics`,
-    summary: `Textile and garment manufacturers rely on synchronized production and efficient material flow to meet customer demands. Orion Alerts provides AI-driven monitoring that helps identify operational bottlenecks, improve safety, and optimize factory performance.`,
+    summary: `Textile and garment manufacturers rely on synchronized production and efficient material flow to meet customer demands. OrionAlerts provides AI-driven monitoring that helps identify operational bottlenecks, improve safety, and optimize factory performance.`,
     useCases: [
       {
         title: `Production Monitoring`,
@@ -757,7 +763,7 @@ const extrasBySlug: Record<string, Extras> = {
   },
   "polymers-plastics": {
     headline: `AI-Powered Visibility for Polymer & Plastics Manufacturing`,
-    summary: `Polymer and plastics plants need continuous monitoring of production lines, worker safety, and material flow. Orion Alerts turns existing CCTV into an AI-powered platform for real-time alerts, centralized visibility, and faster operational decisions.`,
+    summary: `Polymer and plastics plants need continuous monitoring of production lines, worker safety, and material flow. OrionAlerts turns existing CCTV into an AI-powered platform for real-time alerts, centralized visibility, and faster operational decisions.`,
     useCases: [
       {
         title: `Production Monitoring`,

@@ -30,12 +30,17 @@ export type NebulaLayer = {
   items: readonly string[];
 };
 
+/** A deployment trait: plain text, or text that links to an internal page. */
+export type NebulaDeploymentTrait = string | { label: string; href: string };
+
 export type NebulaDeploymentModel = {
   id: string;
   name: string;
+  /** Optional page the model name links to. */
+  href?: string;
   bestFor: string;
   description: string;
-  traits: string[];
+  traits: NebulaDeploymentTrait[];
 };
 
 export type NebulaComparisonRow = {
@@ -104,15 +109,16 @@ export const capabilities = nebulaCapabilities;
 
 export const nebulaSectionCopy = {
   eyebrow: "PURPOSE-BUILT FOR VISION AI",
-  heading: "One OS to Run Your Entire AI Ecosystem.",
+  heading: "Nebula OS: one system for video, AI alerts, camera health and maintenance",
   /** H1 on /nebula-os. Category term first, demand term inside the same line. */
-  pageHeading: "Nebula OS — the Vision AI operating system for your camera estate",
+  pageHeading:
+    "Nebula OS: the operating system that runs your CCTV, VMS and AI video analytics as one",
   pageLede:
     "Nebula OS is the operating system underneath OrionAlerts. It boots on a single appliance or server and runs video management, AI video analytics, camera health monitoring, asset records, and AMC workflows as one connected system instead of five disconnected tools.",
   paragraph:
     "Nebula OS brings video management, AI intelligence, infrastructure health, asset visibility, maintenance, and system control together in one purpose-built operating system for Vision AI infrastructure.",
   supporting:
-    "One intelligent layer to connect, manage, monitor, and scale your complete AI infrastructure",
+    "Video management, AI video analytics, camera health monitoring, asset tracking and AMC run as modules of one operating system, so an alert, an outage and a service ticket all point to the same camera.",
   platformHeadline: "Built into the OS. Not bolted on later.",
   platformCopy:
     "Nebula OS combines device connectivity, camera SDKs, video processing, GPU acceleration, APIs, recording, AI runtimes, system health, and cloud connectivity into one managed environment.",
@@ -138,7 +144,24 @@ export const nebulaHeroPillars = [
     id: "brand-neutral",
     title: "Works with the cameras you own",
     description:
-      "A universal device layer speaks ONVIF, RTSP and OEM SDKs, so the estate stays brand-neutral.",
+      "A universal device layer speaks ONVIF, RTSP and OEM SDKs, so your camera choice stays brand-neutral.",
+  },
+] as const;
+
+/* ------------------------------------------------------------------ */
+/* Named products used on the page — one-sentence definitions          */
+/* ------------------------------------------------------------------ */
+
+export const nebulaTerms = [
+  {
+    term: "Orion Cloud",
+    definition:
+      "Orion Cloud is the central management layer that synchronizes health, alerts, configuration and operations from every Nebula OS node, giving multi-site organizations one command view without uploading raw video.",
+  },
+  {
+    term: "Vision Copilot",
+    definition:
+      "Vision Copilot is the OrionAlerts AI assistant that lets teams ask questions about camera events and evidence in plain language instead of building search filters by hand.",
   },
 ] as const;
 
@@ -157,7 +180,7 @@ export const nebulaDefinition = {
 
 export const nebulaProblem = {
   heading: "The problem with a bolted-together surveillance stack",
-  lede: "Fragmented tooling is the reason large camera estates quietly stop working. These are the failure patterns Nebula OS is designed to remove.",
+  lede: "Fragmented tooling is the reason large CCTV networks quietly stop working. These are the failure patterns Nebula OS is designed to remove.",
   items: [
     {
       id: "blind-spots",
@@ -169,7 +192,7 @@ export const nebulaProblem = {
       id: "integration-tax",
       title: "The integration tax",
       description:
-        "Every new capability means another server, another licence, another integration to maintain. Upgrade one component and the others need re-testing.",
+        "Every new capability means another server, another license, another integration to maintain. Upgrade one component and the others need re-testing.",
     },
     {
       id: "no-ownership",
@@ -231,7 +254,7 @@ export const nebulaModules: NebulaModule[] = [
       "Device, stream and recording status tracked continuously per camera",
       "Storage capacity and retention risk surfaced before footage is lost",
       "Server, service and connectivity checks with a built-in watchdog",
-      "Uptime and availability reporting for the whole estate",
+      "Uptime and availability reporting across every site",
     ],
     href: "/solutions/health-monitoring",
     linkLabel: "Explore health monitoring",
@@ -239,7 +262,7 @@ export const nebulaModules: NebulaModule[] = [
   {
     id: "assets",
     label: "Asset tracking",
-    heading: "Asset records that match the live estate",
+    heading: "Asset records that match what is actually installed",
     summary:
       "Every device the OS talks to is also an asset record — location, ownership, serial number, lifecycle stage and documents — so the inventory cannot drift away from reality the way a spreadsheet does.",
     points: [
@@ -296,7 +319,7 @@ export const nebulaStack: NebulaLayer[] = [
   {
     id: "device",
     name: "Device layer",
-    role: "A universal driver layer normalises the estate. ONVIF, RTSP and vendor SDKs are translated into one internal device model, which is what keeps the deployment brand-neutral.",
+    role: "A universal driver layer normalizes every connected device. ONVIF, RTSP and vendor SDKs are translated into one internal device model, which is what keeps the deployment brand-neutral.",
     items: ["Universal Drivers", "OEM SDKs", "ONVIF", "RTSP"],
   },
   {
@@ -315,7 +338,7 @@ export const nebulaStack: NebulaLayer[] = [
   {
     id: "cloud",
     name: "Cloud layer",
-    role: "Orion Cloud synchronises health, alerts, configuration and operations so multi-site estates are managed centrally without pushing raw video off site.",
+    role: "Orion Cloud synchronizes health, alerts, configuration and operations so multiple sites are managed centrally without pushing raw video off site.",
     items: [
       "Orion Cloud",
       "Command Center",
@@ -389,7 +412,7 @@ export const nebulaDeployment = {
       description:
         "Nebula OS runs on an on-premise appliance or server next to the cameras. Video and AI inference stay inside the site network; only health, alerts and configuration metadata sync outward.",
       traits: [
-        "Video never leaves the site",
+        { label: "Video never leaves the site", href: "/security" },
         "Works through constrained or intermittent WAN links",
         "Lowest bandwidth footprint",
       ],
@@ -397,7 +420,7 @@ export const nebulaDeployment = {
     {
       id: "hybrid",
       name: "Distributed nodes + Orion Cloud",
-      bestFor: "Multi-site estates and regional operations",
+      bestFor: "Multi-site organizations and regional operations",
       description:
         "Each site runs its own Nebula OS node for video, recording and inference, while Orion Cloud provides the central command view — estate-wide health, alerts, assets and AMC across every location.",
       traits: [
@@ -409,11 +432,12 @@ export const nebulaDeployment = {
     {
       id: "managed",
       name: "Partner-managed",
+      href: "/partners",
       bestFor: "System integrators and AMC providers",
       description:
         "Integrators deploy and operate Nebula OS nodes on behalf of their customers, using the health, asset and AMC modules to run service delivery across multiple client estates.",
       traits: [
-        "Estate visibility per client",
+        "Site visibility per client",
         "Service and SLA workflows built in",
         "Evidence for warranty and contract claims",
       ],
@@ -443,12 +467,12 @@ export const nebulaComparison = {
     },
     {
       dimension: "Camera health",
-      legacy: "Network ping at best; recording failures found during investigations",
+      legacy: "Often limited to network reachability; recording failures can go unnoticed until an investigation",
       nebula: "Device, stream, recording and storage health checked continuously by the OS",
     },
     {
       dimension: "Asset & warranty records",
-      legacy: "Spreadsheets and email threads that drift away from the live estate",
+      legacy: "Spreadsheets and email threads that drift away from what is installed",
       nebula: "Every connected device is an asset record with ownership, warranty and history",
     },
     {
@@ -463,7 +487,7 @@ export const nebulaComparison = {
     },
     {
       dimension: "Camera choice",
-      legacy: "Constrained by whichever ecosystem the VMS favours",
+      legacy: "Depends on what each separate product supports and how well they integrate",
       nebula: "Brand-neutral through a universal device layer (ONVIF, RTSP, OEM SDKs)",
     },
   ] satisfies NebulaComparisonRow[],
@@ -493,10 +517,22 @@ export const nebulaAudiences = [
       "Run one managed platform with one update path instead of maintaining integrations between four vendors' products.",
   },
   {
+    id: "banking",
+    title: "Banks & financial institutions",
+    description:
+      "Run surveillance across every branch with alerts, camera health and maintenance for each location in one view.",
+  },
+  {
+    id: "retail",
+    title: "Retail & QSR chains",
+    description:
+      "Keep cameras recording in every store and outlet, and see alerts, camera health and service history for each location from one console.",
+  },
+  {
     id: "partners",
     title: "System integrators & AMC partners",
     description:
-      "Deliver and service multi-client estates with health evidence, asset records and SLA tracking built into the platform you deploy.",
+      "Deliver and service sites for multiple clients with health evidence, asset records and SLA tracking built into the platform you deploy.",
   },
 ];
 
@@ -518,12 +554,12 @@ export const nebulaFaqs: NebulaFaq[] = [
   {
     question: "Do I need to replace my existing cameras?",
     answer:
-      "No. A universal device layer connects supported IP cameras and recorders through ONVIF, RTSP and vendor SDKs, so existing camera investments can be brought onto the platform rather than replaced.",
+      "No. A universal device layer connects supported IP cameras and recorders through ONVIF, RTSP and vendor SDKs, so existing camera investments can be brought onto the platform rather than replaced. Cameras and recorders from different makers appear in the same console, and support for specific models is confirmed for your sites during solution design.",
   },
   {
     question: "Does video have to leave my site?",
     answer:
-      "No. In the standard deployment, video and AI inference stay on the on-site Nebula OS node. Orion Cloud synchronises health status, alerts, configuration and operational metadata for central management, without requiring raw video to be uploaded.",
+      "No. In the standard deployment, video and AI inference stay on the on-site Nebula OS node inside your network. Orion Cloud synchronizes health status, alerts, configuration and operational metadata for central management, without requiring raw video to be uploaded, which also keeps the bandwidth footprint low.",
   },
   {
     question: "Does Nebula OS need a GPU?",
@@ -533,17 +569,17 @@ export const nebulaFaqs: NebulaFaq[] = [
   {
     question: "Can Nebula OS manage multiple sites?",
     answer:
-      "Yes. Each site can run its own node for video, recording and inference, while Orion Cloud provides a single command view of health, alerts, assets and maintenance across the entire estate.",
+      "Yes. Each site can run its own Nebula OS node for video, recording and inference, while Orion Cloud provides a single command view of health, alerts, assets and maintenance across every site. Each site keeps working on its own, and configuration and managed updates can be handled remotely from the central view.",
   },
   {
     question: "How are updates handled?",
     answer:
-      "The OS and its services are updated together through a managed, rollback-ready deployment path, including secure over-the-air updates for connected nodes — so a platform upgrade is a single controlled change rather than a component-by-component migration.",
+      "The OS and its services are updated together through a managed, rollback-ready deployment path, including secure over-the-air updates for connected nodes. A platform upgrade is therefore a single controlled change rather than a component-by-component migration, and there are no integrations between separate products to re-test afterward.",
   },
   {
     question: "Who is Nebula OS built for?",
     answer:
-      "Organisations running camera estates where surveillance is operationally critical — manufacturing, logistics and warehousing, energy and utilities, campuses, healthcare, retail and public infrastructure — along with the system integrators and AMC partners who deploy and service those estates.",
+      "Organizations where surveillance is operationally critical — manufacturing, logistics and warehousing, banking, retail and QSR chains, energy and utilities, campuses, healthcare and public infrastructure — along with the system integrators and AMC partners who deploy and service those CCTV networks.",
   },
 ];
 
@@ -553,7 +589,7 @@ export const nebulaFaqs: NebulaFaq[] = [
  */
 export const nebulaVideo = {
   src: "" as string,
-  poster: "/visuals/solutions/ai-vision.png",
+  poster: "/visuals/solutions/ai-vision.webp",
   /** Set true and restore src when the file is present in public/. */
   available: false,
 };

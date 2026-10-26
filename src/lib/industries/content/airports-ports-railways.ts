@@ -1,8 +1,6 @@
 import {
   INDUSTRY_SCHEMA_VERSION,
-  industrySharedCopy,
   industrySharedCtas,
-  industrySharedFaqs,
 } from "@/lib/industries/shared";
 import type { IndustryPageRecord } from "@/lib/industries/types";
 
@@ -10,30 +8,25 @@ export const airportsPortsRailwaysIndustryPage: IndustryPageRecord = {
   slug: "airports-ports-railways",
   name: "Airports, Ports & Railways",
   cardLabel: "Airports & Ports",
-  cardSummary:
-    "Use Vision Copilot to connect mapped camera observations with decisions about transport-specific access and passenger-area review.",
+  siteNoun: { one: "transport hub", many: "airports, ports and railways" },
   schemaVersion: INDUSTRY_SCHEMA_VERSION,
   contentVersion: 2,
   status: "reviewed",
   seo: {
-    title: "Transport Hub Video Analytics | OrionAlerts",
+    title: "AI Video Analytics for Airports, Ports & Rail",
     description:
-      "Explore transport hubs with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
+      "AI video analytics for airports, ports and rail: perimeter event review, concourse congestion and fast incident retrieval for transport control rooms.",
     canonicalPath: "/industries/airports-ports-railways",
-    ogTitle: "Transport Hub Video Analytics | OrionAlerts",
-    ogDescription:
-      "Explore transport hubs with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
     image: "/Images/industries/airports-ports.webp",
   },
   hero: {
     eyebrow: "Airports, Ports & Railways",
-    h1: "Vision Copilot for Transport Hubs",
-    lede: "Map cameras to the places your team manages and ask Vision Copilot about transport-specific access and passenger-area review. OrionAlerts analyses scenes over time to surface alerts, recommendations and operational scores that help you decide what to review today and what to improve next.",
+    h1: "AI Video Analytics for Airports, Ports & Rail",
+    lede: "Review perimeter and access-zone events, spot recurring concourse congestion and retrieve incident footage fast for transport control rooms. Each deployment follows its own operator's security plan, whether at an airport, a port or a railway station.",
     media: {
       kind: "image",
       src: "/Images/industries/airports-ports.webp",
-      alt: "Illustrative transport hub photograph used for airport, port and railway industry context",
-      demonstrationLabel: "Illustrative photograph — not a verified customer deployment",
+      alt: "Illustration of an airport, container port and cruise terminal beside a city waterfront",
     },
     primaryCta: industrySharedCtas.primary,
     secondaryCta: industrySharedCtas.secondaryHero,
@@ -41,7 +34,11 @@ export const airportsPortsRailwaysIndustryPage: IndustryPageRecord = {
   context: {
     heading: "One video platform, distinct transport responsibilities.",
     paragraphs: [
-      "Airports need to separate public and controlled operational areas. Ports combine waterside access, cargo activity and vehicle movement. Railway stations face changing passenger flows and restricted operational spaces. These environments share a need for scene verification, but their security plans, authorisations and response procedures differ. Configure each deployment around its operator's actual duties.",
+      "Airports, ports and railway stations share the need for scene verification, but each mode has its own layout, risks and security plan.",
+      "Airports: terminals separate public areas from controlled operational areas, so reviews focus on access-zone events at terminal entrances and congestion in passenger concourses.",
+      "Ports: port facilities combine waterside access, cargo activity and vehicle movement, so reviews focus on perimeter and gate events and entry into cargo or operational controlled zones.",
+      "Railways: stations manage changing passenger flows and restricted operational spaces, so reviews focus on crowding at entries and concourses and entry into restricted areas.",
+      "Each operator sets its own authorisations and response procedures, and verification is configured around them.",
     ],
     buyers: [
       "Transport security",
@@ -51,28 +48,24 @@ export const airportsPortsRailwaysIndustryPage: IndustryPageRecord = {
     ],
   },
   locationContext: {
-    heading: "Your operation, mapped",
-    body: "Organise views around the places the team recognises. Select the location to establish the context for scene observations and Copilot questions. This example uses the shared hierarchy; map the actual site rather than inventing rooms or camera coverage.",
     hierarchyExample: [
-      { label: "Site", example: "Facility Site" },
-      { label: "Building", example: "Terminal Building" },
+      { label: "Site", example: "Airport, Port or Station" },
+      { label: "Building", example: "Terminal or Station Building" },
       { label: "Floor", example: "Concourse Level" },
       { label: "Zone", example: "Access Zone" },
       { label: "Room", example: "Entry Area" },
     ],
     cameraMappingCopy:
-      "Cameras are mapped to the selected terminal entrance or access zone so questions about the selected terminal entrance start from recognisable operational context.",
+      "Cameras are mapped to the places each operator already uses: terminal entrances and access zones at an airport, gates and cargo areas at a port, and entries and concourses at a railway station. Each sits under its own site hierarchy, so a question about one entrance starts from recognisable operational context.",
   },
   copilot: {
-    heading: "Ask Vision Copilot",
-    body: industrySharedCopy.copilotIntro,
     prompts: [
+      "Summarise the observations for the terminal operations briefing.",
       "Show observations from the selected terminal entrance this morning.",
       "Which covered concourse areas show recurring congestion?",
-      "Summarise the observations for the terminal operations briefing.",
     ],
     exampleAnswer:
-      "Illustrative example — not a live product result. Congestion observations recur at one passenger interface during a particular arrival window. Suggested next step: review staffing and passenger guidance with the facility operator under its approved plan.",
+      "Congestion observations recur at one passenger interface during a particular arrival window. Suggested next step: review staffing and passenger guidance with the facility operator under its approved plan.",
     exampleStatus: "illustrative",
   },
   sceneIntelligence: {
@@ -81,8 +74,6 @@ export const airportsPortsRailwaysIndustryPage: IndustryPageRecord = {
     recommendation:
       "Review staffing and passenger guidance with the facility operator under its approved plan.",
     decisionOwner: "Terminal operations / transport security",
-    followUpPrompt:
-      "Revisit the same area and comparable period to assess observations, coverage and score movement.",
   },
   scorecards: {
     heading: "See what needs attention—and what changes after action.",
@@ -125,49 +116,42 @@ export const airportsPortsRailwaysIndustryPage: IndustryPageRecord = {
   useCases: [
     {
       id: "location-into-decision",
-      title: "Bring the right location into the decision",
-      body: "Connect transport-specific access and passenger-area review to the building tree and its mapped cameras. The team can start with a named operational area instead of trying to remember which camera covers it, making observations easier to interpret and discuss.",
+      title: "Start from the entrance or access zone",
+      body: "Cameras map to airport terminals and access zones, port gates and cargo areas, or station entries and concourses, so a control-room question starts from a place in the operator's own plan.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["building-hierarchy", "vision-copilot"],
     },
     {
       id: "search-observations",
-      title: "Search visual observations in everyday language",
-      body: 'Ask Vision Copilot, “Show observations from the selected terminal entrance this morning.” Use the location and review period to focus the search on relevant available observations. The purpose is to reach useful context without manually working through unrelated camera views.',
+      title: "Search a terminal entrance by time",
+      body: "Ask Vision Copilot, “Show observations from the selected terminal entrance this morning,” and review that entrance's clips.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["vision-copilot", "scene-analysis"],
     },
     {
       id: "recurring-conditions",
-      title: "Identify recurring conditions across scenes",
-      body: 'Ask, “Which covered concourse areas show recurring congestion?” Ongoing scene analysis supports review of patterns across the available observations. Use the recurring condition to frame the next investigation rather than treating one isolated alert as the whole operational picture.',
+      title: "Find concourse congestion that keeps returning",
+      body: "Ask which covered concourse areas show recurring congestion, such as one passenger interface during a particular arrival window.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["scene-analysis", "vision-copilot"],
     },
     {
       id: "improvement-decision",
-      title: "Turn analysis into an improvement decision",
-      body: 'Ask, “Summarise the observations for the terminal operations briefing.” Review the recommendation alongside the underlying observations and the team\'s operating knowledge. The example below shows a practical next step; it is a suggested action for human consideration, not an automatic instruction to change equipment or procedures.',
+      title: "Brief terminal operations on what to change",
+      body: "Ask for a summary for the terminal operations briefing. A typical suggestion is to review staffing and passenger guidance with the facility operator under its approved plan.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["recommendations"],
     },
     {
       id: "score-led-review",
-      title: "Use scores to structure the next review",
-      body: "Use 0–100 scores to organise attention across comparable zones within the appropriate transport context; no common airport-port-rail safety rating. Review the contributing observations and coverage before acting. The proposed dimensions for this industry are Passenger-Area Flow, Service-Area Orderliness and Controlled-Zone Practices; use the approved product methodology when demonstrating actual values.",
+      title: "Score zones within each transport setting",
+      body: "0–100 scores compare like-for-like zones within one airport, port or station, using that operator's own definitions.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["operational-scores"],
     },
   ],
-  workflow: {
-    heading: "From scenes to decisions",
-    scenario:
-      "Illustrative decision story — not a customer result. Observe: Congestion observations recur at one passenger interface during a particular arrival window. Ask: “Summarise the observations for the terminal operations briefing.” Suggested recommendation: Review staffing and passenger guidance with the facility operator under its approved plan. Decide: The responsible team reviews the evidence and agrees an action. Follow up: Revisit the same area and comparable period to assess observations, coverage and score movement. A subsequent change is not proof of causation.",
-    steps: industrySharedCopy.workflowLabels.map((label) => ({ label })),
-  },
   deployment: {
-    heading: industrySharedCopy.deploymentHeading,
-    body: `${industrySharedCopy.deploymentIntroduction} Test long distances, weather, crowd occlusion and night scenes. Validate each transport setting separately. Agree control-room permissions and export handling, and avoid publishing sensitive maps or security-zone layouts.`,
+    body: "Test long distances, weather, crowd occlusion and night scenes, and validate each transport setting separately. Agree control-room permissions and export handling, and keep security-zone layouts out of public materials.",
     requiredInputs: [
       "Mapped hierarchy for pilot terminal, port or station zones",
       "Operator-specific security plan and response ownership",
@@ -177,7 +161,7 @@ export const airportsPortsRailwaysIndustryPage: IndustryPageRecord = {
   },
   standards: {
     publicCopy:
-      "ISPS provisions relate to covered ships and port facilities; they do not certify airport or railway analytics. Aviation and railway requirements need separate operator and regulator review.",
+      "Covered ships and port facilities follow the International Ship and Port Facility Security (ISPS) Code, while airports and railways work under their own operator and regulator requirements. Each operator's security plan defines how camera observations feed its reviews.",
     frameworkIds: ["C10"],
     reviewedAt: "2026-09-11",
   },
@@ -204,39 +188,54 @@ export const airportsPortsRailwaysIndustryPage: IndustryPageRecord = {
   solutions: [
     {
       solutionSlug: "ai-analytics",
-      body: `${industrySharedCopy.solutionBasis["ai-analytics"]} For transport hubs, focus on location-aware search, recommendations and score-led review of defined transport events.`,
+      body: "Location-aware search, recommendations and score-led review of defined access and congestion events.",
     },
     {
       solutionSlug: "vms",
-      body: `${industrySharedCopy.solutionBasis.vms} Use it for control-room review across agreed cameras.`,
+      body: "Control-room review of live and recorded video across the agreed cameras.",
     },
     {
       solutionSlug: "health-monitoring",
-      body: `${industrySharedCopy.solutionBasis["health-monitoring"]} Prioritise camera-estate continuity so control rooms retain usable footage.`,
+      body: "Keeps the camera estate recording, so control rooms retain usable footage.",
     },
   ],
   faqs: [
     {
-      question: "Does one certificate cover all three transport modes?",
+      question: "How is AI video analytics used at airports, ports and railway stations?",
       answer:
-        "No. Port, aviation and railway responsibilities must be assessed separately.",
+        "Control rooms use it to review access-zone and perimeter events, see where concourse congestion recurs during arrival windows, and retrieve incident footage quickly. Each deployment is configured around the operator's own security plan, with alerts going to terminal operations or transport security for verification before anyone escalates.",
+    },
+    {
+      question: "Can one platform serve different transport sites?",
+      answer:
+        "Yes. OrionAlerts can map an airport terminal, a port gate and a railway station under separate site hierarchies, each with its own zones, permissions and response owners. That keeps operator-specific security plans distinct while control rooms work from one consistent review process.",
+    },
+    {
+      question: "Is one assessment enough for airports, ports and railways?",
+      answer:
+        "No. Each mode is assessed separately. Covered ships and port facilities follow the ISPS Code, while airports and railways work under their own operators and regulators. A deployment is configured and validated for each setting, with its own zones, permissions and response owners, so one site's assessment never stands in for another's.",
     },
     {
       question: "Can analytics identify a dangerous abandoned object?",
       answer:
-        "A supported detector may flag an object under defined conditions. It cannot establish the object's contents or intent.",
+        "Not on its own: a supported detector can flag an unattended object under defined conditions, with the camera, location and clip, for an operator to verify. What the object contains and why it was left are assessed through the operator's own screening and response procedures, and detector support is confirmed for each view during the pilot.",
     },
     {
       question: "Can the system control train or aircraft movement?",
       answer:
-        "This scope is surveillance and human review, not operational safety control.",
+        "No. OrionAlerts supports surveillance and human review, sending alerts to the dashboard, mobile app and email for an operator to verify. Train, vessel and aircraft movement, signalling and other operational safety systems stay with their own control systems and the people who run them, and those controls sit outside the OrionAlerts scope.",
     },
-    ...industrySharedFaqs,
   ],
+  limits: "Each transport mode is configured and assessed on its own terms. OrionAlerts supports surveillance and human review: vehicle movement, screening of an object's contents and transport safety ratings stay with each operator's own systems and regulators.",
+  furtherReading: {
+    blogs: ["why-traditional-cctv-monitoring-is-no-longer-enough"],
+    glossary: ["vms", "video-analytics"],
+    useCases: ["perimeter-intrusion-detection", "crowd-detection", "abandoned-object-detection"],
+  },
   relatedIndustrySlugs: ["government", "logistics", "sports-events"],
   finalCta: {
-    heading: "Ask Vision Copilot about your transport hubs.",
-    body: "See how Vision Copilot connects a mapped area with visual search, recommendations and scores for transport hubs.",
+    heading: "Ask Vision Copilot about your transport hub.",
+    body: "Start with one terminal entrance and one concourse, and see how the control room would review them.",
   },
   sources: [
     "README v2 §9.13",

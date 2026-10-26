@@ -11,7 +11,7 @@ import {
   Share2,
 } from "lucide-react";
 import { Button } from "@/components/ui";
-import { formatRelativeTime, type BlogPost } from "@/lib/blogs";
+import { formatBlogDateShort, getBlogUpdatedDay, type BlogPost } from "@/lib/blogs";
 import { BlogArticleContent, BlogArticleToc } from "@/components/BlogArticleContent";
 
 function LinkedInIcon({ size = 15 }: { size?: number }) {
@@ -34,6 +34,7 @@ type BlogArticleProps = {
 };
 
 export function BlogArticle({ post, related }: BlogArticleProps) {
+  const updatedDay = getBlogUpdatedDay(post);
   const [progress, setProgress] = useState(0);
   const [copied, setCopied] = useState(false);
 
@@ -95,11 +96,17 @@ export function BlogArticle({ post, related }: BlogArticleProps) {
           <div className="mt-6 flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.12em]">
             <span className="rounded-full bg-blue/10 px-2.5 py-1 text-blue">{post.category}</span>
             <span className="text-caption">·</span>
-            <span className="text-caption">
-              {formatRelativeTime(post.publishedAt || post.date)}
-            </span>
-            <span className="text-caption">·</span>
-            <span className="text-caption">{post.dateLabel}</span>
+            <time className="text-caption" dateTime={post.date}>
+              {formatBlogDateShort(post.date)}
+            </time>
+            {updatedDay ? (
+              <>
+                <span className="text-caption">·</span>
+                <span className="text-caption">
+                  Updated <time dateTime={updatedDay}>{formatBlogDateShort(updatedDay)}</time>
+                </span>
+              </>
+            ) : null}
             <span className="text-caption">·</span>
             <span className="text-caption">{post.readTime}</span>
           </div>
@@ -153,7 +160,7 @@ export function BlogArticle({ post, related }: BlogArticleProps) {
           <div className="relative mt-10 aspect-[16/9] overflow-hidden rounded-[22px] border border-line">
             <Image
               src={post.image}
-              alt={post.title}
+              alt={post.imageAlt || post.title}
               fill
               priority
               sizes="(max-width: 1024px) 100vw, 76rem"
@@ -164,12 +171,15 @@ export function BlogArticle({ post, related }: BlogArticleProps) {
         </section>
 
         <section className="container mt-10">
-          <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_280px]">
+          <div className="grid grid-cols-[minmax(0,1fr)] gap-10 lg:grid-cols-[minmax(0,1fr)_280px]">
             <div>
+              <div className="mx-auto mb-8 max-w-3xl lg:hidden">
+                <BlogArticleToc sections={post.sections} />
+              </div>
               <BlogArticleContent takeaways={post.takeaways} sections={post.sections} />
 
               <div className="mx-auto mt-10 flex max-w-3xl flex-wrap gap-3 lg:mx-0">
-                <Button href="/book-demo">Request a Demo</Button>
+                <Button href="/book-demo">Book a Demo</Button>
                 <Button href="/blogs" variant="outline">
                   More articles
                 </Button>
@@ -177,7 +187,9 @@ export function BlogArticle({ post, related }: BlogArticleProps) {
             </div>
 
             <aside className="space-y-4 lg:sticky lg:top-[calc(var(--header-h)+1.5rem)] lg:self-start">
-              <BlogArticleToc sections={post.sections} />
+              <div className="hidden lg:block">
+                <BlogArticleToc sections={post.sections} />
+              </div>
               <div className="rounded-[20px] border border-line bg-[#0c2238] p-5 text-white">
                 <p className="text-xs font-semibold uppercase tracking-[0.14em] text-cyan">
                   Next step
@@ -219,7 +231,7 @@ export function BlogArticle({ post, related }: BlogArticleProps) {
                   <div className="relative aspect-[16/10]">
                     <Image
                       src={item.image}
-                      alt={item.title}
+                      alt={item.imageAlt || item.title}
                       fill
                       sizes="(max-width: 768px) 100vw, 40vw"
                       className="object-cover transition duration-500 group-hover:scale-105"
@@ -228,6 +240,10 @@ export function BlogArticle({ post, related }: BlogArticleProps) {
                   <div className="p-5">
                     <p className="text-xs font-semibold uppercase tracking-[0.12em] text-blue">
                       {item.category}
+                      <span className="font-medium normal-case tracking-normal text-caption">
+                        {" "}
+                        · {formatBlogDateShort(item.date)} · {item.readTime}
+                      </span>
                     </p>
                     <h3 className="display mt-2 text-xl normal-case text-text group-hover:text-blue">
                       {item.title}

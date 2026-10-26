@@ -39,7 +39,7 @@ export const frameworks: Record<string, FrameworkRecord> = {
     jurisdiction: "India (PESO); international (IECEx); EU (ATEX)",
     publicSummary:
       "PESO, IECEx and ATEX are distinct hazardous-area equipment and installation schemes with different jurisdictional scopes.",
-    sourceUrl: "https://peso.gov.in/",
+    sourceUrl: "https://peso.gov.in/web/",
     boundary:
       "Schemes are distinct; confirm Indian acceptance and approval rather than treating certificates as interchangeable. Verify the exact model and installation conditions.",
   },
@@ -69,6 +69,7 @@ export const frameworks: Record<string, FrameworkRecord> = {
     jurisdiction: "India (and US FDA Part 11 where applicable)",
     publicSummary:
       "Revised Schedule M sets GMP obligations for applicable manufacturers; Part 11 concerns electronic-record controls where that intended use applies.",
+    sourceUrl: "https://cdsco.gov.in/opencms/opencms/en/Notifications/Gazette-Notifications/",
     boundary:
       "These obligations belong to the regulated manufacturer or record owner. Camera monitoring does not create GMP certification or Part 11 compliance by itself.",
   },
@@ -78,6 +79,7 @@ export const frameworks: Record<string, FrameworkRecord> = {
     jurisdiction: "India (ISO 22000 international where chosen)",
     publicSummary:
       "FSSAI licensing and Schedule 4 expectations apply to applicable food businesses; ISO 22000 is a separate management-system route.",
+    sourceUrl: "https://www.fssai.gov.in/inspection/hygiene-requirements",
     boundary:
       "A general logistics page must not imply a universal food or logistics certificate. Apply food-storage obligations only where the operation handles food.",
   },
@@ -97,6 +99,7 @@ export const frameworks: Record<string, FrameworkRecord> = {
     jurisdiction: "India",
     publicSummary:
       "India's digital personal data protection framework governs purpose, access and retention for personal data, including video where applicable.",
+    sourceUrl: "https://www.meity.gov.in/documents/act-and-policies/digital-personal-data-protection-rules-2025-gDOxUjMtQWa?pageTitle=Digital-Personal-Data-Protection-Rules-2025",
     boundary:
       "Define monitoring purpose, authorised users and retention with legal/privacy owners before deployment.",
   },
@@ -106,6 +109,7 @@ export const frameworks: Record<string, FrameworkRecord> = {
     jurisdiction: "Covered international maritime operations",
     publicSummary:
       "ISPS is a ship and port facility security framework for covered operators and authorities under applicable maritime operations.",
+    sourceUrl: "https://www.imo.org/en/OurWork/Security/Pages/SOLAS-XI-2%20ISPS%20Code.aspx",
     boundary:
       "Scope includes applicable ships and port facilities, not every logistics site. Airport and railway requirements are separate and need operator-specific verification; no common transport AI certificate is established.",
   },
@@ -115,6 +119,7 @@ export const frameworks: Record<string, FrameworkRecord> = {
     jurisdiction: "International (ISO/IEC 27001); data-centre Tier assessment scope",
     publicSummary:
       "ISO/IEC 27001 concerns an organisation's information-security management system. Uptime Institute Tier certification addresses defined data-centre infrastructure and operational scopes.",
+    sourceUrl: "https://www.iso.org/standard/27001",
     boundary:
       "Neither is conferred by adding video analytics. Verify the exact entity, scope and certificate. Neither automatically extends to an integrated vendor or every product.",
   },
@@ -124,6 +129,7 @@ export const frameworks: Record<string, FrameworkRecord> = {
     jurisdiction: "India (affiliated schools)",
     publicSummary:
       "CBSE school-safety provisions set affiliation and safety requirements for relevant affiliated schools.",
+    sourceUrl: "https://www.cbse.gov.in/cbsenew/aff_bye_laws.html",
     boundary:
       "Review the applicable institution requirements and amendments. Do not generalise CBSE rules to universities or use them to justify unrestricted monitoring of children.",
   },
@@ -133,6 +139,7 @@ export const frameworks: Record<string, FrameworkRecord> = {
     jurisdiction: "India",
     publicSummary:
       "NABH accreditation evaluates the healthcare organisation under applicable programme standards.",
+    sourceUrl: "https://nabh.co/explore-nabh-standards/",
     boundary:
       "Programme, scope and applicable payer or contract requirements matter. Video may support selected reviews but does not confer accreditation, validate clinical performance, or make software NABH accredited.",
   },
@@ -142,6 +149,7 @@ export const frameworks: Record<string, FrameworkRecord> = {
     jurisdiction: "India",
     publicSummary:
       "CEA safety regulations provide electrical-safety context for covered installations and activities in India.",
+    sourceUrl: "https://cea.nic.in/regulations-subcategory/1c783add-c350-4ce3-aac6-feacfc576d5c?lang=en",
     boundary:
       "Review the installation and applicable current requirements with qualified specialists. Analytics does not replace electrical protection, permit systems or required inspections, and video does not establish electrical safety.",
   },
@@ -151,6 +159,7 @@ export const frameworks: Record<string, FrameworkRecord> = {
     jurisdiction: "International",
     publicSummary:
       "FSC chain-of-custody certification concerns documented handling and claims for eligible forest-based material.",
+    sourceUrl: "https://fsc.org/en/chain-of-custody",
     boundary:
       "It requires an appropriate documented material chain. It is not a generic plant-safety requirement, and video does not establish certified provenance or replace transaction records.",
   },
@@ -160,6 +169,7 @@ export const frameworks: Record<string, FrameworkRecord> = {
     jurisdiction: "International textiles",
     publicSummary:
       "GOTS and OEKO-TEX STANDARD 100 address specific textile certification and testing claims for eligible products and organisations.",
+    sourceUrl: "https://global-standards.org/our-standards/gots",
     boundary:
       "GOTS claims relate to its organic-textile programme; STANDARD 100 concerns harmful-substance testing. Neither is awarded through CCTV, and neither is a universal requirement for every textile factory.",
   },
@@ -169,6 +179,7 @@ export const frameworks: Record<string, FrameworkRecord> = {
     jurisdiction: "India",
     publicSummary:
       "Plastic-packaging EPR obligations apply to relevant regulated entities and activities under the current CPCB framework.",
+    sourceUrl: "https://eprplastic.cpcb.gov.in/",
     boundary:
       "Check registration, reporting and evidence rules for the exact role. Video does not establish recycling-credit or EPR compliance, and footage does not generate valid EPR credits or replace the required records.",
   },
@@ -178,6 +189,7 @@ export const frameworks: Record<string, FrameworkRecord> = {
     jurisdiction: "India",
     publicSummary:
       "RBI IT governance directions apply to specified regulated entities and controls under the official covered categories.",
+    sourceUrl: "https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=12562",
     boundary:
       "Confirm current applicability and amendments for the institution. These directions are not an RBI certification programme for CCTV vendors, and OrionAlerts must not be labelled RBI certified.",
   },
@@ -187,6 +199,7 @@ export const frameworks: Record<string, FrameworkRecord> = {
     jurisdiction: "India",
     publicSummary:
       "STQC's CCTV/IoT scheme provides product assessment routes and certified-product information for applicable procurement contexts.",
+    sourceUrl: "https://stqc.gov.in/en/iot-system-certification-scheme-iotscs",
     boundary:
       "Verify exact products, versions and applicable orders. Do not transfer a camera or component certificate to an entire AI platform or offering.",
   },
@@ -196,7 +209,8 @@ export const frameworks: Record<string, FrameworkRecord> = {
     jurisdiction: "India",
     publicSummary:
       "NDMA crowd-management guidance supports organised planning and coordinated response for events and public gatherings.",
-    sourceUrl: "https://www.pib.gov.in/newsite/printrelease.aspx?lang=2&reg=48&relid=151549",
+    // NDMA guide "Managing Crowd at Events and Venues of Mass Gathering" (2014).
+    sourceUrl: "https://ndma.gov.in/sites/default/files/PDF/Reports/managingcrowdsguide.pdf",
     boundary:
       "It is not a product certificate or a guarantee that an estimated crowd count defines a safe condition.",
   },

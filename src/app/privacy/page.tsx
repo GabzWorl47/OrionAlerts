@@ -18,6 +18,7 @@ export const metadata: Metadata = buildPageMetadata({
 export default function PrivacyPolicyPage() {
   return (
     <LegalDoc
+      path="/privacy"
       eyebrow="Legal"
       title="Privacy Policy"
       description="This policy explains how OrionAlerts processes personal data collected through this website, including demo and contact forms."
@@ -97,16 +98,16 @@ export default function PrivacyPolicyPage() {
               </p>
               <LegalList items={[...leadFormFields]} />
               <p>
-                The server also records the requester IP address for rate-limiting and may write the
-                full submission to application logs. This is personal data processing even when no
-                marketing cookie is set.
+                The server also records the requester IP address for rate-limiting and writes the
+                submission details to application logs (the full message text is not logged; only
+                its length). This is personal data processing even when no marketing cookie is set.
               </p>
               <p>
-                We do not currently operate advertising pixels, behavioral analytics, or
-                sessionStorage-based tracking in the public site source. Cookie preference choices
-                are stored in first-party localStorage (<code>oa_cookie_consent_v1</code>) with
-                version, timestamp, region (<code>unspecified</code> until geo detection exists), and
-                category flags only.
+                We do not use advertising pixels, behavioural analytics, or sessionStorage-based
+                tracking on this website. Cookie preference choices are stored in first-party
+                localStorage (<code>oa_cookie_consent_v1</code>) with version, timestamp, region
+                (<code>unspecified</code>, because we do not detect your location), and category
+                flags only.
               </p>
             </>
           ),
@@ -117,8 +118,8 @@ export default function PrivacyPolicyPage() {
           content: (
             <>
               <p>
-                The following register reflects technologies present in the current codebase and
-                planned production roles.
+                The following register lists the service providers that process data for this
+                website and their roles.
               </p>
               <div className="overflow-x-auto rounded-[16px] border border-line">
                 <table className="min-w-full text-left text-sm">
@@ -148,9 +149,8 @@ export default function PrivacyPolicyPage() {
                 </table>
               </div>
               <p>
-                International transfers (for example to Google for reCAPTCHA) should be assessed
-                under applicable transfer rules. Do not assert ERP/CRM storage until that
-                integration exists.
+                Some processors, such as Google for reCAPTCHA, may process personal data outside
+                India.
               </p>
             </>
           ),
@@ -169,9 +169,9 @@ export default function PrivacyPolicyPage() {
                 ]}
               />
               <p>
-                IP addresses used for rate-limiting should be minimized and not kept longer than
-                needed for security. Personal data should be redacted from general application logs
-                where feasible.
+                Rate-limiting counters keyed by IP address are held in server memory only; they are
+                not written to a database and are discarded after they expire or when the server restarts.
+                Lead entries in application logs omit the full message text.
               </p>
             </>
           ),

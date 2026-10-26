@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Check } from "lucide-react";
 
 import { Reveal } from "@/components/Reveal";
@@ -27,7 +28,16 @@ export function NebulaDeployment() {
               <p className="eyebrow mb-2.5">{model.bestFor}</p>
 
               <h3 className="text-lg font-semibold leading-snug tracking-[-0.02em] text-text sm:text-xl">
-                {model.name}
+                {model.href ? (
+                  <Link
+                    href={model.href}
+                    className="underline decoration-cyan/60 underline-offset-4 transition hover:text-blue"
+                  >
+                    {model.name}
+                  </Link>
+                ) : (
+                  model.name
+                )}
               </h3>
 
               <p className="mt-3 text-[0.9375rem] leading-relaxed text-muted-strong">
@@ -36,7 +46,10 @@ export function NebulaDeployment() {
 
               <ul className="mt-5 space-y-2.5 border-t border-blue/10 pt-5">
                 {model.traits.map((trait) => (
-                  <li key={trait} className="flex items-start gap-2.5">
+                  <li
+                    key={typeof trait === "string" ? trait : trait.label}
+                    className="flex items-start gap-2.5"
+                  >
                     <span
                       aria-hidden="true"
                       className="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-cyan/25 text-blue"
@@ -44,7 +57,16 @@ export function NebulaDeployment() {
                       <Check className="h-3 w-3" strokeWidth={3} />
                     </span>
                     <span className="min-w-0 text-sm leading-relaxed text-muted-strong">
-                      {trait}
+                      {typeof trait === "string" ? (
+                        trait
+                      ) : (
+                        <Link
+                          href={trait.href}
+                          className="font-medium text-blue underline decoration-cyan/60 underline-offset-4 hover:text-text"
+                        >
+                          {trait.label}
+                        </Link>
+                      )}
                     </span>
                   </li>
                 ))}

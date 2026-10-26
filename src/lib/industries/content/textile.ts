@@ -1,8 +1,6 @@
 import {
   INDUSTRY_SCHEMA_VERSION,
-  industrySharedCopy,
   industrySharedCtas,
-  industrySharedFaqs,
 } from "@/lib/industries/shared";
 import type { IndustryPageRecord } from "@/lib/industries/types";
 
@@ -10,31 +8,26 @@ export const textileIndustryPage: IndustryPageRecord = {
   slug: "textile",
   name: "Textiles & Garments",
   cardLabel: "Textiles",
-  cardSummary:
-    "Use Vision Copilot to connect mapped camera observations with decisions about material buffers and process-level improvement.",
+  siteNoun: { one: "textile or garment factory", many: "textile and garment factories" },
   schemaVersion: INDUSTRY_SCHEMA_VERSION,
   contentVersion: 2,
   status: "reviewed",
   seo: {
-    title: "Textile Factory Video Analytics | OrionAlerts",
+    title: "Textile & Garment Factory AI CCTV",
     description:
-      "Explore textile and garment factories with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
+      "Textile and garment factory AI CCTV: track material build-up at staging buffers and pathway events, measuring process conditions, not individual workers.",
     canonicalPath: "/industries/textile",
-    ogTitle: "Textile Factory Video Analytics | OrionAlerts",
-    ogDescription:
-      "Explore textile and garment factories with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
-    image:
-      "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?auto=format&fit=crop&w=1600&q=90",
+    image: "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?auto=format&fit=crop&w=1600&q=90",
   },
   hero: {
     eyebrow: "Textiles & Garments",
-    h1: "Vision Copilot for Textile and Garment Factories",
-    lede: "Map cameras to the places your team manages and ask Vision Copilot about material buffers and process-level improvement. OrionAlerts analyses scenes over time to surface alerts, recommendations and operational scores that help you decide what to review today and what to improve next.",
+    h1: "Textile & Garment Factory AI CCTV",
+    lede:
+      "Track material build-up at staging buffers and obstructions on shared routes, focusing on process conditions rather than individual workers. Ask Vision Copilot which buffers keep accumulating material.",
     media: {
       kind: "image",
       src: "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?auto=format&fit=crop&w=1600&q=90",
-      alt: "Illustrative textile and garment factory photograph used for industry context",
-      demonstrationLabel: "Illustrative photograph — not a verified customer deployment",
+      alt: "Row of coloured T-shirts on hangers on a clothing rail",
     },
     primaryCta: industrySharedCtas.primary,
     secondaryCta: industrySharedCtas.secondaryHero,
@@ -42,7 +35,7 @@ export const textileIndustryPage: IndustryPageRecord = {
   context: {
     heading: "Investigate the process behind a visible interruption.",
     paragraphs: [
-      "Textile and garment production depends on movement between preparation, production, finishing and dispatch. A pile-up can reflect downstream capacity, missing material or a planned changeover. Video can provide context, but it should not reduce a worker's contribution to time spent moving in view. Define observations around the process and involve production and safety teams in interpretation.",
+      "Textile and garment production depends on movement between preparation, production, finishing and dispatch. A pile-up can reflect downstream capacity, missing material or a planned changeover. OrionAlerts measures process conditions, not how long a worker is on camera. Define observations around the process and involve production and safety teams in interpretation.",
     ],
     buyers: [
       "Factory heads",
@@ -52,8 +45,6 @@ export const textileIndustryPage: IndustryPageRecord = {
     ],
   },
   locationContext: {
-    heading: "Your operation, mapped",
-    body: "Organise views around the places the team recognises. Select the location to establish the context for scene observations and Copilot questions. This example uses the shared hierarchy; map the actual site rather than inventing rooms or camera coverage.",
     hierarchyExample: [
       { label: "Site", example: "Factory Site" },
       { label: "Building", example: "Production Building" },
@@ -65,15 +56,13 @@ export const textileIndustryPage: IndustryPageRecord = {
       "Cameras are mapped to the selected finishing staging area or buffer so questions about the finishing staging area start from recognisable operational context.",
   },
   copilot: {
-    heading: "Ask Vision Copilot",
-    body: industrySharedCopy.copilotIntro,
     prompts: [
+      "What should the production team review without ranking individual workers?",
       "Show observations from the finishing staging area yesterday.",
       "Which covered buffers repeatedly accumulated material this week?",
-      "What should the production team review without ranking individual workers?",
     ],
     exampleAnswer:
-      "Illustrative example — not a live product result. Material staging repeatedly expands into the same shared route during finishing handoffs. Suggested next step: review buffer capacity and handoff timing with production; assess process changes rather than individual worker movement.",
+      "Material staging repeatedly expands into the same shared route during finishing handoffs. Suggested next step: review buffer capacity and handoff timing with production; assess process changes rather than individual worker movement.",
     exampleStatus: "illustrative",
   },
   sceneIntelligence: {
@@ -82,8 +71,6 @@ export const textileIndustryPage: IndustryPageRecord = {
     recommendation:
       "Review buffer capacity and handoff timing with production; assess process changes rather than individual worker movement.",
     decisionOwner: "Production manager / factory operations",
-    followUpPrompt:
-      "Revisit the same area and comparable period to assess observations, coverage and score movement.",
   },
   scorecards: {
     heading: "See what needs attention—and what changes after action.",
@@ -126,49 +113,43 @@ export const textileIndustryPage: IndustryPageRecord = {
   useCases: [
     {
       id: "location-into-decision",
-      title: "Bring the right location into the decision",
-      body: "Connect material buffers and process-level improvement to the building tree and its mapped cameras. The team can start with a named operational area instead of trying to remember which camera covers it, making observations easier to interpret and discuss.",
+      title: "Map finishing, buffers and shared routes",
+      body: "Finishing staging areas, material buffers and shared walkways are mapped with their cameras, so production asks about a named buffer or route.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["building-hierarchy", "vision-copilot"],
     },
     {
       id: "search-observations",
-      title: "Search visual observations in everyday language",
-      body: 'Ask Vision Copilot, “Show observations from the finishing staging area yesterday.” Use the location and review period to focus the search on relevant available observations. The purpose is to reach useful context without manually working through unrelated camera views.',
+      title: "Look back at yesterday's finishing staging",
+      body: "Ask Vision Copilot, “Show observations from the finishing staging area yesterday,” to see staging and route observations for that area and day.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["vision-copilot", "scene-analysis"],
     },
     {
       id: "recurring-conditions",
-      title: "Identify recurring conditions across scenes",
-      body: 'Ask, “Which covered buffers repeatedly accumulated material this week?” Ongoing scene analysis supports review of patterns across the available observations. Use the recurring condition to frame the next investigation rather than treating one isolated alert as the whole operational picture.',
+      title: "Find buffers that fill up every week",
+      body: "Ask, “Which covered buffers repeatedly accumulated material this week?” Repeat observations show where staging spills into a shared route during finishing handoffs.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["scene-analysis", "vision-copilot"],
     },
     {
       id: "improvement-decision",
-      title: "Turn analysis into an improvement decision",
-      body: 'Ask, “What should the production team review without ranking individual workers?” Review the recommendation alongside the underlying observations and the team\'s operating knowledge. The example below shows a practical next step; it is a suggested action for human consideration, not an automatic instruction to change equipment or procedures.',
+      title: "Adjust buffer capacity and handoff timing",
+      body: "Ask, “What should the production team review without ranking individual workers?” The suggested step targets the process, such as buffer capacity and handoff timing, for the production manager to assess.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["recommendations"],
     },
     {
       id: "score-led-review",
-      title: "Use scores to structure the next review",
-      body: "Use 0–100 scores to organise attention across process areas and comparable operating windows, never employee productivity or textile certification. Review the contributing observations and coverage before acting. The proposed dimensions for this industry are Material-Buffer Flow, Shared-Route Readiness and Controlled-Area Practices; use the approved product methodology when demonstrating actual values.",
+      title: "Score process areas, not people",
+      body: "Scores out of 100 compare process areas over comparable operating windows, giving production a process-level view of where flow breaks down.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["operational-scores"],
     },
   ],
-  workflow: {
-    heading: "From scenes to decisions",
-    scenario:
-      "Illustrative decision story — not a customer result. Observe: Material staging repeatedly expands into the same shared route during finishing handoffs. Ask: “What should the production team review without ranking individual workers?” Suggested recommendation: Review buffer capacity and handoff timing with production; assess process changes rather than individual worker movement. Decide: The responsible team reviews the evidence and agrees an action. Follow up: Revisit the same area and comparable period to assess observations, coverage and score movement. A subsequent change is not proof of causation.",
-    steps: industrySharedCopy.workflowLabels.map((label) => ({ label })),
-  },
   deployment: {
-    heading: industrySharedCopy.deploymentHeading,
-    body: `${industrySharedCopy.deploymentIntroduction} Test repetitive backgrounds, changing fabric colours and dense workstation layouts. Keep camera purposes process-based and document limits on staff monitoring.`,
+    body:
+      "Test repetitive backgrounds, changing fabric colours and dense workstation layouts. Keep camera purposes process-based and document which staff monitoring is in scope.",
     requiredInputs: [
       "Mapped hierarchy for pilot finishing, buffer and controlled process areas",
       "Process-based event definitions that exclude individual worker ranking",
@@ -178,7 +159,7 @@ export const textileIndustryPage: IndustryPageRecord = {
   },
   standards: {
     publicCopy:
-      "GOTS and OEKO-TEX STANDARD 100 address specific textile certification and testing claims. They are not awarded through CCTV and are not universal requirements for every textile factory.",
+      "The Global Organic Textile Standard (GOTS) and OEKO-TEX STANDARD 100 apply to specific organic-textile and harmful-substance claims for eligible products. Factory video supports process and safety reviews, while those certifications follow their own programmes.",
     frameworkIds: ["C16"],
     reviewedAt: "2026-09-11",
   },
@@ -205,39 +186,56 @@ export const textileIndustryPage: IndustryPageRecord = {
   solutions: [
     {
       solutionSlug: "ai-analytics",
-      body: `${industrySharedCopy.solutionBasis["ai-analytics"]} For textiles, focus on location-aware search, recommendations and score-led review of visible process and zone events.`,
+      body: "Staging-buffer and pathway alerts, with Vision Copilot search by finishing area and operating window.",
     },
     {
       solutionSlug: "vms",
-      body: `${industrySharedCopy.solutionBasis.vms} Use it for material-handoff review across agreed cameras.`,
+      body: "Material-handoff review across the agreed factory cameras, live or recorded.",
     },
     {
       solutionSlug: "health-monitoring",
-      body: `${industrySharedCopy.solutionBasis["health-monitoring"]} Prioritise camera coverage so process investigations retain usable footage.`,
+      body: "Flags camera and recording issues so process investigations keep usable footage.",
     },
   ],
   faqs: [
     {
+      question: "How can AI CCTV help a textile or garment factory?",
+      answer:
+        "It watches staging buffers and shared routes between preparation, production, finishing and dispatch. Supervisors see where material builds up, when staging spills into a walkway, and which buffers fill repeatedly, so they can adjust buffer capacity and handoff timing. Each alert carries the staging area, time and clip.",
+    },
+    {
+      question: "Can we find a fabric-roll or finished-goods handoff on camera?",
+      answer:
+        "Yes. Cameras are mapped to staging areas, so an authorised reviewer can start from a time window and area and locate the handoff clip. Known-handoff retrieval time is one of the pilot measures, compared with how long the same search takes today.",
+    },
+    {
       question: "Can this measure each worker's productivity?",
       answer:
-        "This blueprint does not propose individual worker scoring. Operational measures should focus on process conditions and validated production data.",
+        "No. OrionAlerts looks at where material piles up and why, rather than at individual workers. Operational measures focus on process conditions, such as buffer staging duration and blocked routes, with validated production data supplying output and efficiency figures for the production manager.",
     },
     {
       question: "Can cameras certify fabric quality?",
       answer:
-        "General surveillance cannot replace textile testing or dedicated defect inspection.",
+        "No. Fabric quality is confirmed through textile testing or dedicated defect inspection, which general surveillance cannot replace. Factory cameras add process context instead, such as where finished goods were staged and when a fabric-roll handoff happened, which helps a quality investigation trace movement between preparation, finishing and dispatch.",
     },
     {
       question: "Does GOTS apply to every factory?",
       answer:
-        "No. Applicability follows the products, claims and certification scope being pursued.",
+        "No. GOTS applies according to the products, organic-textile claims and certification scope a factory chooses to pursue, so it is not a universal requirement. Where a factory holds it, certification follows the GOTS programme; factory video supports process and safety reviews but does not award or maintain that certification.",
     },
-    ...industrySharedFaqs,
   ],
-  relatedIndustrySlugs: ["manufacturing", "pulp-paper", "logistics"],
+  limits:
+    "Observations describe process conditions such as buffers and routes. Worker productivity, fabric quality and textile certifications are measured with production data, testing and certification programmes.",
+  furtherReading: {
+    blogs: ["add-ai-to-existing-cctv-cameras", "what-is-a-vision-intelligence-platform"],
+    glossary: ["video-analytics"],
+    useCases: [],
+  },
+  relatedIndustrySlugs: ["manufacturing", "pulp-paper", "polymers-plastics"],
   finalCta: {
-    heading: "Ask Vision Copilot about your textile and garment factories.",
-    body: "See how Vision Copilot connects a mapped area with visual search, recommendations and scores for textile and garment factories.",
+    heading: "Ask Vision Copilot about your factory.",
+    body:
+      "Start with one finishing buffer and the shared route next to it.",
   },
   sources: [
     "README v2 §9.23",

@@ -13,9 +13,11 @@ import {
   Search,
   Sparkles,
 } from "lucide-react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import { useSafeReducedMotion } from "@/lib/use-safe-reduced-motion";
 import {
   faqCategories,
+  faqGroups,
   faqs,
   type FaqCategoryFilter,
   type FaqItem,
@@ -23,21 +25,19 @@ import {
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
-const categoryMeta: Record<
-  Exclude<FaqCategoryFilter, "All">,
-  { label: string; hint: string }
-> = {
-  General: { label: "General", hint: "Demos, contact, and getting started" },
-  Deployment: { label: "Deployment", hint: "Rollouts, sites, and expansion" },
-  Platform: { label: "Platform", hint: "Cameras, VMS, and integrations" },
-  Partners: { label: "Partners", hint: "Channel, enablement, certification" },
-};
+function slugify(value: string) {
+  return value
+    .toLowerCase()
+    .replace(/&/g, "and")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
 
 export function FaqsExperience() {
-  const reduce = useReducedMotion();
+  const reduce = useSafeReducedMotion();
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<FaqCategoryFilter>("All");
-  const [open, setOpen] = useState(0);
+  const [open, setOpen] = useState<string | null>(faqs[0]?.q ?? null);
 
   const filtered = useMemo(() => {
     const normalized = query.trim().toLowerCase();
@@ -51,6 +51,20 @@ export function FaqsExperience() {
     });
   }, [category, query]);
 
+  // Group the visible questions under their buyer-journey H2s, keeping a
+  // running number so the badges still count 01, 02, … down the page.
+  const grouped = useMemo(() => {
+    let counter = 0;
+    return faqGroups
+      .map((group) => ({
+        group,
+        items: filtered
+          .filter((faq) => faq.category === group)
+          .map((faq) => ({ faq, number: ++counter })),
+      }))
+      .filter((entry) => entry.items.length > 0);
+  }, [filtered]);
+
   return (
     <div className="relative overflow-hidden">
       <Hero reduce={!!reduce} />
@@ -63,12 +77,12 @@ export function FaqsExperience() {
                 query={query}
                 onQueryChange={(value) => {
                   setQuery(value);
-                  setOpen(0);
+                  setOpen(null);
                 }}
                 category={category}
                 onCategoryChange={(value) => {
                   setCategory(value);
-                  setOpen(0);
+                  setOpen(null);
                 }}
                 count={filtered.length}
               />
@@ -82,18 +96,33 @@ export function FaqsExperience() {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -8 }}
                       transition={{ duration: 0.35, ease }}
-                      className="space-y-3"
+                      className="space-y-10"
                     >
-                      {filtered.map((faq, index) => (
-                        <FaqRow
-                          key={faq.q}
-                          faq={faq}
-                          index={index}
-                          isOpen={open === index}
-                          onToggle={() => setOpen(open === index ? -1 : index)}
-                          reduce={!!reduce}
-                        />
-                      ))}
+                      {grouped.map(({ group, items }) => {
+                        const groupId = `faq-group-${slugify(group)}`;
+                        return (
+                          <section key={group} aria-labelledby={groupId}>
+                            <h2
+                              id={groupId}
+                              className="mb-4 text-[clamp(1.25rem,2.4vw,1.6rem)] font-semibold leading-tight tracking-[-0.02em] text-text"
+                            >
+                              {group}
+                            </h2>
+                            <div className="space-y-3">
+                              {items.map(({ faq, number }) => (
+                                <FaqRow
+                                  key={faq.q}
+                                  faq={faq}
+                                  number={number}
+                                  isOpen={open === faq.q}
+                                  onToggle={() => setOpen(open === faq.q ? null : faq.q)}
+                                  reduce={!!reduce}
+                                />
+                              ))}
+                            </div>
+                          </section>
+                        );
+                      })}
                     </motion.div>
                   ) : (
                     <motion.div
@@ -126,14 +155,14 @@ export function FaqsExperience() {
                 <HelpCard
                   icon={MessageCircle}
                   title="Talk to us"
-                  body="Have a deployment question that isn’t covered here? Our team can walk your site model live."
+                  body="Have a deployment question that isn’t covered here? Our team can walk through your sites and cameras with you."
                   href="/contact"
                   cta="Contact Us"
                 />
                 <HelpCard
                   icon={Sparkles}
                   title="See it in action"
-                  body="Book a demo tailored to your camera estate, staffing model, and industry workflows."
+                  body="Book a demo tailored to your cameras, sites, staffing model and industry workflows."
                   href="/book-demo"
                   cta="Book a Demo"
                   accent
@@ -141,9 +170,9 @@ export function FaqsExperience() {
                 <HelpCard
                   icon={BookOpen}
                   title="Browse insights"
-                  body="Read perspectives on alert noise, multi-site ops, and surveillance reliability."
+                  body="Read articles on alert noise, multi-site operations and surveillance reliability."
                   href="/blogs"
-                  cta="Visit Blogs"
+                  cta="Read the Blog"
                 />
               </div>
             </aside>
@@ -174,10 +203,14 @@ function Hero({ reduce }: { reduce: boolean }) {
             Resources
           </div>
           <h1 className="display mt-4 text-[clamp(1.9rem,4vw,2.75rem)] normal-case text-steel-gradient">
-            Answers, without the runaround.
+            OrionAlerts FAQs
           </h1>
+          <p className="mt-2 text-[clamp(1.05rem,1.8vw,1.3rem)] font-semibold leading-snug tracking-[-0.02em] text-text">
+            Answers, without the runaround.
+          </p>
           <p className="mx-auto mt-3 max-w-xl text-[15px] leading-relaxed text-muted-strong">
-            Clear guidance on demos, multi-site deployment, camera estates, and partner programs.
+            Straight answers on cameras, deployment, data, AI detections, pricing, security and
+            partners.
           </p>
         </motion.div>
 
@@ -190,7 +223,7 @@ function Hero({ reduce }: { reduce: boolean }) {
           {[
             { icon: Building2, label: "Multi-site ready", value: "Deploy & expand" },
             { icon: Sparkles, label: "Operator-first", value: "Less alert noise" },
-            { icon: MessageCircle, label: "Human backup", value: "Talk anytime" },
+            { icon: MessageCircle, label: "Need more detail?", value: "Talk to an expert" },
           ].map((item) => (
             <div
               key={item.label}
@@ -273,17 +306,21 @@ function Filters({
 
 function FaqRow({
   faq,
-  index,
+  number,
   isOpen,
   onToggle,
   reduce,
 }: {
   faq: FaqItem;
-  index: number;
+  number: number;
   isOpen: boolean;
   onToggle: () => void;
   reduce: boolean;
 }) {
+  const baseId = `faq-${slugify(faq.q)}`;
+  const buttonId = `${baseId}-button`;
+  const panelId = `${baseId}-panel`;
+
   return (
     <motion.div
       layout
@@ -293,54 +330,71 @@ function FaqRow({
           : "border-line bg-white/80 hover:border-blue/20 hover:bg-white"
       }`}
     >
-      <button
-        type="button"
-        onClick={onToggle}
-        className="flex w-full items-start gap-4 px-5 py-5 text-left md:px-6"
-        aria-expanded={isOpen}
-      >
-        <span
-          className={`mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-[12px] text-xs font-semibold transition ${
-            isOpen ? "bg-blue text-white" : "bg-surface-2 text-blue"
-          }`}
+      {/* WAI-ARIA accordion pattern: the heading wraps the toggle button. */}
+      <h3 className="m-0">
+        <button
+          id={buttonId}
+          type="button"
+          onClick={onToggle}
+          className="flex w-full items-start gap-4 px-5 py-5 text-left md:px-6"
+          aria-expanded={isOpen}
+          aria-controls={panelId}
         >
-          {String(index + 1).padStart(2, "0")}
-        </span>
-        <span className="min-w-0 flex-1">
-          <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-blue/80">
-            {faq.category}
+          <span
+            aria-hidden
+            className={`mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-[12px] text-xs font-semibold transition ${
+              isOpen ? "bg-blue text-white" : "bg-surface-2 text-blue"
+            }`}
+          >
+            {String(number).padStart(2, "0")}
           </span>
-          <span className="mt-1.5 block font-display text-lg leading-snug text-text md:text-xl">
+          <span className="min-w-0 flex-1 pt-1.5 font-display text-lg leading-snug text-text md:text-xl">
             {faq.q}
           </span>
-        </span>
-        <span
-          className={`mt-1 flex h-9 w-9 shrink-0 items-center justify-center rounded-full border transition ${
-            isOpen
-              ? "border-blue/30 bg-blue/10 text-blue"
-              : "border-line bg-surface-2 text-muted"
-          }`}
-        >
-          <ChevronDown
-            size={16}
-            className={`transition duration-300 ${isOpen ? "rotate-180" : ""}`}
-          />
-        </span>
-      </button>
+          <span
+            aria-hidden
+            className={`mt-1 flex h-9 w-9 shrink-0 items-center justify-center rounded-full border transition ${
+              isOpen
+                ? "border-blue/30 bg-blue/10 text-blue"
+                : "border-line bg-surface-2 text-muted"
+            }`}
+          >
+            <ChevronDown
+              size={16}
+              className={`transition duration-300 ${isOpen ? "rotate-180" : ""}`}
+            />
+          </span>
+        </button>
+      </h3>
 
+      {/* Answer stays in the DOM when collapsed so it is server-rendered and crawlable. */}
       <motion.div
+        id={panelId}
+        role="region"
+        aria-labelledby={buttonId}
+        aria-hidden={!isOpen}
         initial={false}
         animate={{ height: isOpen ? "auto" : 0, opacity: isOpen ? 1 : 0 }}
         transition={reduce ? { duration: 0 } : { duration: 0.32, ease }}
         className="overflow-hidden"
       >
         <div className="border-t border-line px-5 pb-5 pt-4 md:px-6 md:pb-6">
-          <p className="pl-[3.25rem] text-sm leading-relaxed text-muted-strong md:text-[15px]">
+          <p className="text-sm leading-relaxed text-muted-strong md:pl-[3.25rem] md:text-[15px]">
             {faq.a}
           </p>
-          {faq.category !== "General" ? (
-            <p className="mt-4 pl-[3.25rem] text-xs text-caption">
-              Related topic · {categoryMeta[faq.category].hint}
+          {faq.links?.length ? (
+            <p className="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-sm md:pl-[3.25rem]">
+              {faq.links.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  tabIndex={isOpen ? undefined : -1}
+                  className="inline-flex items-center gap-1 font-semibold text-blue hover:underline"
+                >
+                  {link.label}
+                  <ArrowRight size={13} aria-hidden />
+                </Link>
+              ))}
             </p>
           ) : null}
         </div>

@@ -13,13 +13,14 @@ import {
   Sparkles,
   Zap,
 } from "lucide-react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { Button, CtaBand, Section } from "@/components/ui";
 import { Reveal, Stagger, StaggerItem } from "@/components/Reveal";
 import { FinalCta } from "@/components/landing/FinalCta";
 import { getSolution } from "@/lib/site";
 import type { IndustryPageData } from "@/lib/industry-pages";
 import type { Industry } from "@/lib/site";
+import { useSafeReducedMotion } from "@/lib/use-safe-reduced-motion";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -147,7 +148,7 @@ function UseCasesSlider({
   useCases: IndustryPageData["useCases"];
   industryName: string;
 }) {
-  const reduce = useReducedMotion();
+  const reduce = useSafeReducedMotion();
   const [index, setIndex] = useState(0);
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -213,6 +214,7 @@ function UseCasesSlider({
                   key={current.video}
                   ref={videoRef}
                   src={current.video}
+                  poster={current.poster}
                   className="absolute inset-0 h-full w-full object-cover brightness-[1.16] contrast-[1.05] saturate-[1.04]"
                   muted
                   loop
@@ -338,7 +340,7 @@ function ProcessSection({
     .split("→")
     .map((part) => part.trim())
     .filter(Boolean);
-  const reduce = useReducedMotion();
+  const reduce = useSafeReducedMotion();
 
   return (
     <section className="relative overflow-hidden bg-blue py-10 text-white md:py-14">
@@ -425,7 +427,7 @@ function StepsSection({
   title: string;
   steps: IndustryPageData["steps"];
 }) {
-  const reduce = useReducedMotion();
+  const reduce = useSafeReducedMotion();
 
   return (
     <section className="relative overflow-hidden bg-bg py-10 md:py-14">

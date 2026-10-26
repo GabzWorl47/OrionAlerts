@@ -1,4 +1,20 @@
-import { Activity, Cpu, LayoutGrid, Package, Search, Shield, Video, Wrench, type LucideIcon } from "lucide-react";
+import {
+  Activity,
+  BookMarked,
+  BookOpen,
+  CircleHelp,
+  Cpu,
+  FileText,
+  LayoutGrid,
+  Package,
+  Scale,
+  ScanSearch,
+  Search,
+  Shield,
+  Video,
+  Wrench,
+  type LucideIcon,
+} from "lucide-react";
 import type { Solution } from "@/lib/site";
 import { solutions, site } from "@/lib/site";
 import { featureDeepLink } from "@/lib/feature-anchors";
@@ -60,7 +76,7 @@ const platformFeatureCards: FeatureCard[] = solutions.map((solution) => {
   return {
     label: solution.shortName,
     description: lead,
-    preview: `${lead} Explore how ${solution.shortName} connects into the broader Orion Alerts platform for monitoring, alerts, search, and upkeep.`,
+    preview: `${lead} Explore how ${solution.shortName} connects into the broader OrionAlerts platform for monitoring, alerts, search, and upkeep.`,
     href: `/solutions/${solution.slug}`,
     icon: solutionIcons[solution.slug] ?? LayoutGrid,
   };
@@ -109,3 +125,59 @@ export function getOverviewCopy(activeId: string) {
     image: item.solution.image,
   };
 }
+
+/* ------------------------------------------------------------------ */
+/* Resources menu (header mega menu, mobile drawer)                    */
+/* ------------------------------------------------------------------ */
+
+export type ResourceMenuItem = {
+  label: string;
+  description: string;
+  href: string;
+  icon: LucideIcon;
+};
+
+/** Where the "Resources" nav item itself links (it also opens the menu). */
+export const RESOURCES_HUB_HREF = "/blogs";
+
+export const resourceMenuItems: ResourceMenuItem[] = [
+  {
+    label: "Blog",
+    description: "Operator playbooks and video intelligence articles.",
+    href: "/blogs",
+    icon: BookOpen,
+  },
+  {
+    label: "FAQs",
+    description: "Cameras, AI, multi-site and platform answers.",
+    href: "/faqs",
+    icon: CircleHelp,
+  },
+  {
+    label: "Glossary",
+    description: "Short definitions of video surveillance and video analytics terms.",
+    href: "/glossary",
+    icon: BookMarked,
+  },
+  {
+    label: "Use cases",
+    description: "What each AI detection does and what it needs to work.",
+    href: "/use-cases",
+    icon: ScanSearch,
+  },
+  {
+    label: "Compare",
+    description: "Side-by-side guides to common surveillance architecture choices.",
+    href: "/compare",
+    icon: Scale,
+  },
+  {
+    label: "Docs",
+    description: "Product and integration documentation.",
+    href: "/docs",
+    icon: FileText,
+  },
+];
+
+/** Route prefixes that belong to the Resources section (for the active nav state). */
+export const resourceRoutePrefixes = resourceMenuItems.map((item) => item.href);

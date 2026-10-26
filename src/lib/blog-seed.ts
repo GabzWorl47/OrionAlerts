@@ -1,20 +1,20 @@
-import type { BlogPost } from "@/lib/blogs";
+import { estimateReadTime, type BlogPost } from "@/lib/blogs";
 
-/** Initial posts seeded into data/blogs.json when the store is first created. */
-export const seedBlogPosts: BlogPost[] = [
+const seedPostsSource: BlogPost[] = [
   {
     slug: "why-traditional-cctv-monitoring-is-no-longer-enough",
     title: "Why Traditional CCTV Monitoring Is No Longer Enough",
     excerpt:
       "Passive recording and manual footage review cannot keep up with modern security and operational demands. AI video analytics turns existing cameras into real-time intelligent sensors.",
-    category: "Video Intelligence",
+    category: "AI Video Analytics",
     date: "2026-06-15",
     dateLabel: "June 15, 2026",
     readTime: "6 min read",
     author: "Ayushi",
     authorRole: "Senior Finance Manager",
-    image:
-      "https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=1400&q=80",
+    image: "/visuals/solutions/ai-vision.webp",
+    imageAlt:
+      "Operator watching a live street camera feed with AI bounding boxes labeling people, vehicles and anomaly alerts",
     takeaways: [
       "Passive CCTV creates evidence after the fact — not decisions in the moment.",
       "Operator bandwidth does not scale linearly with camera count.",
@@ -79,14 +79,15 @@ export const seedBlogPosts: BlogPost[] = [
     title: "What Is a Vision Intelligence Platform?",
     excerpt:
       "How AI-powered video analytics, computer vision, and intelligent copilots turn CCTV feeds into real-time operational intelligence — beyond security monitoring.",
-    category: "Vision Intelligence",
+    category: "AI Video Analytics",
     date: "2026-06-22",
     dateLabel: "June 22, 2026",
     readTime: "5 min read",
     author: "Kawaljeet",
     authorRole: "Head of Growth Marketing",
-    image:
-      "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=1400&q=80",
+    image: "/Images/solutions/real-time-ai-video-analytics.webp",
+    imageAlt:
+      "OrionAlerts dashboard showing live camera feeds with AI detections, live analytics and an event feed",
     takeaways: [
       "Vision intelligence is broader than security deterrence alone.",
       "The platform connects detection, search, operations, and reliability.",
@@ -136,7 +137,7 @@ export const seedBlogPosts: BlogPost[] = [
       },
       {
         type: "paragraph",
-        text: "OrionAlerts is built around that workflow: AI Vision for detection, VMS for command, Smart Search for investigations, and health/AMC layers so uptime remains part of the operating model.",
+        text: "OrionAlerts is built around that workflow: AI video analytics for detection, the VMS for command and investigations, and health/AMC layers so uptime remains part of the operating model.",
       },
     ],
     published: true,
@@ -147,14 +148,15 @@ export const seedBlogPosts: BlogPost[] = [
     title: "Alert Fatigue Is an Ops Problem",
     excerpt:
       "More cameras do not equal better coverage. Prioritized AI alerts help operators respond faster without drowning in low-signal noise.",
-    category: "Operations",
+    category: "VMS",
     date: "2026-07-02",
     dateLabel: "July 2, 2026",
     readTime: "4 min read",
     author: "OrionAlerts Team",
     authorRole: "Product & Operations",
-    image:
-      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1400&q=80",
+    image: "/Images/solutions/event-alarm-management.webp",
+    imageAlt:
+      "OrionAlerts alarm console with a live alarm feed sorted by severity, event details and assignment",
     takeaways: [
       "Alert volume without triage becomes operational debt.",
       "Confidence, context, and routing matter more than raw detections.",
@@ -203,3 +205,12 @@ export const seedBlogPosts: BlogPost[] = [
     updatedAt: null,
   },
 ];
+
+/**
+ * Initial posts seeded into data/blogs.json when the store is first created.
+ * Read times are computed from the body, never hard-coded.
+ */
+export const seedBlogPosts: BlogPost[] = seedPostsSource.map((post) => ({
+  ...post,
+  readTime: estimateReadTime(post.sections, post.takeaways),
+}));

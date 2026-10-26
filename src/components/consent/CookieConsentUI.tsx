@@ -130,7 +130,7 @@ export function CookieConsentUI() {
               <p className="text-sm font-semibold text-text">Cookies on OrionAlerts</p>
               <p className="mt-1.5 text-sm leading-relaxed text-muted">
                 We use strictly necessary cookies for security and admin sign-in. Optional analytics
-                and advertising cookies are off by default and are not present in the current build.
+                and advertising cookies are off by default, and we do not currently use any.
                 Read the{" "}
                 <Link href="/cookies" className="font-semibold text-blue hover:underline">
                   Cookie Notice

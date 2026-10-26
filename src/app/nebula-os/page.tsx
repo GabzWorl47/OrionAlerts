@@ -60,7 +60,7 @@ export default function NebulaOsPage() {
             name: "Nebula OS",
             description: META_DESCRIPTION,
             path: PAGE_PATH,
-            image: "/Images/nebula.png",
+            image: "/Images/nebula.webp",
           })}
         />
         <JsonLdScript
@@ -91,9 +91,9 @@ export default function NebulaOsPage() {
                 {nebulaSectionCopy.pageLede}
               </p>
               <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-                <MagneticButton href="/book-demo">Book a demo</MagneticButton>
+                <MagneticButton href="/book-demo">Book a Demo</MagneticButton>
                 <MagneticButton href="#nebula-architecture" variant="outline">
-                  View architecture
+                  View Architecture
                 </MagneticButton>
               </div>
             </header>
@@ -152,11 +152,11 @@ export default function NebulaOsPage() {
         <Section compact>
           <CtaBand
             title="See Nebula OS running on your cameras"
-            lede="We will walk through the architecture, size a node for your channel count, and show the modules working on a live estate."
+            lede="We will walk through the architecture, size a node for your channel count, and show the modules working in a live demo."
             primaryHref="/book-demo"
-            primaryLabel="Book a demo"
+            primaryLabel="Book a Demo"
             secondaryHref="/solutions"
-            secondaryLabel="Explore the modules"
+            secondaryLabel="Explore the Modules"
           />
           <p className="mt-8 text-center text-sm text-muted">
             Prefer to read first?{" "}

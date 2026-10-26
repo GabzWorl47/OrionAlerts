@@ -1,8 +1,6 @@
 import {
   INDUSTRY_SCHEMA_VERSION,
-  industrySharedCopy,
   industrySharedCtas,
-  industrySharedFaqs,
 } from "@/lib/industries/shared";
 import type { IndustryPageRecord } from "@/lib/industries/types";
 
@@ -10,30 +8,26 @@ export const automotiveIndustryPage: IndustryPageRecord = {
   slug: "automotive",
   name: "Automotive & Auto Components",
   cardLabel: "Automotive",
-  cardSummary:
-    "Use Vision Copilot to connect mapped camera observations with decisions about assembly-cell events and line-side replenishment.",
+  siteNoun: { one: "automotive plant", many: "automotive plants" },
   schemaVersion: INDUSTRY_SCHEMA_VERSION,
   contentVersion: 2,
   status: "reviewed",
   seo: {
-    title: "Automotive Plant Video Analytics | OrionAlerts",
+    title: "AI Video Analytics for Automotive Plants",
     description:
-      "Explore automotive plants with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
+      "AI video analytics for automotive plants: line-side buffer dwell, controlled-cell entry alerts and fast clip retrieval by station and changeover.",
     canonicalPath: "/industries/automotive",
-    ogTitle: "Automotive Plant Video Analytics | OrionAlerts",
-    ogDescription:
-      "Explore automotive plants with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
     image: "/Images/industries/automotive.webp",
   },
   hero: {
     eyebrow: "Automotive & Auto Components",
-    h1: "Vision Copilot for Automotive Plants",
-    lede: "Map cameras to the places your team manages and ask Vision Copilot about assembly-cell events and line-side replenishment. OrionAlerts analyses scenes over time to surface alerts, recommendations and operational scores that help you decide what to review today and what to improve next.",
+    h1: "AI Video Analytics for Automotive Plants",
+    lede:
+      "Track line-side buffer dwell during replenishment, flag entry into controlled assembly cells and pull up the right station clip when a supervisor asks Vision Copilot.",
     media: {
       kind: "image",
       src: "/Images/industries/automotive.webp",
-      alt: "Automotive robotic welding assembly line photograph",
-      demonstrationLabel: "Automotive Manufacturing Operations",
+      alt: "Robotic arms welding car body shells on an automotive assembly line",
     },
     primaryCta: industrySharedCtas.primary,
     secondaryCta: industrySharedCtas.secondaryHero,
@@ -41,8 +35,8 @@ export const automotiveIndustryPage: IndustryPageRecord = {
   context: {
     heading: "Keep attention on the handoffs between people, parts and equipment.",
     paragraphs: [
-      "Automotive operations depend on coordinated work across assembly cells, material supply and finished-vehicle movement. A queue of parts or a blocked route can affect more than one workstation. Camera-based observations are most useful when tied to a known station or route and reviewed alongside production records. They should strengthen investigation without overstating what video can say about product quality.",
-      "A reference deployment places cameras at line-side buffers, station entries and controlled-cell doors, typically on the plant's existing network where bandwidth and switch capacity allow. Retention should match the window a quality or safety investigation typically needs rather than an indefinite archive, with buffer and access alerts routed to the line supervisor and EHS. Where a shift-scheduling or MES integration is available, align review timestamps with its changeover records instead of treating the camera system as a standalone source of truth.",
+      "Automotive operations depend on coordinated work across assembly cells, material supply and finished-vehicle movement. A queue of parts or a blocked route can affect more than one workstation. Camera observations are most useful when tied to a known station or route and reviewed alongside production records, where they add investigation context while product quality stays with your inspection systems.",
+      "A reference deployment places cameras at line-side buffers, station entries and controlled-cell doors, typically on the plant's existing network where bandwidth and switch capacity allow. Retention matches the window a quality or safety investigation typically needs, with buffer and access alerts routed to the line supervisor and EHS. Where a shift-scheduling or manufacturing execution system (MES) integration is available, align review timestamps with its changeover records so video sits alongside the plant's other sources.",
     ],
     buyers: [
       "Plant directors",
@@ -52,8 +46,6 @@ export const automotiveIndustryPage: IndustryPageRecord = {
     ],
   },
   locationContext: {
-    heading: "Your operation, mapped",
-    body: "Organise views around the places the team recognises. Select the location to establish the context for scene observations and Copilot questions. This example uses the shared hierarchy; map the actual site rather than inventing rooms or camera coverage.",
     hierarchyExample: [
       { label: "Site", example: "Plant" },
       { label: "Building", example: "Assembly Building" },
@@ -65,15 +57,13 @@ export const automotiveIndustryPage: IndustryPageRecord = {
       "Cameras are mapped to the selected station or line-side zone so questions about Station 12 start from recognisable operational context.",
   },
   copilot: {
-    heading: "Ask Vision Copilot",
-    body: industrySharedCopy.copilotIntro,
     prompts: [
+      "Summarise the observations I should discuss in today's assembly meeting.",
       "Find observations around Station 12 during yesterday's changeover.",
       "Which line-side zones show repeated congestion during replenishment?",
-      "Summarise the observations I should discuss in today's assembly meeting.",
     ],
     exampleAnswer:
-      "Illustrative example — not a live product result. A line-side buffer becomes crowded during repeated replenishment windows. Suggested next step: review the replenishment window and buffer layout with the line supervisor before changing the operating plan.",
+      "A line-side buffer becomes crowded during repeated replenishment windows. Suggested next step: review the replenishment window and buffer layout with the line supervisor before changing the operating plan.",
     exampleStatus: "illustrative",
   },
   sceneIntelligence: {
@@ -82,8 +72,6 @@ export const automotiveIndustryPage: IndustryPageRecord = {
     recommendation:
       "Review the replenishment window and buffer layout with the line supervisor before changing the operating plan.",
     decisionOwner: "Line supervisor / assembly lead",
-    followUpPrompt:
-      "Revisit the same area and comparable period to assess observations, coverage and score movement.",
   },
   scorecards: {
     heading: "See what needs attention—and what changes after action.",
@@ -126,49 +114,43 @@ export const automotiveIndustryPage: IndustryPageRecord = {
   useCases: [
     {
       id: "location-into-decision",
-      title: "Bring the right location into the decision",
-      body: "Connect assembly-cell events and line-side replenishment to the building tree and its mapped cameras. The team can start with a named operational area instead of trying to remember which camera covers it, making observations easier to interpret and discuss.",
+      title: "Map Station 12 and every line-side zone",
+      body: "Each assembly cell, station and line-side buffer sits in the plant hierarchy with its cameras, so a question about Station 12 opens the views that cover it.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["building-hierarchy", "vision-copilot"],
     },
     {
       id: "search-observations",
-      title: "Search visual observations in everyday language",
-      body: 'Ask Vision Copilot, “Find observations around Station 12 during yesterday\'s changeover.” Use the location and review period to focus the search on relevant available observations. The purpose is to reach useful context without manually working through unrelated camera views.',
+      title: "Find yesterday's changeover in one question",
+      body: "Ask Vision Copilot, “Find observations around Station 12 during yesterday's changeover,” and review the observations for that station and window.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["vision-copilot", "scene-analysis"],
     },
     {
       id: "recurring-conditions",
-      title: "Identify recurring conditions across scenes",
-      body: 'Ask, “Which line-side zones show repeated congestion during replenishment?” Ongoing scene analysis supports review of patterns across the available observations. Use the recurring condition to frame the next investigation rather than treating one isolated alert as the whole operational picture.',
+      title: "See which buffers crowd at replenishment",
+      body: "Ask, “Which line-side zones show repeated congestion during replenishment?” Scene analysis over time separates a buffer that crowds at every replenishment window from a single busy moment.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["scene-analysis", "vision-copilot"],
     },
     {
       id: "improvement-decision",
-      title: "Turn analysis into an improvement decision",
-      body: 'Ask, “Summarise the observations I should discuss in today\'s assembly meeting.” Review the recommendation alongside the underlying observations and the team\'s operating knowledge. The example below shows a practical next step; it is a suggested action for human consideration, not an automatic instruction to change equipment or procedures.',
+      title: "Bring evidence to the assembly meeting",
+      body: "Ask, “Summarise the observations I should discuss in today's assembly meeting.” Vision Copilot proposes a next step, such as reviewing the replenishment window and buffer layout, for the line supervisor to approve.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["recommendations"],
     },
     {
       id: "score-led-review",
-      title: "Use scores to structure the next review",
-      body: "Use 0–100 scores to organise attention across assembly areas and comparable production windows; never a substitute for product-quality results. Review the contributing observations and coverage before acting. The proposed dimensions for this industry are Assembly-Area Safety, Line-Side Flow and Controlled-Cell Practices; use the approved product methodology when demonstrating actual values.",
+      title: "Score assembly areas by production window",
+      body: "Scores out of 100 compare assembly areas across comparable production windows, so the line supervisor sees which station needs attention first.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["operational-scores"],
     },
   ],
-  workflow: {
-    heading: "From scenes to decisions",
-    scenario:
-      "Illustrative decision story — not a customer result. Observe: A line-side buffer becomes crowded during repeated replenishment windows. Ask: “Summarise the observations I should discuss in today's assembly meeting.” Suggested recommendation: Review the replenishment window and buffer layout with the line supervisor before changing the operating plan. Decide: The responsible team reviews the evidence and agrees an action. Follow up: Revisit the same area and comparable period to assess observations, coverage and score movement. A subsequent change is not proof of causation.",
-    steps: industrySharedCopy.workflowLabels.map((label) => ({ label })),
-  },
   deployment: {
-    heading: industrySharedCopy.deploymentHeading,
-    body: `${industrySharedCopy.deploymentIntroduction} Validate each camera against moving equipment, reflective parts, lighting changes and line speed. Start with safety and visible flow events. Dimensional metrology, weld evaluation and microscopic defect inspection need dedicated inspection systems and their own acceptance criteria.`,
+    body:
+      "Validate each camera against moving equipment, reflective parts, lighting changes and line speed. Start with safety and visible flow events; dimensional metrology, weld evaluation and microscopic defect inspection belong to dedicated inspection systems with their own acceptance criteria.",
     requiredInputs: [
       "Stable camera views of pilot stations and line-side buffers",
       "Mapped hierarchy for the selected assembly areas",
@@ -179,7 +161,7 @@ export const automotiveIndustryPage: IndustryPageRecord = {
   },
   standards: {
     publicCopy:
-      "IATF 16949 is relevant to eligible automotive manufacturing quality systems and customer requirements. Video may provide investigation context; it does not establish product conformance or deliver IATF certification.",
+      "IATF 16949 governs quality-management systems at eligible automotive manufacturers. Station-level video adds investigation context when a quality or safety event is reviewed under that system.",
     frameworkIds: ["C2"],
     reviewedAt: "2026-09-13",
   },
@@ -206,39 +188,56 @@ export const automotiveIndustryPage: IndustryPageRecord = {
   solutions: [
     {
       solutionSlug: "ai-analytics",
-      body: `${industrySharedCopy.solutionBasis["ai-analytics"]} For automotive plants, focus on location-aware search, recommendations and score-led review of assembly-area events.`,
+      body: "Line-side buffer and controlled-cell alerts, with Vision Copilot search by station and changeover.",
     },
     {
       solutionSlug: "vms",
-      body: `${industrySharedCopy.solutionBasis.vms} Use it for station-based investigation across agreed cameras.`,
+      body: "Station-based investigation across the agreed assembly cameras, live or recorded.",
     },
     {
       solutionSlug: "health-monitoring",
-      body: `${industrySharedCopy.solutionBasis["health-monitoring"]} Prioritise continuity of critical assembly and line-side camera views.`,
+      body: "Keeps critical assembly and line-side views available and shows maintenance when a feed or recording drops.",
     },
   ],
   faqs: [
     {
+      question: "How can AI video analytics help on an automotive assembly line?",
+      answer:
+        "It watches line-side buffers, station entries and controlled-cell doors on existing cameras. Supervisors see when a buffer stays crowded through replenishment and when someone enters a configured cell, each with the station, time window and clip. Alerts for pedestrians at shared vehicle intersections can also be assessed in a pilot, subject to site validation.",
+    },
+    {
+      question: "Can Vision Copilot find a clip from a specific station and shift?",
+      answer:
+        "Yes. Because cameras are mapped to stations and line-side zones, a question such as “Find observations around Station 12 during yesterday's changeover” returns observations from that station and window. Retrieval time for a known incident is one of the pilot measures, timed against your current process.",
+    },
+    {
       question: "Can this replace automotive quality inspection?",
       answer:
-        "No. General surveillance is not a substitute for validated inspection, metrology or testing. Scope specialist vision inspection separately if available.",
+        "No. Station video gives investigation context around a quality or safety event, while validated inspection, metrology and testing remain the quality method. Weld evaluation, dimensional checks and microscopic defect inspection need dedicated inspection systems with their own acceptance criteria, and any specialist vision inspection is scoped as a separate project.",
     },
     {
       question: "Can a clip be linked to a VIN?",
       answer:
-        "Only through a verified method of obtaining and matching that identifier, such as an approved production-system integration.",
+        "Only through a verified method of obtaining and matching the vehicle identification number (VIN), such as an approved integration with your production system. Without that link, Vision Copilot finds clips by station, time window and changeover. Any VIN matching is scoped and tested on its own before investigators rely on it.",
     },
     {
       question: "Will zone alerts change for maintenance?",
       answer:
-        "The pilot should define production and maintenance scenarios and verify whether schedules or operator controls support the required rule changes.",
+        "They can, where the site supports it. The pilot defines production and maintenance scenarios, agrees which zone rules apply in each, and checks whether shift schedules or operator controls can support the switch. Ownership of production and maintenance alert rules is confirmed before rollout, so each alert reaches the supervisor responsible for that period.",
     },
-    ...industrySharedFaqs,
   ],
+  limits:
+    "Station video adds context to quality and safety reviews. Product conformance, weld and dimensional inspection, and IATF certification stay with validated inspection systems and your quality management system.",
+  furtherReading: {
+    blogs: ["add-ai-to-existing-cctv-cameras", "alert-fatigue-is-an-ops-problem"],
+    glossary: ["video-analytics", "vms"],
+    useCases: ["restricted-zone-monitoring"],
+  },
   relatedIndustrySlugs: ["manufacturing", "polymers-plastics", "logistics"],
   finalCta: {
-    heading: "Ask Vision Copilot about your automotive plants.",
-    body: "See how Vision Copilot connects a mapped area with visual search, recommendations and scores for automotive plants.",
+    heading: "Ask Vision Copilot about your automotive plant.",
+    body:
+      "Start with one line-side buffer and one controlled cell on the cameras you already have.",
   },
   sources: ["README v2 §9.2", "README v2 §§3.1–3.3", "README v2 §7", "framework C2"],
   review: {

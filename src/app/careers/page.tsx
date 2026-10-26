@@ -2,19 +2,26 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { PageShell } from "@/components/PageShell";
 import { Section } from "@/components/ui";
+import { breadcrumbJsonLd, JsonLdScript } from "@/lib/jsonld";
 import { buildPageMetadata } from "@/lib/seo";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = buildPageMetadata({
-  title: "Careers",
+  title: "Careers at Global Ace Technology, Mumbai",
   description:
-    "OrionAlerts is not listing open roles on this site yet. Reach the team via Contact for career inquiries.",
+    "Careers at Global Ace Technology, the Mumbai team behind OrionAlerts AI video analytics and VMS. Introduce yourself and hear about future openings.",
   pathname: "/careers",
 });
 
 export default function CareersPage() {
   return (
     <PageShell>
+      <JsonLdScript
+        data={breadcrumbJsonLd([
+          { name: "Home", path: "/" },
+          { name: "Careers", path: "/careers" },
+        ])}
+      />
       <Section narrow className="pt-14 pb-20">
         <p className="eyebrow">Company</p>
         <h1 className="display mt-3 text-4xl text-text md:text-5xl">Careers</h1>

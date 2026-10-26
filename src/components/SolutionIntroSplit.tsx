@@ -5,11 +5,12 @@ import { Button } from "@/components/ui";
 import type { Solution } from "@/lib/site";
 
 type SolutionIntroSplitProps = {
-  solution: Solution;
+  /** Client component: pass only the rendered fields, not the whole Solution. */
+  solution: Pick<Solution, "image" | "shortName" | "tagline">;
 };
 
 const ASSET_TRACKING_COPY =
-  "Orion Alerts Asset Tracking provides a centralized platform to manage and monitor your organization's physical assets throughout their entire lifecycle. From procurement and deployment to transfer, maintenance, and retirement, every asset is digitally tracked with complete ownership, warranty, location, and utilization visibility. This eliminates manual spreadsheets, improves accountability, reduces asset loss, and enables smarter operational planning.";
+  "OrionAlerts Asset Tracking provides a centralized platform to manage and monitor your organization's physical assets throughout their entire lifecycle. From procurement and deployment to transfer, maintenance, and retirement, every asset is digitally tracked with complete ownership, warranty, location, and utilization visibility. This eliminates manual spreadsheets, improves accountability, reduces asset loss, and enables smarter operational planning.";
 
 export function SolutionIntroSplit({ solution }: SolutionIntroSplitProps) {
   return (

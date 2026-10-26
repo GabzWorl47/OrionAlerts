@@ -1,16 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { useReducedMotion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { MagneticButton } from "@/components/MagneticButton";
 import { Reveal } from "@/components/Reveal";
 import { comparisonRows } from "@/lib/homepage";
+import { useSafeReducedMotion } from "@/lib/use-safe-reduced-motion";
 
 type View = "compare" | "traditional" | "orion";
 
 export function ComparisonSection() {
-  const reduce = useReducedMotion();
+  const reduce = useSafeReducedMotion();
   const [view, setView] = useState<View>("compare");
 
   return (

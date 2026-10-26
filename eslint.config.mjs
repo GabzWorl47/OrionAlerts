@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // cPanel standalone bundle (npm run build:cpanel) — generated output.
+    "dist/**",
   ]),
 ]);
 

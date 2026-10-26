@@ -2,7 +2,7 @@
 
 import { Reveal } from "@/components/Reveal";
 import { Section } from "@/components/ui";
-import { nebulaDefinition } from "@/lib/nebula-os";
+import { nebulaDefinition, nebulaTerms } from "@/lib/nebula-os";
 
 /**
  * Editorial prose block: "What is Nebula OS?".
@@ -34,6 +34,22 @@ export function NebulaIntro() {
             </Reveal>
           ))}
         </div>
+
+        <Reveal delay={0.1}>
+          <dl className="mt-8 grid gap-3 sm:grid-cols-2 md:mt-10">
+            {nebulaTerms.map((item) => (
+              <div
+                key={item.term}
+                className="rounded-[18px] border border-blue/10 bg-white/60 px-5 py-4"
+              >
+                <dt className="text-sm font-semibold text-text">{item.term}</dt>
+                <dd className="mt-1.5 text-sm leading-relaxed text-muted-strong">
+                  {item.definition}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </Reveal>
       </div>
     </Section>
   );

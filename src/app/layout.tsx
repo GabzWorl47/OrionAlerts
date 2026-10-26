@@ -1,10 +1,12 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Outfit } from "next/font/google";
 import { SiteChrome } from "@/components/SiteChrome";
 import { site } from "@/lib/site";
 import { getSiteOrigin } from "@/lib/industries/site-origin";
 import {
   DEFAULT_OG_IMAGE,
+  DEFAULT_OG_IMAGE_SIZE,
+  OG_LOCALE,
   SITE_DEFAULT_DESCRIPTION,
   SITE_DEFAULT_TITLE,
 } from "@/lib/seo";
@@ -26,14 +28,18 @@ export const metadata: Metadata = {
     template: `%s | ${site.name}`,
   },
   description: SITE_DEFAULT_DESCRIPTION,
-  alternates: { canonical: "/" },
+  applicationName: site.name,
+  // No default canonical: every indexable route sets a self-referencing one via
+  // buildPageMetadata. A root default would leak a homepage canonical into any
+  // route that forgets to, which is worse than no canonical at all.
+  formatDetection: { telephone: false, email: false, address: false },
   openGraph: {
     type: "website",
     siteName: site.name,
+    locale: OG_LOCALE,
     title: `${SITE_DEFAULT_TITLE} | ${site.name}`,
     description: SITE_DEFAULT_DESCRIPTION,
-    url: "/",
-    images: [{ url: DEFAULT_OG_IMAGE, alt: site.name }],
+    images: [{ url: DEFAULT_OG_IMAGE, ...DEFAULT_OG_IMAGE_SIZE, alt: site.name }],
   },
   twitter: {
     card: "summary_large_image",
@@ -43,9 +49,15 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [{ url: "/Images/favicon.png", type: "image/png" }],
-    apple: [{ url: "/Images/favicon.png", type: "image/png" }],
+    apple: [{ url: "/apple-icon.png", sizes: "180x180", type: "image/png" }],
     shortcut: "/Images/favicon.png",
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#0c2238",
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({
@@ -54,7 +66,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${outfit.variable} h-full antialiased`}>
+    <html lang="en-IN" className={`${outfit.variable} h-full antialiased`}>
       <body className="site-shell flex min-h-full flex-col bg-bg font-sans text-text">
         {/*
           Organization ships on every page, not just the homepage. An AI crawler

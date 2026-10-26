@@ -1,8 +1,6 @@
 import {
   INDUSTRY_SCHEMA_VERSION,
-  industrySharedCopy,
   industrySharedCtas,
-  industrySharedFaqs,
 } from "@/lib/industries/shared";
 import type { IndustryPageRecord } from "@/lib/industries/types";
 
@@ -10,30 +8,26 @@ export const pharmaIndustryPage: IndustryPageRecord = {
   slug: "pharma",
   name: "Pharmaceuticals & Life Sciences",
   cardLabel: "Pharma",
-  cardSummary:
-    "Use Vision Copilot to connect mapped camera observations with decisions about controlled-area observations and QA investigation context.",
+  siteNoun: { one: "pharma plant", many: "pharma plants" },
   schemaVersion: INDUSTRY_SCHEMA_VERSION,
   contentVersion: 2,
   status: "reviewed",
   seo: {
-    title: "Pharmaceutical Video Analytics | OrionAlerts",
+    title: "AI Video Analytics for Pharmaceutical Plants",
     description:
-      "Explore pharmaceutical facilities with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
+      "Flag gowning exceptions and controlled-area entry in pharma plants, retrieve clips fast for QA investigations and confirm CCTV is recording.",
     canonicalPath: "/industries/pharma",
-    ogTitle: "Pharmaceutical Video Analytics | OrionAlerts",
-    ogDescription:
-      "Explore pharmaceutical facilities with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
     image: "/Images/industries/pharma.webp",
   },
   hero: {
     eyebrow: "Pharmaceuticals & Life Sciences",
-    h1: "Vision Copilot for Pharmaceutical Facilities",
-    lede: "Map cameras to the places your team manages and ask Vision Copilot about controlled-area observations and QA investigation context. OrionAlerts analyses scenes over time to surface alerts, recommendations and operational scores that help you decide what to review today and what to improve next.",
+    h1: "AI Video Analytics for Pharmaceutical Plants",
+    lede:
+      "Flag visible gowning exceptions and controlled-area entry, retrieve the right clip fast for QA investigations, and confirm CCTV is recording. Ask Vision Copilot which controlled areas had recurring observations this review period.",
     media: {
       kind: "image",
       src: "/Images/industries/pharma.webp",
-      alt: "Illustrative pharmaceutical facility photograph used for industry context",
-      demonstrationLabel: "Illustrative photograph — not a verified customer deployment",
+      alt: "Lab-coated staff inspecting vials on a pharmaceutical filling line",
     },
     primaryCta: industrySharedCtas.primary,
     secondaryCta: industrySharedCtas.secondaryHero,
@@ -41,8 +35,8 @@ export const pharmaIndustryPage: IndustryPageRecord = {
   context: {
     heading: "Add investigation context without overstating quality assurance.",
     paragraphs: [
-      "Pharmaceutical operations need controlled processes and reliable records. A camera can help a reviewer understand an event near an entrance or packaging area, but it cannot establish sterility or batch quality. Define whether video is used for security, operational review or a regulated record before choosing the controls and validation approach. Quality ownership must remain clear.",
-      "A reference deployment covers gowning rooms and controlled-zone entries, on a network segment scoped and documented to the standard the facility applies to GxP-adjacent systems. Retention should match the window a QA investigation typically needs, with controlled-area alerts routed to QA and security rather than general facilities. Where a badge or access-control system is in use, align review timestamps with its logs instead of treating video as an independent compliance record.",
+      "Pharmaceutical operations need controlled processes and reliable records. A camera helps a reviewer understand an event near an entrance or packaging area, while sterility and batch quality are established by QA's own testing. Define whether video is used for security, operational review or a regulated record before choosing the controls and validation approach, and keep quality ownership with QA.",
+      "A reference deployment covers gowning rooms and controlled-zone entries, on a documented network segment that QA has approved for systems near good manufacturing practice (GMP) areas. Retention matches the window a QA investigation typically needs, with controlled-area alerts routed to QA and security. Where a badge or access-control system is in use, align review timestamps with its logs so video supports the access record.",
     ],
     buyers: [
       "Plant leadership",
@@ -52,8 +46,6 @@ export const pharmaIndustryPage: IndustryPageRecord = {
     ],
   },
   locationContext: {
-    heading: "Your operation, mapped",
-    body: "Organise views around the places the team recognises. Select the location to establish the context for scene observations and Copilot questions. This example uses the shared hierarchy; map the actual site rather than inventing rooms or camera coverage.",
     hierarchyExample: [
       { label: "Site", example: "Site" },
       { label: "Building", example: "Manufacturing Building" },
@@ -65,15 +57,13 @@ export const pharmaIndustryPage: IndustryPageRecord = {
       "Cameras are mapped to the selected gowning room or controlled zone so questions about the production entry start from recognisable operational context.",
   },
   copilot: {
-    heading: "Ask Vision Copilot",
-    body: industrySharedCopy.copilotIntro,
     prompts: [
+      "Summarise the visual observations for QA review, separating findings from recommendations.",
       "Find visible gowning observations at the production entry yesterday.",
       "Which controlled areas had recurring observations in this review period?",
-      "Summarise the visual observations for QA review, separating findings from recommendations.",
     ],
     exampleAnswer:
-      "Illustrative example — not a live product result. A visible gowning observation recurs at one mapped entrance across several operating periods. Suggested next step: ask QA to review the checkpoint arrangement and relevant procedure; assess the supporting records before changing practice.",
+      "A visible gowning observation recurs at one mapped entrance across several operating periods. Suggested next step: ask QA to review the checkpoint arrangement and relevant procedure; assess the supporting records before changing practice.",
     exampleStatus: "illustrative",
   },
   sceneIntelligence: {
@@ -82,8 +72,6 @@ export const pharmaIndustryPage: IndustryPageRecord = {
     recommendation:
       "Ask QA to review the checkpoint arrangement and relevant procedure; assess the supporting records before changing practice.",
     decisionOwner: "QA / plant operations",
-    followUpPrompt:
-      "Revisit the same area and comparable period to assess observations, coverage and score movement.",
   },
   scorecards: {
     heading: "See what needs attention—and what changes after action.",
@@ -126,60 +114,54 @@ export const pharmaIndustryPage: IndustryPageRecord = {
   useCases: [
     {
       id: "location-into-decision",
-      title: "Bring the right location into the decision",
-      body: "Connect controlled-area observations and QA investigation context to the building tree and its mapped cameras. The team can start with a named operational area instead of trying to remember which camera covers it, making observations easier to interpret and discuss.",
+      title: "Map gowning rooms and controlled zones",
+      body: "Gowning rooms, controlled zones and packaging areas are mapped with their cameras, so QA asks about the production entry by name.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["building-hierarchy", "vision-copilot"],
     },
     {
       id: "search-observations",
-      title: "Search visual observations in everyday language",
-      body: 'Ask Vision Copilot, “Find visible gowning observations at the production entry yesterday.” Use the location and review period to focus the search on relevant available observations. The purpose is to reach useful context without manually working through unrelated camera views.',
+      title: "Find yesterday's gowning observations",
+      body: "Ask Vision Copilot, “Find visible gowning observations at the production entry yesterday,” to review that checkpoint for the chosen day.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["vision-copilot", "scene-analysis"],
     },
     {
       id: "recurring-conditions",
-      title: "Identify recurring conditions across scenes",
-      body: 'Ask, “Which controlled areas had recurring observations in this review period?” Ongoing scene analysis supports review of patterns across the available observations. Use the recurring condition to frame the next investigation rather than treating one isolated alert as the whole operational picture.',
+      title: "See which controlled areas recur",
+      body: "Ask, “Which controlled areas had recurring observations in this review period?” Repeat observations at one mapped entrance show QA where a checkpoint needs attention.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["scene-analysis", "vision-copilot"],
     },
     {
       id: "improvement-decision",
-      title: "Turn analysis into an improvement decision",
-      body: 'Ask, “Summarise the visual observations for QA review, separating findings from recommendations.” Review the recommendation alongside the underlying observations and the team\'s operating knowledge. The example below shows a practical next step; it is a suggested action for human consideration, not an automatic instruction to change equipment or procedures.',
+      title: "Give QA findings and a suggested step",
+      body: "Ask, “Summarise the visual observations for QA review, separating findings from recommendations.” QA receives the observations and a suggested step, such as reviewing the checkpoint arrangement, and checks supporting records before changing practice.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["recommendations"],
     },
     {
       id: "score-led-review",
-      title: "Use scores to structure the next review",
-      body: "Use 0–100 scores to organise attention across defined facility observations; never sterility, batch-release or GMP-compliance scores. Review the contributing observations and coverage before acting. The proposed dimensions for this industry are Visible Gowning Practices, Controlled-Area Practices and Packaging-Area Orderliness; use the approved product methodology when demonstrating actual values.",
+      title: "Score defined facility observations",
+      body: "Scores out of 100 summarise defined facility observations, such as gowning and controlled-area practices, to set QA's review order.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["operational-scores"],
     },
   ],
-  workflow: {
-    heading: "From scenes to decisions",
-    scenario:
-      "Illustrative decision story — not a customer result. Observe: A visible gowning observation recurs at one mapped entrance across several operating periods. Ask: “Summarise the visual observations for QA review, separating findings from recommendations.” Suggested recommendation: Ask QA to review the checkpoint arrangement and relevant procedure; assess the supporting records before changing practice. Decide: The responsible team reviews the evidence and agrees an action. Follow up: Revisit the same area and comparable period to assess observations, coverage and score movement. A subsequent change is not proof of causation.",
-    steps: industrySharedCopy.workflowLabels.map((label) => ({ label })),
-  },
   deployment: {
-    heading: industrySharedCopy.deploymentHeading,
-    body: `${industrySharedCopy.deploymentIntroduction} Involve QA before defining alerts or retention. Separate ordinary security footage from records relied upon for regulated decisions. Validate required access, time synchronisation, change control, export and audit-trail capabilities against the intended use; do not assume the website's wording proves these controls.`,
+    body:
+      "Involve QA before defining alerts or retention. Separate ordinary security footage from records relied upon for regulated decisions. Validate required access, time synchronisation, change control, export and audit-trail capabilities against the intended use. Documentation for your validation team is agreed during solution design.",
     requiredInputs: [
       "Mapped hierarchy for pilot controlled areas and gowning checkpoints",
       "QA-agreed purpose for security, operational review or regulated-record use",
       "Retention, export and audit-trail requirements for the intended use",
       "Representative testing of access, time synchronisation and investigation retrieval",
-      "Documented network and validation scope for any camera system positioned near GxP-relevant areas, agreed with QA before installation",
+      "Documented network and validation scope for any camera system positioned near GMP-relevant areas, agreed with QA before installation",
     ],
   },
   standards: {
     publicCopy:
-      "India's revised Schedule M addresses GMP requirements for pharmaceutical manufacturing. For FDA-regulated electronic records, assess 21 CFR Part 11 applicability based on intended use and underlying record requirements. Neither framework is a general CCTV product certificate.",
+      "Revised Schedule M sets GMP requirements for pharmaceutical manufacturers in India, and 21 CFR Part 11 applies to FDA-regulated electronic records based on intended use. QA decides which video records fall within those requirements.",
     frameworkIds: ["C6"],
     reviewedAt: "2026-09-13",
   },
@@ -206,39 +188,56 @@ export const pharmaIndustryPage: IndustryPageRecord = {
   solutions: [
     {
       solutionSlug: "ai-analytics",
-      body: `${industrySharedCopy.solutionBasis["ai-analytics"]} For pharmaceutical facilities, focus on location-aware search, recommendations and score-led review of scoped visual observations.`,
+      body: "Gowning and controlled-area alerts, with Vision Copilot search by checkpoint and review period.",
     },
     {
       solutionSlug: "vms",
-      body: `${industrySharedCopy.solutionBasis.vms} Use it for authorised footage review across agreed cameras.`,
+      body: "Authorised footage review across the agreed facility cameras, live or recorded.",
     },
     {
       solutionSlug: "health-monitoring",
-      body: `${industrySharedCopy.solutionBasis["health-monitoring"]} Prioritise availability of agreed investigation views so QA can retrieve usable footage.`,
+      body: "Keeps agreed investigation views available and shows when a camera or recording stops, so QA can retrieve usable footage.",
     },
   ],
   faqs: [
     {
+      question: "Can AI check gowning compliance?",
+      answer:
+        "It can flag visible gowning exceptions at defined production-entry checkpoints, such as a missing gowning item, for QA review. QA sees the clip, location and time, and decides whether the checkpoint arrangement or procedure needs attention. Sterility and full GMP compliance are confirmed through QA's own controls and testing.",
+    },
+    {
+      question: "Is CCTV footage a GMP record?",
+      answer:
+        "Footage becomes a GMP-relevant record when QA relies on it for a regulated decision. Agree up front whether video serves security, operational review or a regulated record, then validate access, time synchronisation, export and audit-trail capabilities for that intended use.",
+    },
+    {
       question: "Does video prove cleanroom sterility?",
       answer:
-        "No. It cannot measure microbial contamination or replace environmental monitoring, process controls or laboratory testing.",
+        "No. Sterility is established by environmental monitoring, process controls and laboratory testing, and video cannot measure microbial contamination. What video shows is the visible side of cleanroom entry, such as when someone entered a controlled area and whether a gowning item was visibly missing, which QA reviews alongside its own monitoring results.",
     },
     {
       question: "Is the platform automatically Part 11 compliant?",
       answer:
-        "That cannot be inferred. Determine whether the records fall within scope and assess the actual system, procedures and validation evidence.",
+        "Not automatically. 21 CFR Part 11 applicability depends on whether your site relies on video as an electronic record for a regulated decision and how those records are controlled. Your validation team decides whether the records fall within scope and assesses the actual system, procedures and validation evidence before footage is relied on.",
     },
     {
       question: "Can footage be linked to a batch?",
       answer:
-        "Only through a defined, verified correlation method. Time and camera location alone should not be presented as guaranteed batch traceability.",
+        "Only through a defined, verified correlation method, such as alignment with batch or access-control records agreed with QA. Time and camera location alone fall short of guaranteed batch traceability, so the method is documented and tested before footage is used in a batch investigation, and QA keeps ownership of the batch record.",
     },
-    ...industrySharedFaqs,
   ],
-  relatedIndustrySlugs: ["food-fmcg", "cold-storage", "healthcare"],
+  limits:
+    "Video shows visible gowning and entry events. Sterility, batch quality, GMP compliance and Part 11 status are established by QA, environmental monitoring, testing and your validated systems.",
+  furtherReading: {
+    blogs: ["cctv-camera-health-monitoring", "what-is-a-vision-intelligence-platform"],
+    glossary: ["video-analytics", "camera-health-monitoring"],
+    useCases: ["restricted-zone-monitoring", "unauthorized-area-entry"],
+  },
+  relatedIndustrySlugs: ["healthcare", "food-fmcg", "cold-storage"],
   finalCta: {
-    heading: "Ask Vision Copilot about your pharmaceutical facilities.",
-    body: "See how Vision Copilot connects a mapped area with visual search, recommendations and scores for pharmaceutical facilities.",
+    heading: "Ask Vision Copilot about your pharma plant.",
+    body:
+      "Start with one gowning checkpoint and one controlled-area entry, scoped with QA.",
   },
   sources: [
     "README v2 §9.6",

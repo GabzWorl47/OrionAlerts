@@ -40,6 +40,12 @@ type SolutionsMegaMenuProps = {
   activeId: string;
   onActiveChange: (id: string) => void;
   onClose: () => void;
+  /**
+   * The menu is server-rendered (closed) on every page so crawlers see its
+   * links. Its overview image is only rendered once the menu has been opened,
+   * so a closed menu never costs an image download.
+   */
+  showMedia?: boolean;
 };
 
 function FeatureCard({
@@ -56,7 +62,7 @@ function FeatureCard({
       href={feature.href}
       prefetch
       onClick={onClose}
-      className="group flex w-full items-center justify-between gap-3 rounded-[12px] border border-white/80 bg-white px-3 py-2.5 text-left transition hover:border-cyan/50 hover:shadow-[0_10px_28px_rgba(0,0,0,0.18)]"
+      className="group flex w-full items-center justify-between gap-3 rounded-[12px] border border-white/80 bg-white px-3 py-2.5 text-left transition hover:border-cyan/50 hover:shadow-[0_10px_28px_rgba(0,0,0,0.18)] focus-visible:border-cyan/50"
     >
       <span className="min-w-0 text-[13px] font-semibold leading-snug text-[#0f172a] group-hover:text-blue">
         {feature.label}
@@ -75,6 +81,7 @@ function OverviewCard({
   image,
   onClose,
   showPlatformTiles,
+  showMedia = true,
 }: {
   title: string;
   description: string;
@@ -82,6 +89,7 @@ function OverviewCard({
   image?: string;
   onClose: () => void;
   showPlatformTiles?: boolean;
+  showMedia?: boolean;
 }) {
   return (
     <Link
@@ -108,13 +116,15 @@ function OverviewCard({
           </div>
         ) : image ? (
           <>
-            <Image
-              src={image}
-              alt={title}
-              fill
-              sizes="320px"
-              className="object-cover transition duration-500 group-hover:scale-[1.03]"
-            />
+            {showMedia ? (
+              <Image
+                src={image}
+                alt={title}
+                fill
+                sizes="320px"
+                className="object-cover transition duration-500 group-hover:scale-[1.03]"
+              />
+            ) : null}
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" />
             <span className="absolute bottom-2.5 left-2.5 rounded-full bg-black/55 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-white backdrop-blur-sm">
               {title}
@@ -132,6 +142,7 @@ export function SolutionsMegaMenu({
   activeId,
   onActiveChange,
   onClose,
+  showMedia = true,
 }: SolutionsMegaMenuProps) {
   const overview = getOverviewCopy(activeId);
   const features = getFeatureCards(activeId);
@@ -196,6 +207,7 @@ export function SolutionsMegaMenu({
               <OverviewCard
                 {...overview}
                 showPlatformTiles={isPlatformOverview}
+                showMedia={showMedia}
                 onClose={onClose}
               />
             </div>

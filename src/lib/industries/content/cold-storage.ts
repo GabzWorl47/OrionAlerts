@@ -1,8 +1,6 @@
 import {
   INDUSTRY_SCHEMA_VERSION,
-  industrySharedCopy,
   industrySharedCtas,
-  industrySharedFaqs,
 } from "@/lib/industries/shared";
 import type { IndustryPageRecord } from "@/lib/industries/types";
 
@@ -10,30 +8,25 @@ export const coldStorageIndustryPage: IndustryPageRecord = {
   slug: "cold-storage",
   name: "Cold Storage & Refrigerated Warehousing",
   cardLabel: "Cold Storage",
-  cardSummary:
-    "Use Vision Copilot to connect mapped camera observations with decisions about door activity and visual context around cold-chain investigations.",
+  siteNoun: { one: "cold store", many: "cold storage facilities" },
   schemaVersion: INDUSTRY_SCHEMA_VERSION,
   contentVersion: 2,
   status: "reviewed",
   seo: {
-    title: "Cold Storage Video Analytics | OrionAlerts",
+    title: "AI Video Analytics for Cold Storage",
     description:
-      "Explore cold storage operations with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
+      "Cold storage CCTV analytics: review chamber door activity and loading periods, and pull the right clip fast when a temperature excursion is investigated.",
     canonicalPath: "/industries/cold-storage",
-    ogTitle: "Cold Storage Video Analytics | OrionAlerts",
-    ogDescription:
-      "Explore cold storage operations with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
     image: "/Images/industries/cold-storage.webp",
   },
   hero: {
     eyebrow: "Cold Storage & Refrigerated Warehousing",
-    h1: "Vision Copilot for Cold Storage Operations",
-    lede: "Map cameras to the places your team manages and ask Vision Copilot about door activity and visual context around cold-chain investigations. OrionAlerts analyses scenes over time to surface alerts, recommendations and operational scores that help you decide what to review today and what to improve next.",
+    h1: "AI Video Analytics for Cold Storage",
+    lede: "Review chamber-door activity, loading periods and access around a cold-chain issue, and pull the right clip fast when a temperature excursion is investigated. Pair the footage with calibrated sensor records for the full picture.",
     media: {
       kind: "image",
       src: "/Images/industries/cold-storage.webp",
-      alt: "Illustrative cold-storage warehouse photograph used for industry context",
-      demonstrationLabel: "Illustrative photograph — not a verified customer deployment",
+      alt: "Cutaway illustration of a cold-storage warehouse with racked pallets and refrigerated trucks at loading docks",
     },
     primaryCta: industrySharedCtas.primary,
     secondaryCta: industrySharedCtas.secondaryHero,
@@ -41,7 +34,7 @@ export const coldStorageIndustryPage: IndustryPageRecord = {
   context: {
     heading: "Understand activity around an excursion without guessing its cause.",
     paragraphs: [
-      "When a cold-chain issue occurs, teams may need to know whether a door was open, loading took longer than expected or access activity changed. Video can help answer those contextual questions if the scene is visible and timestamps align. It cannot determine product temperature, validate an unbroken cold chain or prove product suitability on its own.",
+      "When a cold-chain issue occurs, teams need to know whether a door was open, loading took longer than expected or access activity changed. Video answers those contextual questions when the scene is visible and timestamps align with sensor data. Product temperature and cold-chain integrity are established by calibrated instruments and the applicable quality assessment.",
     ],
     buyers: [
       "Cold-chain operations",
@@ -51,8 +44,6 @@ export const coldStorageIndustryPage: IndustryPageRecord = {
     ],
   },
   locationContext: {
-    heading: "Your operation, mapped",
-    body: "Organise views around the places the team recognises. Select the location to establish the context for scene observations and Copilot questions. This example uses the shared hierarchy; map the actual site rather than inventing rooms or camera coverage.",
     hierarchyExample: [
       { label: "Site", example: "Cold-Store Site" },
       { label: "Building", example: "Warehouse Building" },
@@ -64,15 +55,13 @@ export const coldStorageIndustryPage: IndustryPageRecord = {
       "Cameras are mapped to the selected chamber entry or loading interface so questions about Chamber Entry 2 start from recognisable operational context.",
   },
   copilot: {
-    heading: "Ask Vision Copilot",
-    body: industrySharedCopy.copilotIntro,
     prompts: [
+      "What loading or doorway practices should the cold-store team review?",
       "Show observations at Chamber Entry 2 during yesterday's loading period.",
       "Where did visible door-opening observations recur?",
-      "What loading or doorway practices should the cold-store team review?",
     ],
     exampleAnswer:
-      "Illustrative example — not a live product result. Repeated visible door-opening observations align with busy loading periods in the available scene record. Suggested next step: review loading sequence and doorway practices; check calibrated sensor records before attributing temperature effects.",
+      "Repeated visible door-opening observations align with busy loading periods in the available scene record. Suggested next step: review loading sequence and doorway practices; check calibrated sensor records before attributing temperature effects.",
     exampleStatus: "illustrative",
   },
   sceneIntelligence: {
@@ -81,8 +70,6 @@ export const coldStorageIndustryPage: IndustryPageRecord = {
     recommendation:
       "Review loading sequence and doorway practices; check calibrated sensor records before attributing temperature effects.",
     decisionOwner: "Cold-store operations / QA",
-    followUpPrompt:
-      "Revisit the same area and comparable period to assess observations, coverage and score movement.",
   },
   scorecards: {
     heading: "See what needs attention—and what changes after action.",
@@ -125,49 +112,42 @@ export const coldStorageIndustryPage: IndustryPageRecord = {
   useCases: [
     {
       id: "location-into-decision",
-      title: "Bring the right location into the decision",
-      body: "Connect door activity and visual context around cold-chain investigations to the building tree and its mapped cameras. The team can start with a named operational area instead of trying to remember which camera covers it, making observations easier to interpret and discuss.",
+      title: "Start from Chamber Entry 2",
+      body: "Cameras map to cold zones, chamber entries and loading interfaces, so an excursion review begins at the right door.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["building-hierarchy", "vision-copilot"],
     },
     {
       id: "search-observations",
-      title: "Search visual observations in everyday language",
-      body: 'Ask Vision Copilot, “Show observations at Chamber Entry 2 during yesterday\'s loading period.” Use the location and review period to focus the search on relevant available observations. The purpose is to reach useful context without manually working through unrelated camera views.',
+      title: "Search a chamber entry by loading period",
+      body: "Ask Vision Copilot, “Show observations at Chamber Entry 2 during yesterday's loading period,” to see door and loading activity in that window.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["vision-copilot", "scene-analysis"],
     },
     {
       id: "recurring-conditions",
-      title: "Identify recurring conditions across scenes",
-      body: 'Ask, “Where did visible door-opening observations recur?” Ongoing scene analysis supports review of patterns across the available observations. Use the recurring condition to frame the next investigation rather than treating one isolated alert as the whole operational picture.',
+      title: "See where door openings recur",
+      body: "Ask where visible door-opening observations recur, then compare them with the busiest loading periods.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["scene-analysis", "vision-copilot"],
     },
     {
       id: "improvement-decision",
-      title: "Turn analysis into an improvement decision",
-      body: 'Ask, “What loading or doorway practices should the cold-store team review?” Review the recommendation alongside the underlying observations and the team\'s operating knowledge. The example below shows a practical next step; it is a suggested action for human consideration, not an automatic instruction to change equipment or procedures.',
+      title: "Review loading and doorway practice",
+      body: "Ask what loading or doorway practices the cold-store team should review. A typical suggestion is to revisit the loading sequence and check calibrated sensor records before attributing any temperature effect.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["recommendations"],
     },
     {
       id: "score-led-review",
-      title: "Use scores to structure the next review",
-      body: "Use 0–100 scores to organise attention across observed door/access activity only, never proof of temperature control or product condition. Review the contributing observations and coverage before acting. The proposed dimensions for this industry are Door-Handling Practices, Loading-Area Flow and Cold-Zone Access Practices; use the approved product methodology when demonstrating actual values.",
+      title: "Score door and access activity",
+      body: "0–100 scores cover observed door and access activity in comparable periods, giving QA a structured view of where to look first.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["operational-scores"],
     },
   ],
-  workflow: {
-    heading: "From scenes to decisions",
-    scenario:
-      "Illustrative decision story — not a customer result. Observe: Repeated visible door-opening observations align with busy loading periods in the available scene record. Ask: “What loading or doorway practices should the cold-store team review?” Suggested recommendation: Review loading sequence and doorway practices; check calibrated sensor records before attributing temperature effects. Decide: The responsible team reviews the evidence and agrees an action. Follow up: Revisit the same area and comparable period to assess observations, coverage and score movement. A subsequent change is not proof of causation.",
-    steps: industrySharedCopy.workflowLabels.map((label) => ({ label })),
-  },
   deployment: {
-    heading: industrySharedCopy.deploymentHeading,
-    body: `${industrySharedCopy.deploymentIntroduction} Check the camera's operating temperature, condensation management, defrost conditions and enclosure suitability. Assess networking and maintenance access inside cold zones. Validate time alignment with any external sensors.`,
+    body: "Check each camera's operating temperature range, condensation management, defrost conditions and enclosure suitability. Plan networking and maintenance access inside cold zones, and validate time alignment with any external sensors.",
     requiredInputs: [
       "Mapped hierarchy for pilot chamber entries and loading interfaces",
       "Cameras and enclosures suitable for cold-zone operating conditions",
@@ -177,7 +157,7 @@ export const coldStorageIndustryPage: IndustryPageRecord = {
   },
   standards: {
     publicCopy:
-      "Apply food-related requirements or pharmaceutical requirements according to the stored goods. Video does not certify temperature control, storage suitability or a cold chain.",
+      "Food storage follows Food Safety and Standards Authority of India (FSSAI) requirements and pharmaceutical storage follows good manufacturing practice (GMP) obligations, depending on the goods held. Door and access footage aligned with sensor timestamps gives QA context for its own excursion investigations.",
     frameworkIds: ["C7", "C6"],
     reviewedAt: "2026-09-11",
   },
@@ -204,39 +184,54 @@ export const coldStorageIndustryPage: IndustryPageRecord = {
   solutions: [
     {
       solutionSlug: "ai-analytics",
-      body: `${industrySharedCopy.solutionBasis["ai-analytics"]} For cold storage, focus on location-aware search, recommendations and score-led review of visible access and door events where supported.`,
+      body: "Location-aware search, recommendations and score-led review of visible door and access events at chamber entries.",
     },
     {
       solutionSlug: "vms",
-      body: `${industrySharedCopy.solutionBasis.vms} Use it for excursion-context review across agreed cameras.`,
+      body: "Excursion-context review across the agreed cameras, aligned with sensor timestamps.",
     },
     {
       solutionSlug: "health-monitoring",
-      body: `${industrySharedCopy.solutionBasis["health-monitoring"]} Prioritise cold-site camera continuity so investigations retain usable footage.`,
+      body: "Keeps cold-site cameras recording, so excursion investigations retain usable footage.",
     },
   ],
   faqs: [
     {
+      question: "Can CCTV help investigate a temperature excursion?",
+      answer:
+        "Yes, as context. Video can show when a chamber door stayed open, how long loading took and when people entered the cold zone around the time a sensor logged an excursion. It cannot measure product temperature, so pair the footage with calibrated sensor records.",
+    },
+    {
+      question: "Which cold-store areas should cameras cover first?",
+      answer:
+        "Chamber entries and loading interfaces, where door activity and loading duration matter most during an investigation. Choose cameras and enclosures rated for the cold-zone temperature, condensation and defrost conditions, and confirm time alignment with any external sensors before relying on the footage.",
+    },
+    {
       question: "Can CCTV measure the temperature?",
       answer:
-        "An ordinary RGB camera cannot. Use calibrated temperature instrumentation; specialist thermal systems have their own limits and validation requirements.",
+        "No. Temperature comes from calibrated instruments, and an ordinary CCTV camera cannot measure it. What the camera shows is door and loading activity around a chamber, which QA reads alongside sensor records. Specialist thermal camera systems exist, but they have their own limits and validation requirements and are scoped separately from this pilot.",
     },
     {
       question: "Can an open-door alert prove spoilage?",
       answer:
-        "No. Product condition depends on measured exposure and the applicable quality assessment.",
+        "No. An open-door alert shows exposure context: which door was open, for how long and during which loading period. Whether product was affected is decided from measured exposure, such as temperature records, and the applicable quality assessment, with the clip helping QA reconstruct what happened at the chamber entry.",
     },
     {
       question: "Can existing cameras work inside a freezer?",
       answer:
-        "Only if their environmental specifications and installation are suitable. Verify the exact model and actual operating conditions.",
+        "Sometimes. It depends on whether each camera's environmental specifications and installation suit the chamber, so the exact model is checked against actual chamber temperatures, condensation and defrost cycles. Where an existing camera falls short, a cold-rated camera or enclosure is specified for that position, and recording availability is tested through cold and defrost conditions.",
     },
-    ...industrySharedFaqs,
   ],
-  relatedIndustrySlugs: ["logistics", "food-fmcg", "pharma"],
+  limits: "Video gives context around door and loading activity. Temperature, product condition and cold-chain integrity are established by calibrated instruments and QA's own assessment, and scores reflect observed activity only.",
+  furtherReading: {
+    blogs: ["cctv-camera-health-monitoring"],
+    glossary: ["video-analytics", "camera-health-monitoring"],
+    useCases: ["unauthorized-area-entry"],
+  },
+  relatedIndustrySlugs: ["food-fmcg", "pharma", "logistics"],
   finalCta: {
-    heading: "Ask Vision Copilot about your cold storage operations.",
-    body: "See how Vision Copilot connects a mapped area with visual search, recommendations and scores for cold storage operations.",
+    heading: "Ask Vision Copilot about your cold store.",
+    body: "Start with two chamber entries and one loading bay, and see what an excursion review would look like.",
   },
   sources: [
     "README v2 §9.12",

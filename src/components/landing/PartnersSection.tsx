@@ -1,8 +1,9 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { MagneticButton } from "@/components/MagneticButton";
 import { Reveal, Stagger, StaggerItem } from "@/components/Reveal";
+import { useSafeReducedMotion } from "@/lib/use-safe-reduced-motion";
 
 const logos = [
   "Camera OEM",
@@ -35,7 +36,7 @@ const tracks = [
 ];
 
 export function PartnersSection() {
-  const reduce = useReducedMotion();
+  const reduce = useSafeReducedMotion();
 
   return (
     <section id="partners" className="relative overflow-hidden section-alt py-20 md:py-28">

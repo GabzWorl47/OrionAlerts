@@ -1,13 +1,26 @@
 import type { Metadata } from "next";
 import { site } from "@/lib/site";
 
-export const DEFAULT_OG_IMAGE = "/Images/favicon.png";
+/** 1200×630 social share card (Open Graph / Twitter). */
+export const DEFAULT_OG_IMAGE = "/Images/og-default.jpg";
+export const DEFAULT_OG_IMAGE_SIZE = { width: 1200, height: 630 } as const;
 
-export const SITE_DEFAULT_TITLE =
-  "Enterprise Video Intelligence for AI Alerts & VMS";
+/** Square brand mark for schema.org `logo` fields. */
+export const SITE_LOGO = "/Images/favicon.png";
+
+export const SITE_DEFAULT_TITLE = "AI Video Analytics & VMS Platform in India";
 
 export const SITE_DEFAULT_DESCRIPTION =
-  "OrionAlerts unifies VMS, AI video alerts, camera health, asset tracking, and AMC ops across enterprise sites.";
+  "OrionAlerts turns existing CCTV into real-time AI alerts and unifies VMS, camera health, asset tracking and AMC for multi-site enterprises in India.";
+
+/** Open Graph locale for the India-targeted site. */
+export const OG_LOCALE = "en_IN";
+
+/** Hard ceiling for the rendered `<title>` (and share titles) in SERPs. */
+export const MAX_TITLE_LENGTH = 60;
+
+/** Suffix the root layout's title template appends (`%s | OrionAlerts`). */
+export const TITLE_SUFFIX = ` | ${site.name}`;
 
 type BuildPageMetadataInput = {
   title: string;
@@ -35,13 +48,36 @@ export function clipDescription(text: string, max = 155): string {
   return `${(lastSpace > 80 ? slice.slice(0, lastSpace) : slice).trimEnd()}…`;
 }
 
-/** Prefer topic-first titles under ~60 characters for SERP display. */
-export function clipTitle(text: string, max = 60): string {
+/** Words a clipped title should never end on. */
+const TRAILING_STOPWORDS = new Set([
+  "a", "an", "and", "as", "at", "by", "for", "from", "in", "into", "is",
+  "of", "on", "or", "the", "to", "vs", "with", "your",
+]);
+
+/**
+ * Prefer topic-first titles under ~60 characters for SERP display.
+ * Cuts on a word boundary (no mid-word ellipsis), then drops dangling
+ * separators and connective words so the title still reads as a phrase.
+ */
+export function clipTitle(text: string, max = MAX_TITLE_LENGTH): string {
   const cleaned = text.replace(/\s+/g, " ").trim();
   if (cleaned.length <= max) return cleaned;
-  const slice = cleaned.slice(0, max - 1);
-  const lastSpace = slice.lastIndexOf(" ");
-  return `${(lastSpace > 40 ? slice.slice(0, lastSpace) : slice).trimEnd()}…`;
+  const words = cleaned.slice(0, max + 1).split(" ");
+  // The last fragment is only a whole word if the cut landed on a space.
+  if (cleaned[max] !== " ") words.pop();
+  while (words.length > 1) {
+    const last = words[words.length - 1].replace(/[\s:;,.\-–—|&/]+$/, "");
+    if (!last || TRAILING_STOPWORDS.has(last.toLowerCase())) {
+      words.pop();
+      continue;
+    }
+    words[words.length - 1] = last;
+    break;
+  }
+  const clipped = words.join(" ").trim();
+  // A single over-long word: fall back to a hard cut.
+  if (clipped.length < max * 0.5) return `${cleaned.slice(0, max - 1).trimEnd()}…`;
+  return clipped;
 }
 
 /**
@@ -64,16 +100,23 @@ export function buildPageMetadata({
   ogDescription,
 }: BuildPageMetadataInput): Metadata {
   const path = pathname.startsWith("/") ? pathname : `/${pathname}`;
-  const clippedTitle = clipTitle(title);
+  const cleanedTitle = title.replace(/\s+/g, " ").trim();
+  // The layout template appends TITLE_SUFFIX, so a templated title only has
+  // MAX_TITLE_LENGTH - TITLE_SUFFIX.length characters to work with. A title
+  // that is too long for the suffix but fits on its own ships without the
+  // brand rather than being cut mid-phrase; anything longer is clipped on a
+  // word boundary to the full 60.
+  const useTemplate =
+    !absoluteTitle &&
+    cleanedTitle.length <= MAX_TITLE_LENGTH - TITLE_SUFFIX.length;
+  const pageTitle = useTemplate ? cleanedTitle : clipTitle(cleanedTitle);
+  const renderedTitle = useTemplate ? `${pageTitle}${TITLE_SUFFIX}` : pageTitle;
   const desc = clipDescription(description);
   const socialDescription = ogDescription ? clipDescription(ogDescription) : desc;
-  const socialTitle = clipTitle(
-    ogTitle ?? (absoluteTitle ? clippedTitle : `${clippedTitle} | ${site.name}`),
-    70,
-  );
+  const socialTitle = ogTitle ? clipTitle(ogTitle) : renderedTitle;
 
   return {
-    title: absoluteTitle ? { absolute: clippedTitle } : clippedTitle,
+    title: useTemplate ? pageTitle : { absolute: pageTitle },
     description: desc,
     alternates: { canonical: path },
     robots: noIndex ? { index: false, follow: false } : undefined,
@@ -82,8 +125,15 @@ export function buildPageMetadata({
       description: socialDescription,
       url: path,
       siteName: site.name,
+      locale: OG_LOCALE,
       type,
-      images: [{ url: image, alt: imageAlt ?? socialTitle }],
+      images: [
+        {
+          url: image,
+          alt: imageAlt ?? socialTitle,
+          ...(image === DEFAULT_OG_IMAGE ? DEFAULT_OG_IMAGE_SIZE : {}),
+        },
+      ],
       ...(publishedTime ? { publishedTime } : {}),
       ...(modifiedTime ? { modifiedTime } : {}),
       ...(authors?.length ? { authors } : {}),

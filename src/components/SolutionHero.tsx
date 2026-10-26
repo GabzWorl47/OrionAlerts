@@ -1,24 +1,31 @@
 "use client";
 
 import Image from "next/image";
-import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef, useSyncExternalStore } from "react";
+import { MagneticButton } from "@/components/MagneticButton";
 import type { Solution } from "@/lib/site";
+import { useSafeReducedMotion } from "@/lib/use-safe-reduced-motion";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
+/**
+ * Only the fields the hero renders. This is a client component, so every prop
+ * is serialized into the page's RSC payload — never pass the whole Solution
+ * (features, FAQs, workflow…) here. `lede` is the first sentence of the
+ * summary, trimmed on the server.
+ */
+export type SolutionHeroData = Pick<
+  Solution,
+  "slug" | "name" | "seoTitle" | "shortName" | "tagline" | "headline" | "image"
+> & { lede: string };
+
 type SolutionHeroProps = {
-  solution: Solution;
+  solution: SolutionHeroData;
 };
 
-function shortLede(summary: string) {
-  const first = summary.split(/(?<=[.!?])\s+/)[0]?.trim();
-  if (!first) return summary;
-  return first.length > 140 ? `${first.slice(0, 137)}…` : first;
-}
-
 export function SolutionHero({ solution }: SolutionHeroProps) {
-  const reduce = useReducedMotion();
+  const reduce = useSafeReducedMotion();
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -47,7 +54,44 @@ export function SolutionHero({ solution }: SolutionHeroProps) {
         ref={ref}
         className="relative overflow-hidden bg-white text-text"
       >
-        <h1 className="sr-only">{solution.name}</h1>
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-[28rem] bg-[radial-gradient(ellipse_at_50%_0%,rgba(126,200,255,0.22),transparent_65%)]" />
+        <div className="container relative z-10 pb-2 pt-10 text-center md:pb-4 md:pt-14">
+          <motion.p
+            initial={animate ? { opacity: 0, y: 12 } : false}
+            animate={{ opacity: 1, y: 0 }}
+            transition={animate ? { duration: 0.45, ease } : { duration: 0 }}
+            className="eyebrow"
+          >
+            {solution.tagline}
+          </motion.p>
+          <motion.h1
+            initial={animate ? { opacity: 0, y: 16 } : false}
+            animate={{ opacity: 1, y: 0 }}
+            transition={animate ? { duration: 0.55, delay: 0.05, ease } : { duration: 0 }}
+            className="mx-auto mt-3 max-w-5xl text-balance font-display text-[clamp(1.85rem,4.2vw,3.25rem)] font-semibold normal-case leading-[1.08] tracking-[-0.03em] text-text"
+          >
+            {solution.seoTitle ?? solution.name}
+          </motion.h1>
+          <motion.p
+            initial={animate ? { opacity: 0, y: 14 } : false}
+            animate={{ opacity: 1, y: 0 }}
+            transition={animate ? { duration: 0.5, delay: 0.1, ease } : { duration: 0 }}
+            className="description mx-auto mt-4 max-w-2xl text-balance text-[15px] md:text-[17px]"
+          >
+            {solution.headline}
+          </motion.p>
+          <motion.div
+            initial={animate ? { opacity: 0, y: 12 } : false}
+            animate={{ opacity: 1, y: 0 }}
+            transition={animate ? { duration: 0.5, delay: 0.15, ease } : { duration: 0 }}
+            className="mt-7 flex flex-wrap items-center justify-center gap-3"
+          >
+            <MagneticButton href="/book-demo">Book a Demo</MagneticButton>
+            <MagneticButton href="#how-it-works" variant="outline">
+              See How It Works
+            </MagneticButton>
+          </motion.div>
+        </div>
         <div className="relative w-full">
           <Image
             src={solution.image}
@@ -125,7 +169,7 @@ export function SolutionHero({ solution }: SolutionHeroProps) {
             transition={animate ? { duration: 0.5, delay: 0.16, ease } : { duration: 0 }}
             className="mt-3 max-w-md text-sm leading-relaxed text-white/65"
           >
-            {shortLede(solution.summary)}
+            {solution.lede}
           </motion.p>
         </motion.div>
       </div>

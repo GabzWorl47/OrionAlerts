@@ -1,8 +1,16 @@
 export const site = {
   name: "OrionAlerts",
-  tagline: "Intelligent video, analytics, and asset intelligence for enterprise operations.",
+  tagline:
+    "AI video analytics, VMS, CCTV health monitoring and AMC management for multi-site enterprises. Built in Mumbai, India.",
   description:
-    "OrionAlerts helps enterprises unify VMS, AI video alerts, camera health, asset tracking, and AMC operations across sites.",
+    "OrionAlerts turns existing CCTV into real-time AI alerts and unifies VMS, camera health, asset tracking and AMC for multi-site enterprises in India.",
+  /**
+   * The canonical "What is OrionAlerts" statement. Reuse it verbatim (About intro,
+   * FAQ #1, homepage, llms.txt, fact sheet) so search and answer engines see one
+   * consistent description of the entity.
+   */
+  entityStatement:
+    "OrionAlerts is an enterprise video intelligence platform from Global Ace Technology Pvt. Ltd., Mumbai, India. It turns existing CCTV and IP cameras into real-time AI video analytics alerts, and combines a video management system (VMS), camera health monitoring, asset tracking and AMC management on Nebula OS, its Linux-based operating system, for single-site and multi-site organizations.",
   email: "sales@orionalerts.com",
   /** Leave empty until a verified public phone number is published. */
   phone: "",
@@ -19,7 +27,6 @@ export const socialProfiles: string[] = [];
 
 /** Topics the company is an authority on; emitted as schema.org `knowsAbout`. */
 export const knowsAbout: string[] = [
-  "Video Surveillance as a Service",
   "AI video analytics",
   "Video management systems",
   "CCTV camera health monitoring",
@@ -32,6 +39,10 @@ export type Solution = {
   slug: string;
   name: string;
   shortName: string;
+  /** Keyword-led page title (≤46 chars; " | OrionAlerts" is appended). Falls back to `name`. */
+  seoTitle?: string;
+  /** Meta description (120–155 chars). Falls back to the shared SEO copy in seo.ts. */
+  seoDescription?: string;
   image: string;
   tagline: string;
   headline: string;
@@ -39,27 +50,63 @@ export type Solution = {
   overview: string;
   introVideo?: string;
   introVideoPoster?: string;
-  features: { title: string; description: string }[];
+  /** One visible line for cards and lists: who it is for and the problem it solves. */
+  oneLiner: string;
+  /**
+   * Question-style H2 plus a 40–60 word definition-first answer, shown at the
+   * top of the page (AEO: featured snippets and AI answers quote this).
+   */
+  definition: { question: string; answer: string };
+  features: SolutionFeature[];
+  /** Text version of the architecture diagram, in order. Empty when there is no diagram. */
   architecture: string[];
+  /** "How it works" step titles, rendered as a numbered list. */
   workflow: string[];
+  /** Optional one-line description per `workflow` step (same order). */
+  workflowDetails?: string[];
   benefits: string[];
   screenshotLabels: string[];
+  /** Visible FAQ (H3 questions) and FAQPage structured data. Facts only — no invented numbers. */
+  faqs: SolutionFaq[];
+};
+
+export type SolutionFaq = { question: string; answer: string };
+
+/**
+ * One capability row. The title drives the anchor id (`featureAnchorId`), so a
+ * rename changes deep links — keep the old id working via `featureAnchorAliases`
+ * in src/lib/feature-anchors.ts.
+ */
+export type SolutionFeature = {
+  title: string;
+  description: string;
+  /** Optional "Learn more" links to the matching /use-cases pages. */
+  links?: { label: string; href: string }[];
 };
 
 const solutionsSource: Solution[] = [
   {
     slug: "vms",
     name: "Video Management System (VMS)",
+    seoTitle: "Video Management System (VMS) Software",
+    seoDescription:
+      "OrionAlerts VMS puts live view, playback, alarms and evidence export for every site in one console. Works with existing ONVIF and RTSP IP cameras.",
     shortName: "VMS",
-    image: "/Images/solutions/centralized-live-monitoring-playback.png",
+    image: "/Images/solutions/centralized-live-monitoring-playback.webp",
     tagline: "Live monitoring & control",
     headline:
       "Unify cameras, sites, and operators in one enterprise VMS for live monitoring, playback, and control.",
-    introVideo: "/Videos/VMS.mp4",
+    introVideo: "/Videos/workflow/live-wall.mp4",
     summary:
-      "Unify your surveillance operations with an enterprise-grade platform designed for seamless visibility and control. Orion Alerts enables security teams to collaborate more effectively, improve operational efficiency, and manage surveillance ecosystems with greater confidence.",
+      "Run live monitoring, playback, alarms and evidence export for every camera and site from one video management system, so security teams work from one console instead of separate recorders.",
     overview:
-      "Simplify surveillance operations with a centralized Video Management System (VMS) that brings all your cameras, recorders, and sites onto a single platform. Monitor live video, access recorded footage, manage users, and oversee multiple locations through an intuitive, unified interface. Designed for scalability and seamless integration, the platform enhances situational awareness, accelerates incident investigations, and provides a future-ready foundation for AI-powered video analytics.",
+      "OrionAlerts VMS replaces NVR-by-NVR logins with one console for every camera, recorder and site. Recording and retention are set per camera, zone or site, incidents are found on searchable timelines, and the cameras you already own connect over ONVIF, RTSP and vendor SDKs.",
+    oneLiner: "Live view, playback and evidence for every site in one console.",
+    definition: {
+      question: "What is a video management system (VMS)?",
+      answer:
+        "A video management system (VMS) is software that connects IP cameras and recorders so operators can watch live video, play back recordings, manage alarms and export evidence from one interface. OrionAlerts VMS runs as a native service of Nebula OS, so multi-site live view and playback sit on the same platform as AI alerts and camera health.",
+    },
     features: [
       {
         title: "Centralized Live Monitoring & Playback",
@@ -93,38 +140,80 @@ const solutionsSource: Solution[] = [
       },
     ],
     architecture: [
-      "Edge encode / camera ingest",
-      "Secure media gateway",
-      "Recording & retention services",
-      "Operator console & APIs",
+      "Camera ingest over ONVIF, RTSP and vendor SDKs",
+      "Video and recording engines on the on-site Nebula OS node",
+      "Recording and retention policies per camera, zone or site",
+      "Operator console with role-based access and APIs",
     ],
     workflow: [
       "Connect cameras and map sites",
-      "Define roles, zones, and retention",
-      "Operate live walls and incident playbooks",
-      "Export evidence and report outcomes",
+      "Define roles, zones and retention",
+      "Monitor live video and handle alarms",
+      "Search incidents and export evidence",
+    ],
+    workflowDetails: [
+      "Bring existing IP cameras and recorders onto the platform over ONVIF, RTSP or vendor SDKs, and map them to sites and zones.",
+      "Decide who sees which sites and cameras, and set recording and retention per camera, zone or site.",
+      "Operators watch live walls across sites and acknowledge, escalate and clear alarms from one shared queue.",
+      "Find footage on searchable incident timelines and export evidence for investigations and audits.",
     ],
     benefits: [
       "Faster incident awareness across locations",
-      "Lower operational complexity vs fragmented NVRs",
+      "One console instead of NVR-by-NVR logins",
       "Audit-ready access and export trails",
-      "Foundation for AI analytics overlays",
+      "Ready for AI alerts on the same cameras",
     ],
     screenshotLabels: ["Live operations wall", "Site map overview", "Incident timeline"],
+    faqs: [
+      {
+        question: "Do I need to replace my cameras to use OrionAlerts VMS?",
+        answer:
+          "No. OrionAlerts connects supported IP cameras and recorders through ONVIF, RTSP and vendor SDKs, so the cameras you already own are brought onto the platform rather than replaced.",
+      },
+      {
+        question: "What is the difference between a VMS and an NVR?",
+        answer:
+          "An NVR records cameras at one location. A VMS manages many cameras and recorders across sites from one console, with shared user roles, alarm handling, search and evidence export.",
+      },
+      {
+        question: "Does video leave my site?",
+        answer:
+          "Not in the standard deployment. Video is recorded and stored on the on-site Nebula OS node, and Orion Cloud synchronizes only health status, alerts, configuration and operational metadata, so you get a central view without uploading raw video.",
+      },
+      {
+        question: "Can one VMS manage multiple sites?",
+        answer:
+          "Yes. Each site runs its own Nebula OS node for video and recording, and Orion Cloud provides one command view across every location. Role-based access means operators, managers and auditors each see the sites and cameras in their scope.",
+      },
+      {
+        question: "Can I add AI video analytics to the same cameras later?",
+        answer:
+          "Yes. AI video analytics is another module of the same platform. The AI runtime reads frames from the same video engine that records your cameras, so detections can be switched on for selected cameras without a separate analytics appliance.",
+      },
+    ],
   },
   {
     slug: "ai-analytics",
     name: "AI Vision & Real-Time Alerts",
+    seoTitle: "AI Video Analytics & Real-Time CCTV Alerts",
+    seoDescription:
+      "AI video analytics that turn existing CCTV into real-time alerts for intrusion, PPE, fire, smoke and loitering, on your dashboard, mobile app or email.",
     shortName: "AI Vision",
-    image: "/Images/solutions/real-time-ai-video-analytics.png",
+    image: "/Images/solutions/real-time-ai-video-analytics.webp",
     tagline: "Intelligent video analytics",
     headline:
       "Turn live video into real-time AI alerts for safety, intrusion, PPE, and operational events.",
-    introVideo: "/Videos/video/AI_video_analytics_real-time_alerts_202607281709.mp4",
+    introVideo: "/Videos/outcomes/ai-analytics.mp4",
     summary:
-      "Empower your organization with intelligent visual insights that enhance security, improve operational awareness, and support faster decision-making. Orion Alerts helps businesses move beyond traditional surveillance by turning video into meaningful actions and measurable outcomes.",
+      "Turn the cameras you already own into real-time alerts for security, safety and operational events, so teams act on what is happening instead of reviewing footage after the fact.",
     overview:
-      "Transform your surveillance system from passive monitoring to proactive intelligence with AI-powered video analytics. ORION Alerts continuously analyzes live video streams to detect security, safety, and operational events in real time, instantly notifying the right teams for faster response and informed decision-making. From intrusion detection and PPE compliance to people counting, vehicle monitoring, and custom AI use cases, the platform delivers actionable insights that improve security, operational efficiency, and business intelligence.",
+      "OrionAlerts AI video analytics watches live CCTV streams and raises an alert when a defined event happens, such as an intrusion, a missing helmet or vest, smoke, loitering or a vehicle in the wrong zone. Detections run on the on-site Nebula OS node, and zone and schedule rules keep alerts to the events each site cares about.",
+    oneLiner: "Real-time alerts for intrusion, PPE, fire and smoke from existing CCTV.",
+    definition: {
+      question: "How does AI video analytics work?",
+      answer:
+        "AI video analytics software runs computer-vision models on live camera streams to detect defined events, such as a person entering a restricted zone or a worker without a helmet. When a rule is met, the system raises an alert for a person to review. In OrionAlerts, the AI runtime reads frames from the same video engine that records the cameras.",
+    },
     features: [
       {
         title: "Real-Time AI Video Analytics",
@@ -134,62 +223,124 @@ const solutionsSource: Solution[] = [
       {
         title: "Instant Event Detection & Smart Alerts",
         description:
-          "Detect events as they happen and route smart alerts to the right teams without delay, improving response time while reducing alert fatigue from low-value noise.",
+          "Detect events as they happen and send the alert to the dashboard, mobile app and email with the event type, camera, site and zone, so the right team knows what happened and where. Zone and schedule rules decide which events raise an alert, cutting low-value noise.",
       },
       {
-        title: "Intrusion, PPE & Safety Monitoring",
+        title: "Intrusion & Restricted-Zone Detection",
         description:
-          "Monitor intrusion risk, PPE compliance, and unsafe site conditions across facilities so EHS and security teams can intervene before incidents escalate.",
+          "Alert when a person crosses a perimeter, enters a restricted or hazardous zone, or walks into an area they should not access during the hours that zone is active. Zones and lines are drawn on each camera view, so a breach is flagged as it happens rather than found later on the recording.",
+        links: [
+          { label: "Perimeter intrusion", href: "/use-cases/perimeter-intrusion-detection" },
+          { label: "Restricted zones", href: "/use-cases/restricted-zone-monitoring" },
+          { label: "Unauthorized entry", href: "/use-cases/unauthorized-area-entry" },
+        ],
+      },
+      {
+        title: "PPE & Safety Compliance Detection",
+        description:
+          "Check that workers wear the required PPE, such as hard hats and high-visibility vests, in designated zones and shifts. Violations are flagged in real time so EHS supervisors can intervene, and each event is kept for safety reviews and audits.",
+        links: [{ label: "PPE and safety compliance", href: "/use-cases/safety-compliance-detection" }],
+      },
+      {
+        title: "Fire & Smoke Detection",
+        description:
+          "Spot visible smoke and flames in camera footage across monitored zones such as warehouses, yards and plant areas, and alert the responsible team. It adds a visual early-warning layer that supplements, and does not replace, certified fire detection and alarm systems.",
+        links: [{ label: "Fire and smoke detection", href: "/use-cases/fire-smoke-detection" }],
+      },
+      {
+        title: "Loitering & Line-Crossing Detection",
+        description:
+          "Flag a person who stays in a sensitive or idle zone longer than the time set for that zone, or who crosses a virtual line drawn at a fence, gate or doorway. An alert needs someone to stay past the set time, so people simply passing through do not raise one.",
+        links: [
+          { label: "Loitering detection", href: "/use-cases/loitering-detection" },
+          { label: "Line crossing at perimeters", href: "/use-cases/perimeter-intrusion-detection" },
+        ],
       },
       {
         title: "People, Vehicle & Occupancy Analytics",
         description:
           "Track people, vehicles, and occupancy patterns for security and operations insight—supporting crowd awareness, traffic flow, and site utilization decisions in real time.",
-      },
-      {
-        title: "Intrusion Detection",
-        description:
-          "Detect unauthorized entry and perimeter breaches in real time so response teams can act before incidents spread across the site or create larger security exposure.",
-      },
-      {
-        title: "Restricted Area Monitoring",
-        description:
-          "Watch restricted zones continuously and alert when people enter areas they should not access—protecting sensitive spaces, hazardous zones, and controlled operational areas.",
+        links: [
+          { label: "Crowd detection", href: "/use-cases/crowd-detection" },
+          { label: "Vehicle detection", href: "/use-cases/vehicle-detection" },
+        ],
       },
     ],
     architecture: [
-      "Video stream tap / clip ingest",
-      "Inference workers (edge or cloud)",
-      "Rules & alert engine",
-      "Operator inbox & integrations",
+      "Decoded frames from the same video engine that records the cameras",
+      "AI runtime running the enabled detections",
+      "Rules and alert engine (zones, schedules, event types)",
+      "Alerts on the dashboard, mobile app and email",
     ],
     workflow: [
       "Select cameras and detection zones",
-      "Enable rule packs and thresholds",
-      "Validate alerts in pilot windows",
-      "Scale policies across sites",
+      "Turn on detections and rules",
+      "Review alerts during a pilot",
+      "Apply the same rules across sites",
+    ],
+    workflowDetails: [
+      "Choose which camera streams to analyze and mark the zones that matter, such as a perimeter, a hazardous area or a loading bay.",
+      "Pick event types such as intrusion, PPE, fire and smoke or loitering, and set zone and schedule rules that match how the site operates.",
+      "Check each alert against the recorded footage before a wider rollout.",
+      "Push the same safety and security rules to every site.",
     ],
     benefits: [
-      "Higher signal-to-noise for security teams",
-      "24/7 coverage without proportional staffing",
+      "Fewer false alarms for security teams",
+      "Cameras watched around the clock, not just the ones on screen",
       "Faster investigation with searchable events",
-      "Consistent policy enforcement multi-site",
+      "The same safety rules at every site",
     ],
     screenshotLabels: ["Alert inbox", "Zone configuration", "Forensic search"],
+    faqs: [
+      {
+        question: "What can OrionAlerts AI video analytics detect?",
+        answer:
+          "Depending on the site, detections include PPE and safety compliance, perimeter intrusion, line crossing, restricted-area entry, crowd and occupancy, vehicles, fire and smoke, loitering and process compliance. Custom AI use cases can also be scoped for specific operational requirements.",
+      },
+      {
+        question: "How are AI alerts delivered?",
+        answer:
+          "Alerts appear on the OrionAlerts dashboard, in the mobile app and by email. Each one names the event type, camera, site and zone, so the responder can check the recorded footage, and zone and schedule rules decide which events raise an alert.",
+      },
+      {
+        question: "Do I need new cameras for AI video analytics?",
+        answer:
+          "No. OrionAlerts runs AI on supported existing IP cameras connected over ONVIF, RTSP or vendor SDKs, so detections are added to the cameras you already record.",
+      },
+      {
+        question: "How is AI video analytics different from motion detection?",
+        answer:
+          "Motion detection triggers on any change in the picture, such as shadows, headlights, rain or moving foliage. AI video analytics recognizes what is in the scene, such as a person, a vehicle, a missing helmet or smoke, and raises an alert only when a defined rule is met.",
+      },
+      {
+        question: "What is Vision Copilot?",
+        answer:
+          "Vision Copilot is the OrionAlerts AI assistant for surveillance data. Teams ask questions in natural language to search events, retrieve evidence and generate operational insights, instead of scrubbing through footage.",
+      },
+    ],
   },
   {
     slug: "asset-tracking",
     name: "Asset Tracking",
+    seoTitle: "IT & Surveillance Asset Tracking Software",
+    seoDescription:
+      "Track IT and surveillance assets by serial, QR or barcode: location, custodian, warranty and lifecycle history in one register, with audit-ready exports.",
     shortName: "Asset Tracking",
     image: "/Images/solutions/centralized-asset-inventory.webp",
     tagline: "Inventory & lifecycle visibility",
     headline:
       "Track surveillance and IT assets across locations with clear ownership and lifecycle visibility.",
-    introVideo: "/Videos/video/Asset%20tracking.mp4",
+    introVideo: "/Videos/video/asset-tracking.mp4",
     summary:
-      "Gain complete visibility and control over your organization's assets through a centralized platform. Track asset inventory, location, ownership, warranty, lifecycle, and movement in real time to improve utilization, simplify audits, and support informed business decisions.",
+      "Keep one register of your IT, surveillance and operational assets, with location, ownership, warranty, lifecycle and transfers, so audits are simpler and shared equipment is easier to find and use.",
     overview:
-      "Orion Alerts Asset Tracking provides a centralized platform to manage and monitor your organization's physical assets throughout their entire lifecycle. From procurement and deployment to transfer, maintenance, and retirement, every asset is digitally tracked with complete ownership, warranty, location, and utilization visibility. This eliminates manual spreadsheets, improves accountability, reduces asset loss, and enables smarter operational planning.",
+      "OrionAlerts Asset Tracking covers cameras, recorders, servers, network devices and other IT and operational equipment across all your sites. It shares its records with Health Monitoring and AMC Management, so an asset's location, custodian, warranty, health alerts and service history sit on one record instead of in separate tools.",
+    oneLiner: "One register of what you own, where it is and who has it.",
+    definition: {
+      question: "What is asset tracking software?",
+      answer:
+        "Asset tracking software keeps one register of the equipment an organization owns: what each item is, where it is installed, who is responsible for it, and which warranty and documents apply. It records every transfer from purchase to retirement, so audits, handovers and missing-equipment questions are answered from one record instead of spreadsheets.",
+    },
     features: [
       {
         title: "Centralized Asset Inventory",
@@ -227,41 +378,82 @@ const solutionsSource: Solution[] = [
           "Generate a complete custody and change history—ownership, transfers, and document access—with exportable reports that simplify regulated reviews and internal compliance checks.",
       },
     ],
-    architecture: [
-      "Tag / beacon layer",
-      "Gateway & location services",
-      "Asset registry",
-      "Maps, alerts & ERP sync",
-    ],
+    // No architecture diagram for this module. The old "tag / beacon layer" and
+    // "geofence" data described location tracking the product does not claim.
+    architecture: [],
     workflow: [
-      "Asset Procurement",
-      "Asset Registration",
-      "Location & Ownership Mapping",
-      "Transfer / Movement Tracking",
-      "Lifecycle & Warranty Monitoring",
-      "Dashboard • Reports • Analytics",
+      "Purchase recorded",
+      "Asset registration",
+      "Location & ownership mapping",
+      "Transfer and handover tracking",
+      "Lifecycle & warranty monitoring",
+      "Report and audit",
+    ],
+    workflowDetails: [
+      "Add the asset with its type, serial number, invoice and warranty documents.",
+      "Register it in the central inventory, searchable by serial number, QR code or barcode.",
+      "Map it to a site, floor, zone and department, and assign a responsible custodian.",
+      "Log every transfer and handover so custody history stays complete.",
+      "Track status and warranty coverage through deployment, maintenance and retirement.",
+      "Export custody, change and document history for internal and regulatory audits.",
     ],
     benefits: [
-      "Reduce loss and search time",
-      "Improve utilization of shared equipment",
+      "Less time searching for equipment",
+      "Better use of shared equipment",
       "Clear audit trail for regulated environments",
-      "Security + operations in one view",
+      "Security, IT and operations work from one register",
     ],
-    screenshotLabels: ["Facility asset map", "Geofence alerts", "Custody timeline"],
+    screenshotLabels: ["Asset register", "Location mapping", "Custody timeline"],
+    faqs: [
+      {
+        question: "How is Asset Tracking different from AMC Management?",
+        answer:
+          "Asset Tracking answers what you own, where it is and who is responsible for it. AMC Management answers who maintains it, under which contract and SLA, and when coverage renews. Both share the same asset records.",
+      },
+      {
+        question: "Does the asset register stay in sync with the cameras?",
+        answer:
+          "Yes. Every device the platform connects to is also an asset record with its location, owner, serial number, lifecycle stage and documents, so the inventory does not drift away from the live estate the way a spreadsheet does.",
+      },
+      {
+        question: "How do teams find a specific asset?",
+        answer:
+          "By serial number, QR code or barcode. Each record also maps the asset to its site, floor, zone and department, so field teams can verify devices during handovers and multi-site audits.",
+      },
+      {
+        question: "What does the audit trail record?",
+        answer:
+          "Every change of ownership, transfer and status from purchase to retirement, plus access to the documents attached to the asset. The history can be exported as a report for internal and regulatory reviews.",
+      },
+      {
+        question: "Which assets can OrionAlerts track?",
+        answer:
+          "Cameras, recorders, servers, network devices, other IT equipment and operational equipment, each with its warranty documents, invoices and manuals attached to the record.",
+      },
+    ],
   },
   {
     slug: "amc-management",
     name: "AMC Management",
+    seoTitle: "AMC & Warranty Management Software",
+    seoDescription:
+      "AMC management software for annual maintenance contracts, warranties, preventive maintenance, service tickets, vendor SLAs and renewal alerts across sites.",
     shortName: "AMC Management",
     image: "/Images/solutions/amc-warranty-management.webp",
     tagline: "Maintenance & warranties",
     headline:
       "Keep AMC, warranties, vendors, and preventive maintenance on schedule from one workspace.",
-    introVideo: "/Videos/video/AMC_Management_video_202607281648.mp4",
+    introVideo: "/Videos/video/amc-management.mp4",
     summary:
-      "Streamline maintenance operations with intelligent AMC and warranty management. Automate preventive maintenance, monitor service requests, track vendor performance, and manage SLA compliance to maximize asset uptime and reduce maintenance costs.",
+      "Manage AMCs and warranties, schedule preventive maintenance, track service requests and hold vendors to their SLAs from one workspace, so cameras and equipment stay covered and serviced.",
     overview:
-      "Orion Alerts AMC Management digitizes maintenance operations by automating preventive maintenance schedules, warranty tracking, service requests, vendor management, and SLA monitoring. The platform helps organizations reduce equipment downtime, extend asset life, improve vendor accountability, and ensure maintenance activities are completed on time.",
+      "OrionAlerts AMC Management works from the same asset records as Asset Tracking, so each contract and warranty is attached to the device it covers rather than kept in a separate sheet. Because Health Monitoring runs on the same platform, a failing camera can raise a service request against the vendor and contract attached to it, and the ticket is tracked against that vendor's SLA until it is closed.",
+    oneLiner: "Track maintenance contracts, warranties, SLAs and renewals.",
+    definition: {
+      question: "What is AMC management software?",
+      answer:
+        "AMC management software tracks annual maintenance contracts (AMCs) and warranties against the equipment they cover, so an organization knows what is covered, which vendor services it, what the SLA promises and when coverage ends. It replaces spreadsheets and email threads with one record of contracts, preventive visits, service tickets and renewals.",
+    },
     features: [
       {
         title: "AMC & Warranty Management",
@@ -289,48 +481,75 @@ const solutionsSource: Solution[] = [
           "Monitor SLA commitments against real service activity, flag at-risk tickets early, and document breaches so uptime agreements stay enforceable—not theoretical.",
       },
       {
-        title: "Renewal Alerts & Notifications",
+        title: "Renewal & PM Reminders",
         description:
-          "Get timely alerts for upcoming AMC, warranty, and contract renewals so coverage gaps are prevented and budget owners can act before expiry dates arrive.",
+          "Get reminders before AMC, warranty and contract renewals, preventive maintenance visits and open tickets fall due, so coverage does not lapse and teams act on schedule without manual follow-ups.",
       },
       {
         title: "Maintenance History",
         description:
           "Maintain a complete service history on every asset—visits, parts, outcomes, and vendor notes—to support audits, warranty claims, and smarter replacement decisions.",
       },
-      {
-        title: "Automated Reminders",
-        description:
-          "Trigger automated reminders for upcoming preventive maintenance, contract renewals, and open tickets so teams act on schedule without relying on manual follow-ups.",
-      },
     ],
-    architecture: [
-      "Asset Added",
-      "AMC/Warranty Assigned",
-      "Preventive Maintenance Scheduled",
-      "Service Requests Managed",
-      "Vendor & SLA Tracking",
-      "Performance Reports",
-    ],
+    // The AMC diagram is a process, so its text version is `workflow` below.
+    architecture: [],
     workflow: [
-      "Asset Added",
-      "AMC/Warranty Assigned",
-      "Preventive Maintenance Scheduled",
-      "Service Requests Managed",
-      "Vendor & SLA Tracking",
-      "Performance Reports",
+      "Asset added",
+      "AMC or warranty assigned",
+      "Preventive maintenance scheduled",
+      "Service requests managed",
+      "Vendor and SLA tracking",
+      "Performance reports",
+    ],
+    workflowDetails: [
+      "Start from the asset record, shared with Asset Tracking.",
+      "Attach the contract or warranty: vendor, terms, coverage and start and end dates.",
+      "Plan preventive maintenance visits across sites and asset classes.",
+      "Log, assign and close tickets from intake through vendor dispatch to resolution.",
+      "Measure vendor response and completion against each SLA, and flag at-risk tickets early.",
+      "Review vendor performance, SLA status, service history and upcoming renewals.",
     ],
     benefits: [
       "Fewer prolonged camera outages",
       "Clear partner accountability",
-      "Predictable maintenance spend",
-      "Executive-ready estate health view",
+      "Preventive work and renewals planned ahead",
+      "Contract and SLA status for every site in one report",
     ],
-    screenshotLabels: ["AMC portfolio", "SLA ticket board", "Estate health"],
+    screenshotLabels: ["AMC portfolio", "SLA ticket board", "Renewal calendar"],
+    faqs: [
+      {
+        question: "What is an AMC?",
+        answer:
+          "An annual maintenance contract (AMC) is a yearly service agreement in which a vendor maintains equipment for a fixed fee, usually covering preventive visits, repairs and response-time commitments. It typically starts after the manufacturer's warranty ends.",
+      },
+      {
+        question: "What does OrionAlerts AMC Management track?",
+        answer:
+          "AMC and warranty coverage for each asset, preventive maintenance schedules, service requests from intake to closure, vendor response and completion against SLAs, renewal dates and the full service history of every asset.",
+      },
+      {
+        question: "How does it prevent missed AMC and warranty renewals?",
+        answer:
+          "Renewal and preventive-maintenance reminders reach the responsible team before an AMC, warranty or PM visit falls due, so coverage does not lapse unnoticed and budget owners can act before the expiry date.",
+      },
+      {
+        question: "Can AMC partners and system integrators use it?",
+        answer:
+          "Yes. In the partner-managed deployment, integrators and AMC providers run OrionAlerts for their clients and use the health, asset and AMC modules to deliver service, track SLAs and keep evidence for warranty and contract claims.",
+      },
+      {
+        question: "How is AMC Management different from Asset Tracking?",
+        answer:
+          "Asset Tracking answers what you own, where it is and who is responsible for it. AMC Management answers who maintains it, under which contract and SLA, and when coverage renews. Both share the same asset records.",
+      },
+    ],
   },
   {
     slug: "health-monitoring",
     name: "Health Monitoring",
+    seoTitle: "CCTV Camera Health Monitoring Software",
+    seoDescription:
+      "CCTV health monitoring for cameras, NVRs, storage and network links. Get alerts when a camera goes offline or stops recording, so gaps are caught early.",
     shortName: "Health Monitoring",
     image: "/Images/solutions/real-time-device-health-monitoring.webp",
     tagline: "Infrastructure uptime",
@@ -338,24 +557,31 @@ const solutionsSource: Solution[] = [
       "Spot camera, NVR, storage, and network issues before they create operational blind spots.",
     introVideo: "/Videos/video/health-monitoring.mp4",
     summary:
-      "Maintain complete confidence in your surveillance ecosystem with intelligent infrastructure oversight. Orion Alerts provides continuous operational visibility, helping organizations improve system reliability, streamline maintenance efforts, and ensure business-critical security systems are always performing at their best.",
+      "Continuously check cameras, recorders, servers, storage and network links across every site, so failures are caught and fixed early and the surveillance system stays reliable.",
     overview:
-      "Ensure uninterrupted surveillance operations with a centralized health monitoring platform that continuously tracks the status and performance of your security infrastructure. Monitor cameras, NVRs, servers, storage, and network devices in real time to detect issues before they impact operations. By proactively identifying device failures, recording interruptions, storage issues, and network outages, the platform enables faster resolution, minimizes downtime, and ensures your surveillance system remains reliable and operational.",
+      "OrionAlerts Health Monitoring checks every camera, NVR, server, storage volume and network link around the clock from each site's Nebula OS node. When a device goes offline, recording stops or storage runs low, the responsible team is alerted so the fault can be fixed before the gap in coverage grows.",
+    oneLiner: "Alerts when a camera, NVR or link fails, or a camera stops recording.",
+    definition: {
+      question: "What is CCTV health monitoring?",
+      answer:
+        "CCTV health monitoring is the continuous checking of a surveillance system's cameras, recorders (NVRs), servers, storage and network links, so a failure is found and fixed quickly instead of being discovered when footage is needed. Good health monitoring checks recording itself, not just whether a device is online, because a camera can respond on the network and still record nothing.",
+    },
     features: [
       {
         title: "Real-Time Device Health Monitoring",
         description:
-          "Continuously track the operational health and performance of your security infrastructure—so cameras, recorders, and supporting systems stay visible before failures create monitoring blind spots.",
+          "Track the live status of every camera, NVR and server across sites from one view—so control-room and IT teams see an offline or degraded device before it becomes a monitoring blind spot.",
       },
       {
-        title: "Camera, NVR & Server Status",
+        title: "Recording Verification",
         description:
-          "Monitor live status for cameras, NVRs, and servers from one centralized view across sites—making estate-wide health checks faster for control-room and IT teams.",
+          "Check recording status per camera, not just whether a device answers on the network. Because the health engine runs inside the platform, it catches a camera that responds to a ping but has stopped recording.",
+        links: [{ label: "No-motion and black-screen alerts", href: "/use-cases/no-motion-black-screen-alert" }],
       },
       {
-        title: "Recording & Storage Health Monitoring",
+        title: "Storage & Retention Monitoring",
         description:
-          "Detect recording interruptions, storage capacity risk, and retention issues early so critical video evidence remains available when investigations and audits need it.",
+          "Watch storage capacity and retention risk on every recorder and storage volume, and flag a full disk or a broken retention policy early—so video evidence is still there when investigations and audits need it.",
       },
       {
         title: "Network & Connectivity Monitoring",
@@ -363,9 +589,9 @@ const solutionsSource: Solution[] = [
           "Identify network outages, link failures, and connectivity problems that take devices offline—helping teams restore surveillance uptime before operations are impacted.",
       },
       {
-        title: "Instant Alerts & Notifications",
+        title: "Device Failure Alerts",
         description:
-          "Notify the right responders immediately when devices or services leave healthy status, so issues are escalated and resolved while coverage can still be protected.",
+          "Alert the responsible team on the dashboard, mobile app or email when a camera, NVR, storage volume or network link fails—showing which device is affected and where the fault lies, so it is fixed before more footage is lost.",
       },
       {
         title: "Uptime & Availability Reports",
@@ -380,18 +606,51 @@ const solutionsSource: Solution[] = [
       "Centralized dashboard & reports",
     ],
     workflow: [
-      "Connect cameras, NVRs, servers, storage, and network devices",
-      "Monitor real-time health and performance status",
-      "Receive instant alerts on failures and outages",
+      "Connect cameras, NVRs, servers, storage and network devices",
+      "Monitor health and recording status continuously",
+      "Get alerts on failures and outages",
       "Resolve issues and review health reports",
+    ],
+    workflowDetails: [
+      "Every device the platform talks to is added to the health engine on the on-site Nebula OS node.",
+      "Device, stream, recording and storage status is checked continuously, along with servers, services and network links.",
+      "Alerts reach the dashboard, mobile app or email and show whether the camera, NVR, storage or network failed.",
+      "Fix the fault, then review uptime and availability per site and device.",
     ],
     benefits: [
       "Detect issues before they impact operations",
       "Minimize surveillance downtime",
       "Faster resolution of device and network failures",
-      "Reliable, continuously operational camera estate",
+      "Every camera across all sites kept in view",
     ],
     screenshotLabels: ["Health dashboard", "Device status board", "Alert notifications"],
+    faqs: [
+      {
+        question: "What does CCTV health monitoring check?",
+        answer:
+          "Cameras, NVRs, servers, storage capacity and retention, recording status and network links. Each device's status is tracked continuously, and uptime and availability are reported per site and device.",
+      },
+      {
+        question: "How is this different from ping or network monitoring?",
+        answer:
+          "A ping or network monitor only tells you a device responds. OrionAlerts checks from inside the video platform, so it also flags a camera that is online but not recording, a full disk or a broken retention policy.",
+      },
+      {
+        question: "What happens when a camera stops recording?",
+        answer:
+          "The responsible team gets an alert on the dashboard, mobile app or email that names the affected camera and site and shows whether the camera, NVR, storage or network is the cause, so the right person can be sent to fix it.",
+      },
+      {
+        question: "Can health monitoring prove uptime for audits?",
+        answer:
+          "Yes. Uptime and availability reports show the history of every camera, NVR and network node by site and device, for audits, vendor reviews and leadership briefings.",
+      },
+      {
+        question: "Does it work across multiple sites?",
+        answer:
+          "Yes. Each site's Nebula OS node checks its own devices, and Orion Cloud brings health status from every location into one view without uploading raw video.",
+      },
+    ],
   },
 ];
 
@@ -438,7 +697,7 @@ function industryEntry(
     ...partial,
     summary:
       partial.summary ??
-      `${partial.name} operations need continuous visibility for safety, security, and performance. Orion Alerts turns existing CCTV into AI-powered monitoring for ${focus.toLowerCase()}.`,
+      `${partial.name} operations need continuous visibility for safety, security, and performance. OrionAlerts turns existing CCTV into AI-powered monitoring for ${focus.toLowerCase()}.`,
     challenges: partial.challenges ?? [
       "Limited real-time visibility across critical zones",
       "Delayed response to safety and security events",
@@ -455,7 +714,10 @@ function industryEntry(
   };
 }
 
-/** Final industry set shown on /industries cards (name + recommended description as tagline). */
+/**
+ * Industry set shown on /industries. `tagline` is the single source of truth
+ * for the short card description (hub cards and the hub's ItemList JSON-LD).
+ */
 export const industries: Industry[] = [
   industryEntry({
     slug: "manufacturing",
@@ -464,7 +726,7 @@ export const industries: Industry[] = [
     image: "/Images/industries/manufacturing.webp",
     introVideo: "/Videos/industries/manufacturing.mp4",
     tagline:
-      "Use Vision Copilot to connect mapped camera observations with decisions about shift handovers, PPE observations and recurring material build-up.",
+      "PPE and restricted-zone alerts, forklift crossings and material build-up.",
     summary:
       "Map cameras to the places your team manages and ask Vision Copilot about shift handovers, PPE observations and recurring material build-up.",
   }),
@@ -474,7 +736,7 @@ export const industries: Industry[] = [
     cardLabel: "Automotive",
     image: "/Images/industries/automotive.webp",
     tagline:
-      "Use Vision Copilot to connect mapped camera observations with decisions about assembly-cell events and line-side replenishment.",
+      "Line-side buffer dwell, controlled-cell entry and clip retrieval by station.",
     summary:
       "Map cameras to the places your team manages and ask Vision Copilot about assembly-cell events and line-side replenishment.",
   }),
@@ -484,7 +746,7 @@ export const industries: Industry[] = [
     cardLabel: "Cement",
     image: "/Images/industries/cement.webp",
     tagline:
-      "Use Vision Copilot to connect mapped camera observations with decisions about truck staging and material-transfer visibility.",
+      "Truck queues at loading bays, conveyor-zone entry and camera health in dust.",
     summary:
       "Map cameras to the places your team manages and ask Vision Copilot about truck staging and material-transfer visibility.",
   }),
@@ -495,7 +757,7 @@ export const industries: Industry[] = [
     image: "/Images/industries/metals-mining.webp",
     introVideo: "/Videos/industries/metals-mining.mp4",
     tagline:
-      "Use Vision Copilot to connect mapped camera observations with decisions about remote work-zone review and heavy-equipment interfaces.",
+      "Restricted-zone alerts at crushers and remote camera outage tracking.",
     summary:
       "Map cameras to the places your team manages and ask Vision Copilot about remote work-zone review and heavy-equipment interfaces.",
   }),
@@ -505,7 +767,7 @@ export const industries: Industry[] = [
     cardLabel: "Oil & Gas",
     image: "/Images/industries/oil-gas.webp",
     tagline:
-      "Use Vision Copilot to connect mapped camera observations with decisions about tanker-area activity and controlled operational access.",
+      "Tanker-bay activity, controlled-area entry and operator-verified perimeter alerts.",
     summary:
       "Map cameras to the places your team manages and ask Vision Copilot about tanker-area activity and controlled operational access.",
   }),
@@ -515,7 +777,7 @@ export const industries: Industry[] = [
     cardLabel: "Pharma",
     image: "/Images/industries/pharma.webp",
     tagline:
-      "Use Vision Copilot to connect mapped camera observations with decisions about controlled-area observations and QA investigation context.",
+      "Gowning exceptions, controlled-area entry and fast clips for QA investigations.",
     summary:
       "Map cameras to the places your team manages and ask Vision Copilot about controlled-area observations and QA investigation context.",
   }),
@@ -525,7 +787,7 @@ export const industries: Industry[] = [
     cardLabel: "Food & FMCG",
     image: "/Images/industries/food-fmcg.webp",
     tagline:
-      "Use Vision Copilot to connect mapped camera observations with decisions about visible hygiene practices and packaging-flow observations.",
+      "Hygiene-zone entry, packaging-area build-up and footage for QA reviews.",
     summary:
       "Map cameras to the places your team manages and ask Vision Copilot about visible hygiene practices and packaging-flow observations.",
   }),
@@ -535,7 +797,7 @@ export const industries: Industry[] = [
     cardLabel: "Logistics",
     image: "/Images/industries/logistics.webp",
     tagline:
-      "Use Vision Copilot to connect mapped camera observations with decisions about cross-aisle obstructions and loading-bay handoffs.",
+      "Dock dwell and forklift–pedestrian route exceptions at cross-aisles.",
     summary:
       "Map cameras to the places your team manages and ask Vision Copilot about cross-aisle obstructions and loading-bay handoffs.",
   }),
@@ -545,7 +807,7 @@ export const industries: Industry[] = [
     cardLabel: "Dark Stores",
     image: "/Images/industries/dark-stores.webp",
     tagline:
-      "Use Vision Copilot to connect mapped camera observations with decisions about compact stockroom layout and local dispatch pressure.",
+      "Aisle obstructions and dispatch-handoff congestion in compact stores.",
     summary:
       "Map cameras to the places your team manages and ask Vision Copilot about compact stockroom layout and local dispatch pressure.",
   }),
@@ -555,17 +817,17 @@ export const industries: Industry[] = [
     cardLabel: "Quick Commerce",
     image: "/Images/industries/quick-commerce.webp",
     tagline:
-      "Use Vision Copilot to connect mapped camera observations with decisions about regional oversight and recurring local handoff problems.",
+      "Pickup-area congestion and camera uptime compared across many stores.",
     summary:
       "Map cameras to the places your team manages and ask Vision Copilot about regional oversight and recurring local handoff problems.",
   }),
   industryEntry({
     slug: "ecommerce-fulfilment",
     name: "E-commerce Fulfilment Centres",
-    cardLabel: "E-commerce FC",
+    cardLabel: "E-commerce Fulfilment",
     image: "/Images/industries/ecommerce-fc.webp",
     tagline:
-      "Use Vision Copilot to connect mapped camera observations with decisions about parcel-transfer interruptions and investigation context.",
+      "Parcel build-up at packing and sortation transfers, with fast handoff clips.",
     summary:
       "Map cameras to the places your team manages and ask Vision Copilot about parcel-transfer interruptions and investigation context.",
   }),
@@ -575,27 +837,27 @@ export const industries: Industry[] = [
     cardLabel: "Cold Storage",
     image: "/Images/industries/cold-storage.webp",
     tagline:
-      "Use Vision Copilot to connect mapped camera observations with decisions about door activity and visual context around cold-chain investigations.",
+      "Chamber door activity and loading periods for temperature-excursion reviews.",
     summary:
       "Map cameras to the places your team manages and ask Vision Copilot about door activity and visual context around cold-chain investigations.",
   }),
   industryEntry({
     slug: "airports-ports-railways",
     name: "Airports, Ports & Railways",
-    cardLabel: "Airports & Ports",
+    cardLabel: "Airports, Ports & Rail",
     image: "/Images/industries/airports-ports.webp",
     tagline:
-      "Use Vision Copilot to connect mapped camera observations with decisions about transport-specific access and passenger-area review.",
+      "Perimeter events, concourse congestion and fast incident retrieval.",
     summary:
       "Map cameras to the places your team manages and ask Vision Copilot about transport-specific access and passenger-area review.",
   }),
   industryEntry({
     slug: "commercial-buildings",
     name: "Commercial Buildings",
-    cardLabel: "Commercial",
+    cardLabel: "Commercial Buildings",
     image: "/Images/industries/commercial-buildings.webp",
     tagline:
-      "Use Vision Copilot to connect mapped camera observations with decisions about tenant-facing common areas and recurring service pressure.",
+      "After-hours alerts, lift-lobby congestion and fast incident retrieval.",
     summary:
       "Map cameras to the places your team manages and ask Vision Copilot about tenant-facing common areas and recurring service pressure.",
   }),
@@ -605,7 +867,7 @@ export const industries: Industry[] = [
     cardLabel: "Data Centres",
     image: "/Images/industries/data-centres.webp",
     tagline:
-      "Use Vision Copilot to connect mapped camera observations with decisions about controlled entrances and security-review prioritisation.",
+      "Controlled-entrance events, checked against access logs once integrated.",
     summary:
       "Map cameras to the places your team manages and ask Vision Copilot about controlled entrances and security-review prioritisation.",
   }),
@@ -615,7 +877,7 @@ export const industries: Industry[] = [
     cardLabel: "Education",
     image: "/Images/industries/education.webp",
     tagline:
-      "Use Vision Copilot to connect mapped camera observations with decisions about arrival, reception and common-area safeguarding.",
+      "Perimeter alerts and arrival congestion at school and college gates.",
     summary:
       "Map cameras to the places your team manages and ask Vision Copilot about arrival, reception and common-area safeguarding.",
   }),
@@ -625,7 +887,7 @@ export const industries: Industry[] = [
     cardLabel: "Healthcare",
     image: "/Images/industries/healthcare.webp",
     tagline:
-      "Use Vision Copilot to connect mapped camera observations with decisions about non-clinical common-area review and facilities priorities.",
+      "Waiting-area congestion and pathway events in non-clinical areas.",
     summary:
       "Map cameras to the places your team manages and ask Vision Copilot about non-clinical common-area review and facilities priorities.",
   }),
@@ -635,9 +897,9 @@ export const industries: Industry[] = [
     cardLabel: "Retail",
     image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1600&q=90",
     tagline:
-      "Use Vision Copilot to connect mapped camera observations with decisions about queues and service-area decisions.",
+      "Checkout queues, stockroom entry and fast incident retrieval.",
     summary:
-      "Map cameras to the places your team manages and ask Vision Copilot about queues and service-area decisions.",
+      "Map cameras to the places your team manages and ask Vision Copilot about checkout queues and stockroom access.",
   }),
   industryEntry({
     slug: "hotels-hospitality",
@@ -645,7 +907,7 @@ export const industries: Industry[] = [
     cardLabel: "Hospitality",
     image: "/Images/industries/hospitality.webp",
     tagline:
-      "Use Vision Copilot to connect mapped camera observations with decisions about arrival pressure and service-area coordination.",
+      "Check-in congestion and after-hours alerts in lobbies and service areas.",
     summary:
       "Map cameras to the places your team manages and ask Vision Copilot about arrival pressure and service-area coordination.",
   }),
@@ -655,7 +917,7 @@ export const industries: Industry[] = [
     cardLabel: "Utilities",
     image: "/Images/industries/utilities.webp",
     tagline:
-      "Use Vision Copilot to connect mapped camera observations with decisions about remote-site access and field-inspection priorities.",
+      "Perimeter events and remote-view outages at substations and field sites.",
     summary:
       "Map cameras to the places your team manages and ask Vision Copilot about remote-site access and field-inspection priorities.",
   }),
@@ -665,7 +927,7 @@ export const industries: Industry[] = [
     cardLabel: "Construction",
     image: "/Images/industries/construction.webp",
     tagline:
-      "Use Vision Copilot to connect mapped camera observations with decisions about changing routes and supervision across project areas.",
+      "PPE at site entries and zone alerts that follow layout changes.",
     summary:
       "Map cameras to the places your team manages and ask Vision Copilot about changing routes and supervision across project areas.",
   }),
@@ -675,7 +937,7 @@ export const industries: Industry[] = [
     cardLabel: "Pulp & Paper",
     image: "/Images/industries/pulp-paper.webp",
     tagline:
-      "Use Vision Copilot to connect mapped camera observations with decisions about roll-handling interfaces and recurring transfer build-up.",
+      "Roll-handling zone alerts and material build-up at transfer points.",
     summary:
       "Map cameras to the places your team manages and ask Vision Copilot about roll-handling interfaces and recurring transfer build-up.",
   }),
@@ -685,7 +947,7 @@ export const industries: Industry[] = [
     cardLabel: "Textiles",
     image: "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?auto=format&fit=crop&w=1600&q=90",
     tagline:
-      "Use Vision Copilot to connect mapped camera observations with decisions about material buffers and process-level improvement.",
+      "Material build-up at staging buffers and pathway events on the floor.",
     summary:
       "Map cameras to the places your team manages and ask Vision Copilot about material buffers and process-level improvement.",
   }),
@@ -695,7 +957,7 @@ export const industries: Industry[] = [
     cardLabel: "Polymers",
     image: "/Images/industries/polymers-plastics.webp",
     tagline:
-      "Use Vision Copilot to connect mapped camera observations with decisions about downstream build-up and controlled process-zone review.",
+      "Build-up at moulding and extrusion transfers, plus restricted-zone alerts.",
     summary:
       "Map cameras to the places your team manages and ask Vision Copilot about downstream build-up and controlled process-zone review.",
   }),
@@ -705,7 +967,7 @@ export const industries: Industry[] = [
     cardLabel: "Banking",
     image: "/Images/industries/banking.webp",
     tagline:
-      "Use Vision Copilot to connect mapped camera observations with decisions about branch-event review and regional follow-up.",
+      "After-hours branch alerts and offline-camera detection across every branch.",
     summary:
       "Map cameras to the places your team manages and ask Vision Copilot about branch-event review and regional follow-up.",
   }),
@@ -715,7 +977,7 @@ export const industries: Industry[] = [
     cardLabel: "Residential",
     image: "/Images/industries/residential.webp",
     tagline:
-      "Use Vision Copilot to connect mapped camera observations with decisions about shared-space events and property-management priorities.",
+      "Gate congestion, perimeter events and common-area incident retrieval.",
     summary:
       "Map cameras to the places your team manages and ask Vision Copilot about shared-space events and property-management priorities.",
   }),
@@ -725,7 +987,7 @@ export const industries: Industry[] = [
     cardLabel: "Government",
     image: "/Images/industries/government.webp",
     tagline:
-      "Use Vision Copilot to connect mapped camera observations with decisions about service-counter pressure and accountable facility review.",
+      "Service-counter queues, route obstructions and recording availability.",
     summary:
       "Map cameras to the places your team manages and ask Vision Copilot about service-counter pressure and accountable facility review.",
   }),
@@ -735,7 +997,7 @@ export const industries: Industry[] = [
     cardLabel: "Renewables",
     image: "/Images/industries/renewables.webp",
     tagline:
-      "Use Vision Copilot to connect mapped camera observations with decisions about remote equipment-compound review and O&M priorities.",
+      "Perimeter alerts at gates and equipment compounds on remote sites.",
     summary:
       "Map cameras to the places your team manages and ask Vision Copilot about remote equipment-compound review and O&M priorities.",
   }),
@@ -745,7 +1007,7 @@ export const industries: Industry[] = [
     cardLabel: "Telecom",
     image: "/Images/industries/telecom.webp",
     tagline:
-      "Use Vision Copilot to connect mapped camera observations with decisions about shelter events and remote maintenance coordination.",
+      "Shelter-entry alerts checked against planned visits, with link health.",
     summary:
       "Map cameras to the places your team manages and ask Vision Copilot about shelter events and remote maintenance coordination.",
   }),
@@ -755,7 +1017,7 @@ export const industries: Industry[] = [
     cardLabel: "Sports & Events",
     image: "/Images/industries/sports-events.webp",
     tagline:
-      "Use Vision Copilot to connect mapped camera observations with decisions about event-phase congestion and stewarding decisions.",
+      "Gate and concourse congestion by event phase, plus steward response.",
     summary:
       "Map cameras to the places your team manages and ask Vision Copilot about event-phase congestion and stewarding decisions.",
   }),
@@ -816,7 +1078,7 @@ export const resourceCategories = [
   },
   {
     title: "Documentation",
-    description: "Architecture notes, admin guides, and integration overviews.",
+    description: "Deployment models, camera compatibility, hardware and integration overviews.",
     href: "/docs",
   },
   {

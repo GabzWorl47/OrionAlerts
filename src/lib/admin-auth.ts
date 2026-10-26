@@ -1,5 +1,5 @@
 import { cookies } from "next/headers";
-import { createHash, timingSafeEqual } from "crypto";
+import { createHash, createHmac, timingSafeEqual } from "crypto";
 
 export const ADMIN_COOKIE = "oa_admin_session";
 const SESSION_TTL_SECONDS = 60 * 60 * 12; // 12 hours
@@ -22,7 +22,7 @@ export function isAdminAuthConfigured() {
 
 function sign(value: string) {
   // Prefer ADMIN_SESSION_SECRET so the signing key can rotate independently of the password.
-  return createHash("sha256").update(`${value}:${getSessionSecret()}`).digest("hex");
+  return createHmac("sha256", getSessionSecret()).update(value).digest("hex");
 }
 
 export function createAdminSessionToken() {
@@ -37,7 +37,8 @@ export function verifyAdminSessionToken(token: string | undefined) {
 
   const issued = Number(issuedAt);
   if (!Number.isFinite(issued)) return false;
-  if (Date.now() - issued > SESSION_TTL_SECONDS * 1000) return false;
+  const age = Date.now() - issued;
+  if (age < 0 || age > SESSION_TTL_SECONDS * 1000) return false;
 
   const expected = sign(issuedAt);
   try {
@@ -55,9 +56,9 @@ export async function isAdminAuthenticated() {
 export function verifyAdminPassword(password: string) {
   const expected = getAdminPassword();
   if (!expected) return false;
-  const left = Buffer.from(password);
-  const right = Buffer.from(expected);
-  if (left.length !== right.length) return false;
+  // Compare fixed-length digests so neither content nor length leaks via timing.
+  const left = createHash("sha256").update(password).digest();
+  const right = createHash("sha256").update(expected).digest();
   return timingSafeEqual(left, right);
 }
 

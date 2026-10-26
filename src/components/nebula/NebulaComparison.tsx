@@ -9,8 +9,7 @@ import { nebulaComparison } from "@/lib/nebula-os";
  *
  * Kept as a genuine semantic <table> (caption + scoped headers) because
  * tables extract cleanly for search engines and AI answer engines. On
- * phones the table is swapped for a stacked card list carrying the same
- * copy, so nothing is lost and the page never scrolls horizontally.
+ * phones the same table restyles into stacked cards via CSS only.
  */
 export function NebulaComparison() {
   const { heading, lede, legacyLabel, nebulaLabel, rows } = nebulaComparison;
@@ -20,14 +19,18 @@ export function NebulaComparison() {
       <SectionHeading eyebrow="COMPARISON" title={heading} lede={lede} />
 
       <Reveal>
-        {/* Table — md and up */}
-        <div className="hidden overflow-x-auto rounded-[28px] border border-blue/10 bg-white/60 backdrop-blur-sm shadow-[0_18px_50px_-34px_rgba(43,140,255,0.4)] md:block">
-          <table className="w-full min-w-[46rem] border-collapse text-left">
+        {/*
+          One semantic table at every width. Below md the rows restyle into
+          stacked cards (labels come from data-label), so the comparison is
+          never duplicated in the DOM and the page never scrolls sideways.
+        */}
+        <div className="md:overflow-x-auto md:rounded-[28px] md:border md:border-blue/10 md:bg-white/60 md:backdrop-blur-sm md:shadow-[0_18px_50px_-34px_rgba(43,140,255,0.4)]">
+          <table className="w-full border-collapse text-left max-md:block md:min-w-[46rem]">
             <caption className="sr-only">
               {heading}: {legacyLabel} compared with {nebulaLabel} across{" "}
               {rows.length} dimensions.
             </caption>
-            <thead>
+            <thead className="max-md:sr-only">
               <tr className="border-b border-blue/10">
                 <th
                   scope="col"
@@ -49,54 +52,34 @@ export function NebulaComparison() {
                 </th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="max-md:grid max-md:gap-4">
               {rows.map((row) => (
                 <tr
                   key={row.dimension}
-                  className="border-b border-blue/[0.07] last:border-b-0"
+                  className="border-b border-blue/[0.07] last:border-b-0 max-md:block max-md:rounded-[28px] max-md:border max-md:border-blue/10 max-md:bg-white/60 max-md:p-5 max-md:shadow-[0_18px_50px_-34px_rgba(43,140,255,0.4)] max-md:last:border-b"
                 >
                   <th
                     scope="row"
-                    className="px-6 py-5 align-top text-sm font-semibold leading-snug text-text"
+                    className="px-6 py-5 align-top text-sm font-semibold leading-snug text-text max-md:block max-md:p-0 max-md:text-base max-md:tracking-[-0.02em]"
                   >
                     {row.dimension}
                   </th>
-                  <td className="px-6 py-5 align-top text-sm leading-relaxed text-muted">
+                  <td
+                    data-label={legacyLabel}
+                    className="px-6 py-5 align-top text-sm leading-relaxed text-muted max-md:mt-4 max-md:block max-md:rounded-[18px] max-md:border max-md:border-blue/[0.07] max-md:p-4 max-md:before:mb-1.5 max-md:before:block max-md:before:text-[11px] max-md:before:font-semibold max-md:before:uppercase max-md:before:tracking-[0.14em] max-md:before:text-caption max-md:before:content-[attr(data-label)]"
+                  >
                     {row.legacy}
                   </td>
-                  <td className="bg-cyan/10 px-6 py-5 align-top text-sm font-medium leading-relaxed text-text">
+                  <td
+                    data-label={nebulaLabel}
+                    className="bg-cyan/10 px-6 py-5 align-top text-sm font-medium leading-relaxed text-text max-md:mt-3 max-md:block max-md:rounded-[18px] max-md:border max-md:border-cyan/40 max-md:p-4 max-md:before:mb-1.5 max-md:before:block max-md:before:text-[11px] max-md:before:font-semibold max-md:before:uppercase max-md:before:tracking-[0.14em] max-md:before:text-blue max-md:before:content-[attr(data-label)]"
+                  >
                     {row.nebula}
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
-        </div>
-
-        {/* Stacked fallback — below md */}
-        <div className="grid gap-4 md:hidden">
-          {rows.map((row) => (
-            <article
-              key={row.dimension}
-              className="rounded-[28px] border border-blue/10 bg-white/60 p-5 backdrop-blur-sm shadow-[0_18px_50px_-34px_rgba(43,140,255,0.4)]"
-            >
-              <h3 className="text-base font-semibold leading-snug tracking-[-0.02em] text-text">
-                {row.dimension}
-              </h3>
-
-              <div className="mt-4 rounded-[18px] border border-blue/[0.07] p-4">
-                <p className="eyebrow mb-1.5">{legacyLabel}</p>
-                <p className="text-sm leading-relaxed text-muted">{row.legacy}</p>
-              </div>
-
-              <div className="mt-3 rounded-[18px] border border-cyan/40 bg-cyan/10 p-4">
-                <p className="eyebrow mb-1.5 text-blue">{nebulaLabel}</p>
-                <p className="text-sm font-medium leading-relaxed text-text">
-                  {row.nebula}
-                </p>
-              </div>
-            </article>
-          ))}
         </div>
       </Reveal>
     </Section>

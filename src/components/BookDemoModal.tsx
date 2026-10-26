@@ -9,10 +9,11 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { X } from "lucide-react";
-import { usePathname, useRouter } from "next/navigation";
+import { BOOK_DEMO_INTRO } from "@/components/BookDemoPanel";
 import { LeadForm } from "@/components/LeadForm";
+import { useSafeReducedMotion } from "@/lib/use-safe-reduced-motion";
 
 type BookDemoModalContextValue = {
   open: boolean;
@@ -43,11 +44,14 @@ function isBookDemoHref(href: string | null) {
   return href === "/book-demo" || href.startsWith("/book-demo?");
 }
 
+function isOnBookDemoPage() {
+  const path = window.location.pathname;
+  return path === "/book-demo" || path === "/book-demo/";
+}
+
 export function BookDemoModalProvider({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
-  const pathname = usePathname();
-  const router = useRouter();
-  const reduce = useReducedMotion();
+  const reduce = useSafeReducedMotion();
 
   const openBookDemo = useCallback(() => setOpen(true), []);
   const closeBookDemo = useCallback(() => setOpen(false), []);
@@ -62,6 +66,9 @@ export function BookDemoModalProvider({ children }: { children: ReactNode }) {
       const anchor = target?.closest?.("a[href]") as HTMLAnchorElement | null;
       if (!anchor) return;
       if (!isBookDemoHref(anchor.getAttribute("href"))) return;
+      // On /book-demo the form is already on the page; don't stack a modal
+      // (and a second reCAPTCHA widget) on top of it.
+      if (isOnBookDemoPage()) return;
 
       event.preventDefault();
       setOpen(true);
@@ -70,13 +77,6 @@ export function BookDemoModalProvider({ children }: { children: ReactNode }) {
     document.addEventListener("click", onClick, true);
     return () => document.removeEventListener("click", onClick, true);
   }, []);
-
-  useEffect(() => {
-    if (pathname === "/book-demo" || pathname === "/book-demo/") {
-      queueMicrotask(() => setOpen(true));
-      router.replace("/");
-    }
-  }, [pathname, router]);
 
   useEffect(() => {
     if (!open) return;
@@ -128,6 +128,7 @@ export function BookDemoModalProvider({ children }: { children: ReactNode }) {
               <button
                 type="button"
                 onClick={closeBookDemo}
+                autoFocus
                 className="absolute right-3 top-3 z-20 inline-flex h-10 w-10 items-center justify-center rounded-full border border-line bg-white/95 text-muted-strong shadow-sm transition hover:border-blue/30 hover:text-blue"
                 aria-label="Close"
               >
@@ -139,7 +140,8 @@ export function BookDemoModalProvider({ children }: { children: ReactNode }) {
               <LeadForm
                 kind="demo"
                 title="Book a Demo"
-                subtitle="Tell us about your sites and priorities. We’ll schedule a guided walkthrough."
+                titleAs="h2"
+                subtitle={BOOK_DEMO_INTRO}
               />
             </motion.div>
           </motion.div>

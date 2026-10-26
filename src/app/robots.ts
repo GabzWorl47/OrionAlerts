@@ -50,7 +50,8 @@ const AI_CRAWLERS = [
  */
 export default function robots(): MetadataRoute.Robots {
   const origin = getSiteOrigin();
-  const disallow = ["/admin", "/admin/", "/api/", "/api"];
+  // Disallow is a prefix match, so "/admin" already covers "/admin/…".
+  const disallow = ["/admin", "/api"];
 
   return {
     rules: [
@@ -61,6 +62,5 @@ export default function robots(): MetadataRoute.Robots {
       ...AI_CRAWLERS.map((userAgent) => ({ userAgent, allow: "/", disallow })),
     ],
     sitemap: `${origin}/sitemap.xml`,
-    host: origin,
   };
 }

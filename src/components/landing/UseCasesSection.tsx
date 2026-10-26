@@ -4,13 +4,13 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { useReducedMotion } from "framer-motion";
+import { useSafeReducedMotion } from "@/lib/use-safe-reduced-motion";
 import { Reveal } from "@/components/Reveal";
 import { aiUseCases, type UseCase } from "@/lib/homepage";
 
 function UseCaseCard({ useCase, active }: { useCase: UseCase; active: boolean }) {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const reduce = useReducedMotion();
+  const reduce = useSafeReducedMotion();
   const canAutoplay = Boolean(useCase.previewSrc) && !reduce;
 
   useEffect(() => {
@@ -28,8 +28,8 @@ function UseCaseCard({ useCase, active }: { useCase: UseCase; active: boolean })
 
   return (
     <Link
-      href={useCase.href}
-      aria-label={useCase.title}
+      href={useCase.pageHref}
+      aria-label={`${useCase.title}: ${useCase.description}`}
       className={`group relative block overflow-hidden rounded-[28px] bg-[#071525] transition duration-300 ${
         active
           ? "shadow-[0_28px_70px_-40px_rgba(12,34,56,0.6)] ring-1 ring-cyan/35"
@@ -45,7 +45,7 @@ function UseCaseCard({ useCase, active }: { useCase: UseCase; active: boolean })
             muted
             loop
             playsInline
-            preload="metadata"
+            preload={active ? "metadata" : "none"}
             className="absolute inset-0 h-full w-full object-cover object-center"
           />
         ) : (
@@ -58,10 +58,13 @@ function UseCaseCard({ useCase, active }: { useCase: UseCase; active: boolean })
           />
         )}
 
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 via-black/25 to-transparent px-5 pb-4 pt-16 md:px-7 md:pb-5">
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/35 to-transparent px-5 pb-4 pt-16 md:px-7 md:pb-6">
           <h3 className="font-display text-[clamp(1.05rem,1.8vw,1.35rem)] font-semibold leading-snug tracking-[-0.02em] text-white">
             {useCase.title}
           </h3>
+          <p className="mt-1 max-w-2xl text-[13px] leading-snug text-white/80 md:text-[0.95rem]">
+            {useCase.description}
+          </p>
         </div>
       </div>
     </Link>
@@ -137,13 +140,13 @@ export function UseCasesSection() {
             <p className="eyebrow mb-3 text-cyan/90">AI use cases</p>
             <h2
               id="use-cases-heading"
-              className="text-[clamp(1.05rem,3.2vw,2.65rem)] font-semibold leading-[1.15] tracking-[-0.03em] text-white"
+              className="text-balance text-[clamp(1.05rem,3.2vw,2.65rem)] font-semibold leading-[1.15] tracking-[-0.03em] text-white"
             >
-              Real-World Use Cases Powered by OrionAlerts Vision
+              {aiUseCases.length} AI video analytics detections that run on your existing CCTV
             </h2>
-            <p className="mx-auto mt-4 max-w-none whitespace-nowrap text-[clamp(0.8rem,1.6vw,1rem)] leading-relaxed text-white/65">
-              Detect critical events across your camera estate — then jump into the right Orion
-              solution to act on them.
+            <p className="mx-auto mt-4 max-w-none md:whitespace-nowrap text-[clamp(0.8rem,1.6vw,1rem)] leading-relaxed text-white/65">
+              Open a detection to see how it works, what affects its reliability and where it
+              fits.
             </p>
           </div>
         </Reveal>

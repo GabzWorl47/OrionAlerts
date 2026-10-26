@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useSafeReducedMotion } from "@/lib/use-safe-reduced-motion";
 import {
   Activity,
   Cpu,
@@ -33,7 +34,7 @@ export function CapabilityCard({
   dimmed = false,
   onHover,
 }: CapabilityCardProps) {
-  const reduce = useReducedMotion();
+  const reduce = useSafeReducedMotion();
   const Icon = iconMap[capability.id] ?? Cpu;
 
   return (

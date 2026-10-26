@@ -22,6 +22,7 @@ const categoryLabels: Record<(typeof cookieInventory)[number]["category"], strin
 export default function CookieNoticePage() {
   return (
     <LegalDoc
+      path="/cookies"
       eyebrow="Legal"
       title="Cookie Notice"
       description="This notice lists cookies and similar technologies used on the OrionAlerts website, even when no optional marketing cookies are active."
@@ -38,14 +39,14 @@ export default function CookieNoticePage() {
             <>
               <p>
                 As of the inventory scan dated <strong className="text-text">{legalMeta.lastReviewed}</strong>,
-                the public site source does not include advertising pixels, behavioral analytics,
-                localStorage, or sessionStorage tracking. Two cookie-related systems were verified:
-                an admin authentication cookie and Google reCAPTCHA on the demo form.
+                this website does not use advertising pixels or behavioural analytics. We use one
+                admin sign-in cookie, Google reCAPTCHA on the demo form, and a localStorage entry
+                that remembers your cookie choice.
               </p>
               <p>
                 Categories we use for governance: necessary, preferences, analytics, and
-                advertising. Preference, analytics, and advertising categories are empty unless a
-                real technology is added and consent-gated.
+                advertising. We do not currently use any preference, analytics, or advertising
+                technologies; if we add one, it stays off until you allow that category.
               </p>
             </>
           ),
@@ -94,12 +95,12 @@ export default function CookieNoticePage() {
             <>
               <LegalList
                 items={[
-                  "Ship only essential functionality by default.",
+                  "Only necessary technologies run by default. Optional cookies stay off until you allow them.",
                   "The admin session cookie is set only after successful admin login.",
-                  "reCAPTCHA loads only on the demo form path; that form requires it for abuse prevention.",
-                  "Do not add analytics or advertising tags directly. Route them through the consent manager (Cookie Settings) and keep them blocked until the category is granted via loadConsentedScript / ConsentProvider.",
+                  "reCAPTCHA loads only where the demo form is shown; that form requires it for abuse prevention.",
+                  "If we add analytics or advertising tags, they stay blocked until you allow that category in Cookie Settings.",
                   "Consent records store version, timestamp, region, and category flags only—never lead-form fields.",
-                  "region is always written. With no geo detection in this build it is stored as \"unspecified\"; do not invent a country or GDPR/CCPA label without a real jurisdiction signal.",
+                  "The region field is stored as \"unspecified\" because this website does not detect your location.",
                 ]}
               />
             </>
@@ -148,9 +149,9 @@ export default function CookieNoticePage() {
           title: "Last scan date",
           content: (
             <p>
-              Cookie inventory last reconciled with the repository on{" "}
-              <strong className="text-text">{legalMeta.lastReviewed}</strong>. Re-scan production on
-              each release and update this notice when technologies change.
+              Cookie inventory last reviewed on{" "}
+              <strong className="text-text">{legalMeta.lastReviewed}</strong>. We update this notice
+              when the technologies we use change.
             </p>
           ),
         },

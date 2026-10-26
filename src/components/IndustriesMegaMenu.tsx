@@ -70,7 +70,7 @@ function IndustryItem({
     <Link
       href={`/industries/${slug}`}
       onClick={onClose}
-      className="group flex gap-3 rounded-[10px] px-2 py-2 transition hover:bg-white/8"
+      className="group flex gap-3 rounded-[10px] px-2 py-2 transition hover:bg-white/8 focus-visible:bg-white/8"
     >
       <Icon
         size={20}

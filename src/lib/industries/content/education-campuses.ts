@@ -1,8 +1,6 @@
 import {
   INDUSTRY_SCHEMA_VERSION,
-  industrySharedCopy,
   industrySharedCtas,
-  industrySharedFaqs,
 } from "@/lib/industries/shared";
 import type { IndustryPageRecord } from "@/lib/industries/types";
 
@@ -10,30 +8,25 @@ export const educationCampusesIndustryPage: IndustryPageRecord = {
   slug: "education-campuses",
   name: "Education & Campuses",
   cardLabel: "Education",
-  cardSummary:
-    "Use Vision Copilot to connect mapped camera observations with decisions about arrival, reception and common-area safeguarding.",
+  siteNoun: { one: "campus", many: "schools and campuses" },
   schemaVersion: INDUSTRY_SCHEMA_VERSION,
   contentVersion: 2,
   status: "reviewed",
   seo: {
-    title: "Campus Safety Video Analytics | OrionAlerts",
+    title: "AI CCTV for Schools & College Campuses",
     description:
-      "Explore education and campuses with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
+      "AI CCTV for schools and colleges: verified perimeter alerts, arrival congestion at gates and common areas, and staff response tracking, without biometrics.",
     canonicalPath: "/industries/education-campuses",
-    ogTitle: "Campus Safety Video Analytics | OrionAlerts",
-    ogDescription:
-      "Explore education and campuses with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
     image: "/Images/industries/education.webp",
   },
   hero: {
     eyebrow: "Education & Campuses",
-    h1: "Vision Copilot for Education and Campuses",
-    lede: "Map cameras to the places your team manages and ask Vision Copilot about arrival, reception and common-area safeguarding. OrionAlerts analyses scenes over time to surface alerts, recommendations and operational scores that help you decide what to review today and what to improve next.",
+    h1: "AI CCTV for Schools & College Campuses",
+    lede: "Verify perimeter alerts, see arrival congestion at gates and reception, and give staff the location and clip they need to respond across school and college campuses, with monitoring focused on observable safety events.",
     media: {
       kind: "image",
       src: "/Images/industries/education.webp",
-      alt: "Illustrative campus building photograph used for education industry context",
-      demonstrationLabel: "Illustrative photograph — not a verified customer deployment",
+      alt: "Illustration of children using tablets and a holographic globe in a classroom",
     },
     primaryCta: industrySharedCtas.primary,
     secondaryCta: industrySharedCtas.secondaryHero,
@@ -41,7 +34,7 @@ export const educationCampusesIndustryPage: IndustryPageRecord = {
   context: {
     heading: "Help staff respond while respecting the people on campus.",
     paragraphs: [
-      "Arrival, dispersal and public events create changing activity around a campus. Staff need timely context without treating ordinary student behaviour as suspicious. Begin with entrances and boundaries, then assess any broader use against a specific safety purpose. Schools and universities have different populations and responsibilities; do not apply a single monitoring policy to both.",
+      "Arrival, dispersal and public events create changing activity around a campus. Staff need timely context about entrances, boundaries and common areas, without treating ordinary student behaviour as suspicious. Begin with entrances and boundaries, then assess any broader use against a specific safety purpose. Schools and universities have different populations and responsibilities, so each sets its own monitoring policy.",
     ],
     buyers: [
       "School administrators",
@@ -51,28 +44,24 @@ export const educationCampusesIndustryPage: IndustryPageRecord = {
     ],
   },
   locationContext: {
-    heading: "Your operation, mapped",
-    body: "Organise views around the places the team recognises. Select the location to establish the context for scene observations and Copilot questions. This example uses the shared hierarchy; map the actual site rather than inventing rooms or camera coverage.",
     hierarchyExample: [
-      { label: "Site", example: "Campus" },
-      { label: "Building", example: "School Building" },
-      { label: "Floor", example: "Floor" },
+      { label: "Site", example: "School or University Campus" },
+      { label: "Building", example: "School Block or Academic Building" },
+      { label: "Floor", example: "Ground Floor" },
       { label: "Zone", example: "Reception Zone" },
       { label: "Room", example: "Admission Office" },
     ],
     cameraMappingCopy:
-      "Cameras are mapped to the selected admission-office or reception zone so questions about the admission-office zone start from recognisable operational context.",
+      "Cameras are mapped to the selected reception or admission-office zone, whether that is a school's main block or a university's academic building, so questions about the admission-office zone start from recognisable operational context.",
   },
   copilot: {
-    heading: "Ask Vision Copilot",
-    body: industrySharedCopy.copilotIntro,
     prompts: [
+      "What should the administration team review before tomorrow's arrival period?",
       "Show observations from the admission-office zone this morning.",
       "Which covered common areas had repeated congestion during arrival?",
-      "What should the administration team review before tomorrow's arrival period?",
     ],
     exampleAnswer:
-      "Illustrative example — not a live product result. Repeated arrival-period congestion appears around the admission-office approach. Suggested next step: review visitor guidance and arrival staffing with administration; assess the outcome during comparable arrival periods.",
+      "Repeated arrival-period congestion appears around the admission-office approach. Suggested next step: review visitor guidance and arrival staffing with administration; assess the outcome during comparable arrival periods.",
     exampleStatus: "illustrative",
   },
   sceneIntelligence: {
@@ -81,8 +70,6 @@ export const educationCampusesIndustryPage: IndustryPageRecord = {
     recommendation:
       "Review visitor guidance and arrival staffing with administration; assess the outcome during comparable arrival periods.",
     decisionOwner: "Administration / campus security",
-    followUpPrompt:
-      "Revisit the same area and comparable period to assess observations, coverage and score movement.",
   },
   scorecards: {
     heading: "See what needs attention—and what changes after action.",
@@ -125,49 +112,42 @@ export const educationCampusesIndustryPage: IndustryPageRecord = {
   useCases: [
     {
       id: "location-into-decision",
-      title: "Bring the right location into the decision",
-      body: "Connect arrival, reception and common-area safeguarding to the building tree and its mapped cameras. The team can start with a named operational area instead of trying to remember which camera covers it, making observations easier to interpret and discuss.",
+      title: "Map gates, reception and admission offices",
+      body: "Cameras sit under the campus, building and reception zone, whether that is a school block or a university academic building, so a question about the admission-office zone goes straight to its views.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["building-hierarchy", "vision-copilot"],
     },
     {
       id: "search-observations",
-      title: "Search visual observations in everyday language",
-      body: 'Ask Vision Copilot, “Show observations from the admission-office zone this morning.” Use the location and review period to focus the search on relevant available observations. The purpose is to reach useful context without manually working through unrelated camera views.',
+      title: "Check this morning's reception zone",
+      body: "Ask Vision Copilot, “Show observations from the admission-office zone this morning,” to review arrivals at that zone.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["vision-copilot", "scene-analysis"],
     },
     {
       id: "recurring-conditions",
-      title: "Identify recurring conditions across scenes",
-      body: 'Ask, “Which covered common areas had repeated congestion during arrival?” Ongoing scene analysis supports review of patterns across the available observations. Use the recurring condition to frame the next investigation rather than treating one isolated alert as the whole operational picture.',
+      title: "Find common areas that congest at arrival",
+      body: "Ask, “Which covered common areas had repeated congestion during arrival?” to see which areas need guidance or staffing changes.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["scene-analysis", "vision-copilot"],
     },
     {
       id: "improvement-decision",
-      title: "Turn analysis into an improvement decision",
-      body: 'Ask, “What should the administration team review before tomorrow\'s arrival period?” Review the recommendation alongside the underlying observations and the team\'s operating knowledge. The example below shows a practical next step; it is a suggested action for human consideration, not an automatic instruction to change equipment or procedures.',
+      title: "Plan tomorrow's arrival period",
+      body: "Ask, “What should the administration team review before tomorrow's arrival period?” Suggestions such as revised visitor guidance or arrival staffing come with their observations for administration to decide.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["recommendations"],
     },
     {
       id: "score-led-review",
-      title: "Use scores to structure the next review",
-      body: "Use 0–100 scores to organise attention across common areas and operating periods, never individual students or safeguarding judgments. Review the contributing observations and coverage before acting. The proposed dimensions for this industry are Arrival-Area Flow, Common-Route Readiness and Service-Area Control; use the approved product methodology when demonstrating actual values.",
+      title: "Rank common areas for staff attention",
+      body: "Scores out of 100 for arrival-area flow, common-route readiness and service-area control compare common areas across operating periods, with every score tied to a place.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["operational-scores"],
     },
   ],
-  workflow: {
-    heading: "From scenes to decisions",
-    scenario:
-      "Illustrative decision story — not a customer result. Observe: Repeated arrival-period congestion appears around the admission-office approach. Ask: “What should the administration team review before tomorrow's arrival period?” Suggested recommendation: Review visitor guidance and arrival staffing with administration; assess the outcome during comparable arrival periods. Decide: The responsible team reviews the evidence and agrees an action. Follow up: Revisit the same area and comparable period to assess observations, coverage and score movement. A subsequent change is not proof of causation.",
-    steps: industrySharedCopy.workflowLabels.map((label) => ({ label })),
-  },
   deployment: {
-    heading: industrySharedCopy.deploymentHeading,
-    body: `${industrySharedCopy.deploymentIntroduction} Involve safeguarding, administration and privacy owners. Exclude toilets, changing areas and other private spaces. Validate purpose, access, retention and any child-related requirements before expanding camera coverage.`,
+    body: "Involve safeguarding, administration and privacy owners from the start. Keep toilets, changing areas and other private spaces out of camera view, and validate purpose, access, retention and any child-related requirements before expanding coverage.",
     requiredInputs: [
       "Mapped hierarchy for pilot entrances, reception and common areas",
       "Safeguarding, administration and privacy ownership for the pilot",
@@ -177,7 +157,7 @@ export const educationCampusesIndustryPage: IndustryPageRecord = {
   },
   standards: {
     publicCopy:
-      "CBSE school-safety provisions must be assessed for affiliated schools; universities should not inherit CBSE claims. Child-data and monitoring requirements need specific privacy review.",
+      "Affiliated schools assess CBSE school-safety provisions for their campus, while universities follow their own requirements. Child-data and monitoring requirements get a dedicated privacy review.",
     frameworkIds: ["C12", "C9"],
     reviewedAt: "2026-09-11",
   },
@@ -204,39 +184,50 @@ export const educationCampusesIndustryPage: IndustryPageRecord = {
   solutions: [
     {
       solutionSlug: "ai-analytics",
-      body: `${industrySharedCopy.solutionBasis["ai-analytics"]} For campuses, focus on location-aware search, recommendations and score-led review of scoped boundary and common-area events.`,
+      body: "Location-aware search, recommendations and score-led review of boundary, gate and common-area events on campus.",
     },
     {
       solutionSlug: "vms",
-      body: `${industrySharedCopy.solutionBasis.vms} Use it for authorised safeguarding review across agreed cameras.`,
+      body: "Authorised safeguarding review across agreed campus cameras.",
     },
     {
       solutionSlug: "health-monitoring",
-      body: `${industrySharedCopy.solutionBasis["health-monitoring"]} Prioritise continuity of agreed campus views so investigations retain usable footage.`,
+      body: "Keeps agreed campus views recording, so investigations have usable footage.",
     },
   ],
   faqs: [
     {
+      question: "How can schools use AI CCTV safely?",
+      answer:
+        "Start with entrances and boundaries that have a documented safety purpose and an accountable response team. Keep toilets and changing rooms out of camera view, limit footage access to authorised staff, and review CBSE school-safety provisions where they apply. Expand coverage only after purpose, access and retention are validated.",
+    },
+    {
+      question: "Can AI CCTV alert staff to a perimeter event on campus?",
+      answer:
+        "Yes. After-hours or boundary events at mapped gates and boundaries are flagged with the location and clip and sent to the dashboard, mobile app and email for campus security to verify. Pilots measure verified perimeter events and staff acknowledgement time before coverage is expanded.",
+    },
+    {
       question: "Does the scope include facial-recognition attendance?",
       answer:
-        "No. This blueprint focuses on observable safety events without biometric attendance or identity profiling.",
+        "No. Campus deployments focus on observable safety events at entrances, boundaries and common areas, and biometric attendance and identity profiling are outside this scope. Scores and alerts describe places, such as a gate or reception zone, rather than individual students, and any broader use is assessed against a specific safety purpose first.",
     },
     {
       question: "Can AI determine bullying?",
       answer:
-        "Video alone cannot reliably establish intent or the full context. Safeguarding decisions require trained human review.",
+        "No. Video can show a visible incident in a covered common area for trained staff to review, with the location and time. Intent and the full context behind an incident are established through the school's safeguarding processes and human judgement, so an alert is a prompt for staff attention rather than a finding.",
     },
-    {
-      question: "Where should monitoring start?",
-      answer:
-        "With well-defined entrances and boundaries that have a documented safety purpose and an accountable response team.",
-    },
-    ...industrySharedFaqs,
   ],
-  relatedIndustrySlugs: ["commercial-buildings", "sports-events", "government"],
+  limits:
+    "Campus monitoring covers observable safety events in agreed areas; it does not take biometric attendance, profile students or establish intent such as bullying. Scores describe places, never individual students, and CBSE provisions apply to affiliated schools only.",
+  furtherReading: {
+    blogs: ["why-traditional-cctv-monitoring-is-no-longer-enough", "alert-fatigue-is-an-ops-problem"],
+    glossary: ["video-analytics", "vms"],
+    useCases: ["perimeter-intrusion-detection", "crowd-detection"],
+  },
+  relatedIndustrySlugs: ["sports-events", "healthcare", "residential"],
   finalCta: {
-    heading: "Ask Vision Copilot about your education and campuses.",
-    body: "See how Vision Copilot connects a mapped area with visual search, recommendations and scores for education and campuses.",
+    heading: "Ask Vision Copilot about your campus.",
+    body: "Give campus security and administration one view of gates, reception and common areas.",
   },
   sources: [
     "README v2 §9.16",

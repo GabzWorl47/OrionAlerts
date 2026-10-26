@@ -7,13 +7,13 @@ import { motion, useReducedMotion, type Variants } from "framer-motion";
 import {
   ArrowRight,
   ArrowUpRight,
+  BookOpen,
   ChevronRight,
   CircleHelp,
   ClipboardCheck,
   Compass,
-  Eye,
-  Gauge,
-  Lightbulb,
+  Info,
+  Layers,
   Network,
   ScanEye,
   ShieldCheck,
@@ -26,18 +26,20 @@ import { IndustryBreadcrumbs } from "@/components/industries/IndustryBreadcrumbs
 import { VisionCopilotPanel } from "@/components/industries/VisionCopilotPanel";
 import {
   industrySectionAnchors,
-  industrySectionLabels,
+  industrySectionCopy,
   industrySharedCopy,
   industrySharedCtas,
+  industrySharedFaqs,
 } from "@/lib/industries/shared";
 import { getFramework } from "@/lib/industries/frameworks";
-import { absoluteUrl } from "@/lib/industries/site-origin";
-import { serializeJsonLd } from "@/lib/jsonld";
-import type { CapabilityStatus, IndustryPageRecord } from "@/lib/industries/types";
+import { blogLinks, glossaryLinks, useCaseLinks } from "@/lib/industries/further-reading";
+import { absoluteUrl, getSiteOrigin } from "@/lib/industries/site-origin";
+import { faqPageJsonLd, serializeJsonLd } from "@/lib/jsonld";
+import type { CapabilityStatus, PublicIndustryPage } from "@/lib/industries/types";
 import { getIndustry, getSolution } from "@/lib/site";
 
 type Props = {
-  page: IndustryPageRecord;
+  page: PublicIndustryPage;
 };
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -117,11 +119,9 @@ function StaggerList({
   return as === "ol" ? <motion.ol {...props} /> : <motion.ul {...props} />;
 }
 
-const capabilityStatusCopy: Record<CapabilityStatus, { label: string; className: string }> = {
-  "owner-confirmed": {
-    label: "Core capability",
-    className: "bg-[rgba(24,166,122,0.12)] text-[#0f7a5a] ring-1 ring-inset ring-[rgba(24,166,122,0.32)]",
-  },
+/** Badge per capability status; core capabilities carry no badge. */
+const capabilityStatusCopy: Record<CapabilityStatus, { label: string; className: string } | null> = {
+  "owner-confirmed": null,
   "baseline-claim": {
     label: "Established capability",
     className:
@@ -166,56 +166,88 @@ function SectionKicker({
 }
 
 export function MigratedIndustryPage({ page }: Props) {
+  const copy = industrySectionCopy(page);
   const related = page.relatedIndustrySlugs
     .map((slug) => getIndustry(slug))
-    .filter(Boolean);
+    .filter((industry) => industry !== undefined);
+
+  const origin = getSiteOrigin();
+  const pageUrl = absoluteUrl(page.seo.canonicalPath);
 
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: "Home",
-        item: absoluteUrl("/") ?? "/",
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: "Industries",
-        item: absoluteUrl("/industries") ?? "/industries",
-      },
-      {
-        "@type": "ListItem",
-        position: 3,
-        name: page.name,
-        item: absoluteUrl(page.seo.canonicalPath) ?? page.seo.canonicalPath,
-      },
+      { "@type": "ListItem", position: 1, name: "Home", item: absoluteUrl("/") },
+      { "@type": "ListItem", position: 2, name: "Industries", item: absoluteUrl("/industries") },
+      { "@type": "ListItem", position: 3, name: page.name, item: pageUrl },
     ],
   };
 
   const pageJsonLd = {
     "@context": "https://schema.org",
     "@type": "WebPage",
+    "@id": `${pageUrl}#webpage`,
+    url: pageUrl,
     name: page.seo.title,
     description: page.seo.description,
-    url: absoluteUrl(page.seo.canonicalPath) ?? page.seo.canonicalPath,
+    inLanguage: "en",
+    isPartOf: { "@id": `${origin}/#website` },
+    publisher: { "@id": `${origin}/#organization` },
+    about: { "@id": `${origin}/#organization` },
+    mainEntity: { "@id": `${pageUrl}#service` },
   };
+
+  const serviceJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "@id": `${pageUrl}#service`,
+    name: page.seo.title,
+    serviceType: `AI video analytics for ${page.siteNoun.many}`,
+    description: page.seo.description,
+    url: pageUrl,
+    provider: { "@id": `${origin}/#organization` },
+    areaServed: { "@type": "Country", name: "India" },
+  };
+
+  // Industry-specific Q&As only; the two shared questions are rendered but not marked up.
+  const faqJsonLd = page.faqs.length ? faqPageJsonLd(page.faqs) : null;
 
   const heroImage =
     page.hero.media.kind === "image" ? page.hero.media.src : page.hero.media.poster ?? "";
 
+  const readingGroups = [
+    {
+      label: "Articles",
+      links: page.furtherReading.blogs.map((slug) => ({ href: `/blogs/${slug}`, label: blogLinks[slug] })),
+    },
+    {
+      label: "Detection use cases",
+      links: page.furtherReading.useCases.map((slug) => ({
+        href: `/use-cases/${slug}`,
+        label: useCaseLinks[slug],
+      })),
+    },
+    {
+      label: "Glossary",
+      links: page.furtherReading.glossary.map((slug) => ({
+        href: `/glossary/${slug}`,
+        label: glossaryLinks[slug],
+      })),
+    },
+  ].filter((group) => group.links.length > 0);
+
   return (
-    <main className="industry-page">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumbJsonLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: serializeJsonLd(pageJsonLd) }}
-      />
+    <div className="industry-page">
+      {[breadcrumbJsonLd, pageJsonLd, serviceJsonLd, faqJsonLd].map((data, index) =>
+        data ? (
+          <script
+            key={index}
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: serializeJsonLd(data) }}
+          />
+        ) : null,
+      )}
 
       <IndustryBreadcrumbs
         items={[
@@ -255,9 +287,13 @@ export function MigratedIndustryPage({ page }: Props) {
           >
             {page.hero.lede}
           </motion.p>
-          {page.hero.media.demonstrationLabel ? (
-            <motion.p variants={cardVariants} className="mt-3 text-[12px] font-medium text-white/55">
-              {page.hero.media.demonstrationLabel}
+          {page.context.buyers.length ? (
+            <motion.p
+              variants={cardVariants}
+              className="mt-4 max-w-[72ch] text-sm leading-relaxed text-white/75"
+            >
+              <span className="font-semibold text-white">Built for: </span>
+              {page.context.buyers.join(" · ")}
             </motion.p>
           ) : null}
           <motion.div variants={cardVariants} className="industry-hero__actions">
@@ -300,10 +336,86 @@ export function MigratedIndustryPage({ page }: Props) {
                 {paragraph}
               </motion.p>
             ))}
-            <motion.p variants={cardVariants} className="industry-prose mt-4">
-              {industrySharedCopy.defaultPositioning}
-            </motion.p>
           </Stagger>
+        </div>
+      </section>
+
+      <section
+        id={industrySectionAnchors.useCases}
+        className="industry-section industry-section--tint scroll-mt-[calc(var(--header-h)+1rem)]"
+      >
+        <div className="industry-shell">
+          <SectionKicker icon={ScanEye}>{copy.useCases.kicker}</SectionKicker>
+          <Reveal delay={0.05}>
+            <h2 className="industry-h2 mt-2">{copy.useCases.heading}</h2>
+          </Reveal>
+          <Stagger className="industry-grid mt-8" delay={0.08}>
+            {page.useCases.map((useCase, index) => {
+              const status = capabilityStatusCopy[useCase.capabilityStatus];
+              return (
+                <AnimatedCard key={useCase.id} className="industry-card min-[821px]:!col-span-6">
+                  <div className="flex items-center justify-between gap-3">
+                    <span
+                      className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-bold"
+                      style={{
+                        color: "var(--industry-accent-strong)",
+                        background: "rgba(8,121,209,0.08)",
+                        border: "1px solid var(--industry-line)",
+                      }}
+                    >
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    {status ? (
+                      <span
+                        className={`inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-semibold ${status.className}`}
+                      >
+                        {status.label}
+                      </span>
+                    ) : null}
+                  </div>
+                  <h3 className="mt-4 font-display text-[clamp(1.1rem,1.8vw,1.35rem)] font-semibold tracking-[-0.02em] text-[var(--industry-text)]">
+                    {useCase.title}
+                  </h3>
+                  <p className="industry-prose mt-2.5">{useCase.body}</p>
+                  {useCase.constraints ? (
+                    <p className="mt-3 text-[12px] leading-relaxed text-[var(--industry-muted)]">
+                      <span className="font-semibold">Note:</span> {useCase.constraints}
+                    </p>
+                  ) : null}
+                </AnimatedCard>
+              );
+            })}
+          </Stagger>
+          {page.limits ? (
+            <Reveal delay={0.1}>
+              <aside
+                aria-labelledby="industry-limits"
+                className="mt-8 flex max-w-3xl gap-3 rounded-[16px] border border-[var(--industry-line)] bg-white px-5 py-4"
+              >
+                <Info
+                  size={18}
+                  strokeWidth={2.2}
+                  className="mt-0.5 shrink-0 text-[var(--industry-accent-strong)]"
+                  aria-hidden
+                />
+                <div>
+                  <h3 id="industry-limits" className="text-sm font-semibold text-[var(--industry-text)]">
+                    Limits
+                  </h3>
+                  <p className="mt-1 text-sm leading-relaxed text-[var(--industry-muted)]">{page.limits}</p>
+                </div>
+              </aside>
+            </Reveal>
+          ) : null}
+        </div>
+      </section>
+
+      <section
+        id={industrySectionAnchors.copilot}
+        className="industry-section scroll-mt-[calc(var(--header-h)+1rem)]"
+      >
+        <div className="industry-shell">
+          <VisionCopilotPanel page={page} kicker={copy.copilot.kicker} heading={copy.copilot.heading} />
         </div>
       </section>
 
@@ -317,18 +429,15 @@ export function MigratedIndustryPage({ page }: Props) {
         />
         <div className="industry-shell relative">
           <SectionKicker icon={Network} tone="dark">
-            Building intelligence
+            {copy.mapped.kicker}
           </SectionKicker>
           <Reveal delay={0.05}>
-            <h2 className="industry-h2" style={{ color: "#fff" }}>
-              {industrySectionLabels.mapped}
+            <h2 className="industry-h2 mt-2" style={{ color: "#fff" }}>
+              {copy.mapped.heading}
             </h2>
           </Reveal>
           <Reveal delay={0.1}>
-            <p className="industry-prose mt-2">{page.locationContext.body}</p>
-          </Reveal>
-          <Reveal delay={0.15}>
-            <p className="industry-prose mt-3">{industrySharedCopy.buildingTreeIntro}</p>
+            <p className="industry-prose mt-2">{page.locationContext.cameraMappingCopy}</p>
           </Reveal>
 
           <Stagger className="industry-tree mt-8 relative" delay={0.07}>
@@ -342,97 +451,31 @@ export function MigratedIndustryPage({ page }: Props) {
               </motion.div>
             ))}
           </Stagger>
-          <Reveal delay={0.1}>
-            <p className="mt-4 text-sm leading-relaxed text-[#b9c7d9]">
-              {page.locationContext.cameraMappingCopy}
-            </p>
-          </Reveal>
-        </div>
-      </section>
-
-      <section
-        id={industrySectionAnchors.copilot}
-        className="industry-section scroll-mt-[calc(var(--header-h)+1rem)]"
-      >
-        <div className="industry-shell">
-          <Reveal direction="scale">
-            <VisionCopilotPanel page={page} />
-          </Reveal>
-        </div>
-      </section>
-
-      <section
-        id={industrySectionAnchors.useCases}
-        className="industry-section scroll-mt-[calc(var(--header-h)+1rem)]"
-      >
-        <div className="industry-shell">
-          <SectionKicker icon={ScanEye}>Five ways teams use this</SectionKicker>
-          <Reveal delay={0.05}>
-            <h2 className="industry-h2 mt-2">{industrySectionLabels.useCases}</h2>
-          </Reveal>
-          <Stagger className="industry-grid mt-8" delay={0.08}>
-            {page.useCases.map((useCase, index) => {
-              const status = capabilityStatusCopy[useCase.capabilityStatus];
-              return (
-                <AnimatedCard key={useCase.id} className="industry-card" style={{ gridColumn: "span 6" }}>
-                  <div className="flex items-center justify-between gap-3">
-                    <span
-                      className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-bold"
-                      style={{
-                        color: "var(--industry-accent-strong)",
-                        background: "rgba(8,121,209,0.08)",
-                        border: "1px solid var(--industry-line)",
-                      }}
-                    >
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
-                    <span
-                      className={`inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-semibold ${status.className}`}
-                    >
-                      {status.label}
-                    </span>
-                  </div>
-                  <h3 className="mt-4 font-display text-[clamp(1.1rem,1.8vw,1.35rem)] font-semibold tracking-[-0.02em] text-[var(--industry-text)]">
-                    {useCase.title}
-                  </h3>
-                  <p className="industry-prose mt-2.5">{useCase.body}</p>
-                  {useCase.constraints ? (
-                    <p className="mt-3 text-[12px] leading-relaxed text-[var(--industry-muted)]">
-                      <span className="font-semibold">Scoping note:</span> {useCase.constraints}
-                    </p>
-                  ) : null}
-                </AnimatedCard>
-              );
-            })}
-          </Stagger>
         </div>
       </section>
 
       <section
         id={industrySectionAnchors.workflow}
-        className="industry-section industry-section--tint scroll-mt-[calc(var(--header-h)+1rem)]"
+        className="industry-section scroll-mt-[calc(var(--header-h)+1rem)]"
       >
         <div className="industry-shell">
-          <SectionKicker icon={WorkflowIcon}>Illustrative decision story</SectionKicker>
+          <SectionKicker icon={WorkflowIcon}>{copy.workflow.kicker}</SectionKicker>
           <Reveal delay={0.05}>
-            <h2 className="industry-h2 mt-2">{page.workflow.heading}</h2>
+            <h2 className="industry-h2 mt-2">{copy.workflow.heading}</h2>
           </Reveal>
           <Reveal delay={0.1}>
-            <p className="industry-prose mt-3">{page.workflow.scenario}</p>
-          </Reveal>
-          <Reveal delay={0.15}>
             <p className="industry-prose mt-3">{industrySharedCopy.workflowExplanation}</p>
           </Reveal>
-          <Stagger className="mt-8 flex flex-wrap items-center gap-2" delay={0.06}>
-            {page.workflow.steps.map((step, index) => (
-              <motion.div key={step.label} variants={cardVariants} className="flex items-center gap-2">
+          <StaggerList as="ol" className="mt-8 flex flex-wrap items-center gap-2" delay={0.06}>
+            {industrySharedCopy.workflowLabels.map((label, index) => (
+              <motion.li key={label} variants={cardVariants} className="flex items-center gap-2">
                 <span className="inline-flex min-h-11 items-center gap-2 rounded-[12px] border border-[var(--industry-line)] bg-white px-3.5 py-2 text-sm font-semibold">
                   <span className="text-[var(--industry-accent-strong)]">
                     {String(index + 1).padStart(2, "0")}
                   </span>
-                  {step.label}
+                  {label}
                 </span>
-                {index < page.workflow.steps.length - 1 ? (
+                {index < industrySharedCopy.workflowLabels.length - 1 ? (
                   <ArrowRight
                     size={16}
                     strokeWidth={2.4}
@@ -440,104 +483,9 @@ export function MigratedIndustryPage({ page }: Props) {
                     aria-hidden
                   />
                 ) : null}
-              </motion.div>
+              </motion.li>
             ))}
-          </Stagger>
-          <Stagger className="industry-grid mt-8" delay={0.1}>
-            <AnimatedCard className="industry-card">
-              <p className="industry-kicker inline-flex items-center gap-2">
-                <Eye size={14} strokeWidth={2.4} aria-hidden />
-                Observed
-              </p>
-              <p className="mt-3 text-sm leading-relaxed text-[var(--industry-muted)]">
-                {page.sceneIntelligence.observedPattern}
-              </p>
-            </AnimatedCard>
-            <AnimatedCard className="industry-card">
-              <p className="industry-kicker inline-flex items-center gap-2">
-                <Lightbulb size={14} strokeWidth={2.4} aria-hidden />
-                Recommendation
-              </p>
-              <p className="mt-3 text-sm leading-relaxed text-[var(--industry-muted)]">
-                {page.sceneIntelligence.recommendation}
-              </p>
-            </AnimatedCard>
-            <AnimatedCard className="industry-card">
-              <p className="industry-kicker inline-flex items-center gap-2">
-                <ArrowRight size={14} strokeWidth={2.4} aria-hidden />
-                Follow up
-              </p>
-              <p className="mt-3 text-sm leading-relaxed text-[var(--industry-muted)]">
-                {page.sceneIntelligence.followUpPrompt}
-              </p>
-            </AnimatedCard>
-          </Stagger>
-        </div>
-      </section>
-
-      <section
-        id={industrySectionAnchors.scores}
-        className="industry-section scroll-mt-[calc(var(--header-h)+1rem)]"
-      >
-        <div className="industry-shell">
-          <SectionKicker icon={Gauge}>Operational scores</SectionKicker>
-          <Reveal delay={0.05}>
-            <h2 className="industry-h2 mt-2">{page.scorecards.heading}</h2>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <p className="industry-prose mt-3">{page.scorecards.body}</p>
-          </Reveal>
-          <Reveal delay={0.15}>
-            <p className="industry-prose mt-3">{industrySharedCopy.scoreMethodologyNote}</p>
-          </Reveal>
-          <Stagger className="industry-grid mt-8" delay={0.08}>
-            {page.scorecards.dimensions.map((dimension) => (
-              <AnimatedCard key={dimension.name} className="industry-score">
-                <p className="industry-kicker">{dimension.family}</p>
-                <h3 className="mt-2 font-display text-lg font-semibold text-[var(--industry-text)]">
-                  {dimension.name}
-                </h3>
-                <p className="industry-score__value mt-4">Not assessed</p>
-                <p className="mt-2 text-xs font-medium uppercase tracking-[0.08em] text-[var(--industry-muted)]">
-                  Proposed dimension · {page.scorecards.methodologyVersion}
-                </p>
-                <p className="mt-3 text-sm leading-relaxed text-[var(--industry-muted)]">
-                  {dimension.criterionSummary}
-                </p>
-                <div
-                  className="industry-score__bar industry-score__bar--pending"
-                  style={{ ["--score" as string]: "0%" }}
-                  role="img"
-                  aria-label="Not yet assessed for this site"
-                >
-                  <span />
-                </div>
-              </AnimatedCard>
-            ))}
-          </Stagger>
-          <Reveal delay={0.1}>
-            <div className="industry-card industry-card--wide mt-6" style={{ gridColumn: "1 / -1" }}>
-              <p className="industry-kicker">Score presentation context</p>
-              <dl className="mt-4 grid gap-3 text-sm text-[var(--industry-muted)] md:grid-cols-2">
-                <div>
-                  <dt className="font-semibold text-[var(--industry-text)]">Period</dt>
-                  <dd>{page.scorePresentation.period}</dd>
-                </div>
-                <div>
-                  <dt className="font-semibold text-[var(--industry-text)]">Scope</dt>
-                  <dd>{page.scorePresentation.scope}</dd>
-                </div>
-                <div>
-                  <dt className="font-semibold text-[var(--industry-text)]">Coverage</dt>
-                  <dd>{page.scorePresentation.coverage}</dd>
-                </div>
-                <div>
-                  <dt className="font-semibold text-[var(--industry-text)]">Evaluated checks</dt>
-                  <dd>{page.scorePresentation.evaluatedChecks}</dd>
-                </div>
-              </dl>
-            </div>
-          </Reveal>
+          </StaggerList>
         </div>
       </section>
 
@@ -546,10 +494,10 @@ export function MigratedIndustryPage({ page }: Props) {
         className="industry-section industry-section--tint scroll-mt-[calc(var(--header-h)+1rem)]"
       >
         <div className="industry-shell industry-grid">
-          <div className="industry-card--wide" style={{ gridColumn: "span 8" }}>
-            <SectionKicker icon={ClipboardCheck}>Deployment</SectionKicker>
+          <div className="industry-card--wide">
+            <SectionKicker icon={ClipboardCheck}>{copy.deployment.kicker}</SectionKicker>
             <Reveal delay={0.05}>
-              <h2 className="industry-h2 mt-2">{page.deployment.heading}</h2>
+              <h2 className="industry-h2 mt-2">{copy.deployment.heading}</h2>
             </Reveal>
             <Reveal delay={0.1}>
               <p className="industry-prose mt-3">{page.deployment.body}</p>
@@ -575,9 +523,9 @@ export function MigratedIndustryPage({ page }: Props) {
         className="industry-section scroll-mt-[calc(var(--header-h)+1rem)]"
       >
         <div className="industry-shell max-w-3xl">
-          <SectionKicker icon={ShieldCheck}>Standards boundary</SectionKicker>
+          <SectionKicker icon={ShieldCheck}>{copy.standards.kicker}</SectionKicker>
           <Reveal delay={0.05}>
-            <h2 className="industry-h2 mt-2">{industrySectionLabels.standards}</h2>
+            <h2 className="industry-h2 mt-2">{copy.standards.heading}</h2>
           </Reveal>
           <Reveal delay={0.1}>
             <p className="industry-prose mt-3">{page.standards.publicCopy}</p>
@@ -588,9 +536,9 @@ export function MigratedIndustryPage({ page }: Props) {
               if (!fw) return null;
               return (
                 <AnimatedCard key={fw.id} as="li" className="industry-card" style={{ gridColumn: "auto" }}>
-                  <p className="font-semibold text-[var(--industry-text)]">{fw.name}</p>
+                  <h3 className="font-semibold text-[var(--industry-text)]">{fw.name}</h3>
                   <p className="mt-1.5 text-sm leading-relaxed text-[var(--industry-muted)]">
-                    {fw.boundary}
+                    {fw.publicSummary || fw.boundary}
                   </p>
                   {fw.sourceUrl ? (
                     <a
@@ -599,7 +547,7 @@ export function MigratedIndustryPage({ page }: Props) {
                       rel="noopener noreferrer"
                       className="mt-2 inline-flex items-center gap-1 text-sm font-semibold text-[var(--industry-accent-strong)] hover:underline"
                     >
-                      Authoritative source
+                      Official source
                       <ArrowUpRight size={14} strokeWidth={2.4} aria-hidden />
                     </a>
                   ) : null}
@@ -615,9 +563,9 @@ export function MigratedIndustryPage({ page }: Props) {
         className="industry-section industry-section--tint scroll-mt-[calc(var(--header-h)+1rem)]"
       >
         <div className="industry-shell">
-          <SectionKicker icon={Compass}>How to evaluate a pilot</SectionKicker>
+          <SectionKicker icon={Compass}>{copy.pilotMetrics.kicker}</SectionKicker>
           <Reveal delay={0.05}>
-            <h2 className="industry-h2 mt-2">{industrySectionLabels.pilotMetrics}</h2>
+            <h2 className="industry-h2 mt-2">{copy.pilotMetrics.heading}</h2>
           </Reveal>
           <Reveal delay={0.1}>
             <p className="industry-prose mt-3">{industrySharedCopy.measurementNote}</p>
@@ -645,8 +593,9 @@ export function MigratedIndustryPage({ page }: Props) {
         className="industry-section scroll-mt-[calc(var(--header-h)+1rem)]"
       >
         <div className="industry-shell">
-          <Reveal>
-            <h2 className="industry-h2">{industrySectionLabels.solutions}</h2>
+          <SectionKicker icon={Layers}>{copy.solutions.kicker}</SectionKicker>
+          <Reveal delay={0.05}>
+            <h2 className="industry-h2 mt-2">{copy.solutions.heading}</h2>
           </Reveal>
           <Stagger className="industry-grid mt-8" delay={0.08}>
             {page.solutions.map((item) => {
@@ -667,10 +616,7 @@ export function MigratedIndustryPage({ page }: Props) {
                         />
                       </div>
                     ) : null}
-                    <p className="industry-kicker">
-                      {solution.slug === "ai-analytics" ? "AI Vision + Vision Copilot" : "Solution"}
-                    </p>
-                    <h3 className="mt-2 flex items-center gap-1.5 font-display text-lg font-semibold text-[var(--industry-text)]">
+                    <h3 className="flex items-center gap-1.5 font-display text-lg font-semibold text-[var(--industry-text)]">
                       {solution.shortName}
                       <ArrowUpRight
                         size={16}
@@ -690,15 +636,17 @@ export function MigratedIndustryPage({ page }: Props) {
 
       <section
         id={industrySectionAnchors.faqs}
-        className="industry-section scroll-mt-[calc(var(--header-h)+1rem)]"
+        className="industry-section industry-section--tint scroll-mt-[calc(var(--header-h)+1rem)]"
       >
         <div className="industry-shell max-w-3xl">
-          <SectionKicker icon={CircleHelp}>Common questions</SectionKicker>
+          <SectionKicker icon={CircleHelp}>{copy.faqs.kicker}</SectionKicker>
           <Reveal delay={0.05}>
-            <h2 className="industry-h2 mt-2">{industrySectionLabels.faqs}</h2>
+            <h2 className="industry-h2 mt-2" style={{ maxWidth: "24ch" }}>
+              {copy.faqs.heading}
+            </h2>
           </Reveal>
           <Stagger className="industry-faq mt-6" delay={0.07}>
-            {page.faqs.map((faq) => (
+            {[...page.faqs, ...industrySharedFaqs].map((faq) => (
               <motion.div key={faq.question} variants={cardVariants} className="industry-faq__item">
                 <h3 className="font-display text-[1.05rem] font-semibold text-[var(--industry-text)]">
                   {faq.question}
@@ -710,47 +658,83 @@ export function MigratedIndustryPage({ page }: Props) {
         </div>
       </section>
 
+      {readingGroups.length ? (
+        <section
+          id={industrySectionAnchors.furtherReading}
+          className="industry-section scroll-mt-[calc(var(--header-h)+1rem)]"
+        >
+          <div className="industry-shell">
+            <SectionKicker icon={BookOpen}>{copy.furtherReading.kicker}</SectionKicker>
+            <Reveal delay={0.05}>
+              <h2 className="industry-h2 mt-2">{copy.furtherReading.heading}</h2>
+            </Reveal>
+            <div className="industry-grid mt-8">
+              {readingGroups.map((group) => (
+                <nav key={group.label} aria-label={group.label} className="industry-card">
+                  <h3 className="industry-kicker">{group.label}</h3>
+                  <ul className="mt-3 space-y-2.5">
+                    {group.links.map((link) => (
+                      <li key={link.href}>
+                        <Link
+                          href={link.href}
+                          className="group inline-flex items-start gap-1.5 text-[15px] font-semibold leading-snug text-[var(--industry-text)] hover:text-[var(--industry-accent-strong)]"
+                        >
+                          {link.label}
+                          <ChevronRight
+                            size={15}
+                            strokeWidth={2.4}
+                            className="mt-0.5 shrink-0 text-[var(--industry-accent-strong)] transition-transform duration-300 group-hover:translate-x-0.5"
+                            aria-hidden
+                          />
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </nav>
+              ))}
+            </div>
+          </div>
+        </section>
+      ) : null}
+
       <section
         id={industrySectionAnchors.related}
         className="industry-section industry-section--tint scroll-mt-[calc(var(--header-h)+1rem)]"
       >
         <div className="industry-shell">
-          <Reveal>
-            <h2 className="industry-h2">{industrySectionLabels.related}</h2>
+          <SectionKicker icon={Network}>{copy.related.kicker}</SectionKicker>
+          <Reveal delay={0.05}>
+            <h2 className="industry-h2 mt-2">{copy.related.heading}</h2>
           </Reveal>
           <Stagger className="industry-grid mt-8" delay={0.08}>
-            {related.map((industry) =>
-              industry ? (
-                <AnimatedCard key={industry.slug} className="industry-card">
-                  <Link href={`/industries/${industry.slug}`} className="group flex items-start gap-3.5">
-                    <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-[12px]">
-                      <Image
-                        src={industry.image}
-                        alt=""
-                        fill
-                        sizes="56px"
-                        className="object-cover transition-transform duration-500 ease-out group-hover:scale-110"
-                        aria-hidden
-                      />
-                    </div>
-                    <div>
-                      <p className="flex items-center gap-1 font-display text-base font-semibold text-[var(--industry-text)]">
-                        {industry.cardLabel ?? industry.name}
-                        <ChevronRight
-                          size={15}
-                          strokeWidth={2.4}
-                          className="text-[var(--industry-accent-strong)] opacity-0 transition-all duration-300 group-hover:translate-x-0.5 group-hover:opacity-100"
-                          aria-hidden
-                        />
-                      </p>
-                      <p className="mt-1.5 text-sm leading-relaxed text-[var(--industry-muted)]">
-                        {industry.tagline ?? industry.summary}
-                      </p>
-                    </div>
-                  </Link>
-                </AnimatedCard>
-              ) : null,
-            )}
+            {related.map((industry) => (
+              <AnimatedCard
+                key={industry.slug}
+                className={`industry-card ${related.length > 3 ? "min-[821px]:!col-span-3" : ""}`}
+              >
+                <Link href={`/industries/${industry.slug}`} className="group flex items-center gap-3.5">
+                  <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-[12px]">
+                    <Image
+                      src={industry.image}
+                      alt=""
+                      fill
+                      sizes="56px"
+                      className="object-cover transition-transform duration-500 ease-out group-hover:scale-110"
+                      aria-hidden
+                    />
+                  </div>
+                  <h3 className="flex items-center gap-1 font-display text-base font-semibold text-[var(--industry-text)]">
+                    {industry.name}
+                    <ChevronRight
+                      size={15}
+                      strokeWidth={2.4}
+                      className="shrink-0 text-[var(--industry-accent-strong)] transition-transform duration-300 group-hover:translate-x-0.5"
+                      aria-hidden
+                    />
+                  </h3>
+                </Link>
+              </AnimatedCard>
+            ))}
           </Stagger>
           <Reveal delay={0.1}>
             <Link
@@ -812,6 +796,6 @@ export function MigratedIndustryPage({ page }: Props) {
           priority
         />
       ) : null}
-    </main>
+    </div>
   );
 }

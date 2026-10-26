@@ -10,6 +10,7 @@ import { getIndustryPage, getRelatedIndustries } from "@/lib/industry-pages";
 import {
   getIndustryPageRecord,
   shouldUseMigratedIndustryPage,
+  toPublicIndustryPage,
 } from "@/lib/industries/registry";
 import { buildPageMetadata, clipDescription } from "@/lib/seo";
 import { breadcrumbJsonLd, JsonLdScript } from "@/lib/jsonld";
@@ -23,6 +24,11 @@ const legacyIndustrySlugs: Record<string, string> = {
 };
 
 export const dynamicParams = true;
+
+/** 1200×630 JPG social card for an industry page. */
+function industryOgImage(slug: string) {
+  return `/Images/og/industries/${slug}.jpg`;
+}
 
 export function generateStaticParams() {
   return industries.map((i) => ({ slug: i.slug }));
@@ -39,16 +45,24 @@ export async function generateMetadata({
   if (shouldUseMigratedIndustryPage(resolved)) {
     const page = getIndustryPageRecord(resolved);
     if (!page) return {};
-    return buildPageMetadata({
+    // seo.title is the keyword title without the brand; the root layout's
+    // title template appends " | OrionAlerts".
+    const metadata = buildPageMetadata({
       title: page.seo.title,
       description: page.seo.description,
       pathname: page.seo.canonicalPath,
-      absoluteTitle: true,
-      image: page.seo.image,
-      imageAlt: page.seo.ogTitle ?? page.seo.title,
+      image: industryOgImage(page.slug),
+      imageAlt: page.hero.h1,
       ogTitle: page.seo.ogTitle,
       ogDescription: page.seo.ogDescription,
     });
+    // Purpose-made 1200×630 share cards (replaces hero images and hotlinked photos).
+    const ogImage = { url: industryOgImage(page.slug), width: 1200, height: 630, alt: page.hero.h1 };
+    return {
+      ...metadata,
+      openGraph: { ...metadata.openGraph, images: [ogImage] },
+      twitter: { ...metadata.twitter, images: [ogImage.url] },
+    };
   }
 
   const industry = getIndustryPage(resolved);
@@ -80,7 +94,7 @@ export default async function IndustryDetailPage({
     if (!page) notFound();
     return (
       <PageShell>
-        <MigratedIndustryPage page={page} />
+        <MigratedIndustryPage page={toPublicIndustryPage(page)} />
       </PageShell>
     );
   }

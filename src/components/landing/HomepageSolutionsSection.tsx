@@ -4,15 +4,15 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, Check } from "lucide-react";
-import { useReducedMotion } from "framer-motion";
 import { Reveal } from "@/components/Reveal";
 import { homepageSolutions, type HomepageSolution } from "@/lib/homepage";
+import { useSafeReducedMotion } from "@/lib/use-safe-reduced-motion";
 
 function SolutionMedia({ media }: { media: HomepageSolution["media"] }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const rootRef = useRef<HTMLDivElement>(null);
   const [inView, setInView] = useState(false);
-  const reduce = useReducedMotion();
+  const reduce = useSafeReducedMotion();
   const isRemote = media.poster.startsWith("http");
   const canAutoplay = Boolean(media.src) && !reduce;
 
@@ -90,8 +90,10 @@ function SolutionBlock({
         <p className="font-display text-sm text-blue">
           {String(index + 1).padStart(2, "0")}
         </p>
-        <h3 className="display mt-2 text-[clamp(1.7rem,3vw,2.4rem)] uppercase text-text">
-          {solution.name}
+        <h3 className="mt-2 text-[clamp(1.45rem,2.6vw,2rem)] font-semibold leading-[1.15] tracking-[-0.02em] text-text">
+          <Link href={solution.ctaHref} className="transition hover:text-blue">
+            {solution.name}
+          </Link>
         </h3>
         <p className="mt-4 text-base leading-relaxed text-muted-strong">
           {solution.description}
@@ -132,12 +134,16 @@ export function HomepageSolutionsSection() {
           <p className="eyebrow">Solutions</p>
           <h2
             id="solutions-heading"
-            className="display mt-2 max-w-3xl text-[clamp(1.85rem,4vw,2.75rem)] uppercase text-steel-gradient"
+            className="mt-2 max-w-3xl text-balance text-[clamp(1.75rem,3.6vw,2.6rem)] font-semibold leading-[1.1] tracking-[-0.03em] text-text"
           >
-            Capabilities for end-to-end operations
+            Five modules for your CCTV: VMS, AI video analytics, camera health, assets and AMC
           </h2>
           <p className="description mt-4 max-w-2xl text-base md:text-lg">
-            Explore how Orion unifies monitoring, AI alerts, investigations, assets, and uptime.
+            Every module runs on{" "}
+            <Link href="/nebula-os" className="font-semibold text-blue hover:underline">
+              Nebula OS
+            </Link>
+            , so you can start with one and add the others on the same platform.
           </p>
         </Reveal>
 

@@ -1,8 +1,6 @@
 import {
   INDUSTRY_SCHEMA_VERSION,
-  industrySharedCopy,
   industrySharedCtas,
-  industrySharedFaqs,
 } from "@/lib/industries/shared";
 import type { IndustryPageRecord } from "@/lib/industries/types";
 
@@ -10,30 +8,26 @@ export const polymersPlasticsIndustryPage: IndustryPageRecord = {
   slug: "polymers-plastics",
   name: "Polymers & Plastics",
   cardLabel: "Polymers",
-  cardSummary:
-    "Use Vision Copilot to connect mapped camera observations with decisions about downstream build-up and controlled process-zone review.",
+  siteNoun: { one: "plastics plant", many: "plastics plants" },
   schemaVersion: INDUSTRY_SCHEMA_VERSION,
   contentVersion: 2,
   status: "reviewed",
   seo: {
-    title: "Plastics Plant Video Analytics | OrionAlerts",
+    title: "AI Video Analytics for Polymers & Plastics",
     description:
-      "Explore polymer and plastics plants with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
+      "AI video analytics for plastics plants: material build-up at moulding and extrusion transfers, restricted-zone alerts and fast retrieval of known events.",
     canonicalPath: "/industries/polymers-plastics",
-    ogTitle: "Plastics Plant Video Analytics | OrionAlerts",
-    ogDescription:
-      "Explore polymer and plastics plants with Vision Copilot: search mapped camera observations, review recommendations and track operational scores.",
     image: "/Images/industries/polymers-plastics.webp",
   },
   hero: {
     eyebrow: "Polymers & Plastics",
-    h1: "Vision Copilot for Polymer and Plastics Plants",
-    lede: "Map cameras to the places your team manages and ask Vision Copilot about downstream build-up and controlled process-zone review. OrionAlerts analyses scenes over time to surface alerts, recommendations and operational scores that help you decide what to review today and what to improve next.",
+    h1: "AI Video Analytics for Polymers & Plastics",
+    lede:
+      "Flag material build-up at moulding and extrusion transfers and entry into restricted machine areas, then ask Vision Copilot which areas had recurring build-up before you change the material flow.",
     media: {
       kind: "image",
       src: "/Images/industries/polymers-plastics.webp",
-      alt: "Illustrative polymer and plastics plant photograph used for industry context",
-      demonstrationLabel: "Illustrative photograph — not a verified customer deployment",
+      alt: "Infographic of polymer molecules and moulded plastic products",
     },
     primaryCta: industrySharedCtas.primary,
     secondaryCta: industrySharedCtas.secondaryHero,
@@ -41,7 +35,7 @@ export const polymersPlasticsIndustryPage: IndustryPageRecord = {
   context: {
     heading: "Separate visible process interruptions from product and chemical quality.",
     paragraphs: [
-      "A plastics plant may combine hot processes, raw-material storage and finished-goods movement. Video can show an access event or visible accumulation, but it cannot establish resin composition, melt temperature or emissions. Build the monitoring plan around the events a supervisor can verify and the operational information needed to understand them.",
+      "A plastics plant may combine hot processes, raw-material storage and finished-goods movement. Video shows access events and visible accumulation, while resin composition, melt temperature and emissions come from instruments and process records. Build the monitoring plan around the events a supervisor can verify and the operational information needed to understand them.",
     ],
     buyers: [
       "Plant heads",
@@ -51,8 +45,6 @@ export const polymersPlasticsIndustryPage: IndustryPageRecord = {
     ],
   },
   locationContext: {
-    heading: "Your operation, mapped",
-    body: "Organise views around the places the team recognises. Select the location to establish the context for scene observations and Copilot questions. This example uses the shared hierarchy; map the actual site rather than inventing rooms or camera coverage.",
     hierarchyExample: [
       { label: "Site", example: "Plant" },
       { label: "Building", example: "Moulding Building" },
@@ -64,15 +56,13 @@ export const polymersPlasticsIndustryPage: IndustryPageRecord = {
       "Cameras are mapped to the selected moulding transfer or staging area so questions about the moulding transfer area start from recognisable operational context.",
   },
   copilot: {
-    heading: "Ask Vision Copilot",
-    body: industrySharedCopy.copilotIntro,
     prompts: [
+      "What should the plant team review before changing the material flow?",
       "Show observations from the moulding transfer area during the last shift.",
       "Which covered extrusion or moulding areas had recurring build-up?",
-      "What should the plant team review before changing the material flow?",
     ],
     exampleAnswer:
-      "Illustrative example — not a live product result. Recurring visible build-up appears at one downstream staging interface. Suggested next step: review staging capacity and downstream handoff timing with operators, using process records to assess the cause.",
+      "Recurring visible build-up appears at one downstream staging interface. Suggested next step: review staging capacity and downstream handoff timing with operators, using process records to assess the cause.",
     exampleStatus: "illustrative",
   },
   sceneIntelligence: {
@@ -81,8 +71,6 @@ export const polymersPlasticsIndustryPage: IndustryPageRecord = {
     recommendation:
       "Review staging capacity and downstream handoff timing with operators, using process records to assess the cause.",
     decisionOwner: "Plant operations / extrusion-moulding lead",
-    followUpPrompt:
-      "Revisit the same area and comparable period to assess observations, coverage and score movement.",
   },
   scorecards: {
     heading: "See what needs attention—and what changes after action.",
@@ -125,49 +113,43 @@ export const polymersPlasticsIndustryPage: IndustryPageRecord = {
   useCases: [
     {
       id: "location-into-decision",
-      title: "Bring the right location into the decision",
-      body: "Connect downstream build-up and controlled process-zone review to the building tree and its mapped cameras. The team can start with a named operational area instead of trying to remember which camera covers it, making observations easier to interpret and discuss.",
+      title: "Map moulding, extrusion and storage areas",
+      body: "Moulding transfers, extrusion lines and storage areas are mapped with their cameras, so operators ask about the moulding transfer area by name.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["building-hierarchy", "vision-copilot"],
     },
     {
       id: "search-observations",
-      title: "Search visual observations in everyday language",
-      body: 'Ask Vision Copilot, “Show observations from the moulding transfer area during the last shift.” Use the location and review period to focus the search on relevant available observations. The purpose is to reach useful context without manually working through unrelated camera views.',
+      title: "Review the moulding transfer shift by shift",
+      body: "Ask Vision Copilot, “Show observations from the moulding transfer area during the last shift,” for transfer and staging observations in that window.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["vision-copilot", "scene-analysis"],
     },
     {
       id: "recurring-conditions",
-      title: "Identify recurring conditions across scenes",
-      body: 'Ask, “Which covered extrusion or moulding areas had recurring build-up?” Ongoing scene analysis supports review of patterns across the available observations. Use the recurring condition to frame the next investigation rather than treating one isolated alert as the whole operational picture.',
+      title: "See where downstream build-up recurs",
+      body: "Ask, “Which covered extrusion or moulding areas had recurring build-up?” Repeat observations point to the downstream staging interface where material keeps collecting.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["scene-analysis", "vision-copilot"],
     },
     {
       id: "improvement-decision",
-      title: "Turn analysis into an improvement decision",
-      body: 'Ask, “What should the plant team review before changing the material flow?” Review the recommendation alongside the underlying observations and the team\'s operating knowledge. The example below shows a practical next step; it is a suggested action for human consideration, not an automatic instruction to change equipment or procedures.',
+      title: "Check staging before changing material flow",
+      body: "Ask, “What should the plant team review before changing the material flow?” The suggested step, such as reviewing staging capacity and handoff timing, goes to the extrusion-moulding lead with process records for the cause.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["recommendations"],
     },
     {
       id: "score-led-review",
-      title: "Use scores to structure the next review",
-      body: "Use 0–100 scores to organise attention across visible zone/process observations, not resin quality, emissions or EPR compliance. Review the contributing observations and coverage before acting. The proposed dimensions for this industry are Visible Process-Area Practices, Transfer-Area Flow and Storage-Area Orderliness; use the approved product methodology when demonstrating actual values.",
+      title: "Compare zone and process observations",
+      body: "Scores out of 100 summarise visible zone and process observations so plant operations can set the next review's priorities.",
       capabilityStatus: "owner-confirmed",
       claimIds: ["operational-scores"],
     },
   ],
-  workflow: {
-    heading: "From scenes to decisions",
-    scenario:
-      "Illustrative decision story — not a customer result. Observe: Recurring visible build-up appears at one downstream staging interface. Ask: “What should the plant team review before changing the material flow?” Suggested recommendation: Review staging capacity and downstream handoff timing with operators, using process records to assess the cause. Decide: The responsible team reviews the evidence and agrees an action. Follow up: Revisit the same area and comparable period to assess observations, coverage and score movement. A subsequent change is not proof of causation.",
-    steps: industrySharedCopy.workflowLabels.map((label) => ({ label })),
-  },
   deployment: {
-    heading: industrySharedCopy.deploymentHeading,
-    body: `${industrySharedCopy.deploymentIntroduction} Test glare, reflective surfaces, repetitive machine motion and exposure to heat or chemicals. Hazardous locations may need additional equipment approval assessment under applicable hazardous-area schemes.`,
+    body:
+      "Test glare, reflective surfaces, repetitive machine motion and exposure to heat or chemicals. Hazardous locations may need additional equipment approval assessment under applicable hazardous-area schemes.",
     requiredInputs: [
       "Mapped hierarchy for pilot moulding, transfer and storage areas",
       "Camera suitability checks for glare, heat, chemicals and reflective surfaces",
@@ -177,7 +159,7 @@ export const polymersPlasticsIndustryPage: IndustryPageRecord = {
   },
   standards: {
     publicCopy:
-      "Plastic-packaging EPR obligations apply to relevant regulated entities and activities; video does not establish recycling-credit or EPR compliance. Assess the current CPCB framework and product scope separately. Hazardous locations may also require separate equipment-approval assessment.",
+      "Plastic-packaging EPR obligations sit with the regulated entity under the current CPCB framework, and hazardous locations follow PESO, IECEx or ATEX equipment schemes. Video supports process and access reviews next to those records and approvals.",
     frameworkIds: ["C17", "C5"],
     reviewedAt: "2026-09-11",
   },
@@ -204,39 +186,56 @@ export const polymersPlasticsIndustryPage: IndustryPageRecord = {
   solutions: [
     {
       solutionSlug: "ai-analytics",
-      body: `${industrySharedCopy.solutionBasis["ai-analytics"]} For plastics plants, focus on location-aware search, recommendations and score-led review of scoped process and zone events.`,
+      body: "Transfer build-up and restricted machine-area alerts, with Vision Copilot search by moulding or extrusion area.",
     },
     {
       solutionSlug: "vms",
-      body: `${industrySharedCopy.solutionBasis.vms} Use it for operational review across agreed cameras.`,
+      body: "Operational review across the agreed plant cameras, live or recorded.",
     },
     {
       solutionSlug: "health-monitoring",
-      body: `${industrySharedCopy.solutionBasis["health-monitoring"]} Prioritise critical camera views so process investigations retain usable footage.`,
+      body: "Keeps critical process views recording so investigations retain usable footage.",
     },
   ],
   faqs: [
     {
+      question: "What can video analytics monitor in a plastics plant?",
+      answer:
+        "Useful starting points are visible material build-up at downstream moulding and extrusion transfers, entry into restricted machine areas, and storage or staging spaces that should stay clear. Alerts reach plant operations with the location and clip, and known events can be retrieved by time window and area.",
+    },
+    {
+      question: "What should be tested before installing cameras near moulding lines?",
+      answer:
+        "Test each view for glare, reflective surfaces, repetitive machine motion and exposure to heat or chemicals. Where an area is a hazardous location, the equipment approval required under the applicable hazardous-area scheme is assessed before hardware is chosen, and owners for zone and accumulation alerts are agreed.",
+    },
+    {
       question: "Can video verify polymer composition?",
       answer:
-        "No. Composition and product conformance require appropriate material testing and process records.",
+        "No. Polymer composition and product conformance are confirmed by material testing and process records, which video cannot replace. What cameras show is the visible flow around the line, such as build-up at a moulding transfer or entry into a restricted machine area, which helps operators find where to look in those records.",
     },
     {
       question: "Can this prove EPR compliance?",
       answer:
-        "No. Applicable reporting, registration and evidence requirements remain separate.",
+        "No. EPR compliance rests on the applicable CPCB registration, reporting and evidence requirements for your role, which are handled separately from video. Footage from the plant supports process and access reviews, but it does not generate EPR credits or replace the records the regulated entity must keep.",
     },
     {
       question: "Can it detect overheating?",
       answer:
-        "Ordinary RGB video cannot measure process temperature. Specialist thermal or instrumentation solutions require separate validation.",
+        "No. Process temperature is measured by thermal or process instrumentation, which needs its own validation, and ordinary CCTV video cannot measure heat. What cameras can show is the visible scene around hot processes, such as material build-up at an extrusion transfer, so operators know where to check the instrument readings.",
     },
-    ...industrySharedFaqs,
   ],
-  relatedIndustrySlugs: ["automotive", "manufacturing", "oil-gas"],
+  limits:
+    "Video covers visible build-up and zone entry. Resin composition, process temperature, emissions and extended producer responsibility (EPR) compliance come from material testing, instrumentation and Central Pollution Control Board (CPCB) reporting.",
+  furtherReading: {
+    blogs: ["add-ai-to-existing-cctv-cameras", "cctv-camera-health-monitoring"],
+    glossary: ["video-analytics", "camera-health-monitoring"],
+    useCases: ["restricted-zone-monitoring"],
+  },
+  relatedIndustrySlugs: ["manufacturing", "automotive", "textile", "oil-gas"],
   finalCta: {
-    heading: "Ask Vision Copilot about your polymer and plastics plants.",
-    body: "See how Vision Copilot connects a mapped area with visual search, recommendations and scores for polymer and plastics plants.",
+    heading: "Ask Vision Copilot about your plastics plant.",
+    body:
+      "Start with one downstream transfer point and one restricted machine area.",
   },
   sources: [
     "README v2 §9.24",

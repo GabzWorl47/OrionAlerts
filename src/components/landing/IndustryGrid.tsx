@@ -6,11 +6,11 @@ import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { ChevronRight } from "lucide-react";
 import { LogoMarquee } from "@/components/landing/LogoMarquee";
-import { industries } from "@/lib/site";
+import { industries, site } from "@/lib/site";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
-const INDUSTRIES_HERO_IMAGE = "/Images/industries-hero-skyline.jpg";
+const INDUSTRIES_HERO_IMAGE = "/Images/industries-hero-skyline.webp";
 
 const clusters = [
   {
@@ -180,7 +180,7 @@ export function IndustryGrid() {
               animate={{ opacity: 1, y: 0 }}
               transition={animate ? { duration: 0.6, delay: 0.22, ease } : { duration: 0 }}
             >
-              Modern protection for any space.
+              AI video analytics for {industries.length} industries
             </motion.h1>
 
             <motion.p
@@ -189,8 +189,8 @@ export function IndustryGrid() {
               animate={{ opacity: 1, y: 0 }}
               transition={animate ? { duration: 0.55, delay: 0.3, ease } : { duration: 0 }}
             >
-              AI video intelligence for plants, campuses, and critical sites — tailored to how each
-              sector actually operates, without replacing the cameras you already have.
+              Real-time alerts, recording and camera health for plants, campuses and critical
+              sites, built around how each sector operates and the cameras you already have.
             </motion.p>
           </div>
         </div>
@@ -199,8 +199,18 @@ export function IndustryGrid() {
       <LogoMarquee />
 
       <div className="relative mx-auto w-[min(100%-1.5rem,90rem)] pt-8 md:pt-10">
+        <div className="mx-auto max-w-3xl text-center">
+          <h2 className="font-display text-[clamp(1.5rem,3vw,2.25rem)] font-semibold tracking-[-0.03em] text-text">
+            Choose your industry
+          </h2>
+          <p className="mt-3 text-[15px] leading-relaxed text-muted-strong md:text-base">
+            {site.entityStatement} Each industry page below covers the use cases, deployment needs
+            and pilot measures for that kind of site.
+          </p>
+        </div>
+
         <motion.div
-          className="relative flex flex-wrap items-center justify-center gap-2"
+          className="relative mt-8 flex flex-wrap items-center justify-center gap-2"
           initial={animate ? { opacity: 0, y: 12 } : false}
           animate={{ opacity: 1, y: 0 }}
           transition={animate ? { duration: 0.5, delay: 0.15, ease } : { duration: 0 }}
@@ -290,7 +300,7 @@ export function IndustryGrid() {
                     <div className="relative aspect-[3/4] overflow-hidden">
                       <Image
                         src={industry.image}
-                        alt={industry.name}
+                        alt=""
                         fill
                         quality={90}
                         sizes="(max-width: 640px) 45vw, (max-width: 1024px) 30vw, 18vw"
@@ -316,13 +326,15 @@ export function IndustryGrid() {
                       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[3px] origin-left scale-x-0 bg-gradient-to-r from-cyan via-cyan/70 to-transparent transition-transform duration-500 ease-out group-hover:scale-x-100" />
 
                       <div className="absolute inset-x-0 bottom-0 flex flex-col justify-end p-3.5 sm:p-4">
-                        <span className="font-display text-[1.05rem] font-semibold leading-[1.15] tracking-[-0.02em] text-white sm:text-[1.15rem] lg:text-[1.2rem]">
+                        <h3 className="font-display text-[1.05rem] font-semibold leading-[1.15] tracking-[-0.02em] text-white sm:text-[1.15rem] lg:text-[1.2rem]">
                           {label}
-                        </span>
+                        </h3>
 
-                        <span className="mt-1.5 max-h-0 overflow-hidden text-[11px] leading-snug text-white/70 opacity-0 transition-all duration-500 ease-out group-hover:max-h-16 group-hover:opacity-100 sm:text-xs">
-                          {industry.tagline}
-                        </span>
+                        {industry.tagline ? (
+                          <p className="mt-1.5 text-[11px] leading-snug text-white/80 sm:text-xs">
+                            {industry.tagline}
+                          </p>
+                        ) : null}
 
                         <span className="mt-3 inline-flex items-center gap-1 text-[12px] font-semibold text-cyan transition duration-300 group-hover:gap-2 sm:text-[13px]">
                           Explore
