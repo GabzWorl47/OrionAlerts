@@ -1,94 +1,71 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { Button, CtaBand, FeatureCard, Section, SectionHeading } from "@/components/ui";
 import { PageShell } from "@/components/PageShell";
-import { breadcrumbJsonLd, JsonLdScript } from "@/lib/jsonld";
-import { buildPageMetadata } from "@/lib/seo";
+import { PartnerForm } from "@/components/PartnerForm";
 
-export const metadata: Metadata = buildPageMetadata({
-  title: "Partner Program for System Integrators",
+export const metadata: Metadata = {
+  title: "Become a Partner",
   description:
-    "Join the OrionAlerts partner program. System integrators and AMC providers deploy AI video analytics, VMS and CCTV health monitoring for their clients.",
-  pathname: "/partners",
-});
-
+    "Join the OrionAlerts partner ecosystem — system integrators, distributors, and hardware technology partners with dedicated enablement, commercial margins, and priority support.",
+};
 
 const partnerTracks = [
   {
-    title: "System integrators",
-    description: "Design, deploy and support multi-site OrionAlerts deployments for your clients.",
+    title: "System Integrators",
+    description: "Design, deploy, and support multi-site OrionAlerts estates with recurring margins and enterprise backing.",
   },
   {
-    title: "Technology partners",
-    description: "Integrate cameras, sensors, access, and ops systems into the OrionAlerts ecosystem.",
+    title: "Technology Partners",
+    description: "Integrate cameras, VMS, sensors, access control, and operational systems into the OrionAlerts AI ecosystem.",
   },
   {
-    title: "White-label programs",
-    description: "Branded delivery for your clients, where partner terms and packaging allow.",
+    title: "Distributors & VARs",
+    description: "Equip your regional dealer and installer network with next-gen AI video analytics and VMS licenses.",
   },
 ];
 
 const enablement = [
   {
-    title: "Pricing & packaging",
-    description: "Clear commercial frameworks for deal registration and multi-site rollouts.",
+    title: "Pricing & Margins",
+    description: "Tiered wholesale pricing, deal registration protection, and healthy margins on multi-site rollouts.",
   },
   {
-    title: "Training & certification",
-    description: "Role-based enablement for sales, deployment, and support teams.",
+    title: "Technical Training & Certification",
+    description: "Role-based training and certification for your presales engineers, field technicians, and support staff.",
   },
   {
-    title: "Partner portal",
-    description: "Assets, deal tools, and project visibility in one authenticated workspace (2FA-ready).",
+    title: "Partner Portal & Deal Registration",
+    description: "Register prospective projects, access collateral, and track delivery pipelines in one central workspace.",
   },
   {
-    title: "Partner lookup",
-    description: "Help customers find certified partners by region and capability.",
+    title: "Co-Selling & Presales Support",
+    description: "Joint pursuit models, RFP architecture assistance, and dedicated presales solution engineers.",
   },
   {
-    title: "Ecosystem integrations",
-    description: "Documented paths for cameras, VMS overlays, ERP, CMMS, and ticketing.",
+    title: "Ecosystem Integrations",
+    description: "Direct RTSP/ONVIF certification and API/webhook bridges for ERP, command centers, and ticketing systems.",
   },
   {
-    title: "Co-selling support",
-    description: "Joint pursuit of enterprise and critical-infrastructure opportunities.",
+    title: "NFR & Demo Licenses",
+    description: "Not-for-resale lab licenses and demonstration software to showcase live AI capabilities to your clients.",
   },
 ];
 
 export default function PartnersPage() {
   return (
     <PageShell>
-      <>
-      <JsonLdScript
-        data={breadcrumbJsonLd([
-          { name: "Home", path: "/" },
-          { name: "Partners", path: "/partners" },
-        ])}
-      />
       <Section className="pt-14">
-        <p className="eyebrow">Partner program</p>
-        <h1 className="display mt-3 max-w-3xl text-3xl text-text md:text-5xl">
-          OrionAlerts partner program for system integrators and AMC providers
-        </h1>
+        <p className="eyebrow">Channel & Ecosystem</p>
+        <h1 className="display mt-3 max-w-3xl text-4xl text-text md:text-6xl">Become a Partner</h1>
         <p className="lede mt-4">
-          Deploy OrionAlerts for your clients and run their CCTV service delivery on the same
-          platform, with camera health, asset records and AMC SLA tracking for each client.
-        </p>
-        <p className="mt-4 max-w-3xl text-[1.0625rem] leading-[1.72] text-muted">
-          Grow with OrionAlerts as a system integrator or technology partner, with enablement,
-          clear commercial terms and deal registration. Partners work with the same{" "}
-          <Link href="/solutions" className="font-semibold text-blue hover:underline">
-            five OrionAlerts modules
-          </Link>{" "}
-          — VMS, AI video analytics, camera health monitoring, asset tracking and AMC management —
-          running on{" "}
-          <Link href="/nebula-os" className="font-semibold text-blue hover:underline">
-            Nebula OS
-          </Link>
-          .
+          Grow your surveillance business with OrionAlerts as an authorized system integrator, distributor,
+          or technology partner. Get commercial incentives, direct tier-3 support, and deal registration.
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
-          <Button href="/contact?topic=partner">Become a Partner</Button>
+          <Button href="#apply">Apply to partner</Button>
+          <Button href="/book-demo" variant="outline">
+            Request partner briefing
+          </Button>
         </div>
       </Section>
 
@@ -103,9 +80,9 @@ export default function PartnersPage() {
 
       <Section>
         <SectionHeading
-          eyebrow="Program"
+          eyebrow="Program Benefits"
           title="What partners get"
-          lede="Enablement, packaging support and joint delivery for system integrators and technology partners."
+          lede="Designed to help integrators and distributors close larger enterprise opportunities and build recurring revenue."
         />
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {enablement.map((item, index) => (
@@ -114,17 +91,22 @@ export default function PartnersPage() {
         </div>
       </Section>
 
+      <Section id="apply" className="scroll-mt-20">
+        <div className="mx-auto max-w-4xl">
+          <PartnerForm />
+        </div>
+      </Section>
+
       <Section>
         <CtaBand
-          title="Start a partner conversation"
-          lede="Tell us your region, specialties, and whether you’re SI-led, technology-led, or both."
-          primaryHref="/contact?topic=partner"
-          primaryLabel="Become a Partner"
+          title="Have questions before applying?"
+          lede="Our channel team is available to discuss custom tiers, white-label requirements, and regional exclusivity."
+          primaryHref="/contact"
+          primaryLabel="Contact General Support"
           secondaryHref="/faqs"
           secondaryLabel="Read FAQs"
         />
       </Section>
-    </>
     </PageShell>
   );
 }

@@ -8,7 +8,7 @@ import { legalMeta } from "@/lib/legal";
 type LeadKind = "demo" | "contact";
 
 /** Values of the contact form's "Reason for reaching out" select. */
-export type ContactTopic = "sales" | "support" | "partner" | "press" | "privacy" | "other";
+export type ContactTopic = "sales" | "support" | "press" | "privacy" | "other";
 
 /**
  * Optional demo-form ranges. Values must stay in sync with the allow-lists in
@@ -43,7 +43,6 @@ type LeadFormProps = {
   subtitle: string;
   /** Use h2 when the page already has an H1 (e.g. contact). */
   titleAs?: "h1" | "h2";
-  /** Preselects the contact topic, e.g. from `/contact?topic=partner`. */
   defaultTopic?: ContactTopic;
 };
 
@@ -69,15 +68,14 @@ export function LeadForm({
   const captchaConfigured = Boolean(recaptchaSiteKey);
   const showCaptchaHint = awaitingCaptcha && captchaConfigured;
 
-
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setStatus("submitting");
     setMessage("");
 
-    if (requireCaptcha && !recaptchaToken) {
+    if (awaitingCaptcha && captchaConfigured) {
       setStatus("error");
-      setMessage("Please complete the reCAPTCHA challenge.");
+      setMessage("Please complete the reCAPTCHA challenge before submitting.");
       return;
     }
 
@@ -91,11 +89,11 @@ export function LeadForm({
         body: JSON.stringify({
           kind,
           ...data,
-          ...(requireCaptcha ? { recaptchaToken } : {}),
+          ...(requireCaptcha && recaptchaToken ? { recaptchaToken } : {}),
         }),
       });
 
-      const json = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string };
+      const json = (await res.json()) as { ok?: boolean; error?: string };
 
       if (!res.ok || !json.ok) {
         throw new Error(json.error || "Submission failed");
@@ -104,8 +102,8 @@ export function LeadForm({
       setStatus("success");
       setMessage(
         kind === "demo"
-          ? "Demo request received. Our team will reach out to schedule."
-          : "Message received. We’ll connect you with the right person.",
+          ? "Demo request received. Our team will reach out within one business day."
+          : "Message received. We’ll connect you with the right person shortly.",
       );
       form.reset();
       setSelectedTopic(defaultTopic ?? "");
@@ -120,7 +118,7 @@ export function LeadForm({
   }
 
   const fieldClass =
-    "mt-1.5 w-full rounded-[12px] border border-line bg-white px-3 py-2.5 text-sm text-text outline-none transition focus:border-blue/40 focus:ring-2 focus:ring-blue/10";
+    "mt-1.5 w-full rounded-[12px] border border-line bg-surface-2 px-3 py-2.5 text-sm text-text outline-none transition focus:border-blue/40 focus:ring-2 focus:ring-blue/10";
 
   return (
     <form
@@ -133,69 +131,95 @@ export function LeadForm({
           {title}
         </TitleTag>
         <p className="mt-2 text-muted">{subtitle}</p>
-        <p className="mt-3 text-xs text-muted">
-          Fields marked <span className="text-alert">*</span> are required.
+        <p className="mt-3 text-xs uppercase tracking-[0.14em] text-cyan">
+          {kind === "demo" ? "Demo request" : "Contact request"} · processed by OrionAlerts
+        </p>
+        <p className="mt-1 text-xs text-muted">
+          Fields marked <RequiredMark /> are required.
         </p>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
         <label className="text-sm font-medium text-text">
           Full name <RequiredMark />
-          <input name="name" required className={fieldClass} autoComplete="name" />
+          <input
+            name="name"
+            required
+            maxLength={120}
+            className={fieldClass}
+            autoComplete="name"
+          />
         </label>
         <label className="text-sm font-medium text-text">
           Work email <RequiredMark />
-          <input name="email" type="email" required className={fieldClass} autoComplete="email" />
+          <input
+            name="email"
+            type="email"
+            required
+            maxLength={254}
+            className={fieldClass}
+            autoComplete="email"
+          />
         </label>
         <label className="text-sm font-medium text-text">
           Company <RequiredMark />
-          <input name="company" required className={fieldClass} autoComplete="organization" />
+          <input
+            name="company"
+            required
+            maxLength={160}
+            className={fieldClass}
+            autoComplete="organization"
+          />
         </label>
         <label className="text-sm font-medium text-text">
           Phone (optional)
-          <input name="phone" className={fieldClass} autoComplete="tel" />
+          <input
+            name="phone"
+            type="tel"
+            maxLength={40}
+            className={fieldClass}
+            autoComplete="tel"
+          />
         </label>
         {kind === "demo" ? (
           <>
+            <label className="text-sm font-medium text-text sm:col-span-2">
+              Solutions of interest
+              <select name="interest" className={fieldClass} defaultValue="">
+                <option value="" disabled>
+                  Select a focus area
+                </option>
+                <option value="vms">VMS</option>
+                <option value="ai-analytics">AI Vision & Real-Time Alerts</option>
+                <option value="asset-tracking">Asset Tracking</option>
+                <option value="amc-management">AMC Management</option>
+                <option value="health-monitoring">Health Monitoring</option>
+                <option value="platform">Full platform</option>
+              </select>
+            </label>
             <label className="text-sm font-medium text-text">
               Number of sites (optional)
               <select name="siteCount" className={fieldClass} defaultValue="">
-                <option value="">Select a range</option>
-                {SITE_COUNT_OPTIONS.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
+                <option value="">Select range…</option>
+                {SITE_COUNT_OPTIONS.map((opt) => (
+                  <option key={opt.value} value={opt.value}>
+                    {opt.label}
                   </option>
                 ))}
               </select>
             </label>
             <label className="text-sm font-medium text-text">
-              Approximate camera count (optional)
+              Approximate cameras (optional)
               <select name="cameraCount" className={fieldClass} defaultValue="">
-                <option value="">Select a range</option>
-                {CAMERA_COUNT_OPTIONS.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
+                <option value="">Select range…</option>
+                {CAMERA_COUNT_OPTIONS.map((opt) => (
+                  <option key={opt.value} value={opt.value}>
+                    {opt.label}
                   </option>
                 ))}
               </select>
             </label>
           </>
-        ) : null}
-        {kind === "demo" ? (
-          <label className="text-sm font-medium text-text sm:col-span-2">
-            Solutions of interest
-            <select name="interest" className={fieldClass} defaultValue="">
-              <option value="" disabled>
-                Select a focus area
-              </option>
-              <option value="vms">VMS</option>
-              <option value="ai-analytics">AI Vision & Real-Time Alerts</option>
-              <option value="asset-tracking">Asset Tracking</option>
-              <option value="amc-management">AMC Management</option>
-              <option value="health-monitoring">Health Monitoring</option>
-              <option value="platform">Full platform</option>
-            </select>
-          </label>
         ) : (
           <label className="text-sm font-medium text-text sm:col-span-2">
             Reason for reaching out
@@ -210,7 +234,6 @@ export function LeadForm({
               </option>
               <option value="sales">Sales inquiry</option>
               <option value="support">Customer support</option>
-              <option value="partner">Partnership</option>
               <option value="press">Press / investor</option>
               <option value="privacy">Privacy request</option>
               <option value="other">Other</option>
@@ -224,6 +247,7 @@ export function LeadForm({
             name="message"
             rows={4}
             required
+            maxLength={4000}
             className={`${fieldClass} resize-y`}
             placeholder={
               kind === "demo"
@@ -247,32 +271,39 @@ export function LeadForm({
 
       <p className="mt-5 text-xs leading-relaxed text-muted" data-privacy-notice>
         By submitting, you send these details to OrionAlerts. We use them only to respond to your
-        request. We also record your IP address for rate-limiting and abuse prevention
-        {requireCaptcha ? ", and Google processes reCAPTCHA data for bot protection" : ""}. See
-        our{" "}
-        <Link href="/privacy" className="text-blue underline underline-offset-2 hover:no-underline">
+        request. We also record your IP address for rate-limiting and abuse prevention, and Google
+        processes verification data for bot protection when reCAPTCHA is active. See our{" "}
+        <Link href={"/privacy"} className="text-blue underline hover:text-blue/80">
           Privacy Policy
         </Link>{" "}
         for how long we keep your details and your rights, or email{" "}
-        <a href={`mailto:${legalMeta.privacyEmail}`} className="text-blue underline underline-offset-2 hover:no-underline">
+        <a
+          href={`mailto:${legalMeta.privacyEmail}`}
+          className="text-blue underline hover:text-blue/80"
+        >
           {legalMeta.privacyEmail}
         </a>{" "}
         to request access or deletion.
       </p>
 
+      {showCaptchaHint ? (
+        <p id={captchaHintId} className="mt-3 text-xs text-caption" role="note">
+          Please check the reCAPTCHA box above before clicking {kind === "demo" ? "Request demo" : "Send message"}.
+        </p>
+      ) : null}
+
       <button
         type="submit"
         disabled={status === "submitting" || awaitingCaptcha}
         aria-describedby={showCaptchaHint ? captchaHintId : undefined}
-        className="mt-5 inline-flex items-center justify-center rounded-[14px] bg-blue px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#1f7aef] disabled:cursor-not-allowed disabled:opacity-60"
+        className="mt-5 inline-flex min-h-11 items-center justify-center rounded-[14px] bg-blue px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#1f7aef] disabled:cursor-not-allowed disabled:opacity-60"
       >
-        {status === "submitting" ? "Sending…" : kind === "demo" ? "Request a Demo" : "Send Message"}
+        {status === "submitting"
+          ? "Sending…"
+          : kind === "demo"
+            ? "Request demo"
+            : "Send message"}
       </button>
-      {showCaptchaHint ? (
-        <p id={captchaHintId} className="mt-2 text-xs text-muted">
-          Complete the reCAPTCHA check to submit.
-        </p>
-      ) : null}
 
       {message ? (
         <p

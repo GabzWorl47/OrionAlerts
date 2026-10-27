@@ -9,10 +9,10 @@ import { breadcrumbJsonLd, JsonLdScript } from "@/lib/jsonld";
 import { buildPageMetadata } from "@/lib/seo";
 
 const CONTACT_DESCRIPTION =
-  "Contact OrionAlerts for sales inquiries, customer support, partnerships, press or privacy requests. Send a message and the right team will reply.";
+  "Contact OrionAlerts for sales inquiries, customer support, press or privacy requests. Send a message and the right team will reply.";
 
 export const metadata: Metadata = buildPageMetadata({
-  title: "Contact Sales, Support & Partnerships",
+  title: "Contact Sales & Support",
   description: CONTACT_DESCRIPTION,
   pathname: "/contact",
 });
@@ -21,14 +21,13 @@ export const metadata: Metadata = buildPageMetadata({
 const CONTACT_TOPICS: readonly ContactTopic[] = [
   "sales",
   "support",
-  "partner",
   "press",
   "privacy",
   "other",
 ];
 
 function isContactTopic(value: unknown): value is ContactTopic {
-  return typeof value === "string" && (CONTACT_TOPICS as readonly string[]).includes(value);
+  return typeof value === "string" && (CONTACT_TOPICS as readonly string[]).includes(value as ContactTopic);
 }
 
 function contactPageJsonLd() {
@@ -70,7 +69,7 @@ export default async function ContactPage({
               Contact OrionAlerts
             </h1>
             <p className="lede mt-4">
-              Questions about sales, support, partnerships or privacy? Send a message and the right
+              Questions about sales, customer support, press, or privacy? Send a message and the right
               OrionAlerts team will reply. For a product walkthrough,{" "}
               <Link href="/book-demo" className="font-semibold text-blue hover:underline">
                 book a demo
@@ -91,13 +90,25 @@ export default async function ContactPage({
               ) : null}
               <p className="text-muted">{site.address}</p>
             </div>
+            <div className="mt-8 rounded-2xl border border-line bg-surface p-5">
+              <p className="text-sm font-semibold text-text">Looking to partner with OrionAlerts?</p>
+              <p className="mt-1 text-xs text-muted">
+                System integrators, distributors, and hardware technology partners can join our partner ecosystem.
+              </p>
+              <Link
+                href="/partners"
+                className="mt-3 inline-flex items-center text-xs font-semibold text-cyan hover:underline"
+              >
+                Go to Partner Portal & Application →
+              </Link>
+            </div>
           </div>
           <LeadForm
             kind="contact"
             title="Send a message"
             titleAs="h2"
             defaultTopic={defaultTopic}
-            subtitle="Tell us how to help — sales, support, partners, press, or a privacy request."
+            subtitle="Tell us how to help — sales, support, press, or a privacy request."
           />
         </div>
       </Section>

@@ -1,7 +1,7 @@
 import nodemailer from "nodemailer";
 
 export type LeadEmailData = {
-  kind: "demo" | "contact";
+  kind: "demo" | "contact" | "partner";
   name: string;
   email: string;
   company: string;
@@ -9,6 +9,11 @@ export type LeadEmailData = {
   message: string;
   interest?: string | null;
   topic?: string | null;
+  /** Partner form specific fields */
+  partnerTrack?: string | null;
+  website?: string | null;
+  region?: string | null;
+  annualDeployments?: string | null;
   /** Demo form only; optional ranges such as "2-5" or "under-50". */
   siteCount?: string | null;
   cameraCount?: string | null;
@@ -23,6 +28,14 @@ const TOPIC_LABELS: Record<string, string> = {
   press: "Press / Investor",
   privacy: "Privacy Request",
   other: "Other Inquiry",
+};
+
+const PARTNER_TRACK_LABELS: Record<string, string> = {
+  "system-integrator": "System Integrator (SI) / CCTV Installer",
+  "technology-partner": "Technology / Hardware Partner (Camera / VMS / Sensor)",
+  "distributor-var": "Value Added Reseller (VAR) / Distributor",
+  "white-label": "White-Label / OEM Solution",
+  other: "Other Partnership",
 };
 
 const INTEREST_LABELS: Record<string, string> = {
@@ -50,8 +63,8 @@ export async function sendLeadEmail(data: LeadEmailData): Promise<{
   simulated?: boolean;
 }> {
   const isPartner =
-    data.topic?.toLowerCase() === "partner" ||
-    data.kind?.toLowerCase() === "partner";
+    data.kind === "partner" ||
+    data.topic?.toLowerCase() === "partner";
 
   const partnerRecipient = process.env.PARTNER_EMAIL?.trim() || "partner@orionalerts.com";
   const generalRecipient = process.env.WEBSITE_LEAD_EMAIL?.trim() || "websitelead@orionalerts.com";
@@ -71,7 +84,8 @@ export async function sendLeadEmail(data: LeadEmailData): Promise<{
   let categoryLabel: string;
 
   if (isPartner) {
-    categoryLabel = "Partner Application";
+    const trackLabel = data.partnerTrack ? (PARTNER_TRACK_LABELS[data.partnerTrack] || data.partnerTrack) : "Partner Application";
+    categoryLabel = `Partner Application (${trackLabel})`;
     subject = `[Partner Application] ${data.company} - ${data.name}`;
   } else if (data.kind === "demo") {
     const interestLabel = data.interest ? (INTEREST_LABELS[data.interest] || data.interest) : "Full Platform";
@@ -92,6 +106,27 @@ export async function sendLeadEmail(data: LeadEmailData): Promise<{
     return { ok: false, recipient, simulated: true, error: "SMTP not configured" };
   }
 
+  const extraRows: string[] = [];
+  if (data.website) {
+    extraRows.push(`<tr><th>Website</th><td><a href="${escapeHtml(data.website)}" target="_blank" rel="noreferrer" style="color: #2563eb;">${escapeHtml(data.website)}</a></td></tr>`);
+  }
+  if (data.partnerTrack) {
+    const trackLabel = PARTNER_TRACK_LABELS[data.partnerTrack] || data.partnerTrack;
+    extraRows.push(`<tr><th>Partner Track</th><td><strong>${escapeHtml(trackLabel)}</strong></td></tr>`);
+  }
+  if (data.region) {
+    extraRows.push(`<tr><th>Territory / Region</th><td>${escapeHtml(data.region)}</td></tr>`);
+  }
+  if (data.annualDeployments) {
+    extraRows.push(`<tr><th>Est. Deployments / Yr</th><td>${escapeHtml(data.annualDeployments)}</td></tr>`);
+  }
+  if (data.siteCount) {
+    extraRows.push(`<tr><th>Number of Sites</th><td>${escapeHtml(data.siteCount)}</td></tr>`);
+  }
+  if (data.cameraCount) {
+    extraRows.push(`<tr><th>Approx. Cameras</th><td>${escapeHtml(data.cameraCount)}</td></tr>`);
+  }
+
   const htmlContent = `
 <!DOCTYPE html>
 <html>
@@ -106,7 +141,7 @@ export async function sendLeadEmail(data: LeadEmailData): Promise<{
     .body { padding: 24px; }
     table { width: 100%; border-collapse: collapse; margin-top: 8px; }
     th, td { text-align: left; padding: 12px 14px; border-bottom: 1px solid #f1f5f9; font-size: 14px; vertical-align: top; }
-    th { width: 32%; color: #64748b; font-weight: 600; background: #f8fafc; }
+    th { width: 34%; color: #64748b; font-weight: 600; background: #f8fafc; }
     td { color: #0f172a; }
     .message-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px; white-space: pre-wrap; font-family: inherit; font-size: 14px; color: #334155; margin-top: 6px; }
     .footer { padding: 16px 24px; background: #f8fafc; border-top: 1px solid #e2e8f0; font-size: 12px; color: #64748b; text-align: center; }
@@ -115,7 +150,7 @@ export async function sendLeadEmail(data: LeadEmailData): Promise<{
 <body>
   <div class="card">
     <div class="header">
-      <h1>OrionAlerts · New Lead Notification</h1>
+      <h1>OrionAlerts · ${isPartner ? "Partner Application" : "New Lead Notification"}</h1>
       <div class="tag">${escapeHtml(categoryLabel)}</div>
     </div>
     <div class="body">
@@ -132,24 +167,13 @@ export async function sendLeadEmail(data: LeadEmailData): Promise<{
           <th>Company</th>
           <td>${escapeHtml(data.company)}</td>
         </tr>
+        ${extraRows.join("\n        ")}
         <tr>
           <th>Phone</th>
           <td>${data.phone ? `<a href="tel:${escapeHtml(data.phone)}" style="color: #2563eb; text-decoration: none;">${escapeHtml(data.phone)}</a>` : '<span style="color: #94a3b8;">Not provided</span>'}</td>
         </tr>
-        ${data.siteCount ? `<tr>
-          <th>Sites</th>
-          <td>${escapeHtml(data.siteCount)}</td>
-        </tr>` : ""}
-        ${data.cameraCount ? `<tr>
-          <th>Cameras</th>
-          <td>${escapeHtml(data.cameraCount)}</td>
-        </tr>` : ""}
         <tr>
-          <th>Category / Topic</th>
-          <td>${escapeHtml(categoryLabel)}</td>
-        </tr>
-        <tr>
-          <th>Message</th>
+          <th>${isPartner ? "Partnership Proposal" : "Message"}</th>
           <td><div class="message-box">${escapeHtml(data.message)}</div></td>
         </tr>
         <tr>
@@ -171,26 +195,33 @@ export async function sendLeadEmail(data: LeadEmailData): Promise<{
 </html>
   `.trim();
 
-  const textContent = `
-[OrionAlerts] New Lead Notification: ${categoryLabel}
-=====================================================
+  const textLines: string[] = [
+    `[OrionAlerts] ${isPartner ? "Partner Application" : "New Lead Notification"}: ${categoryLabel}`,
+    `=====================================================`,
+    ``,
+    `Full Name:    ${data.name}`,
+    `Work Email:   ${data.email}`,
+    `Company:      ${data.company}`,
+  ];
+  if (data.website) textLines.push(`Website:      ${data.website}`);
+  if (data.partnerTrack) textLines.push(`Track:        ${PARTNER_TRACK_LABELS[data.partnerTrack] || data.partnerTrack}`);
+  if (data.region) textLines.push(`Territory:    ${data.region}`);
+  if (data.annualDeployments) textLines.push(`Deployments:  ${data.annualDeployments}`);
+  textLines.push(
+    `Phone:        ${data.phone || "Not provided"}`,
+    `IP Address:   ${data.ip || "unknown"}`,
+    `Submitted At: ${data.submittedAt || new Date().toISOString()}`,
+    ``,
+    `${isPartner ? "Partnership Proposal" : "Message"}:`,
+    `--------`,
+    data.message,
+    ``,
+    `--`,
+    `Routed to: ${recipient}`,
+    `Direct reply to this email reaches ${data.name} <${data.email}>.`
+  );
 
-Full Name:    ${data.name}
-Work Email:   ${data.email}
-Company:      ${data.company}
-Phone:        ${data.phone || "Not provided"}
-Topic:        ${categoryLabel}
-${data.siteCount ? `Sites:        ${data.siteCount}\n` : ""}${data.cameraCount ? `Cameras:      ${data.cameraCount}\n` : ""}IP Address:   ${data.ip || "unknown"}
-Submitted At: ${data.submittedAt || new Date().toISOString()}
-
-Message:
---------
-${data.message}
-
---
-Routed to: ${recipient}
-Direct reply to this email reaches ${data.name} <${data.email}>.
-  `.trim();
+  const textContent = textLines.join("\n");
 
   try {
     const transporter = nodemailer.createTransport({

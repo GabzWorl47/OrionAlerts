@@ -11,6 +11,12 @@ type LeadPayload = {
   message?: string;
   interest?: string;
   topic?: string;
+  /** Partner form fields */
+  partnerTrack?: string;
+  website?: string;
+  region?: string;
+  annualDeployments?: string;
+  /** Demo form optional ranges */
   siteCount?: string;
   cameraCount?: string;
   recaptchaToken?: string;
@@ -19,6 +25,13 @@ type LeadPayload = {
 /** Allowed demo-form ranges; keep in sync with the selects in `LeadForm.tsx`. */
 const SITE_COUNT_VALUES = new Set(["1", "2-5", "6-20", "21-100", "100+"]);
 const CAMERA_COUNT_VALUES = new Set(["under-50", "50-200", "200-1000", "1000+"]);
+const PARTNER_TRACK_VALUES = new Set([
+  "system-integrator",
+  "technology-partner",
+  "distributor-var",
+  "white-label",
+  "other",
+]);
 
 /**
  * Optional select value: absent/empty → null; anything outside the allow-list
@@ -32,17 +45,6 @@ function optionalChoice(value: unknown, allowed: Set<string>): string | null | f
   return allowed.has(trimmed) ? trimmed : false;
 }
 
-/**
- * Process-local IP rate limiter.
- *
- * Limitations (by design — no Redis/shared store in this repo):
- * - Counters live in memory for a single Node/serverless isolate.
- * - They reset on deploy, cold start, and horizontal scale-out.
- * - Pair with edge/WAF limits (e.g. Cloudflare) for multi-instance durability.
- *
- * Mitigations here: sliding window, capped map size, opportunistic eviction of
- * expired buckets so a flood of unique IPs cannot grow unbounded forever.
- */
 const rateMap = new Map<string, { count: number; resetAt: number }>();
 const WINDOW_MS = 60_000;
 const MAX_REQUESTS = 8;
@@ -58,6 +60,10 @@ const LIMITS = {
   message: 4000,
   interest: 80,
   topic: 80,
+  partnerTrack: 60,
+  website: 254,
+  region: 120,
+  annualDeployments: 60,
 } as const;
 
 function getIp(request: Request) {
@@ -74,7 +80,6 @@ function pruneRateMap(now: number) {
   for (const [key, entry] of rateMap) {
     if (now > entry.resetAt) rateMap.delete(key);
   }
-  // If still over cap after TTL prune, drop oldest insertion-order keys.
   while (rateMap.size >= MAX_TRACKED_KEYS) {
     const oldest = rateMap.keys().next().value;
     if (oldest === undefined) break;
@@ -135,7 +140,10 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, error: "Invalid JSON body." }, { status: 400 });
   }
 
-  const kind = body.kind === "demo" || body.kind === "contact" ? body.kind : null;
+  const kind =
+    body.kind === "demo" || body.kind === "contact" || body.kind === "partner"
+      ? body.kind
+      : null;
   if (!kind) {
     return NextResponse.json({ ok: false, error: "Unknown lead kind." }, { status: 400 });
   }
@@ -147,6 +155,10 @@ export async function POST(request: Request) {
   const message = clean(body.message, LIMITS.message);
   const interest = clean(body.interest, LIMITS.interest) || null;
   const topic = clean(body.topic, LIMITS.topic) || null;
+  const website = clean(body.website, LIMITS.website) || null;
+  const region = clean(body.region, LIMITS.region) || null;
+  const annualDeployments = clean(body.annualDeployments, LIMITS.annualDeployments) || null;
+  const partnerTrackChoice = optionalChoice(body.partnerTrack, PARTNER_TRACK_VALUES);
   const siteCount = optionalChoice(body.siteCount, SITE_COUNT_VALUES);
   const cameraCount = optionalChoice(body.cameraCount, CAMERA_COUNT_VALUES);
 
@@ -156,6 +168,13 @@ export async function POST(request: Request) {
 
   if (!isValidEmail(email)) {
     return NextResponse.json({ ok: false, error: "Enter a valid work email." }, { status: 400 });
+  }
+
+  if (partnerTrackChoice === false) {
+    return NextResponse.json(
+      { ok: false, error: "Choose a valid partnership track from the list." },
+      { status: 400 },
+    );
   }
 
   if (siteCount === false) {
@@ -181,7 +200,7 @@ export async function POST(request: Request) {
 
   const nowIso = new Date().toISOString();
 
-  // Send email via configured SMTP (routes partner topic to partner@, others to websitelead@)
+  // Send email via configured SMTP (routes kind='partner' to partner@, others to websitelead@)
   const emailResult = await sendLeadEmail({
     kind,
     name,
@@ -191,6 +210,10 @@ export async function POST(request: Request) {
     message,
     interest,
     topic,
+    partnerTrack: partnerTrackChoice,
+    website,
+    region,
+    annualDeployments,
     siteCount,
     cameraCount,
     ip,
@@ -208,6 +231,10 @@ export async function POST(request: Request) {
     phone,
     interest,
     topic,
+    partnerTrack: partnerTrackChoice,
+    website,
+    region,
+    annualDeployments,
     siteCount,
     cameraCount,
     messageLength: message.length,
