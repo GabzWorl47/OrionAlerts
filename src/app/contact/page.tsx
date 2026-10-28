@@ -96,10 +96,10 @@ export default async function ContactPage({
                 System integrators, distributors, and hardware technology partners can join our partner ecosystem.
               </p>
               <Link
-                href="/partners"
+                href="/partners/apply"
                 className="mt-3 inline-flex items-center text-xs font-semibold text-cyan hover:underline"
               >
-                Go to Partner Portal & Application →
+                Go to Partner Application →
               </Link>
             </div>
           </div>
