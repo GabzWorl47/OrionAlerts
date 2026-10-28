@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { FormEvent, useId, useState } from "react";
-import { legalMeta } from "@/lib/legal";
 
 const PARTNER_TRACK_OPTIONS = [
   { value: "system-integrator", label: "System Integrator (SI) / CCTV Installer" },
@@ -10,13 +9,6 @@ const PARTNER_TRACK_OPTIONS = [
   { value: "distributor-var", label: "Value Added Reseller (VAR) / Distributor" },
   { value: "white-label", label: "White-Label / OEM Solution" },
   { value: "other", label: "Other Channel Collaboration" },
-] as const;
-
-const DEPLOYMENT_OPTIONS = [
-  { value: "1-10", label: "1 – 10 sites / projects per year" },
-  { value: "11-50", label: "11 – 50 sites / projects per year" },
-  { value: "51-200", label: "51 – 200 sites / projects per year" },
-  { value: "200+", label: "200+ sites / projects per year" },
 ] as const;
 
 function RequiredMark() {
@@ -58,7 +50,7 @@ export function PartnerForm() {
 
       setStatus("success");
       setMessage(
-        "Partner application received! Our channel partnerships team will review your details and reach out within 1 business day.",
+        "Application received! Our channel partnerships team will review your application and reach out within 1 business day.",
       );
       form.reset();
     } catch (error) {
@@ -77,14 +69,14 @@ export function PartnerForm() {
       aria-labelledby={formTitleId}
     >
       <div className="mb-6">
-        <h2 id={formTitleId} className="display text-3xl text-text md:text-4xl">
+        <h2 id={formTitleId} className="display text-3xl text-text">
           Apply to Partner
         </h2>
-        <p className="mt-2 text-muted">
-          Tell us about your organization, integration capability, and target market.
+        <p className="mt-2 text-sm text-muted">
+          Tell us about your organization and how you plan to deploy OrionAlerts.
         </p>
         <p className="mt-3 text-xs uppercase tracking-[0.14em] text-cyan">
-          Partner Program Application · Dedicated Channel Route
+          Partner Application · Processed by OrionAlerts
         </p>
         <p className="mt-1 text-xs text-muted">
           Fields marked <RequiredMark /> are required.
@@ -93,14 +85,13 @@ export function PartnerForm() {
 
       <div className="grid gap-4 sm:grid-cols-2">
         <label className="text-sm font-medium text-text">
-          Contact person <RequiredMark />
+          Full name <RequiredMark />
           <input
             name="name"
             required
             maxLength={120}
             className={fieldClass}
             autoComplete="name"
-            placeholder="John Doe"
           />
         </label>
 
@@ -113,57 +104,33 @@ export function PartnerForm() {
             maxLength={254}
             className={fieldClass}
             autoComplete="email"
-            placeholder="partner@yourcompany.com"
           />
         </label>
 
         <label className="text-sm font-medium text-text">
-          Company name <RequiredMark />
+          Company <RequiredMark />
           <input
             name="company"
             required
             maxLength={160}
             className={fieldClass}
             autoComplete="organization"
-            placeholder="Acme Security Solutions"
           />
         </label>
 
         <label className="text-sm font-medium text-text">
-          Company website
-          <input
-            name="website"
-            type="url"
-            maxLength={254}
-            className={fieldClass}
-            placeholder="https://yourcompany.com"
-          />
-        </label>
-
-        <label className="text-sm font-medium text-text">
-          Direct phone number
+          Phone (optional)
           <input
             name="phone"
             type="tel"
             maxLength={40}
             className={fieldClass}
             autoComplete="tel"
-            placeholder="+91 98765 43210"
-          />
-        </label>
-
-        <label className="text-sm font-medium text-text">
-          Primary territory / Region
-          <input
-            name="region"
-            maxLength={120}
-            className={fieldClass}
-            placeholder="e.g. Western India, GCC, South Asia"
           />
         </label>
 
         <label className="text-sm font-medium text-text sm:col-span-2">
-          Partner Track / Type <RequiredMark />
+          Partner track / Type <RequiredMark />
           <select name="partnerTrack" required className={fieldClass} defaultValue="">
             <option value="" disabled>
               Select your partnership track
@@ -177,45 +144,37 @@ export function PartnerForm() {
         </label>
 
         <label className="text-sm font-medium text-text sm:col-span-2">
-          Estimated annual deployment volume
-          <select name="annualDeployments" className={fieldClass} defaultValue="">
-            <option value="">Select annual volume…</option>
-            {DEPLOYMENT_OPTIONS.map((dep) => (
-              <option key={dep.value} value={dep.value}>
-                {dep.label}
-              </option>
-            ))}
-          </select>
-        </label>
-
-        <label className="text-sm font-medium text-text sm:col-span-2">
-          Partnership proposal & objectives <RequiredMark />
+          How would you like to collaborate? <RequiredMark />
           <textarea
             name="message"
             rows={4}
             required
             maxLength={4000}
+            placeholder="Tell us about your client base, current CCTV / VMS offerings, and expected deployment scope..."
             className={`${fieldClass} resize-y`}
-            placeholder="Tell us about your current CCTV/AI solutions portfolio, target clients, and how you want to collaborate with OrionAlerts…"
           />
         </label>
       </div>
 
       <p className="mt-5 text-xs leading-relaxed text-muted" data-privacy-notice>
-        By submitting, you send these details to the OrionAlerts Channel Partnerships desk. We use them
-        solely to evaluate and respond to your partnership application. See our{" "}
-        <Link href={"/privacy"} className="text-blue underline hover:text-blue/80">
+        By submitting, you send these details to OrionAlerts. We use them only to respond to your partnership application.
+        We also record your IP address for rate-limiting and abuse prevention. See our{" "}
+        <Link href="/privacy" className="text-blue underline hover:text-blue/80">
           Privacy Policy
         </Link>{" "}
-        for details.
+        for how long we keep your details and your rights, or email{" "}
+        <a href="mailto:privacy@orionalerts.com" className="text-blue underline hover:text-blue/80">
+          privacy@orionalerts.com
+        </a>{" "}
+        to request access or deletion.
       </p>
 
       <button
         type="submit"
         disabled={status === "submitting"}
-        className="mt-5 inline-flex min-h-11 items-center justify-center rounded-[14px] bg-blue px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#1f7aef] disabled:cursor-not-allowed disabled:opacity-60"
+        className="mt-5 inline-flex min-h-11 items-center justify-center rounded-[14px] bg-[#0c1a2e] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#152844] disabled:cursor-not-allowed disabled:opacity-60"
       >
-        {status === "submitting" ? "Submitting Application…" : "Submit Partner Application"}
+        {status === "submitting" ? "Submitting application…" : "Submit application"}
       </button>
 
       {message ? (

@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Button, CtaBand, FeatureCard, Section, SectionHeading } from "@/components/ui";
 import { PageShell } from "@/components/PageShell";
-import { PartnerForm } from "@/components/PartnerForm";
 
 export const metadata: Metadata = {
   title: "Become a Partner",
@@ -62,7 +61,7 @@ export default function PartnersPage() {
           or technology partner. Get commercial incentives, direct tier-3 support, and deal registration.
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
-          <Button href="#apply">Apply to partner</Button>
+          <Button href="/partners/apply">Apply to partner</Button>
           <Button href="/book-demo" variant="outline">
             Request partner briefing
           </Button>
@@ -91,20 +90,14 @@ export default function PartnersPage() {
         </div>
       </Section>
 
-      <Section id="apply" className="scroll-mt-20">
-        <div className="mx-auto max-w-4xl">
-          <PartnerForm />
-        </div>
-      </Section>
-
       <Section>
         <CtaBand
-          title="Have questions before applying?"
-          lede="Our channel team is available to discuss custom tiers, white-label requirements, and regional exclusivity."
-          primaryHref="/contact"
-          primaryLabel="Contact General Support"
-          secondaryHref="/faqs"
-          secondaryLabel="Read FAQs"
+          title="Ready to join our partner ecosystem?"
+          lede="Submit your details to receive commercial pricing, deal registration access, and direct engineering enablement."
+          primaryHref="/partners/apply"
+          primaryLabel="Apply to Partner"
+          secondaryHref="/book-demo"
+          secondaryLabel="Request Partner Briefing"
         />
       </Section>
     </PageShell>
