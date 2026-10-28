@@ -97,10 +97,10 @@ export async function POST(req: Request) {
       parts: [{ text: userText }],
     });
 
-    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${apiKey}`;
+    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=${apiKey}`;
 
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 7000); // 7s timeout for snappy UX
+    const timeout = setTimeout(() => controller.abort(), 12000); // 12s timeout for AI response
 
     const response = await fetch(endpoint, {
       method: "POST",
