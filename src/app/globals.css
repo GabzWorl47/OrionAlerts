@@ -677,7 +677,7 @@
     opacity: 1;
   }
   100% {
-    left: 100%;
+    left: calc(100% - 46px);
     opacity: 0;
   }
 }
