@@ -17,7 +17,7 @@ export const educationCampusesIndustryPage: IndustryPageRecord = {
     description:
       "AI CCTV for schools and colleges: verified perimeter alerts, arrival congestion at gates and common areas, and staff response tracking, without biometrics.",
     canonicalPath: "/industries/education-campuses",
-    image: "/Images/industries/education-campuses-hero.webp",
+    image: "/Images/industries/education.webp",
   },
   hero: {
     eyebrow: "Education & Campuses",
@@ -25,8 +25,8 @@ export const educationCampusesIndustryPage: IndustryPageRecord = {
     lede: "Verify perimeter alerts, see arrival congestion at gates and reception, and give staff the location and clip they need to respond across school and college campuses, with monitoring focused on observable safety events.",
     media: {
       kind: "image",
-      src: "/Images/industries/education-campuses-hero.webp",
-      alt: "Operator at a desk in front of a video wall of camera feeds, tinted dark blue",
+      src: "/Images/industries/education.webp",
+      alt: "Illustration of children using tablets and a holographic globe in a classroom",
     },
     primaryCta: industrySharedCtas.primary,
     secondaryCta: industrySharedCtas.secondaryHero,

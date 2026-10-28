@@ -17,7 +17,7 @@ export const governmentIndustryPage: IndustryPageRecord = {
     description:
       "AI video analytics for public infrastructure: service-counter queues, route obstructions and recording availability across facilities, with human review.",
     canonicalPath: "/industries/government",
-    image: "/Images/industries/government-hero.webp",
+    image: "/Images/industries/government.webp",
   },
   hero: {
     eyebrow: "Government & Public Infrastructure",
@@ -25,8 +25,8 @@ export const governmentIndustryPage: IndustryPageRecord = {
     lede: "Watch service-counter queues, obstructions on public routes and recording availability across public facilities, with every flagged event reviewed by the responsible department.",
     media: {
       kind: "image",
-      src: "/Images/industries/government-hero.webp",
-      alt: "Blurred CCTV view of a city street crossing with people and vehicles outlined by detection boxes, tinted dark blue",
+      src: "/Images/industries/government.webp",
+      alt: "Government of India administrative building with cars parked in front",
     },
     primaryCta: industrySharedCtas.primary,
     secondaryCta: industrySharedCtas.secondaryHero,

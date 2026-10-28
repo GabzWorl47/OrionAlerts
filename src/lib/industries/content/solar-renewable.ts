@@ -17,7 +17,7 @@ export const solarRenewableIndustryPage: IndustryPageRecord = {
     description:
       "Remote CCTV analytics for solar and renewable sites: verified perimeter alerts at gates and equipment compounds, plus camera outage tracking.",
     canonicalPath: "/industries/solar-renewable",
-    image: "/Images/industries/solar-renewable-hero.webp",
+    image: "/Images/industries/renewables.webp",
   },
   hero: {
     eyebrow: "Solar & Renewable Energy Facilities",
@@ -25,7 +25,7 @@ export const solarRenewableIndustryPage: IndustryPageRecord = {
     lede: "Verify gate, boundary and equipment-compound alerts at remote solar and renewable sites, and track which cameras have dropped offline before deciding whether to send the operations and maintenance (O&M) team.",
     media: {
       kind: "image",
-      src: "/Images/industries/solar-renewable-hero.webp",
+      src: "/Images/industries/renewables.webp",
       alt: "Solar panels, wind turbines and a hydro dam in a green valley",
     },
     primaryCta: industrySharedCtas.primary,

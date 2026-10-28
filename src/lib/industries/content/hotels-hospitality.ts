@@ -17,7 +17,7 @@ export const hotelsHospitalityIndustryPage: IndustryPageRecord = {
     description:
       "Hotel CCTV analytics for lobbies and service areas: after-hours alerts, check-in congestion and authorised incident retrieval. No cameras in guest rooms.",
     canonicalPath: "/industries/hotels-hospitality",
-    image: "/Images/industries/hotels-hospitality-hero.webp",
+    image: "/Images/industries/hospitality.webp",
   },
   hero: {
     eyebrow: "Hotels & Hospitality",
@@ -25,7 +25,7 @@ export const hotelsHospitalityIndustryPage: IndustryPageRecord = {
     lede: "Spot check-in congestion at reception, flag after-hours entry to service areas and find the right lobby clip fast, with cameras limited to public and service areas.",
     media: {
       kind: "image",
-      src: "/Images/industries/hotels-hospitality-hero.webp",
+      src: "/Images/industries/hospitality.webp",
       alt: "Guests checking in at a hotel reception desk",
     },
     primaryCta: industrySharedCtas.primary,

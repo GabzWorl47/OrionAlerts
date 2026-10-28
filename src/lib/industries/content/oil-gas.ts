@@ -17,7 +17,7 @@ export const oilGasIndustryPage: IndustryPageRecord = {
     description:
       "AI video analytics for oil and gas terminals: tanker-bay activity, controlled-area entry and perimeter alerts, verified by an operator before escalation.",
     canonicalPath: "/industries/oil-gas",
-    image: "/Images/industries/oil-gas-hero.webp",
+    image: "/Images/industries/oil-gas.webp",
   },
   hero: {
     eyebrow: "Oil, Gas & Petrochemicals",
@@ -26,7 +26,7 @@ export const oilGasIndustryPage: IndustryPageRecord = {
       "Review tanker-bay activity, controlled-area entry and after-hours perimeter events, each verified by an operator before escalation. Ask Vision Copilot what happened at Tanker Bay 2 during the evening loading window.",
     media: {
       kind: "image",
-      src: "/Images/industries/oil-gas-hero.webp",
+      src: "/Images/industries/oil-gas.webp",
       alt: "Illustration of a coastal refinery, storage tanks, tanker terminal and offshore platform",
     },
     primaryCta: industrySharedCtas.primary,

@@ -17,7 +17,7 @@ export const bankingIndustryPage: IndustryPageRecord = {
     description:
       "Monitor CCTV across every bank branch: after-hours alerts, offline camera and recording-gap detection, and fast clip retrieval for regional security teams.",
     canonicalPath: "/industries/banking",
-    image: "/Images/industries/banking-hero.webp",
+    image: "/Images/industries/banking.webp",
   },
   hero: {
     eyebrow: "Banking & Financial Institutions",
@@ -25,8 +25,8 @@ export const bankingIndustryPage: IndustryPageRecord = {
     lede: "Watch every branch from one place: get after-hours entry alerts at branch entrances, see which cameras and recorders have stopped recording, and pull the right lobby clip fast for regional security.",
     media: {
       kind: "image",
-      src: "/Images/industries/banking-hero.webp",
-      alt: "Security operator watching a wall of CCTV camera feeds in a monitoring room, tinted dark blue",
+      src: "/Images/industries/banking.webp",
+      alt: "Illustration of a bank building surrounded by banking service icons, a phone and a laptop",
     },
     primaryCta: industrySharedCtas.primary,
     secondaryCta: industrySharedCtas.secondaryHero,

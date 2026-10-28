@@ -17,7 +17,7 @@ export const ecommerceFulfilmentIndustryPage: IndustryPageRecord = {
     description:
       "Fulfilment centre CCTV analytics: flag parcel build-up at packing and sortation transfers and retrieve the right handoff clip quickly for investigations.",
     canonicalPath: "/industries/ecommerce-fulfilment",
-    image: "/Images/industries/ecommerce-fulfilment-hero.webp",
+    image: "/Images/industries/ecommerce-fc.webp",
   },
   hero: {
     eyebrow: "E-commerce Fulfilment Centres",
@@ -25,7 +25,7 @@ export const ecommerceFulfilmentIndustryPage: IndustryPageRecord = {
     lede: "Flag parcel build-up at packing stations and sortation transfers, and retrieve the right handoff clip quickly when a parcel is delayed or disputed. Alerts reach the sortation lead with the location and time.",
     media: {
       kind: "image",
-      src: "/Images/industries/ecommerce-fulfilment-hero.webp",
+      src: "/Images/industries/ecommerce-fc.webp",
       alt: "Workers in hi-vis vests at packing stations beside conveyors in a fulfilment centre",
     },
     primaryCta: industrySharedCtas.primary,

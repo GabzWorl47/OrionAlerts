@@ -17,7 +17,7 @@ export const quickCommerceIndustryPage: IndustryPageRecord = {
     description:
       "Multi-site video monitoring for quick commerce: compare pickup-area congestion across stores, track alert response and spot cameras that stop recording.",
     canonicalPath: "/industries/quick-commerce",
-    image: "/Images/industries/quick-commerce-hero.webp",
+    image: "/Images/industries/quick-commerce.webp",
   },
   hero: {
     eyebrow: "Quick Commerce",
@@ -25,7 +25,7 @@ export const quickCommerceIndustryPage: IndustryPageRecord = {
     lede: "Compare pickup-area congestion across many stores, track how fast each site acknowledges alerts and spot cameras that stop recording. Regional teams see the local context behind a metric without visiting every location.",
     media: {
       kind: "image",
-      src: "/Images/industries/quick-commerce-hero.webp",
+      src: "/Images/industries/quick-commerce.webp",
       alt: "Delivery rider on an electric scooter with an insulated delivery bag on a city street",
     },
     primaryCta: industrySharedCtas.primary,

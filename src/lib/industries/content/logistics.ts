@@ -17,7 +17,7 @@ export const logisticsIndustryPage: IndustryPageRecord = {
     description:
       "Warehouse CCTV analytics for docks and cross-aisles: flag route exceptions where forklifts and pedestrians meet, track bay dwell and find clips fast.",
     canonicalPath: "/industries/logistics",
-    image: "/Images/industries/logistics-hero.webp",
+    image: "/Images/industries/logistics.webp",
   },
   hero: {
     eyebrow: "Logistics & Warehousing",
@@ -25,7 +25,7 @@ export const logisticsIndustryPage: IndustryPageRecord = {
     lede: "Flag pedestrians in forklift lanes, blocked cross-aisles and dock dwell from the warehouse cameras you already run. Ask Vision Copilot what happened at Dock 4 last night, and send route alerts to the shift lead who can act.",
     media: {
       kind: "image",
-      src: "/Images/industries/logistics-hero.webp",
+      src: "/Images/industries/logistics.webp",
       alt: "Aerial view of a logistics hub with shipping containers, trucks at loading docks and a rail line",
     },
     primaryCta: industrySharedCtas.primary,

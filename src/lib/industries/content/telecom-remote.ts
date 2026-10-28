@@ -17,7 +17,7 @@ export const telecomRemoteIndustryPage: IndustryPageRecord = {
     description:
       "Telecom site CCTV analytics: shelter-entry alerts checked against planned visits, with camera and link health shown so a dropped feed isn't read as secure.",
     canonicalPath: "/industries/telecom-remote",
-    image: "/Images/industries/telecom-remote-hero.webp",
+    image: "/Images/industries/telecom.webp",
   },
   hero: {
     eyebrow: "Telecom & Remote Sites",
@@ -25,7 +25,7 @@ export const telecomRemoteIndustryPage: IndustryPageRecord = {
     lede: "Check shelter and equipment-zone entry alerts against planned maintenance visits, with camera and link health shown beside each alert so the operations centre can tell a dropped feed from a quiet site.",
     media: {
       kind: "image",
-      src: "/Images/industries/telecom-remote-hero.webp",
+      src: "/Images/industries/telecom.webp",
       alt: "Operators at desks in a network operations centre with a wall of monitoring screens",
     },
     primaryCta: industrySharedCtas.primary,

@@ -17,7 +17,7 @@ export const pulpPaperIndustryPage: IndustryPageRecord = {
     description:
       "AI video analytics for paper and packaging mills: roll-handling zone alerts, material build-up at transfer points and fast retrieval of loading events.",
     canonicalPath: "/industries/pulp-paper",
-    image: "/Images/industries/pulp-paper-hero.webp",
+    image: "/Images/industries/pulp-paper.webp",
   },
   hero: {
     eyebrow: "Pulp, Paper & Packaging",
@@ -26,8 +26,8 @@ export const pulpPaperIndustryPage: IndustryPageRecord = {
       "Flag entry into roll-handling zones and material build-up at transfer points, and retrieve a loading-event clip when dispatch needs it. Ask Vision Copilot which converting zones keep accumulating material.",
     media: {
       kind: "image",
-      src: "/Images/industries/pulp-paper-hero.webp",
-      alt: "Paper machine carrying a wide sheet of paper over rollers in a mill, tinted dark blue",
+      src: "/Images/industries/pulp-paper.webp",
+      alt: "Worker at a monitoring console in front of a paper mill and large paper rolls",
     },
     primaryCta: industrySharedCtas.primary,
     secondaryCta: industrySharedCtas.secondaryHero,

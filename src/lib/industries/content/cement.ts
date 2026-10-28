@@ -17,7 +17,7 @@ export const cementIndustryPage: IndustryPageRecord = {
     description:
       "AI CCTV for cement plants: truck queues at loading bays, conveyor and transfer-point zone entry, and camera health monitoring in dusty conditions.",
     canonicalPath: "/industries/cement",
-    image: "/Images/industries/cement-hero.webp",
+    image: "/Images/industries/cement.webp",
   },
   hero: {
     eyebrow: "Cement & Building Materials",
@@ -26,7 +26,7 @@ export const cementIndustryPage: IndustryPageRecord = {
       "Watch truck queues at loading bays, entry into conveyor and transfer-point zones, and camera health through dust and vibration. Ask Vision Copilot where loading-area congestion recurred this week and which change dispatch should try first.",
     media: {
       kind: "image",
-      src: "/Images/industries/cement-hero.webp",
+      src: "/Images/industries/cement.webp",
       alt: "Worker shovelling cement beside a concrete mixer and cement bags on a building site",
     },
     primaryCta: industrySharedCtas.primary,

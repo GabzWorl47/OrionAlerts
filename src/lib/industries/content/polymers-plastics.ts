@@ -17,7 +17,7 @@ export const polymersPlasticsIndustryPage: IndustryPageRecord = {
     description:
       "AI video analytics for plastics plants: material build-up at moulding and extrusion transfers, restricted-zone alerts and fast retrieval of known events.",
     canonicalPath: "/industries/polymers-plastics",
-    image: "/Images/industries/polymers-plastics-hero.webp",
+    image: "/Images/industries/polymers-plastics.webp",
   },
   hero: {
     eyebrow: "Polymers & Plastics",
@@ -26,8 +26,8 @@ export const polymersPlasticsIndustryPage: IndustryPageRecord = {
       "Flag material build-up at moulding and extrusion transfers and entry into restricted machine areas, then ask Vision Copilot which areas had recurring build-up before you change the material flow.",
     media: {
       kind: "image",
-      src: "/Images/industries/polymers-plastics-hero.webp",
-      alt: "Factory hall with production machines and pillar-mounted CCTV cameras, tinted dark blue",
+      src: "/Images/industries/polymers-plastics.webp",
+      alt: "Infographic of polymer molecules and moulded plastic products",
     },
     primaryCta: industrySharedCtas.primary,
     secondaryCta: industrySharedCtas.secondaryHero,

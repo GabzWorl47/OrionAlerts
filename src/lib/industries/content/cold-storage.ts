@@ -17,7 +17,7 @@ export const coldStorageIndustryPage: IndustryPageRecord = {
     description:
       "Cold storage CCTV analytics: review chamber door activity and loading periods, and pull the right clip fast when a temperature excursion is investigated.",
     canonicalPath: "/industries/cold-storage",
-    image: "/Images/industries/cold-storage-hero.webp",
+    image: "/Images/industries/cold-storage.webp",
   },
   hero: {
     eyebrow: "Cold Storage & Refrigerated Warehousing",
@@ -25,7 +25,7 @@ export const coldStorageIndustryPage: IndustryPageRecord = {
     lede: "Review chamber-door activity, loading periods and access around a cold-chain issue, and pull the right clip fast when a temperature excursion is investigated. Pair the footage with calibrated sensor records for the full picture.",
     media: {
       kind: "image",
-      src: "/Images/industries/cold-storage-hero.webp",
+      src: "/Images/industries/cold-storage.webp",
       alt: "Cutaway illustration of a cold-storage warehouse with racked pallets and refrigerated trucks at loading docks",
     },
     primaryCta: industrySharedCtas.primary,
