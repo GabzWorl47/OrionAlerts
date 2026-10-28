@@ -308,8 +308,8 @@ export function IndustryGrid() {
                       />
 
                       {/* Depth + brand wash */}
-                      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#07111f] via-[#07111f]/45 to-transparent opacity-95" />
-                      <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-[#0c2238]/35 via-transparent to-cyan/10 opacity-80 mix-blend-soft-light transition-opacity duration-500 group-hover:opacity-100" />
+                      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#07111f] via-[#07111f]/45 to-transparent opacity-65" />
+                      <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-[#0c2238]/35 via-transparent to-cyan/10 opacity-40 mix-blend-soft-light transition-opacity duration-500 group-hover:opacity-75" />
 
                       {/* Hover light sweep */}
                       <div className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-700 ease-out group-hover:translate-x-full" />
