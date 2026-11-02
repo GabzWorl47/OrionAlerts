@@ -59,6 +59,7 @@ export function Footer() {
             </p>
             {site.phone ? <p>{site.phone}</p> : null}
             <p className="max-w-sm">{site.address}</p>
+            <p className="pt-2"><a href="https://www.linkedin.com/company/orion-alerts" target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 font-medium text-blue hover:underline">LinkedIn &rarr;</a></p>
           </div>
         </div>
 

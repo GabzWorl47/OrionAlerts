@@ -23,7 +23,9 @@ export const site = {
  * Public profiles that belong to OrionAlerts, emitted as schema.org `sameAs`.
  * Keep empty until real company-owned profile URLs exist — do not invent them.
  */
-export const socialProfiles: string[] = [];
+export const socialProfiles: string[] = [
+  "https://www.linkedin.com/company/orion-alerts",
+];
 
 /** Topics the company is an authority on; emitted as schema.org `knowsAbout`. */
 export const knowsAbout: string[] = [
