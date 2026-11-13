@@ -46,6 +46,7 @@ export type Solution = {
   /** Meta description (120–155 chars). Falls back to the shared SEO copy in seo.ts. */
   seoDescription?: string;
   image: string;
+  heroImage?: string;
   tagline: string;
   headline: string;
   summary: string;
