@@ -66,9 +66,20 @@ export async function sendLeadEmail(data: LeadEmailData): Promise<{
     data.kind === "partner" ||
     data.topic?.toLowerCase() === "partner";
 
+  const isDemo = data.kind === "demo";
+
   const partnerRecipient = process.env.PARTNER_EMAIL?.trim() || "partner@orionalerts.com";
-  const generalRecipient = process.env.WEBSITE_LEAD_EMAIL?.trim() || "websitelead@orionalerts.com";
-  const recipient = isPartner ? partnerRecipient : generalRecipient;
+  const salesRecipient = process.env.SALES_EMAIL?.trim() || "sales@orionalerts.com";
+  const contactRecipient = process.env.WEBSITE_LEAD_EMAIL?.trim() || "websitelead@orionalerts.com";
+
+  let recipient: string;
+  if (isPartner) {
+    recipient = partnerRecipient;
+  } else if (isDemo) {
+    recipient = salesRecipient;
+  } else {
+    recipient = contactRecipient;
+  }
 
   const host = process.env.SMTP_HOST?.trim();
   const user = process.env.SMTP_USER?.trim();
