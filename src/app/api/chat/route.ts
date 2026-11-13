@@ -64,9 +64,21 @@ export async function POST(req: Request) {
     return NextResponse.json({ reply: "How can I help you with OrionAlerts today?" });
   }
 
-  const apiKey = (process.env.GEMINI_API_KEY || "").trim();
+  let apiKey = (process.env.GEMINI_API_KEY || "").trim();
 
-  // If no API key is set, immediately return high-quality rule-based fallback
+  if (!apiKey) {
+    try {
+      const { getCloudflareContext } = await import("@opennextjs/cloudflare");
+      const ctx = await getCloudflareContext({ async: true });
+      apiKey = ((ctx?.env as any)?.GEMINI_API_KEY || "").trim();
+    } catch {}
+  }
+
+  if (!apiKey) {
+    apiKey = ((globalThis as any)?.GEMINI_API_KEY || "").trim();
+  }
+
+  // If no API key is found from process.env, Cloudflare context, or globalThis, fallback
   if (!apiKey) {
     return NextResponse.json({ reply: getRuleBasedFallback(userText), mode: "fallback" });
   }
