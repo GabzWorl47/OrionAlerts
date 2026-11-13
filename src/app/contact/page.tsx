@@ -83,18 +83,6 @@ export default async function ContactPage({
                   websitelead@orionalerts.com
                 </a>
               </p>
-              <p>
-                <span className="font-semibold text-text">Sales & Demos:</span>{" "}
-                <a href="mailto:sales@orionalerts.com" className="text-blue hover:underline">
-                  sales@orionalerts.com
-                </a>
-              </p>
-              <p>
-                <span className="font-semibold text-text">Partners:</span>{" "}
-                <a href="mailto:partner@orionalerts.com" className="text-blue hover:underline">
-                  partner@orionalerts.com
-                </a>
-              </p>
               {site.phone ? (
                 <p>
                   <span className="font-semibold text-text">Phone:</span> {site.phone}
