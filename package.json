@@ -5,8 +5,6 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "build:worker": "opennextjs-cloudflare",
-    "deploy:worker": "opennextjs-cloudflare && wrangler deploy",
     "build:cpanel": "next build && node scripts/package-cpanel.mjs",
     "start": "next start",
     "lint": "eslint",
@@ -22,7 +20,6 @@
     "react-dom": "19.2.4"
   },
   "devDependencies": {
-    "@opennextjs/cloudflare": "^0.5.3",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/nodemailer": "^8.0.2",
@@ -31,7 +28,6 @@
     "eslint": "^9",
     "eslint-config-next": "16.2.11",
     "tailwindcss": "^4",
-    "typescript": "^5",
-    "wrangler": "^3.100.0"
+    "typescript": "^5"
   }
 }
