@@ -97,39 +97,53 @@ export async function POST(req: Request) {
       parts: [{ text: userText }],
     });
 
-    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=${apiKey}`;
+    const modelsToTry = [
+      "gemini-3.1-flash-lite",
+      "gemini-flash-latest",
+      "gemini-3.8-flash"
+    ];
 
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 12000); // 12s timeout for AI response
+    let answer: string | null = null;
 
-    const response = await fetch(endpoint, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        contents,
-        generationConfig: {
-          temperature: 0.2,
-          maxOutputTokens: 350,
-        },
-      }),
-      signal: controller.signal,
-    });
+    for (const modelName of modelsToTry) {
+      try {
+        const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`;
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 8000);
 
-    clearTimeout(timeout);
+        const response = await fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            contents,
+            generationConfig: {
+              temperature: 0.2,
+              maxOutputTokens: 350,
+            },
+          }),
+          signal: controller.signal,
+        });
 
-    if (!response.ok) {
-      console.warn(`[chat] Gemini API responded with status ${response.status}. Using rule-based fallback.`);
+        clearTimeout(timeout);
+
+        if (response.ok) {
+          const data = await response.json();
+          const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+          if (text && typeof text === "string") {
+            answer = text.trim();
+            break;
+          }
+        }
+      } catch {
+        // try next model
+      }
+    }
+
+    if (!answer) {
       return NextResponse.json({ reply: getRuleBasedFallback(userText), mode: "fallback" });
     }
 
-    const data = await response.json();
-    const answer = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-
-    if (!answer || typeof answer !== "string") {
-      return NextResponse.json({ reply: getRuleBasedFallback(userText), mode: "fallback" });
-    }
-
-    return NextResponse.json({ reply: answer.trim(), mode: "ai" });
+    return NextResponse.json({ reply: answer, mode: "ai" });
   } catch (err) {
     console.warn("[chat] Exception during AI generation, falling back:", err);
     return NextResponse.json({ reply: getRuleBasedFallback(userText), mode: "fallback" });
