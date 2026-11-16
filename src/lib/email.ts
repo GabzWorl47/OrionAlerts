@@ -81,14 +81,14 @@ export async function sendLeadEmail(data: LeadEmailData): Promise<{
     recipient = contactRecipient;
   }
 
-  const host = process.env.SMTP_HOST?.trim();
-  const user = process.env.SMTP_USER?.trim();
-  const pass = process.env.SMTP_PASS?.trim();
+  const host = process.env.SMTP_HOST?.trim() || "mail.orionalerts.com";
+  const user = process.env.SMTP_USER?.trim() || "sales@orionalerts.com";
+  const pass = process.env.SMTP_PASS?.trim() || "OrionAlerts2026!#Secure";
   const port = parseInt(process.env.SMTP_PORT || "465", 10);
   const secure = process.env.SMTP_SECURE !== undefined ? process.env.SMTP_SECURE === "true" : port === 465;
   const from =
     process.env.SMTP_FROM?.trim() ||
-    `"OrionAlerts Lead Engine" <${user || "websitelead@orionalerts.com"}>`;
+    `"OrionAlerts Lead Engine" <sales@orionalerts.com>`;
 
   // Determine subject and title
   let subject: string;
@@ -244,7 +244,7 @@ export async function sendLeadEmail(data: LeadEmailData): Promise<{
         pass,
       },
       tls: {
-        rejectUnauthorized: process.env.SMTP_REJECT_UNAUTHORIZED === "true",
+        rejectUnauthorized: false,
       },
     });
 

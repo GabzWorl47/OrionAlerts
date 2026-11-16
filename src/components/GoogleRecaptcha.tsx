@@ -161,27 +161,8 @@ export function GoogleRecaptcha({ siteKey, onChange, resetSignal = 0 }: GoogleRe
     onChange(null);
   }, [resetSignal, onChange]);
 
-  if (siteKey === null) {
-    // Visitors can't fix a missing key, so production shows a neutral fallback
-    // with the sales inbox; the setup hint stays for local development only.
-    if (process.env.NODE_ENV === "production") {
-      return (
-        <p className="rounded-[12px] border border-line bg-surface-2 px-3 py-2.5 text-xs text-muted">
-          The form is temporarily unavailable. Please email{" "}
-          <a href={`mailto:${site.email}`} className="text-blue underline underline-offset-2 hover:no-underline">
-            {site.email}
-          </a>
-          .
-        </p>
-      );
-    }
-    return (
-      <p className="rounded-[12px] border border-dashed border-line bg-surface-2 px-3 py-2.5 text-xs text-muted">
-        Add <code className="text-text">RECAPTCHA_SITE_KEY</code> (runtime) or{" "}
-        <code className="text-text">NEXT_PUBLIC_RECAPTCHA_SITE_KEY</code> (build time) to enable
-        Google reCAPTCHA.
-      </p>
-    );
+  if (!siteKey) {
+    return null;
   }
 
   // Rendered while the key resolves too, reserving the checkbox's 78px height.

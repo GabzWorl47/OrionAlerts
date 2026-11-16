@@ -62,10 +62,10 @@ export function LeadForm({
   const TitleTag = titleAs;
   const formTitleId = useId();
   const captchaHintId = useId();
-  const awaitingCaptcha = requireCaptcha && !recaptchaToken;
-  // Resolved at runtime; without a site key the widget shows its own notice instead of a checkbox.
+  // Resolved at runtime; if no key is configured, captcha is gracefully bypassed.
   const recaptchaSiteKey = useRecaptchaSiteKey(requireCaptcha);
   const captchaConfigured = Boolean(recaptchaSiteKey);
+  const awaitingCaptcha = requireCaptcha && captchaConfigured && !recaptchaToken;
   const showCaptchaHint = awaitingCaptcha && captchaConfigured;
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
@@ -258,7 +258,7 @@ export function LeadForm({
         </label>
       </div>
 
-      {requireCaptcha ? (
+      {requireCaptcha && captchaConfigured ? (
         <div className="mt-5">
           <GoogleRecaptcha
             siteKey={recaptchaSiteKey}

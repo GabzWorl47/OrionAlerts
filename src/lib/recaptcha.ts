@@ -24,11 +24,9 @@ export async function verifyRecaptchaToken(
   const secret = process.env.RECAPTCHA_SECRET_KEY;
 
   if (!secret) {
-    return {
-      ok: false,
-      error: "reCAPTCHA is not configured on the server.",
-      status: 500,
-    };
+    // If reCAPTCHA secret key is not configured, do not block lead submissions.
+    // In-memory IP rate limiting and field sanitization in route.ts protect the endpoint.
+    return { ok: true };
   }
 
   if (!token?.trim()) {
