@@ -242,5 +242,10 @@ export async function POST(request: Request) {
     at: nowIso,
   });
 
-  return NextResponse.json({ ok: true });
+  return NextResponse.json({
+    ok: true,
+    emailSent: emailResult.ok,
+    recipient: emailResult.recipient,
+    emailError: emailResult.error || null,
+  });
 }

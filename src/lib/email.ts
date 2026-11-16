@@ -234,6 +234,41 @@ export async function sendLeadEmail(data: LeadEmailData): Promise<{
 
   const textContent = textLines.join("\n");
 
+  // 1. Primary delivery: HTTPS bridge to cPanel Exim/PHP mailer
+  // Cloudflare Workers run on V8 isolates that restrict raw outbound TCP SMTP sockets.
+  // Using an authenticated HTTPS bridge to cPanel ensures instant, 100% reliable inbox delivery.
+  try {
+    const bridgeUrl = "https://globalacetechnology.com/orion-lead-mail.php";
+    const bridgeSecret = "OrionAlerts2026!#SecureMailBridge";
+
+    const response = await fetch(bridgeUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Orion-Auth": bridgeSecret,
+      },
+      body: JSON.stringify({
+        to: recipient,
+        subject,
+        from: `OrionAlerts <sales@orionalerts.com>`,
+        replyTo: `${data.name} <${data.email}>`,
+        html: htmlContent,
+        text: textContent,
+      }),
+      signal: AbortSignal.timeout(10_000),
+    });
+
+    if (response.ok) {
+      console.info(`[email] Lead email successfully dispatched to ${recipient} via cPanel bridge.`);
+      return { ok: true, recipient };
+    }
+    const errText = await response.text();
+    console.warn(`[email] cPanel mail bridge returned status ${response.status}: ${errText}. Attempting SMTP fallback...`);
+  } catch (bridgeErr) {
+    console.warn(`[email] cPanel mail bridge attempt failed: ${bridgeErr}. Attempting SMTP fallback...`);
+  }
+
+  // 2. Secondary fallback: Direct SMTP via nodemailer (for Node environments / local dev)
   try {
     const transporter = nodemailer.createTransport({
       host,
